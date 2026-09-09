@@ -4,7 +4,7 @@
     <Navbar />
 
     <!-- Main Content -->
-    <main class="w-full pt-20 bg-surface-pure flex-grow">
+    <main class="w-full bg-surface-pure flex-grow">
       <!-- 1. Hero Section with SVG Curve Mask -->
       <HeroSection />
 

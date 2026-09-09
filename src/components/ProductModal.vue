@@ -29,7 +29,14 @@
             :alt="product.title" 
             class="w-full h-full object-cover"
           />
-          <div class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold shadow-md">
+          <div 
+            :class="[
+              'absolute bottom-3 left-3 px-3 py-1 rounded-full font-label-sm text-label-sm font-semibold shadow-md border',
+              product.inStock 
+                ? 'bg-primary/10 text-primary border-primary/20 bg-white/90' 
+                : 'bg-amber-100 text-amber-900 border-amber-200'
+            ]"
+          >
             {{ product.stockBadge }}
           </div>
         </div>
@@ -81,14 +88,14 @@
             </span>
           </div>
 
-          <!-- WhatsApp Order Button -->
+          <!-- WhatsApp Order Button (60-30-10 Accent Conversion) -->
           <a 
             :href="whatsappOrderUrl" 
             target="_blank" 
             rel="noopener noreferrer"
-            class="mt-6 w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-whatsapp-green hover:bg-whatsapp-hover text-surface-pure font-label-lg text-label-lg font-bold shadow-lg transition-all active:scale-98"
+            class="mt-6 w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-label-lg text-label-lg font-bold shadow-md hover:shadow-lg transition-all active:scale-98 tracking-wide"
           >
-            <span class="material-symbols-outlined text-[20px]">chat</span>
+            <span class="material-symbols-outlined text-[22px]">chat</span>
             <span>Pesan {{ quantity }} {{ product.unit }} via WhatsApp</span>
           </a>
         </div>

@@ -24,15 +24,15 @@ export default {
         "on-secondary-container": "#6e5c00",
         "accent-hover": "#E6C200",
         
-        "tertiary": "#002b0e",
-        "tertiary-container": "#00431a",
-        "tertiary-fixed": "#66ff8e",
-        "tertiary-fixed-dim": "#3de273",
-        "on-tertiary-fixed-variant": "#005322",
-        "on-tertiary-container": "#00bb56",
+        "tertiary": "#1E3A5F",
+        "tertiary-container": "#E2E8F0",
+        "tertiary-fixed": "#F1F5F9",
+        "tertiary-fixed-dim": "#CBD5E1",
+        "on-tertiary-fixed-variant": "#334155",
+        "on-tertiary-container": "#022448",
         
-        "whatsapp-green": "#25D366",
-        "whatsapp-hover": "#20BA5A",
+        "whatsapp-green": "#fcd400",
+        "whatsapp-hover": "#e6c200",
         "alert-badge": "#EF4444",
         
         "surface-pure": "#FFFFFF",

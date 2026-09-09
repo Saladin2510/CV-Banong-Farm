@@ -5,8 +5,8 @@
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-32 gap-space-16 animate-fade-in-up">
         <div>
-          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-secondary-container/20 text-on-secondary-container font-label-sm text-label-sm font-semibold mb-space-8 border border-secondary-container/30">
-            <span class="material-symbols-outlined text-[16px] text-secondary">eco</span>
+          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-semibold mb-space-8 border border-primary/20">
+            <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
             <span>Langsung dari Peternakan Ajibarang</span>
           </div>
           <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary font-bold tracking-tight">
@@ -23,7 +23,7 @@
         <button
           v-for="cat in categories"
           :key="cat.id"
-          @click="selectedCategory = cat.id"
+          @click="setCategory(cat.id)"
           :class="[
             'px-5 py-2.5 rounded-full font-label-md text-label-md transition-all duration-300 whitespace-nowrap active:scale-95 shadow-xs',
             selectedCategory === cat.id
@@ -38,19 +38,66 @@
         </button>
       </div>
 
-      <!-- 4-Column Product Grid with Fade Animation -->
+      <!-- 4-Column Product Grid (Max 8 products per page view) -->
       <transition-group
         tag="div"
         name="product-grid"
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-24"
       >
         <ProductCard
-          v-for="product in filteredProducts"
+          v-for="product in paginatedProducts"
           :key="product.id"
           :product="product"
           @select="handleProductSelect"
         />
       </transition-group>
+
+      <!-- 8/8 Section Switcher / Pagination Navigation -->
+      <div v-if="totalPages > 1" class="mt-space-40 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-surface-subtle border border-surface-container-high/80 animate-fade-in">
+        <div class="text-on-surface-variant font-label-md text-xs sm:text-sm">
+          Menampilkan <span class="font-bold text-primary">{{ (currentPage - 1) * ITEMS_PER_PAGE + 1 }}</span> - 
+          <span class="font-bold text-primary">{{ Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length) }}</span> dari 
+          <span class="font-bold text-primary">{{ filteredProducts.length }}</span> produk (Halaman {{ currentPage }} dari {{ totalPages }})
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            @click="goToPage(currentPage - 1)"
+            :disabled="currentPage === 1"
+            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high bg-surface-pure text-primary text-xs font-semibold hover:bg-surface-container-low transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+            aria-label="Halaman sebelumnya"
+          >
+            <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+            <span>Sebelumnya</span>
+          </button>
+
+          <div class="flex items-center gap-1">
+            <button
+              v-for="p in totalPages"
+              :key="p"
+              @click="goToPage(p)"
+              :class="[
+                'w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95',
+                currentPage === p
+                  ? 'bg-primary text-white shadow-md scale-105'
+                  : 'bg-surface-pure text-on-surface-variant hover:bg-surface-container border border-surface-container-high'
+              ]"
+            >
+              {{ p }}
+            </button>
+          </div>
+
+          <button
+            @click="goToPage(currentPage + 1)"
+            :disabled="currentPage === totalPages"
+            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high bg-surface-pure text-primary text-xs font-semibold hover:bg-surface-container-low transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+            aria-label="Halaman berikutnya"
+          >
+            <span>Berikutnya</span>
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+          </button>
+        </div>
+      </div>
 
       <!-- Trust Bar / Farm-to-Table Highlights -->
       <div 
@@ -94,6 +141,8 @@ import ProductCard from './ProductCard.vue'
 const emit = defineEmits(['openModal'])
 
 const selectedCategory = ref('all')
+const currentPage = ref(1)
+const ITEMS_PER_PAGE = 8
 
 const categories = [
   { id: 'all', name: 'Semua Produk' },
@@ -259,6 +308,29 @@ const filteredProducts = computed(() => {
   if (selectedCategory.value === 'all') return products
   return products.filter(p => p.categoryId === selectedCategory.value)
 })
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredProducts.value.length / ITEMS_PER_PAGE) || 1
+})
+
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * ITEMS_PER_PAGE
+  return filteredProducts.value.slice(start, start + ITEMS_PER_PAGE)
+})
+
+const setCategory = (catId) => {
+  selectedCategory.value = catId
+  currentPage.value = 1
+}
+
+const goToPage = (page) => {
+  if (page < 1 || page > totalPages.value) return
+  currentPage.value = page
+  const el = document.getElementById('katalog-produk')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
 
 const handleProductSelect = (product) => {
   emit('openModal', product)

@@ -11,13 +11,13 @@
         loading="lazy"
       />
       
-      <!-- Dynamic Stock Pill -->
+      <!-- Dynamic Stock Pill (60-30-10 Palette) -->
       <div 
         :class="[
-          'absolute top-3 right-3 px-space-12 py-space-4 rounded-full font-label-sm text-label-sm font-semibold shadow-sm backdrop-blur-md',
+          'absolute top-3 right-3 px-space-12 py-space-4 rounded-full font-label-sm text-label-sm font-semibold shadow-sm backdrop-blur-md border',
           product.inStock 
-            ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant' 
-            : 'bg-secondary-container text-on-secondary-container'
+            ? 'bg-primary/10 text-primary border-primary/20 bg-white/90' 
+            : 'bg-amber-100 text-amber-900 border-amber-200'
         ]"
       >
         {{ product.stockBadge }}
@@ -47,9 +47,9 @@
           :href="getWhatsAppLink(product)" 
           target="_blank" 
           rel="noopener noreferrer"
-          class="w-full inline-flex items-center justify-center gap-space-8 py-space-12 px-space-16 rounded-lg bg-whatsapp-green hover:bg-whatsapp-hover text-surface-pure font-label-md text-label-md font-semibold transition-all duration-200 shadow-sm active:scale-98"
+          class="w-full inline-flex items-center justify-center gap-space-8 py-3 px-space-16 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-label-md text-label-md font-bold transition-all duration-200 shadow-sm hover:shadow-md active:scale-98 tracking-wide"
         >
-          <span class="material-symbols-outlined text-[18px]">chat</span>
+          <span class="material-symbols-outlined text-[19px]">chat</span>
           <span>Pesan via WA</span>
         </a>
       </div>
