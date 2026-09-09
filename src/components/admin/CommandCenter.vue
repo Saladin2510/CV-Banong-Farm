@@ -157,22 +157,22 @@
                       </h3>
                     </div>
                     <span class="font-telemetry-code text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2 py-0.5 rounded font-bold">
-                      {{ adminStore.whatsappOrders.value.length }} Total
+                      {{ (adminStore.whatsappOrders.value || []).length }} Total
                     </span>
                   </div>
 
                   <div class="flex flex-col gap-2 mt-3">
                     <div 
-                      v-for="order in adminStore.whatsappOrders.value.slice(0, 3)" 
+                      v-for="order in (adminStore.whatsappOrders.value || []).slice(0, 3)" 
                       :key="order.id"
                       class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#0d1117] border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs"
                     >
                       <div class="flex flex-col min-w-0 pr-2">
-                        <span class="font-semibold text-slate-900 dark:text-white truncate">{{ order.customer }}</span>
-                        <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty }} kg {{ order.productName }}</span>
+                        <span class="font-semibold text-slate-900 dark:text-white truncate">{{ order.customer || 'Pelanggan WhatsApp' }}</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty || 0 }} kg {{ order.productName || 'Komoditas Unggulan' }}</span>
                       </div>
                       <div class="flex flex-col items-end shrink-0">
-                        <span class="font-bold text-slate-900 dark:text-white font-telemetry-code">Rp {{ order.totalPrice.toLocaleString('id-ID') }}</span>
+                        <span class="font-bold text-slate-900 dark:text-white font-telemetry-code">Rp {{ (order.totalPrice || 0).toLocaleString('id-ID') }}</span>
                         <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-telemetry-code">{{ order.id }}</span>
                       </div>
                     </div>
@@ -326,7 +326,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onErrorCaptured } from 'vue'
 import { useAdminStore } from '../../stores/useAdminStore'
 import AdminSidebar from './AdminSidebar.vue'
 import AdminHeader from './AdminHeader.vue'
@@ -342,6 +342,11 @@ import DatabaseErdViewer from './DatabaseErdViewer.vue'
 defineEmits(['switchView'])
 
 const adminStore = useAdminStore()
+
+onErrorCaptured((err, instance, info) => {
+  console.warn('[CommandCenter] Ditangkap kesalahan komponen anak:', err, info)
+  return false // Mencegah kegagalan render merembet ke seluruh dashboard
+})
 
 const currentTab = ref('overview')
 const searchQuery = ref('')

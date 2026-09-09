@@ -46,7 +46,7 @@
   "products": [
     {
       "id": 1,
-      "name": "Telur Bebek",
+      "name": "Telur Bebek asli madura",
       "category": "Peternakan Unggas",
       "price": 38000,
       "stock": 1250,
@@ -56,7 +56,7 @@
       "icon": "egg",
       "image": "/assets/product-eggs.png",
       "description": "Telur bebek organik dari peternakan sistem angon alami di Ajibarang. Kuning telur jingga cerah alami, kaya gizi dan bebas antibiotika sintetis.",
-      "title": "Telur Bebek",
+      "title": "Telur Bebek asli madura",
       "categoryId": "unggas"
     },
     {
@@ -129,10 +129,10 @@
       "name": "Pupuk Kasgot Super Organik",
       "category": "Produk Organik",
       "price": 25000,
-      "stock": 4800,
+      "stock": 4750,
       "maxStock": 8000,
       "unit": "karung 10kg",
-      "soldCount": 1100,
+      "soldCount": 1150,
       "icon": "eco",
       "image": "/assets/product-fertilizer.png",
       "description": "Pupuk organik hayati hasil biokonversi limbah maggot BSF. Memperbaiki struktur tanah dan menyuburkan tanaman."
@@ -179,6 +179,17 @@
   ],
   "orders": [
     {
+      "id": "#WA-8617",
+      "customer": "Catering Berkah Mandiri (Solo)",
+      "productId": 7,
+      "productName": "Pupuk Kasgot Super Organik",
+      "qty": 50,
+      "totalPrice": 1250000,
+      "timeAgo": "Baru saja",
+      "status": "Stok Terupdate Otomatis",
+      "timestamp": 1788925748617
+    },
+    {
       "id": "#WA-8831",
       "customer": "PT Sumber Segar Jaya (DKI Jakarta)",
       "productId": 1,
@@ -223,5 +234,7 @@
       "timestamp": 1725847000000
     }
   ],
-  "dailyChartMap": {}
+  "dailyChartMap": {
+    "2026-09-09": 275
+  }
 }

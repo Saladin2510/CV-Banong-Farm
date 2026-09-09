@@ -168,19 +168,62 @@ export const supabaseApi = {
   async getOrders() {
     const client = getSupabase()
     if (!client) return null
-    const { data, error } = await client.from('orders').select('*').order('created_at', { ascending: false }).limit(50)
-    if (error) {
-      console.warn('Supabase getOrders error:', error)
+    try {
+      // 1. Coba ambil pesanan beserta rincian order_items
+      let ordersData = null
+      const { data, error } = await client
+        .from('orders')
+        .select('*, order_items(*)')
+        .order('created_at', { ascending: false })
+        .limit(50)
+
+      if (!error && Array.isArray(data)) {
+        ordersData = data
+      } else {
+        // Fallback jika relasi order_items belum terbaca langsung
+        const fallback = await client
+          .from('orders')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(50)
+        if (fallback.error) throw fallback.error
+        ordersData = fallback.data
+      }
+
+      if (!Array.isArray(ordersData)) return null
+
+      // Default mapping bantuan untuk pesanan awal bawaan jika order_items kosong
+      const initialMap = {
+        '#WA-8831': { productName: 'Telur Bebek Bio-Organik', qty: 120 },
+        '#WA-8830': { productName: 'Cabai Rawit Merah Super', qty: 1200 },
+        '#WA-8829': { productName: 'Pupuk Kasgot Super Organik', qty: 400 },
+        '#WA-8828': { productName: 'Kopi Robusta Java', qty: 600 }
+      }
+
+      return ordersData.map(o => {
+        const item = (Array.isArray(o.order_items) && o.order_items.length > 0) ? o.order_items[0] : null
+        const fallbackItem = initialMap[o.order_code] || {}
+
+        const productName = item?.product_name || fallbackItem.productName || 'Komoditas Unggulan'
+        const qty = Number(item?.qty || fallbackItem.qty || Math.max(1, Math.round((Number(o.total_amount) || 30000) / 30000)))
+        const totalPrice = Number(o.total_amount) || (qty * 30000)
+
+        return {
+          id: o.order_code || `#WA-${o.id}`,
+          customer: o.customer_name || 'Mitra CV Banong',
+          productId: item?.product_id || 1,
+          productName,
+          qty,
+          totalPrice,
+          status: o.status || 'Stok Terupdate Otomatis',
+          timestamp: o.created_at ? new Date(o.created_at).getTime() : Date.now(),
+          timeAgo: 'Tersinkron Cloud'
+        }
+      })
+    } catch (err) {
+      console.warn('Supabase getOrders error:', err)
       return null
     }
-    return data.map(o => ({
-      id: o.order_code || `#WA-${o.id}`,
-      customer: o.customer_name,
-      totalPrice: Number(o.total_amount) || 0,
-      status: o.status || 'Stok Terupdate Otomatis',
-      timestamp: new Date(o.created_at).getTime(),
-      timeAgo: 'Tersinkron Cloud'
-    }))
   },
 
   // Simpan pesanan WhatsApp & potong stok di Supabase

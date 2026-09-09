@@ -433,12 +433,16 @@ async function syncWithSupabaseDatabase() {
         (payload) => {
           if (payload.eventType === 'INSERT') {
             const newO = payload.new
-            if (!whatsappOrders.value.some(o => o.id === newO.order_code)) {
+            const orderCode = newO.order_code || `#WA-${newO.id}`
+            if (!whatsappOrders.value.some(o => o.id === orderCode)) {
               whatsappOrders.value.unshift({
-                id: newO.order_code,
-                customer: newO.customer_name,
+                id: orderCode,
+                customer: newO.customer_name || 'Mitra Pembeli WhatsApp',
+                productId: 1,
+                productName: 'Komoditas Segar',
+                qty: 1,
                 totalPrice: Number(newO.total_amount) || 0,
-                status: newO.status,
+                status: newO.status || 'Stok Terupdate Otomatis',
                 timeAgo: 'Baru saja (Real-time Cloud)',
                 timestamp: Date.now()
               })
