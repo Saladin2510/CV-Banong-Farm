@@ -72,13 +72,13 @@
           </span>
         </button>
 
-        <!-- Shopping Cart Trigger Button -->
+        <!-- Shopping Cart Trigger Button (Navy Blue with Yellow Badge) -->
         <button
           @click="cartStore.openCart()"
           class="relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all duration-300 font-bold text-xs shadow-xs active:scale-95 cursor-pointer"
           :class="isWhiteNav 
-            ? 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-300' 
-            : 'bg-emerald-950/80 text-emerald-300 hover:bg-emerald-900 border border-emerald-700'"
+            ? 'bg-primary/5 text-primary hover:bg-primary/10 border border-primary/20' 
+            : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'"
           title="Buka Keranjang Belanja"
           type="button"
         >
@@ -86,7 +86,7 @@
           <span>Keranjang</span>
           <span 
             v-if="cartStore.totalItems.value > 0"
-            class="ml-0.5 px-1.5 py-0.2 rounded-full bg-cc-orange text-white text-[10px] font-telemetry-code font-extrabold"
+            class="ml-0.5 px-1.5 py-0.2 rounded-full bg-secondary-container text-primary text-[10px] font-telemetry-code font-black"
           >
             {{ cartStore.totalItems.value }}
           </span>
@@ -109,15 +109,15 @@
           @click="cartStore.openCart()"
           class="relative p-2 rounded-lg transition-colors cursor-pointer"
           :class="isWhiteNav 
-            ? 'bg-emerald-50 text-emerald-800 border border-emerald-300' 
-            : 'bg-emerald-950/80 text-emerald-300 border border-emerald-700'"
+            ? 'bg-primary/5 text-primary border border-primary/20' 
+            : 'bg-white/10 text-white border border-white/20'"
           title="Keranjang"
           type="button"
         >
           <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
           <span 
             v-if="cartStore.totalItems.value > 0"
-            class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-cc-orange text-white text-[9px] font-bold flex items-center justify-center font-telemetry-code"
+            class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary-container text-primary text-[9px] font-black flex items-center justify-center font-telemetry-code"
           >
             {{ cartStore.totalItems.value }}
           </span>

@@ -4,17 +4,17 @@
     @mouseleave="activeRow = null"
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-12 sm:py-16 lg:py-20 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 select-none"
   >
-    <!-- Background Ambient Glow -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[360px] bg-emerald-500/4 dark:bg-emerald-500/8 blur-[160px] rounded-full pointer-events-none"></div>
+    <!-- Background Ambient Glow (Blue & Yellow) -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[360px] bg-primary/4 dark:bg-blue-500/5 blur-[160px] rounded-full pointer-events-none"></div>
 
     <!-- Section Header / Subtitle -->
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop text-center mb-6 sm:mb-9 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider border border-emerald-200/80 dark:border-emerald-900/50 shadow-2xs">
-        <span class="material-symbols-outlined text-[16px]">agriculture</span>
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 dark:bg-primary-container/30 text-primary dark:text-secondary-container font-bold text-xs uppercase tracking-wider border border-primary/20 dark:border-secondary-container/30 shadow-2xs">
+        <span class="material-symbols-outlined text-[16px] text-secondary-container">agriculture</span>
         <span>Komoditas Unggulan Peternakan</span>
       </div>
       <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase mt-2.5">
-        Panen Segar <span class="text-emerald-600 dark:text-emerald-500">CV Banong Farms</span>
+        Panen Segar <span class="text-primary dark:text-secondary-container">CV Banong Farms</span>
       </h2>
       <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
         Arahkan kursor pada baris komoditas untuk melihat hasil panen alami langsung dari Ajibarang
@@ -55,7 +55,7 @@
               class="font-black uppercase tracking-wider text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[64px] leading-none transition-colors duration-200 font-sans"
               :class="[
                 activeRow === idx 
-                  ? 'text-[#C8102E] dark:text-[#EF4444] scale-[1.01]' 
+                  ? 'text-primary dark:text-secondary-container scale-[1.01]' 
                   : 'text-slate-200/90 dark:text-slate-800/90 hover:text-slate-400'
               ]"
             >
@@ -71,7 +71,7 @@
               class="font-black uppercase tracking-wider text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[64px] leading-none transition-colors duration-200 font-sans"
               :class="[
                 activeRow === idx 
-                  ? 'text-[#C8102E] dark:text-[#EF4444] scale-[1.01]' 
+                  ? 'text-primary dark:text-secondary-container scale-[1.01]' 
                   : 'text-slate-200/90 dark:text-slate-800/90'
               ]"
             >
@@ -89,7 +89,7 @@
           v-if="activeRow === 0"
           class="absolute top-[2%] sm:top-[3%] right-[6%] sm:right-[12%] lg:right-[15%] pointer-events-none z-30"
         >
-          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-slate-900 shadow-[0_22px_45px_rgba(0,0,0,0.36)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
+          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
                 src="/assets/farm-eggs-marquee.jpg" 
@@ -97,7 +97,7 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-bold text-slate-800 uppercase tracking-wider">
+            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
               Telur Segar Harian
             </div>
           </div>
@@ -110,7 +110,7 @@
           v-if="activeRow === 1"
           class="absolute top-[10%] sm:top-[12%] left-[5%] sm:left-[10%] lg:left-[13%] pointer-events-none z-30"
         >
-          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-slate-900 shadow-[0_22px_45px_rgba(0,0,0,0.36)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[9deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
+          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[9deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
                 src="/assets/farm-poultry-marquee.jpg" 
@@ -118,7 +118,7 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-bold text-slate-800 uppercase tracking-wider">
+            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
               Unggas Organik Ajibarang
             </div>
           </div>
@@ -131,7 +131,7 @@
           v-if="activeRow === 2"
           class="absolute bottom-[28%] sm:bottom-[30%] lg:bottom-[32%] right-[6%] sm:right-[12%] lg:right-[15%] pointer-events-none z-30"
         >
-          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-slate-900 shadow-[0_22px_45px_rgba(0,0,0,0.36)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
+          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
                 src="/assets/product-chicken.png" 
@@ -139,7 +139,7 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-bold text-slate-800 uppercase tracking-wider">
+            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
               Daging Segar Pilihan
             </div>
           </div>
@@ -152,7 +152,7 @@
           v-if="activeRow === 3"
           class="absolute bottom-[15%] sm:bottom-[17%] lg:bottom-[18%] left-[5%] sm:left-[10%] lg:left-[13%] pointer-events-none z-30"
         >
-          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-slate-900 shadow-[0_22px_45px_rgba(0,0,0,0.36)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[9deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
+          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[9deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
                 src="/assets/product-fish.png" 
@@ -160,7 +160,7 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-bold text-slate-800 uppercase tracking-wider">
+            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
               Ikan Air Deras Segar
             </div>
           </div>
@@ -173,7 +173,7 @@
           v-if="activeRow === 4"
           class="absolute bottom-[2%] sm:bottom-[3%] lg:bottom-[4%] right-[6%] sm:right-[12%] lg:right-[15%] pointer-events-none z-30"
         >
-          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-slate-900 shadow-[0_22px_45px_rgba(0,0,0,0.36)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
+          <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
                 src="/assets/product-fertilizer.png" 
@@ -181,7 +181,7 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-bold text-slate-800 uppercase tracking-wider">
+            <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
               Pupuk Hayati Organik
             </div>
           </div>

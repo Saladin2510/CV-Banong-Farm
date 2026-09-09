@@ -3,9 +3,9 @@
     id="tentang-kami" 
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-28 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
-    <!-- Subtle Background Ambient Accents -->
-    <div class="absolute top-1/4 left-10 w-96 h-96 bg-emerald-500/5 dark:bg-emerald-400/5 blur-[120px] rounded-full pointer-events-none"></div>
-    <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary-container/10 dark:bg-amber-400/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <!-- Subtle Background Ambient Accents (Blue & Yellow) -->
+    <div class="absolute top-1/4 left-10 w-96 h-96 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
       
@@ -13,7 +13,7 @@
       <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 sm:mb-8 font-telemetry-code">
         <span>Sentra Agribisnis Ajibarang</span>
         <span class="text-slate-300 dark:text-slate-600">/</span>
-        <span class="text-emerald-600 dark:text-emerald-400 font-bold">Tentang CV Banong Farms</span>
+        <span class="text-primary dark:text-secondary-container font-bold">Tentang CV Banong Farms</span>
       </div>
 
       <!-- Main Split Layout (Grid 12 cols: 6 or 7 cols Left, 5 or 6 cols Right) -->
@@ -23,7 +23,7 @@
         <div class="lg:col-span-7 flex flex-col justify-center">
           
           <!-- Big Section Title (Style like "Discover our DNA") -->
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-600 dark:text-sky-400 tracking-tight leading-tight mb-4">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-4">
             Discover our DNA
           </h2>
 
@@ -46,10 +46,10 @@
           <div class="mt-6 pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-4">
             
             <!-- Visi Card -->
-            <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/50">
+            <div class="p-4 rounded-2xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40">
               <div class="flex items-center gap-2 mb-1.5">
-                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[18px]">visibility</span>
-                <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-700 dark:text-emerald-300 font-telemetry-code">
+                <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">visibility</span>
+                <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-white font-telemetry-code">
                   Visi Utama
                 </span>
               </div>
@@ -58,22 +58,22 @@
               </p>
             </div>
 
-            <!-- Misi 4 Bullet Grid -->
+            <!-- Misi 4 Bullet Grid (Yellow Checkmark Accents) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
-                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Pangan segar &amp; pakan bernutrisi bebas hormon sintetis.</span>
               </div>
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
-                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Pertanian zero-waste berbasis biokonversi maggot BSF &amp; kasgot.</span>
               </div>
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
-                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Kemitraan berdaya bersama kelompok peternak lokal Banyumas.</span>
               </div>
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
-                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Distribusi rantai dingin harian &amp; panen sampai &lt; 12 jam.</span>
               </div>
             </div>
@@ -82,32 +82,32 @@
 
           <!-- Action CTA Links with Circular Arrow Icons (Whello Style) -->
           <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
-            <!-- CTA 1: Jelajahi Katalog -->
+            <!-- CTA 1: Jelajahi Katalog (Primary Navy) -->
             <a 
               href="#katalog-produk" 
               class="inline-flex items-center gap-3.5 group cursor-pointer"
             >
-              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-secondary-container transition-colors">
                 Jelajahi Produk Panen
               </span>
-              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-emerald-600/30 transition-all duration-300">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary hover:bg-primary-container text-white flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-primary/30 transition-all duration-300">
                 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">
                   arrow_forward
                 </span>
               </div>
             </a>
 
-            <!-- CTA 2: Hubungi Kami via WhatsApp -->
+            <!-- CTA 2: Hubungi Kami via WhatsApp (Yellow Accent) -->
             <a 
               href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20tahu%20lebih%20lanjut%20mengenai%20peternakan%20dan%20produk%20Anda."
               target="_blank" 
               rel="noopener noreferrer"
               class="inline-flex items-center gap-3.5 group cursor-pointer"
             >
-              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
+              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-secondary-container dark:group-hover:text-secondary-container transition-colors">
                 Hubungi Banong Farms
               </span>
-              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-amber-500/30 transition-all duration-300">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-secondary-container hover:bg-accent-hover text-primary font-black flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-yellow-500/30 transition-all duration-300 border border-yellow-400/40">
                 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">
                   arrow_forward
                 </span>
@@ -121,7 +121,7 @@
         <div class="lg:col-span-5 relative">
           
           <!-- Background accent halo -->
-          <div class="absolute -inset-4 bg-gradient-to-tr from-emerald-500/10 via-amber-400/5 to-sky-500/10 rounded-3xl blur-2xl pointer-events-none"></div>
+          <div class="absolute -inset-4 bg-gradient-to-tr from-primary/10 via-secondary-container/10 to-primary/5 rounded-3xl blur-2xl pointer-events-none"></div>
 
           <div class="grid grid-cols-3 gap-3 sm:gap-4 items-center relative z-10">
             

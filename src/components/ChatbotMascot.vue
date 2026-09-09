@@ -90,7 +90,7 @@
                   </span>
                   <span 
                     v-if="msg.isLiveAi" 
-                    class="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 font-semibold"
+                    class="text-[9px] px-1.5 py-0.2 rounded-full bg-secondary-container/20 text-primary dark:text-secondary-container font-semibold border border-secondary-container/30"
                   >
                     ✦ Live AI
                   </span>

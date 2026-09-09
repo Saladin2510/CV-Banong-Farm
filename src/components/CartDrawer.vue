@@ -32,7 +32,7 @@
         <!-- Drawer Header -->
         <div class="h-16 px-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/60 shrink-0">
           <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[24px]">
+            <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[24px]">
               shopping_cart
             </span>
             <div class="flex flex-col">
@@ -73,7 +73,7 @@
             </p>
             <button 
               @click="cartStore.closeCart()"
-              class="mt-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition-all cursor-pointer"
+              class="mt-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white font-bold text-xs shadow transition-all cursor-pointer"
             >
               Jelajahi Katalog Pakan
             </button>
@@ -88,7 +88,7 @@
                 <span>DAFTAR BARANG ({{ cartStore.items.value.length }})</span>
                 <button 
                   @click="cartStore.clearCart()"
-                  class="text-rose-500 hover:underline cursor-pointer"
+                  class="text-slate-500 hover:text-primary dark:hover:text-secondary-container hover:underline cursor-pointer"
                 >
                   Kosongkan
                 </button>
@@ -108,7 +108,7 @@
 
                 <!-- Info -->
                 <div class="flex flex-col flex-grow min-w-0">
-                  <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 font-telemetry-code truncate">
+                  <span class="text-[10px] uppercase font-bold text-primary dark:text-secondary-container font-telemetry-code truncate">
                     {{ item.category }}
                   </span>
                   <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">
@@ -138,7 +138,7 @@
                       </button>
                     </div>
 
-                    <span class="font-bold text-xs text-emerald-600 dark:text-emerald-400 font-telemetry-code">
+                    <span class="font-bold text-xs text-primary dark:text-secondary-container font-telemetry-code">
                       {{ formatPrice(item.price * item.qty) }}
                     </span>
                   </div>
@@ -147,7 +147,7 @@
                 <!-- Remove Button -->
                 <button 
                   @click="cartStore.removeFromCart(item.id)"
-                  class="absolute top-2 right-2 p-1 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                  class="absolute top-2 right-2 p-1 text-slate-400 hover:text-primary dark:hover:text-secondary-container transition-colors cursor-pointer"
                   title="Hapus barang"
                 >
                   <span class="material-symbols-outlined text-[16px]">delete</span>
@@ -156,12 +156,12 @@
             </div>
 
             <!-- Total Price Summary -->
-            <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex items-center justify-between">
+            <div class="p-3.5 rounded-xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40 flex items-center justify-between">
               <div class="flex flex-col">
-                <span class="text-xs text-emerald-900 dark:text-emerald-300 font-medium">Total Estimasi Tagihan:</span>
+                <span class="text-xs text-primary dark:text-white font-semibold">Total Estimasi Tagihan:</span>
                 <span class="text-[11px] text-slate-500 dark:text-slate-400">Belum termasuk ongkos kirim</span>
               </div>
-              <span class="text-lg font-extrabold text-emerald-700 dark:text-emerald-300 font-telemetry-code">
+              <span class="text-lg font-extrabold text-primary dark:text-secondary-container font-telemetry-code">
                 {{ formatPrice(cartStore.totalPrice.value) }}
               </span>
             </div>
@@ -170,56 +170,56 @@
             <form @submit.prevent="handleCheckoutSubmit" class="flex flex-col gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white uppercase font-telemetry-code">
                 <span>Formulir Pengiriman</span>
-                <span class="text-emerald-600 dark:text-emerald-400 font-normal">WA Admin: 08999192861</span>
+                <span class="text-primary dark:text-secondary-container font-medium">WA Admin: 08999192861</span>
               </div>
 
               <!-- Nama -->
               <div class="flex flex-col gap-1">
                 <label class="text-[11px] font-medium text-slate-600 dark:text-slate-300">
-                  Nama Lengkap / Nama Usaha <span class="text-rose-500">*</span>
+                  Nama Lengkap / Nama Usaha <span class="text-secondary dark:text-secondary-container font-bold">*</span>
                 </label>
                 <input 
                   v-model="customerName"
                   type="text" 
                   required
                   placeholder="Bpk. Haryanto (Peternakan Mandiri)"
-                  class="w-full h-9 px-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                  class="w-full h-9 px-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary dark:focus:border-secondary-container"
                 />
               </div>
 
               <!-- No WA -->
               <div class="flex flex-col gap-1">
                 <label class="text-[11px] font-medium text-slate-600 dark:text-slate-300">
-                  Nomor WhatsApp Aktif <span class="text-rose-500">*</span>
+                  Nomor WhatsApp Aktif <span class="text-secondary dark:text-secondary-container font-bold">*</span>
                 </label>
                 <input 
                   v-model="customerPhone"
                   type="tel" 
                   required
                   placeholder="08xxxxxxxxxx"
-                  class="w-full h-9 px-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 font-telemetry-code"
+                  class="w-full h-9 px-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary dark:focus:border-secondary-container font-telemetry-code"
                 />
               </div>
 
               <!-- Alamat -->
               <div class="flex flex-col gap-1">
                 <label class="text-[11px] font-medium text-slate-600 dark:text-slate-300">
-                  Alamat Lengkap Pengiriman <span class="text-rose-500">*</span>
+                  Alamat Lengkap Pengiriman <span class="text-secondary dark:text-secondary-container font-bold">*</span>
                 </label>
                 <textarea 
                   v-model="customerAddress"
                   required
                   rows="2"
                   placeholder="Desa Karangbawang RT 02/04, Kec. Ajibarang, Kab. Banyumas"
-                  class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 resize-none"
+                  class="w-full p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary dark:focus:border-secondary-container resize-none"
                 ></textarea>
               </div>
 
-              <!-- Submit Button -->
+              <!-- Submit Button (Yellow Accent 10% CTA with Navy Text) -->
               <button 
                 type="submit"
                 :disabled="isSubmitting"
-                class="mt-2 w-full h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-98 text-white font-bold text-xs sm:text-sm shadow-lg hover:shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                class="mt-2 w-full h-12 rounded-xl bg-secondary-container hover:bg-accent-hover active:scale-98 text-primary font-black text-xs sm:text-sm shadow-lg hover:shadow-yellow-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50 border border-yellow-400/40"
               >
                 <span v-if="isSubmitting" class="material-symbols-outlined text-[18px] animate-spin">
                   progress_activity

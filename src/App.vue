@@ -64,19 +64,19 @@
         <button 
           v-if="cartStore.totalItems.value > 0 && !cartStore.isCartOpen.value && isCartVisible"
           @click="cartStore.openCart()"
-          class="fixed bottom-6 left-5 sm:bottom-6 sm:left-8 z-40 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer border border-emerald-400/50 backdrop-blur-md group"
+          class="fixed bottom-6 left-5 sm:bottom-6 sm:left-8 z-40 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-full bg-primary hover:bg-primary-container text-white font-bold text-xs sm:text-sm shadow-2xl hover:shadow-primary/40 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer border border-blue-400/30 backdrop-blur-md group"
           title="Buka Keranjang Belanja"
           type="button"
         >
           <div class="relative flex items-center justify-center">
             <span class="material-symbols-outlined text-[22px] group-hover:rotate-6 transition-transform">shopping_cart</span>
-            <span class="absolute -top-2 -right-2 px-1.5 py-0.2 rounded-full bg-amber-400 text-slate-900 font-extrabold text-[10px] font-telemetry-code shadow-xs">
+            <span class="absolute -top-2 -right-2 px-1.5 py-0.2 rounded-full bg-secondary-container text-primary font-black text-[10px] font-telemetry-code shadow-xs">
               {{ cartStore.totalItems.value }}
             </span>
           </div>
           <div class="flex flex-col text-left">
-            <span class="text-[9px] uppercase font-bold text-emerald-100 tracking-wider font-telemetry-code leading-tight">Keranjang</span>
-            <span class="font-extrabold font-telemetry-code leading-none">
+            <span class="text-[9px] uppercase font-bold text-secondary-container tracking-wider font-telemetry-code leading-tight">Keranjang</span>
+            <span class="font-extrabold font-telemetry-code leading-none text-white">
               {{ formatPrice(cartStore.totalPrice.value) }}
             </span>
           </div>
