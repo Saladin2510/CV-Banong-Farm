@@ -12,7 +12,7 @@
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       @click.self="close"
     >
-      <div class="relative w-full max-w-lg bg-surface-pure rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="relative w-full max-w-lg bg-surface-pure dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border dark:border-slate-800 transition-colors">
         <!-- Close Button -->
         <button 
           @click="close"
@@ -23,7 +23,7 @@
         </button>
 
         <!-- Product Image Header -->
-        <div class="relative w-full h-56 bg-surface-container-low overflow-hidden">
+        <div class="relative w-full h-56 bg-surface-container-low dark:bg-slate-950 overflow-hidden">
           <img 
             :src="product.image" 
             :alt="product.title" 
@@ -33,8 +33,8 @@
             :class="[
               'absolute bottom-3 left-3 px-3 py-1 rounded-full font-label-sm text-label-sm font-semibold shadow-md border',
               product.inStock 
-                ? 'bg-primary/10 text-primary border-primary/20 bg-white/90' 
-                : 'bg-amber-100 text-amber-900 border-amber-200'
+                ? 'bg-white/90 dark:bg-slate-900/90 text-primary dark:text-white border-primary/20 dark:border-slate-600' 
+                : 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-200 dark:border-amber-700'
             ]"
           >
             {{ product.stockBadge }}
@@ -43,37 +43,37 @@
 
         <!-- Details Content -->
         <div class="p-6 flex flex-col overflow-y-auto">
-          <div class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wide">
+          <div class="text-on-surface-variant dark:text-slate-400 font-label-sm text-label-sm uppercase tracking-wide">
             {{ product.category }}
           </div>
-          <h3 class="font-headline-lg text-headline-lg text-primary font-bold mt-1">
+          <h3 class="font-headline-lg text-headline-lg text-primary dark:text-white font-bold mt-1">
             {{ product.title }}
           </h3>
-          <p class="font-body-md text-body-md text-on-surface-variant mt-2">
+          <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-2">
             {{ product.description }}
           </p>
 
-          <div class="mt-4 p-4 rounded-xl bg-surface-subtle flex items-center justify-between border border-surface-container-high">
+          <div class="mt-4 p-4 rounded-xl bg-surface-subtle dark:bg-slate-800/80 flex items-center justify-between border border-surface-container-high dark:border-slate-700">
             <div>
-              <div class="text-xs text-on-surface-variant">Harga Satuan:</div>
-              <div class="font-headline-md text-headline-md text-primary font-bold">
+              <div class="text-xs text-on-surface-variant dark:text-slate-400">Harga Satuan:</div>
+              <div class="font-headline-md text-headline-md text-primary dark:text-secondary-container font-bold">
                 {{ formatPrice(product.price) }} / {{ product.unit }}
               </div>
             </div>
 
             <!-- Quantity Controls -->
-            <div class="flex items-center gap-3 bg-surface-pure px-3 py-1.5 rounded-lg border border-surface-container-high">
+            <div class="flex items-center gap-3 bg-surface-pure dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-surface-container-high dark:border-slate-700">
               <button 
                 @click="quantity > 1 ? quantity-- : null"
-                class="w-7 h-7 rounded bg-surface-container-low hover:bg-surface-container text-primary font-bold flex items-center justify-center transition-colors disabled:opacity-40"
+                class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container dark:hover:bg-slate-700 text-primary dark:text-white font-bold flex items-center justify-center transition-colors disabled:opacity-40"
                 :disabled="quantity <= 1"
               >
                 -
               </button>
-              <span class="font-semibold text-primary w-6 text-center">{{ quantity }}</span>
+              <span class="font-semibold text-primary dark:text-white w-6 text-center">{{ quantity }}</span>
               <button 
                 @click="quantity++"
-                class="w-7 h-7 rounded bg-surface-container-low hover:bg-surface-container text-primary font-bold flex items-center justify-center transition-colors"
+                class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container dark:hover:bg-slate-700 text-primary dark:text-white font-bold flex items-center justify-center transition-colors"
               >
                 +
               </button>
@@ -82,8 +82,8 @@
 
           <!-- Total Calculation -->
           <div class="mt-4 flex items-center justify-between text-sm">
-            <span class="text-on-surface-variant font-medium">Estimasi Total:</span>
-            <span class="font-headline-md text-headline-md text-primary font-extrabold">
+            <span class="text-on-surface-variant dark:text-slate-400 font-medium">Estimasi Total:</span>
+            <span class="font-headline-md text-headline-md text-primary dark:text-secondary-container font-extrabold">
               {{ formatPrice(product.price * quantity) }}
             </span>
           </div>

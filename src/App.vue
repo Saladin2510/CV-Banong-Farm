@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-surface-pure font-sans text-on-surface antialiased flex flex-col">
+  <div class="min-h-screen bg-surface-pure dark:bg-[#070D1E] font-sans text-on-surface dark:text-slate-100 antialiased flex flex-col transition-colors duration-300">
     <!-- Sticky Navbar -->
     <Navbar />
 
     <!-- Main Content -->
-    <main class="w-full bg-surface-pure flex-grow">
+    <main class="w-full bg-surface-pure dark:bg-[#070D1E] flex-grow transition-colors duration-300">
       <!-- 1. Hero Section with SVG Curve Mask -->
       <HeroSection />
 

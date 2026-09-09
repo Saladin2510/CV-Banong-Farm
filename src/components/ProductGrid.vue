@@ -1,19 +1,19 @@
 <template>
-  <section class="w-full bg-surface-pure py-space-48 lg:py-space-64" id="katalog-produk">
+  <section class="w-full bg-surface-pure dark:bg-[#0A1128] py-space-48 lg:py-space-64 transition-colors duration-300" id="katalog-produk">
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">
       
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-32 gap-space-16 animate-fade-in-up">
         <div>
-          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-semibold mb-space-8 border border-primary/20">
-            <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-slate-200 font-label-sm text-label-sm font-semibold mb-space-8 border border-primary/20 dark:border-white/20">
+            <span class="material-symbols-outlined text-[16px] text-primary dark:text-secondary-container">verified</span>
             <span>Langsung dari Peternakan Ajibarang</span>
           </div>
-          <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary font-bold tracking-tight">
+          <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight">
             Katalog Segar Hari Ini
           </h2>
         </div>
-        <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+        <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 max-w-md">
           Produk hasil panen harian peternakan ramah lingkungan. Dikelola higienis tanpa hormon &amp; bahan aditif sintetis.
         </p>
       </div>
@@ -27,8 +27,8 @@
           :class="[
             'px-5 py-2.5 rounded-full font-label-md text-label-md transition-all duration-300 whitespace-nowrap active:scale-95 shadow-xs',
             selectedCategory === cat.id
-              ? 'bg-primary text-on-primary font-semibold shadow-md translate-y-[-1px]'
-              : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-medium'
+              ? 'bg-primary dark:bg-secondary-container text-on-primary dark:text-primary font-bold shadow-md translate-y-[-1px]'
+              : 'bg-surface-container-low dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 font-medium'
           ]"
         >
           {{ cat.name }}
@@ -53,18 +53,18 @@
       </transition-group>
 
       <!-- 8/8 Section Switcher / Pagination Navigation -->
-      <div v-if="totalPages > 1" class="mt-space-40 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-surface-subtle border border-surface-container-high/80 animate-fade-in">
-        <div class="text-on-surface-variant font-label-md text-xs sm:text-sm">
-          Menampilkan <span class="font-bold text-primary">{{ (currentPage - 1) * ITEMS_PER_PAGE + 1 }}</span> - 
-          <span class="font-bold text-primary">{{ Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length) }}</span> dari 
-          <span class="font-bold text-primary">{{ filteredProducts.length }}</span> produk (Halaman {{ currentPage }} dari {{ totalPages }})
+      <div v-if="totalPages > 1" class="mt-space-40 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 border border-surface-container-high/80 dark:border-slate-800 animate-fade-in">
+        <div class="text-on-surface-variant dark:text-slate-400 font-label-md text-xs sm:text-sm">
+          Menampilkan <span class="font-bold text-primary dark:text-white">{{ (currentPage - 1) * ITEMS_PER_PAGE + 1 }}</span> - 
+          <span class="font-bold text-primary dark:text-white">{{ Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length) }}</span> dari 
+          <span class="font-bold text-primary dark:text-white">{{ filteredProducts.length }}</span> produk (Halaman {{ currentPage }} dari {{ totalPages }})
         </div>
 
         <div class="flex items-center gap-2">
           <button
             @click="goToPage(currentPage - 1)"
             :disabled="currentPage === 1"
-            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high bg-surface-pure text-primary text-xs font-semibold hover:bg-surface-container-low transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high dark:border-slate-700 bg-surface-pure dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
             aria-label="Halaman sebelumnya"
           >
             <span class="material-symbols-outlined text-[16px]">chevron_left</span>
@@ -79,8 +79,8 @@
               :class="[
                 'w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95',
                 currentPage === p
-                  ? 'bg-primary text-white shadow-md scale-105'
-                  : 'bg-surface-pure text-on-surface-variant hover:bg-surface-container border border-surface-container-high'
+                  ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary shadow-md scale-105'
+                  : 'bg-surface-pure dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 border border-surface-container-high dark:border-slate-700'
               ]"
             >
               {{ p }}
@@ -90,7 +90,7 @@
           <button
             @click="goToPage(currentPage + 1)"
             :disabled="currentPage === totalPages"
-            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high bg-surface-pure text-primary text-xs font-semibold hover:bg-surface-container-low transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high dark:border-slate-700 bg-surface-pure dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
             aria-label="Halaman berikutnya"
           >
             <span>Berikutnya</span>
@@ -101,30 +101,30 @@
 
       <!-- Trust Bar / Farm-to-Table Highlights -->
       <div 
-        class="mt-space-64 p-space-32 rounded-xl bg-surface-subtle flex flex-col lg:flex-row items-center justify-between gap-space-24 shadow-xs border border-surface-container-high/70 animate-fade-in-up" 
+        class="mt-space-64 p-space-32 rounded-xl bg-surface-subtle dark:bg-slate-900/70 flex flex-col lg:flex-row items-center justify-between gap-space-24 shadow-xs border border-surface-container-high/70 dark:border-slate-800 animate-fade-in-up" 
         id="tentang-kami"
       >
         <div class="flex items-center gap-space-20">
-          <div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center flex-shrink-0 shadow-xs border border-primary-container/20">
-            <span class="material-symbols-outlined text-primary text-[28px]">agriculture</span>
+          <div class="w-14 h-14 rounded-full bg-primary-fixed dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-xs border border-primary-container/20 dark:border-slate-700">
+            <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[28px]">agriculture</span>
           </div>
           <div>
-            <div class="font-headline-md text-headline-md text-primary font-bold">
+            <div class="font-headline-md text-headline-md text-primary dark:text-white font-bold">
               Peternakan Beretika di Ajibarang
             </div>
-            <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+            <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-0.5">
               Pakan alami, sanitasi berstandar veteriner, dan pengiriman rantai dingin langsung ke rumah tangga maupun mitra kuliner.
             </p>
           </div>
         </div>
 
         <div class="flex items-center gap-space-16 flex-shrink-0 flex-wrap sm:flex-nowrap">
-          <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary font-semibold bg-surface-pure px-3.5 py-2 rounded-full border border-surface-container shadow-xs">
-            <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+          <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-3.5 py-2 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
+            <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
             Tanpa Pengawet
           </span>
-          <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary font-semibold bg-surface-pure px-3.5 py-2 rounded-full border border-surface-container shadow-xs">
-            <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+          <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-3.5 py-2 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
+            <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
             Halal &amp; Higienis
           </span>
         </div>

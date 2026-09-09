@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full bg-primary-container text-surface-pure pt-space-64 pb-space-32" id="kontak">
+  <footer class="w-full bg-primary-container dark:bg-[#060D1D] text-surface-pure pt-space-64 pb-space-32 border-t border-transparent dark:border-slate-800/80 transition-colors duration-300" id="kontak">
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">
       
       <!-- 4 Columns Grid -->
@@ -157,7 +157,7 @@
                 href="https://maps.google.com/?q=Ajibarang+Banyumas+Jawa+Tengah" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg bg-secondary-container hover:bg-accent-hover text-on-secondary-container font-label-sm text-label-sm font-semibold transition-all shadow-xs"
+                class="inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg bg-secondary-container hover:bg-accent-hover text-primary font-label-sm text-label-sm font-bold transition-all shadow-xs"
               >
                 <span>Buka di Maps</span>
                 <span class="material-symbols-outlined text-[14px]">open_in_new</span>
