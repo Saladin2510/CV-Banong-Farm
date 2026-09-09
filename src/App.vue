@@ -26,7 +26,10 @@
         <!-- 1. Hero Section with SVG Curve Mask -->
         <HeroSection />
 
-        <!-- 2. Interactive Product Catalog & Trust Bar -->
+        <!-- 2. Visi & Misi Section (Bagus, Simple, Modern) -->
+        <VisiMisiSection />
+
+        <!-- 3. Interactive Product Catalog & Trust Bar -->
         <ProductGrid @openModal="handleOpenModal" />
       </main>
 
@@ -84,6 +87,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import Navbar from './components/Navbar.vue'
 import HeroSection from './components/HeroSection.vue'
+import VisiMisiSection from './components/VisiMisiSection.vue'
 import ProductGrid from './components/ProductGrid.vue'
 import FooterSection from './components/FooterSection.vue'
 import ChatbotMascot from './components/ChatbotMascot.vue'

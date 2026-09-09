@@ -102,7 +102,7 @@
       <!-- Trust Bar / Farm-to-Table Highlights -->
       <div 
         class="mt-space-64 p-space-32 rounded-xl bg-surface-subtle dark:bg-slate-900/70 flex flex-col lg:flex-row items-center justify-between gap-space-24 shadow-xs border border-surface-container-high/70 dark:border-slate-800 animate-fade-in-up" 
-        id="tentang-kami"
+        id="standar-etika"
       >
         <div class="flex items-center gap-space-20">
           <div class="w-14 h-14 rounded-full bg-primary-fixed dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-xs border border-primary-container/20 dark:border-slate-700">
