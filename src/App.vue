@@ -32,7 +32,10 @@
         <!-- 3. Interactive Product Catalog & Trust Bar -->
         <ProductGrid @openModal="handleOpenModal" />
 
-        <!-- 4. Polaroid CTA Section (Sesuai Desain Referensi) -->
+        <!-- 4. Interactive 5-Row Zigzag Marquee Komoditas CV Banong Farms (Sebelum CTA) -->
+        <InteractiveMarqueeMenu />
+
+        <!-- 5. Polaroid CTA Section (Sesuai Desain Referensi) -->
         <PolaroidCtaSection />
       </main>
 
@@ -93,6 +96,7 @@ import HeroSection from './components/HeroSection.vue'
 import VisiMisiSection from './components/VisiMisiSection.vue'
 import ProductGrid from './components/ProductGrid.vue'
 import PolaroidCtaSection from './components/PolaroidCtaSection.vue'
+import InteractiveMarqueeMenu from './components/InteractiveMarqueeMenu.vue'
 import FooterSection from './components/FooterSection.vue'
 import ChatbotMascot from './components/ChatbotMascot.vue'
 import ProductModal from './components/ProductModal.vue'
