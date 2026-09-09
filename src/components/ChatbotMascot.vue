@@ -201,8 +201,22 @@ watch(() => cartStore.isCartOpen.value, (isOpen) => {
 })
 
 const handleScroll = () => {
-  // Hide in hero section, appear after scrolling down past hero (> 420px)
-  isVisible.value = window.scrollY > 420
+  // Sembunyikan saat posisi hero section (<= 420px)
+  const isPastHero = window.scrollY > 420
+
+  // Sembunyikan saat posisi footer section
+  let isNearFooter = false
+  const footer = document.getElementById('kontak') || document.querySelector('footer')
+  if (footer) {
+    const rect = footer.getBoundingClientRect()
+    isNearFooter = rect.top <= window.innerHeight
+  } else {
+    const scrollBottom = window.innerHeight + window.scrollY
+    const docHeight = document.documentElement.scrollHeight
+    isNearFooter = scrollBottom >= docHeight - 300
+  }
+
+  isVisible.value = isPastHero && !isNearFooter
   if (!isVisible.value && isChatOpen.value) {
     isChatOpen.value = false
   }

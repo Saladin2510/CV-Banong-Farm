@@ -31,6 +31,9 @@
 
         <!-- 3. Interactive Product Catalog & Trust Bar -->
         <ProductGrid @openModal="handleOpenModal" />
+
+        <!-- 4. Polaroid CTA Section (Sesuai Desain Referensi) -->
+        <PolaroidCtaSection />
       </main>
 
       <!-- 3. Informative Footer -->
@@ -89,6 +92,7 @@ import Navbar from './components/Navbar.vue'
 import HeroSection from './components/HeroSection.vue'
 import VisiMisiSection from './components/VisiMisiSection.vue'
 import ProductGrid from './components/ProductGrid.vue'
+import PolaroidCtaSection from './components/PolaroidCtaSection.vue'
 import FooterSection from './components/FooterSection.vue'
 import ChatbotMascot from './components/ChatbotMascot.vue'
 import ProductModal from './components/ProductModal.vue'
@@ -142,8 +146,22 @@ const checkHash = () => {
 const isCartVisible = ref(false)
 
 const handleScroll = () => {
-  // Sembunyikan saat posisi hero section, tampil setelah scroll melewati hero (> 420px)
-  isCartVisible.value = window.scrollY > 420
+  // Sembunyikan saat posisi hero section (<= 420px)
+  const isPastHero = window.scrollY > 420
+
+  // Sembunyikan saat posisi footer section
+  let isNearFooter = false
+  const footer = document.getElementById('kontak') || document.querySelector('footer')
+  if (footer) {
+    const rect = footer.getBoundingClientRect()
+    isNearFooter = rect.top <= window.innerHeight
+  } else {
+    const scrollBottom = window.innerHeight + window.scrollY
+    const docHeight = document.documentElement.scrollHeight
+    isNearFooter = scrollBottom >= docHeight - 300
+  }
+
+  isCartVisible.value = isPastHero && !isNearFooter
 }
 
 onMounted(async () => {
