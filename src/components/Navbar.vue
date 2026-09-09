@@ -80,18 +80,6 @@
         >
           Hubungi Kami
         </a>
-        <button 
-          @click="$emit('openAdmin')"
-          aria-label="Pusat Komando Admin" 
-          title="Buka Pusat Komando Admin"
-          class="h-8.5 px-3 rounded-full flex items-center gap-1.5 transition-all duration-300 shadow-xs hover:scale-105 active:scale-95 text-xs font-semibold"
-          :class="isWhiteNav 
-            ? 'bg-primary text-white hover:bg-navy-dark' 
-            : 'bg-white/15 text-white hover:bg-white/25 border border-white/20'"
-        >
-          <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
-          <span>Admin</span>
-        </button>
       </div>
 
       <!-- Mobile Right Controls (Toggle + Hamburger) -->
@@ -163,13 +151,6 @@
             class="pt-4 border-t flex flex-col gap-3"
             :class="isWhiteNav ? 'border-slate-200' : 'border-white/15 dark:border-slate-800'"
           >
-            <button
-              @click="$emit('openAdmin'); isMobileMenuOpen = false"
-              class="w-full text-center py-2.5 rounded-full bg-slate-800 text-white font-semibold text-sm shadow flex items-center justify-center gap-2"
-            >
-              <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
-              <span>Pusat Komando (Admin)</span>
-            </button>
             <a 
               href="https://wa.me/6281234567890?text=Halo%20CV%20Banong%20Farms" 
               target="_blank" 

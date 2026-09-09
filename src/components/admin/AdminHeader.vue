@@ -25,7 +25,18 @@
     </div>
 
     <!-- Right: Quick Actions & Profile -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- AI Model & Token Configuration Button -->
+      <button 
+        @click="$emit('openAiSettings')"
+        title="Konfigurasi Kunci Token AI (Google Gemini / OpenAI)"
+        class="inline-flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 font-telemetry-code text-xs font-semibold shadow transition-all active:scale-95"
+      >
+        <span class="material-symbols-outlined text-[16px] text-cc-orange">psychology</span>
+        <span class="hidden md:inline">AI Token (1M)</span>
+        <span class="md:hidden">AI</span>
+      </button>
+
       <!-- Simulated Quick WhatsApp Order Trigger -->
       <button 
         @click="handleSimulateOrder"
@@ -33,7 +44,19 @@
         class="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-telemetry-code text-xs font-semibold shadow transition-all active:scale-95"
       >
         <span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
-        <span>+ Simulasi Order WA</span>
+        <span>+ Order WA</span>
+      </button>
+
+      <!-- Dark Mode Toggle Button for Admin Panel -->
+      <button 
+        @click="toggleTheme"
+        :title="isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'"
+        class="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+        type="button"
+      >
+        <span class="material-symbols-outlined text-[20px] transition-transform duration-300" :class="{ 'rotate-180 text-amber-400': isDark }">
+          {{ isDark ? 'light_mode' : 'dark_mode' }}
+        </span>
       </button>
 
       <!-- Notification Bell with Notification Counter -->
@@ -106,14 +129,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAdminStore } from '../../stores/useAdminStore'
 
-defineEmits(['switchView', 'search'])
+defineEmits(['switchView', 'search', 'openAiSettings'])
 
 const adminStore = useAdminStore()
 const searchQuery = ref('')
 const showNotifications = ref(false)
+const isDark = ref(false)
+
+onMounted(() => {
+  isDark.value = document.documentElement.classList.contains('dark')
+})
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  if (isDark.value) {
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('theme', 'dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+    localStorage.setItem('theme', 'light')
+  }
+}
 
 const handleSimulateOrder = () => {
   adminStore.simulateIncomingOrder()

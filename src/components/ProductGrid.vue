@@ -137,9 +137,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import ProductCard from './ProductCard.vue'
+import { useAdminStore } from '../stores/useAdminStore'
 
 const emit = defineEmits(['openModal'])
 
+const adminStore = useAdminStore()
 const selectedCategory = ref('all')
 const currentPage = ref(1)
 const ITEMS_PER_PAGE = 8
@@ -152,161 +154,25 @@ const categories = [
   { id: 'organik', name: 'Produk Organik' }
 ]
 
-const products = [
-  {
-    id: 1,
-    title: 'Telur Ayam Kampung Premium',
-    category: 'Peternakan Unggas',
-    categoryId: 'unggas',
-    price: 32000,
-    unit: 'tray',
-    stockBadge: 'Sisa 8 pack',
-    inStock: false,
-    image: '/assets/product-eggs.png',
-    description: 'Telur ayam kampung organik dari peternakan sistem bebas sangkar di Ajibarang. Dipanen harian, kaya akan nutrisi dan omega-3.'
-  },
-  {
-    id: 2,
-    title: 'Ayam Organik Utuh Segar',
-    category: 'Daging Segar',
-    categoryId: 'daging',
-    price: 48000,
-    unit: 'ekor',
-    stockBadge: 'Tersedia',
-    inStock: true,
-    image: '/assets/product-chicken.png',
-    description: 'Ayam karkas organik utuh yang dibesarkan dengan pakan alami tanpa hormon pertumbuhan. Daging tebal, empuk, dan segar.'
-  },
-  {
-    id: 3,
-    title: 'Ikan Nila Segar Kolam Bersih',
-    category: 'Perikanan Air Deras',
-    categoryId: 'ikan',
-    price: 35000,
-    unit: 'kg',
-    stockBadge: 'Sisa 12 kg',
-    inStock: false,
-    image: '/assets/product-fish.png',
-    description: 'Ikan nila hitam pilihan dari kolam air deras mengalir Ajibarang. Daging gurih, tidak berbau lumpur, dan dipanen langsung sesuai pesanan.'
-  },
-  {
-    id: 4,
-    title: 'Telur Bebas Antibiotik (Harian)',
-    category: 'Peternakan Unggas',
-    categoryId: 'unggas',
-    price: 28500,
-    unit: 'kg',
-    stockBadge: 'Sisa 5 tray',
-    inStock: false,
-    image: '/assets/product-eggs.png',
-    description: 'Telur ayam ras konsumsi harian berkualitas tinggi, dipelihara dengan standar kesehatan ketat tanpa residu antibiotika.'
-  },
-  {
-    id: 5,
-    title: 'Daging Bebek Karkas Organik',
-    category: 'Daging Segar',
-    categoryId: 'daging',
-    price: 62000,
-    unit: 'ekor',
-    stockBadge: 'Sisa 4 ekor',
-    inStock: false,
-    image: '/assets/product-duck.png',
-    description: 'Daging bebek potong segar harian dari peternakan Ajibarang. Daging gurih, rendah lemak, dan cocok untuk restoran atau konsumsi keluarga.'
-  },
-  {
-    id: 6,
-    title: 'Fillet Ikan Gurame Segar',
-    category: 'Perikanan Air Deras',
-    categoryId: 'ikan',
-    price: 55000,
-    unit: 'kg',
-    stockBadge: 'Tersedia',
-    inStock: true,
-    image: '/assets/product-gurame.png',
-    description: 'Fillet ikan gurame segar tanpa duri dari kolam air deras Ajibarang. Higienis, dikemas vakum rantai dingin siap olah.'
-  },
-  {
-    id: 7,
-    title: 'Pupuk Kasgot Super Organik',
-    category: 'Produk Organik',
-    categoryId: 'organik',
-    price: 25000,
-    unit: 'karung 10kg',
-    stockBadge: 'Tersedia',
-    inStock: true,
-    image: '/assets/product-fertilizer.png',
-    description: 'Pupuk organik hayati hasil pengolahan limbah maggot peternakan berkelanjutan. Sangat cocok untuk tanaman buah, sayur, dan hias.'
-  },
-  {
-    id: 8,
-    title: 'Dada Ayam Fillet Segar',
-    category: 'Daging Segar',
-    categoryId: 'daging',
-    price: 52000,
-    unit: 'kg',
-    stockBadge: 'Sisa 10 kg',
-    inStock: false,
-    image: '/assets/product-chicken.png',
-    description: 'Potongan dada ayam fillet tanpa kulit dan tulang. Tinggi protein, cocok untuk diet sehat dan katering.'
-  },
-  {
-    id: 9,
-    title: 'Telur Bebek Bio-Organik',
-    category: 'Peternakan Unggas',
-    categoryId: 'unggas',
-    price: 38000,
-    unit: 'tray',
-    stockBadge: 'Sisa 6 pack',
-    inStock: false,
-    image: '/assets/product-eggs.png',
-    description: 'Telur bebek pilihan dari bebek angon alami. Kuning telur pekat dan kaya nutrisi untuk martabak atau telur asin.'
-  },
-  {
-    id: 10,
-    title: 'Ikan Lele Sangkuriang Segar',
-    category: 'Perikanan Air Deras',
-    categoryId: 'ikan',
-    price: 26000,
-    unit: 'kg',
-    stockBadge: 'Tersedia',
-    inStock: true,
-    image: '/assets/product-fish.png',
-    description: 'Ikan lele sangkuriang konsumsi dari kolam bioflok bersih. Daging manis tanpa rasa tanah.'
-  },
-  {
-    id: 11,
-    title: 'Hati & Ampela Ayam Segar',
-    category: 'Daging Segar',
-    categoryId: 'daging',
-    price: 18000,
-    unit: 'pack',
-    stockBadge: 'Panen Besok',
-    inStock: false,
-    image: '/assets/product-chicken.png',
-    description: 'Hati dan ampela ayam segar harian yang sudah dibersihkan secara higienis.'
-  },
-  {
-    id: 12,
-    title: 'Telur Ayam Omega-3 Gold',
-    category: 'Peternakan Unggas',
-    categoryId: 'unggas',
-    price: 42000,
-    unit: 'tray',
-    stockBadge: 'Stok Terbatas',
-    inStock: false,
-    image: '/assets/product-eggs.png',
-    description: 'Telur ayam bernutrisi tinggi yang diperkaya omega-3 alami dari pakan biji-bijian pilihan.'
-  }
-]
+const products = computed(() => {
+  return adminStore.products.value.map(p => ({
+    ...p,
+    title: p.title || p.name,
+    inStock: (Number(p.stock) || 0) > 0,
+    stockBadge: (Number(p.stock) || 0) === 0 
+      ? 'Stok Habis' 
+      : ((Number(p.stock) || 0) <= 50 ? `Sisa ${p.stock} ${p.unit || 'kg'}` : 'Tersedia')
+  }))
+})
 
 const getCategoryCount = (catId) => {
-  if (catId === 'all') return products.length
-  return products.filter(p => p.categoryId === catId).length
+  if (catId === 'all') return products.value.length
+  return products.value.filter(p => p.categoryId === catId).length
 }
 
 const filteredProducts = computed(() => {
-  if (selectedCategory.value === 'all') return products
-  return products.filter(p => p.categoryId === selectedCategory.value)
+  if (selectedCategory.value === 'all') return products.value
+  return products.value.filter(p => p.categoryId === selectedCategory.value)
 })
 
 const totalPages = computed(() => {

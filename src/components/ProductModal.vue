@@ -91,6 +91,7 @@
           <!-- WhatsApp Order Button (60-30-10 Accent Conversion) -->
           <a 
             :href="whatsappOrderUrl" 
+            @click="handleOrderSubmit"
             target="_blank" 
             rel="noopener noreferrer"
             class="mt-6 w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-label-lg text-label-lg font-bold shadow-md hover:shadow-lg transition-all active:scale-98 tracking-wide"
@@ -106,6 +107,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useAdminStore } from '../stores/useAdminStore'
 
 const props = defineProps({
   isOpen: Boolean,
@@ -114,6 +116,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
+const adminStore = useAdminStore()
 const quantity = ref(1)
 
 watch(() => props.product, () => {
@@ -121,6 +124,16 @@ watch(() => props.product, () => {
 })
 
 const close = () => {
+  emit('close')
+}
+
+const handleOrderSubmit = () => {
+  if (!props.product) return
+  adminStore.createCustomerOrder({
+    productId: props.product.id,
+    qty: quantity.value,
+    customerName: 'Pelanggan Web (Landing Page)'
+  })
   emit('close')
 }
 
@@ -137,7 +150,7 @@ const whatsappOrderUrl = computed(() => {
   if (!props.product) return '#'
   const total = formatPrice(props.product.price * quantity.value)
   const text = encodeURIComponent(
-    `Halo CV Banong Farms,\n\nSaya ingin memesan:\n- Produk: ${props.product.title}\n- Jumlah: ${quantity.value} ${props.product.unit}\n- Total: ${total}\n\nMohon informasi ketersediaan dan proses pengiriman ke Ajibarang/sekitarnya. Terima kasih!`
+    `Halo CV Banong Farms,\n\nSaya ingin memesan:\n- Produk: ${props.product.title || props.product.name}\n- Jumlah: ${quantity.value} ${props.product.unit}\n- Total: ${total}\n\nMohon informasi ketersediaan dan proses pengiriman ke Ajibarang/sekitarnya. Terima kasih!`
   )
   return `https://wa.me/6281234567890?text=${text}`
 })

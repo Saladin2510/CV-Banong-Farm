@@ -84,9 +84,24 @@
                 >
                   {{ msg.text }}
                 </div>
-                <span class="text-[10px] text-on-surface-variant dark:text-slate-400 mt-1 px-1">
-                  {{ msg.time }}
-                </span>
+                <div class="flex items-center gap-1.5 mt-1 px-1">
+                  <span class="text-[10px] text-on-surface-variant dark:text-slate-400">
+                    {{ msg.time }}
+                  </span>
+                  <span 
+                    v-if="msg.isLiveAi" 
+                    class="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 font-semibold"
+                  >
+                    ✦ Live AI
+                  </span>
+                </div>
+              </div>
+
+              <!-- Typing Indicator Bubble -->
+              <div v-if="isTyping" class="flex items-center gap-1.5 p-3 rounded-2xl bg-white/95 dark:bg-slate-800/90 text-on-surface dark:text-slate-100 border border-slate-200/80 dark:border-slate-700/80 rounded-bl-none shadow-xs w-20">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-bounce"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-bounce [animation-delay:0.2s]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-bounce [animation-delay:0.4s]"></span>
               </div>
 
               <!-- Quick Topic Pills -->
@@ -161,6 +176,7 @@
 
 <script setup>
 import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { chatWithMascot } from '../services/aiService'
 
 const isVisible = ref(false)
 const isChatOpen = ref(false)
@@ -240,10 +256,12 @@ const sendQuickTopic = (topic) => {
   scrollToBottom()
 }
 
-const sendMessage = () => {
-  if (!inputQuery.value.trim()) return
+const isTyping = ref(false)
+
+const sendMessage = async () => {
+  if (!inputQuery.value.trim() || isTyping.value) return
   
-  const text = inputQuery.value
+  const text = inputQuery.value.trim()
   inputQuery.value = ''
   
   messages.value.push({
@@ -253,26 +271,24 @@ const sendMessage = () => {
   })
   scrollToBottom()
 
-  setTimeout(() => {
-    let botReply = 'Terima kasih atas pertanyaannya! Untuk informasi harga grosir dan pemesanan cepat, Anda bisa langsung menghubungi hotline WA kami di +62 812-3456-7890.'
-    
-    const lower = text.toLowerCase()
-    if (lower.includes('harga') || lower.includes('telur')) {
-      botReply = 'Harga Telur Ayam Kampung Premium Rp 32.000 / tray. Dipanen segar harian dari peternakan Ajibarang.'
-    } else if (lower.includes('ayam') || lower.includes('daging')) {
-      botReply = 'Ayam Organik Utuh Segar seharga Rp 48.000 / ekor. Diproses higienis dan bebas bahan sintetis.'
-    } else if (lower.includes('nila') || lower.includes('ikan')) {
-      botReply = 'Ikan Nila Segar Kolam Bersih Air Deras seharga Rp 35.000 / kg. Bebas bau lumpur!'
-    } else if (lower.includes('lokasi') || lower.includes('alamat')) {
-      botReply = 'Lokasi peternakan kami berada di Ajibarang, Kabupaten Banyumas, Jawa Tengah.'
-    }
-
+  isTyping.value = true
+  try {
+    const aiResponse = await chatWithMascot(text, messages.value)
     messages.value.push({
       sender: 'bot',
-      text: botReply,
+      text: aiResponse.text,
+      isLiveAi: aiResponse.isLiveAi,
       time: getTime()
     })
+  } catch (e) {
+    messages.value.push({
+      sender: 'bot',
+      text: 'Terima kasih atas pertanyaannya! Untuk informasi harga grosir dan pemesanan cepat, Anda bisa langsung menghubungi hotline WA kami di +62 812-3456-7890.',
+      time: getTime()
+    })
+  } finally {
+    isTyping.value = false
     scrollToBottom()
-  }, 600)
+  }
 }
 </script>

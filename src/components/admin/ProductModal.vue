@@ -12,30 +12,31 @@
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm select-none"
       @click.self="$emit('close')"
     >
-      <div class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col">
+      <div class="bg-white dark:bg-[#161b22] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-lg overflow-hidden flex flex-col transition-colors">
         <!-- Modal Header -->
-        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-[#fbf9f6]">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-[#fbf9f6] dark:bg-[#1c2128]">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-cc-orange text-[22px]">
               {{ isEditMode ? 'edit_square' : 'add_circle' }}
             </span>
-            <h3 class="text-base font-bold text-[#1b1c1a] uppercase tracking-tight">
-              {{ isEditMode ? 'Edit Data Produk' : 'Tambah Produk Baru' }}
+            <h3 class="text-base font-bold text-[#1b1c1a] dark:text-white uppercase tracking-tight">
+              {{ isEditMode ? 'Edit Data Produk' : 'Tambah Produk Baru (Create)' }}
             </h3>
           </div>
           <button 
             @click="$emit('close')"
-            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors"
+            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700 transition-colors"
+            type="button"
           >
             <span class="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         <!-- Form Body -->
-        <form @submit.prevent="handleSubmit" class="p-6 flex flex-col gap-4 text-sm">
+        <form @submit.prevent="handleSubmit" class="p-6 flex flex-col gap-4 text-sm bg-white dark:bg-[#161b22]">
           <!-- Product Name -->
           <div class="flex flex-col gap-1.5">
-            <label class="font-medium text-[#1b1c1a] text-xs uppercase font-telemetry-code">
+            <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
               Nama Produk <span class="text-red-500">*</span>
             </label>
             <input 
@@ -43,43 +44,45 @@
               type="text" 
               required
               placeholder="Contoh: Pisang Cavendish Super"
-              class="h-10 px-3 rounded-lg border border-slate-300 focus:outline-none focus:border-cc-orange focus:ring-1 focus:ring-cc-orange transition-colors"
+              class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors text-sm shadow-xs"
             />
           </div>
 
           <!-- Category & Icon -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="flex flex-col gap-1.5">
-              <label class="font-medium text-[#1b1c1a] text-xs uppercase font-telemetry-code">
+              <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
                 Kategori <span class="text-red-500">*</span>
               </label>
               <select 
                 v-model="formData.category" 
-                class="h-10 px-3 rounded-lg border border-slate-300 bg-white focus:outline-none focus:border-cc-orange focus:ring-1 focus:ring-cc-orange transition-colors"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors text-sm shadow-xs cursor-pointer"
               >
-                <option value="Buah-buahan">Buah-buahan</option>
+                <option value="Peternakan Unggas">Peternakan Unggas</option>
+                <option value="Perikanan Air Deras">Perikanan Air Deras</option>
+                <option value="Daging Segar">Daging Segar</option>
                 <option value="Sayur & Cabai">Sayur & Cabai</option>
+                <option value="Buah-buahan">Buah-buahan</option>
                 <option value="Biji Kopi">Biji Kopi</option>
-                <option value="Rimpang">Rimpang</option>
-                <option value="Peternakan">Peternakan</option>
+                <option value="Produk Organik">Produk Organik</option>
               </select>
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label class="font-medium text-[#1b1c1a] text-xs uppercase font-telemetry-code">
+              <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
                 Ikon Telemetri
               </label>
               <select 
                 v-model="formData.icon" 
-                class="h-10 px-3 rounded-lg border border-slate-300 bg-white focus:outline-none focus:border-cc-orange focus:ring-1 focus:ring-cc-orange transition-colors"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors text-sm shadow-xs cursor-pointer"
               >
-                <option value="eco">Eco / Daun</option>
-                <option value="local_fire_department">Cabai / Panas</option>
-                <option value="coffee">Kopi</option>
-                <option value="nutrition">Buah / Nutrisi</option>
-                <option value="spa">Rimpang / Herbal</option>
-                <option value="egg">Telur Ternak</option>
-                <option value="set_meal">Ikan Segar</option>
+                <option value="egg">Telur Ternak (egg)</option>
+                <option value="set_meal">Ikan Segar (set_meal)</option>
+                <option value="nutrition">Daging Segar (nutrition)</option>
+                <option value="local_fire_department">Cabai / Sayur (fire)</option>
+                <option value="eco">Buah / Organik (eco)</option>
+                <option value="coffee">Biji Kopi (coffee)</option>
+                <option value="spa">Herbal / Rimpang (spa)</option>
               </select>
             </div>
           </div>
@@ -87,7 +90,7 @@
           <!-- Stock & Max Capacity -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="flex flex-col gap-1.5">
-              <label class="font-medium text-[#1b1c1a] text-xs uppercase font-telemetry-code">
+              <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
                 Stok Fisik (kg) <span class="text-red-500">*</span>
               </label>
               <input 
@@ -96,57 +99,58 @@
                 min="0"
                 required
                 placeholder="1000"
-                class="h-10 px-3 rounded-lg border border-slate-300 focus:outline-none focus:border-cc-orange focus:ring-1 focus:ring-cc-orange transition-colors font-telemetry-code"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors font-telemetry-code text-sm shadow-xs"
               />
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label class="font-medium text-[#1b1c1a] text-xs uppercase font-telemetry-code">
+              <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
                 Kapasitas Maksimal (kg)
               </label>
               <input 
                 v-model.number="formData.maxStock" 
                 type="number" 
-                min="100"
+                min="10"
                 placeholder="15000"
-                class="h-10 px-3 rounded-lg border border-slate-300 focus:outline-none focus:border-cc-orange focus:ring-1 focus:ring-cc-orange transition-colors font-telemetry-code"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors font-telemetry-code text-sm shadow-xs"
               />
             </div>
           </div>
 
           <!-- Price per kg -->
           <div class="flex flex-col gap-1.5">
-            <label class="font-medium text-[#1b1c1a] text-xs uppercase font-telemetry-code">
+            <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
               Harga Satuan (Rp/kg) <span class="text-red-500">*</span>
             </label>
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-telemetry-code text-xs">Rp</span>
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-telemetry-code text-xs font-bold">Rp</span>
               <input 
                 v-model.number="formData.price" 
                 type="number" 
                 min="100"
                 required
                 placeholder="25000"
-                class="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-300 focus:outline-none focus:border-cc-orange focus:ring-1 focus:ring-cc-orange transition-colors font-telemetry-code"
+                class="w-full h-11 pl-11 pr-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors font-telemetry-code text-sm shadow-xs"
               />
             </div>
           </div>
 
           <!-- Modal Action Buttons -->
-          <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 mt-2">
+          <div class="flex items-center justify-end gap-3 pt-5 border-t border-slate-200 dark:border-slate-700 mt-2">
             <button 
               type="button" 
               @click="$emit('close')"
-              class="h-10 px-4 rounded-lg bg-slate-100 hover:bg-slate-200 text-[#1b1c1a] font-medium transition-colors"
+              class="h-11 px-5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-colors text-xs"
             >
               Batal
             </button>
             <button 
               type="submit" 
-              class="h-10 px-5 rounded-lg bg-cc-orange hover:bg-cc-orange-strong text-white font-semibold shadow-sm transition-all active:scale-95 flex items-center gap-1.5"
+              class="h-11 px-6 rounded-lg font-bold shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer text-xs"
+              style="background-color: #fe6e00; color: #ffffff;"
             >
               <span class="material-symbols-outlined text-[18px]">save</span>
-              <span>{{ isEditMode ? 'Simpan Perubahan' : 'Tambah Produk' }}</span>
+              <span>{{ isEditMode ? 'Simpan Perubahan' : 'Tambah Produk Baru' }}</span>
             </button>
           </div>
         </form>

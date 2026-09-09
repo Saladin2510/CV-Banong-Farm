@@ -32,26 +32,6 @@
         @close="isModalOpen = false" 
       />
     </div>
-
-    <!-- Floating Role Switcher Pill (Memudahkan Beralih Antara Mode User & Mode Admin Seketika) -->
-    <div class="fixed bottom-5 left-5 z-[999] flex items-center bg-black/90 backdrop-blur-lg text-white p-1.5 pl-3.5 pr-1.5 rounded-full border border-white/20 shadow-2xl text-xs select-none">
-      <span class="flex items-center gap-2 text-white/80 mr-3">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="font-telemetry-code text-[11px]">
-          Mode Aktif: 
-          <strong class="text-white">{{ currentView === 'admin' ? 'Pusat Komando (Admin)' : 'Pengunjung (User)' }}</strong>
-        </span>
-      </span>
-      <button 
-        @click="switchView(currentView === 'admin' ? 'landing' : 'admin')"
-        class="h-7 px-3 rounded-full font-semibold transition-all flex items-center gap-1.5 active:scale-95 text-xs shadow-sm"
-        :class="currentView === 'admin' ? 'bg-white text-slate-900 hover:bg-slate-200' : 'bg-cc-orange text-white hover:bg-cc-orange-strong'"
-        :title="currentView === 'admin' ? 'Beralih ke Tampilan Pengunjung Publik' : 'Beralih ke Pusat Komando Admin'"
-      >
-        <span class="material-symbols-outlined text-[15px]">swap_horiz</span>
-        <span>{{ currentView === 'admin' ? 'Ke Mode User' : 'Masuk Jadi Admin' }}</span>
-      </button>
-    </div>
   </div>
 </template>
 

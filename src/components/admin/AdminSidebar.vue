@@ -26,22 +26,39 @@
       </div>
 
       <!-- Nav Items -->
-      <nav class="flex flex-col gap-1 px-2">
-        <a 
+      <nav class="flex flex-col gap-1.5 px-2">
+        <button 
           v-for="item in navItems" 
           :key="item.id"
-          :href="item.href"
-          @click.prevent="activeNav = item.id; scrollToSection(item.href)"
+          @click="$emit('changeTab', item.id)"
+          type="button"
           :class="[
-            'flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-sm transition-all duration-200',
-            activeNav === item.id 
-              ? 'bg-cc-orange text-white font-semibold shadow-md shadow-cc-orange/20' 
+            'w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer text-left',
+            activeTab === item.id 
+              ? 'bg-cc-orange text-white font-bold shadow-lg shadow-cc-orange/25 ring-1 ring-white/20' 
               : 'text-white/70 hover:bg-white/10 hover:text-white font-medium'
           ]"
         >
-          <span class="material-symbols-outlined text-[20px]">{{ item.icon }}</span>
-          <span>{{ item.label }}</span>
-        </a>
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="material-symbols-outlined text-[20px] shrink-0" :class="{ 'text-white': activeTab === item.id, 'text-cc-orange-warm': activeTab !== item.id }">
+              {{ item.icon }}
+            </span>
+            <span class="truncate">{{ item.label }}</span>
+          </div>
+
+          <!-- Notification/Counter Badges -->
+          <span 
+            v-if="item.badge !== undefined" 
+            :class="[
+              'px-2 py-0.5 rounded-full font-telemetry-code text-[10px] font-bold shrink-0 ml-1.5',
+              activeTab === item.id 
+                ? 'bg-white/20 text-white' 
+                : item.badgeColor || 'bg-white/10 text-white/80'
+            ]"
+          >
+            {{ item.badge }}
+          </span>
+        </button>
       </nav>
     </div>
 
@@ -50,16 +67,17 @@
       <div class="flex items-center justify-between px-1">
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="font-telemetry-code text-[11px] text-white/70 uppercase">Link Telemetri</span>
+          <span class="font-telemetry-code text-[11px] text-white/70 uppercase">Database Sinkron</span>
         </div>
-        <span class="font-telemetry-code text-[11px] text-emerald-400 font-semibold">v2.4.9</span>
+        <span class="font-telemetry-code text-[11px] text-emerald-400 font-semibold">v2.5 // LIVE</span>
       </div>
 
       <!-- Back to Public Landing Page Button -->
       <button 
         @click="$emit('switchView', 'landing')" 
-        class="w-full h-9 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-telemetry-code text-xs flex items-center justify-center gap-2 transition-all border border-white/15"
+        class="w-full h-9 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-telemetry-code text-xs flex items-center justify-center gap-2 transition-all border border-white/15 cursor-pointer"
         title="Beralih ke Landing Page Publik"
+        type="button"
       >
         <span class="material-symbols-outlined text-[16px]">arrow_back</span>
         <span>Ke Landing Page</span>
@@ -69,23 +87,53 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useAdminStore } from '../../stores/useAdminStore'
 
-defineEmits(['switchView'])
-
-const activeNav = ref('overview')
-
-const navItems = [
-  { id: 'overview', label: 'Beranda (Overview)', icon: 'grid_view', href: '#overview' },
-  { id: 'products-crud', label: 'Manajemen Produk', icon: 'inventory_2', href: '#products-crud' },
-  { id: 'wa-orders', label: 'Pesanan WA', icon: 'chat', href: '#wa-orders' },
-  { id: 'ai-analytics', label: 'Analitik AI', icon: 'analytics', href: '#ai-analytics' }
-]
-
-const scrollToSection = (href) => {
-  const el = document.querySelector(href)
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+const props = defineProps({
+  activeTab: {
+    type: String,
+    default: 'overview'
   }
-}
+})
+
+defineEmits(['switchView', 'changeTab'])
+
+const adminStore = useAdminStore()
+
+const navItems = computed(() => [
+  { 
+    id: 'overview', 
+    label: 'Beranda (Overview)', 
+    icon: 'grid_view' 
+  },
+  { 
+    id: 'products', 
+    label: 'Manajemen Produk', 
+    icon: 'inventory_2',
+    badge: adminStore.products.value.length,
+    badgeColor: 'bg-amber-500/20 text-amber-300'
+  },
+  { 
+    id: 'orders', 
+    label: 'Pesanan WA', 
+    icon: 'chat',
+    badge: adminStore.whatsappOrders.value.length,
+    badgeColor: 'bg-emerald-500/20 text-emerald-300'
+  },
+  { 
+    id: 'analytics', 
+    label: 'Analitik AI', 
+    icon: 'insights',
+    badge: 'ONLINE',
+    badgeColor: 'bg-purple-500/20 text-purple-300'
+  },
+  { 
+    id: 'database', 
+    label: 'Struktur Database', 
+    icon: 'database',
+    badge: '7 Tabel',
+    badgeColor: 'bg-blue-500/20 text-blue-300'
+  }
+])
 </script>
