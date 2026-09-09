@@ -43,31 +43,34 @@
         @close="isModalOpen = false" 
       />
 
-      <!-- 6. Floating Cart Trigger (Visible when items are in cart) -->
+      <!-- 6. Floating Cart Trigger (Visible on bottom-left when items are in cart, drawer is closed, and scrolled past hero section) -->
       <transition
         enter-active-class="transition duration-300 ease-out"
-        enter-from-class="opacity-0 translate-y-4 scale-90"
-        enter-to-class="opacity-100 translate-y-0 scale-100"
+        enter-from-class="opacity-0 -translate-x-4 scale-90"
+        enter-to-class="opacity-100 translate-x-0 scale-100"
         leave-active-class="transition duration-200 ease-in"
-        leave-from-class="opacity-100 translate-y-0 scale-100"
-        leave-to-class="opacity-0 translate-y-4 scale-90"
+        leave-from-class="opacity-100 translate-x-0 scale-100"
+        leave-to-class="opacity-0 -translate-x-4 scale-90"
       >
         <button 
-          v-if="cartStore.totalItems.value > 0"
+          v-if="cartStore.totalItems.value > 0 && !cartStore.isCartOpen.value && isCartVisible"
           @click="cartStore.openCart()"
-          class="fixed bottom-24 right-6 z-[90] flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer border border-emerald-400/40"
+          class="fixed bottom-6 left-5 sm:bottom-6 sm:left-8 z-40 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer border border-emerald-400/50 backdrop-blur-md group"
           title="Buka Keranjang Belanja"
           type="button"
         >
           <div class="relative flex items-center justify-center">
-            <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+            <span class="material-symbols-outlined text-[22px] group-hover:rotate-6 transition-transform">shopping_cart</span>
             <span class="absolute -top-2 -right-2 px-1.5 py-0.2 rounded-full bg-amber-400 text-slate-900 font-extrabold text-[10px] font-telemetry-code shadow-xs">
               {{ cartStore.totalItems.value }}
             </span>
           </div>
-          <span class="font-bold font-telemetry-code">
-            {{ formatPrice(cartStore.totalPrice.value) }}
-          </span>
+          <div class="flex flex-col text-left">
+            <span class="text-[9px] uppercase font-bold text-emerald-100 tracking-wider font-telemetry-code leading-tight">Keranjang</span>
+            <span class="font-extrabold font-telemetry-code leading-none">
+              {{ formatPrice(cartStore.totalPrice.value) }}
+            </span>
+          </div>
         </button>
       </transition>
 
@@ -132,13 +135,23 @@ const checkHash = () => {
   }
 }
 
+const isCartVisible = ref(false)
+
+const handleScroll = () => {
+  // Sembunyikan saat posisi hero section, tampil setelah scroll melewati hero (> 420px)
+  isCartVisible.value = window.scrollY > 420
+}
+
 onMounted(async () => {
   checkHash()
   window.addEventListener('hashchange', checkHash)
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
   await adminStore.checkAuthSession()
 })
 
 onUnmounted(() => {
   window.removeEventListener('hashchange', checkHash)
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>

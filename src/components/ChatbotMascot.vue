@@ -10,8 +10,8 @@
       leave-to-class="opacity-0"
     >
       <div 
-        v-if="isChatOpen && isVisible" 
-        class="fixed inset-0 bg-black/35 dark:bg-black/65 backdrop-blur-[3px] z-[95]"
+        v-if="isChatOpen && isVisible && !cartStore.isCartOpen.value" 
+        class="fixed inset-0 bg-black/35 dark:bg-black/65 backdrop-blur-[3px] z-40"
         @click="isChatOpen = false"
       ></div>
     </transition>
@@ -26,8 +26,8 @@
       leave-to-class="opacity-0 translate-y-10 scale-90"
     >
       <div 
-        v-show="isVisible" 
-        class="fixed bottom-6 right-6 z-[100] flex flex-col items-end pointer-events-auto select-none"
+        v-show="isVisible && !cartStore.isCartOpen.value" 
+        class="fixed bottom-6 right-6 z-40 flex flex-col items-end pointer-events-auto select-none"
       >
         <!-- AI Chat Window Popup -->
         <transition
@@ -40,7 +40,7 @@
         >
           <div 
             v-if="isChatOpen"
-            class="mb-4 w-80 sm:w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[480px] z-[100] transition-colors"
+            class="mb-4 w-80 sm:w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[480px] z-40 transition-colors"
           >
             <!-- Header -->
             <div class="bg-primary dark:bg-slate-950 text-on-primary p-4 flex items-center justify-between border-b dark:border-slate-800">
@@ -139,12 +139,19 @@
 
         <!-- Speech Bubble Tooltip -->
         <div 
-          v-if="!isChatOpen"
-          class="relative mb-2 mr-1 px-space-16 py-space-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl text-primary dark:text-white font-label-md text-label-md font-semibold rounded-xl shadow-2xl flex items-center gap-2 animate-bounce border border-white/40 dark:border-slate-700/80 transition-colors"
+          v-if="!isChatOpen && isBubbleVisible"
+          class="relative mb-2 mr-1 px-3.5 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl text-primary dark:text-white text-xs font-semibold rounded-xl shadow-2xl flex items-center gap-2 animate-bounce border border-white/40 dark:border-slate-700/80 transition-colors"
         >
-          <span>Halo! Butuh bantuan pesanan?</span>
+          <span @click="toggleChat" class="cursor-pointer">Halo! Butuh bantuan pesanan?</span>
+          <button 
+            @click.stop="isBubbleVisible = false" 
+            class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded transition-colors cursor-pointer"
+            title="Tutup pesan"
+          >
+            <span class="material-symbols-outlined text-[14px]">close</span>
+          </button>
           <!-- Tooltip Tail -->
-          <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl transform rotate-45 border-r border-b border-white/40 dark:border-slate-700/80"></div>
+          <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl transform rotate-45 border-r border-b border-white/40 dark:border-slate-700/80"></div>
         </div>
 
         <!-- Floating Mascot Circle Button -->
@@ -175,14 +182,23 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { chatWithMascot } from '../services/aiService'
+import { useCartStore } from '../stores/useCartStore'
 
+const cartStore = useCartStore()
 const isVisible = ref(false)
 const isChatOpen = ref(false)
+const isBubbleVisible = ref(true)
 const unreadCount = ref(1)
 const inputQuery = ref('')
 const messagesContainer = ref(null)
+
+watch(() => cartStore.isCartOpen.value, (isOpen) => {
+  if (isOpen) {
+    isChatOpen.value = false
+  }
+})
 
 const handleScroll = () => {
   // Hide in hero section, appear after scrolling down past hero (> 420px)

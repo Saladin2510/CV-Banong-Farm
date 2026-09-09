@@ -9,7 +9,7 @@
   >
     <div 
       v-if="isOpen && product" 
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+      class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
       @click.self="close"
     >
       <div class="relative w-full max-w-lg bg-surface-pure dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-surface-container-high dark:border-slate-800 transition-colors">

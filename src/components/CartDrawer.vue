@@ -11,7 +11,7 @@
     >
       <div 
         v-if="cartStore.isCartOpen.value" 
-        class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+        class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
         @click="cartStore.closeCart()"
       ></div>
     </transition>
@@ -27,7 +27,7 @@
     >
       <div 
         v-if="cartStore.isCartOpen.value"
-        class="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl flex flex-col border-l border-slate-200 dark:border-slate-800 select-none"
+        class="fixed top-0 right-0 bottom-0 z-[105] w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl flex flex-col border-l border-slate-200 dark:border-slate-800 select-none"
       >
         <!-- Drawer Header -->
         <div class="h-16 px-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/60 shrink-0">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Drawer Body -->
-        <div class="flex-grow overflow-y-auto p-5 flex flex-col gap-5">
+        <div class="flex-grow overflow-y-auto p-5 pb-10 flex flex-col gap-5">
           
           <!-- Empty State -->
           <div 
@@ -219,15 +219,15 @@
               <button 
                 type="submit"
                 :disabled="isSubmitting"
-                class="mt-1 w-full h-11 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-98 text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                class="mt-2 w-full h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-98 text-white font-bold text-xs sm:text-sm shadow-lg hover:shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
               >
                 <span v-if="isSubmitting" class="material-symbols-outlined text-[18px] animate-spin">
                   progress_activity
                 </span>
-                <span v-else class="material-symbols-outlined text-[18px]">
+                <span v-else class="material-symbols-outlined text-[20px]">
                   chat
                 </span>
-                <span>{{ isSubmitting ? 'Mencatat Pesanan...' : 'Kirim Pesanan ke WA Admin' }}</span>
+                <span>{{ isSubmitting ? 'Mencatat Pesanan...' : `Kirim Pesanan ke WA Admin (${formatPrice(cartStore.totalPrice.value)})` }}</span>
               </button>
             </form>
 
