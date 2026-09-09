@@ -1,96 +1,118 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 9 September 2026  
-**Status Proyek:** Siap Produksi (Build Passed / Zero Errors)  
-**Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, dan logika sistem untuk sesi pengembangan berikutnya.
+**Tanggal Pembaruan Terakhir:** 9 September 2026 (Sesi Malam)  
+**Status Proyek:** Siap Produksi (Build Passed / Zero Errors / Code Quality Verified)  
+**Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
 
 ## 1. Identitas & Tech Stack Proyek
 * **Framework:** Vue 3 (Composition API `<script setup>`) + Vite
-* **Styling:** Tailwind CSS (Desain Glassmorphism, 60-30-10 Color System, Dark/Light Mode adaptif)
-* **State Management:** Reactive Stores (`useAdminStore.js` dan `useCartStore.js`) dengan sinkronisasi `localStorage`
+* **Styling:** Tailwind CSS (Vanilla CSS + Custom Token Design System)
+* **Design Rule:** **Strict 60% : 30% : 10% Color System**
+* **State Management:** Reactive Stores (`useAdminStore.js` dan `useCartStore.js`) dengan persistensi `localStorage`
 * **Database Backend:** Supabase Cloud PostgreSQL 24/7 + WebSocket Real-time Replication
 * **Nomor WhatsApp Resmi Admin:** **`08999192861`** (Format URL: `https://wa.me/628999192861`)
 
 ---
 
-## 2. Struktur Database Supabase Cloud (7 Tabel Bahasa Indonesia)
-Semua tabel telah distandarisasi ke bahasa Indonesia (tabel lama bahasa Inggris sudah dihapus):
-1. **`admin`**: Akun & profil pengelola dashboard.
-2. **`kategori`**: Kategori komoditas (Unggas, Daging, Ikan, dsb.).
-3. **`produk`**: Katalog pakan/hasil panen (`id`, `nama`, `kategori`, `stok`, `harga`, `satuan`, `jumlah_terjual`, `gambar`, `deskripsi`).
-4. **`pesanan`**: Header transaksi (`id`, `kode_pesanan`, `nama_pelanggan`, `no_whatsapp`, `alamat_pelanggan`, `total_harga`, `status`).
-5. **`detail_pesanan`**: Item-item dalam tiap transaksi (`id`, `id_pesanan`, `id_produk`, `jumlah_beli`, `harga_satuan`, `subtotal`).
-6. **`metrik_harian`**: Data omzet harian & grafik tren AI 7 hari terakhir.
-7. **`strategi_ai`**: Rekomendasi analitik cerdas untuk stok & harga.
+## 2. Standar Desain Visual & Aturan Warna (WAJIB DIPATUHI)
+Sesuai arahan mutlak pada sesi ini, seluruh UI/UX landing page wajib tunduk pada **Rule 60% : 30% : 10%**:
+1. **60% Dominan (PUTIH / Surface Light)**:
+   - Warna latar belakang (`bg-surface-pure`, `bg-surface-subtle`, `bg-white`).
+   - Latar bingkai foto polaroid, teks inactive marquee (`text-slate-200/90`), border tipis netral (`border-slate-200/80`).
+2. **30% Sekunder (BIRU / Brand Navy Blue CV Banong Farms)**:
+   - Token Tailwind: `primary` (`#022448`), `primary-container` (`#1e3a5f`).
+   - Digunakan untuk: Teks judul saat di-hover di Marquee, tombol sekunder (*"Jelajahi Produk Panen"*, *"Lihat Katalog"*), latar *floating cart button*, border kartu komoditas, dan elemen struktural.
+3. **10% Aksen (KUNING / Golden Yellow CV Banong Farms)**:
+   - Token Tailwind: `secondary-container` (`#fcd400`), `accent-hover` (`#e6c200`), `secondary` (`#705d00`).
+   - Digunakan untuk: **Tombol Call-to-Action Utama** (**"PESAN SEKARANG"**, **"Kirim Pesanan ke WA Admin"**, **"Tambah ke Keranjang"**, **"Hubungi Banong Farms"**), badge counter belanja di Navbar & Floating Cart, serta ikon verifikasi & checkmark.
+4. **LARANGAN WARNA LAIN**:
+   - **Warna Merah (`#c8102e`, `red-...`, `rose-...`) dan Hijau (`emerald-...`) DIBUANG TOTAL** dari landing page publik. Jangan pernah menambahkan kembali tombol merah atau hijau pada landing page.
 
 ---
 
-## 3. Fitur Utama yang Telah Selesai & Berjalan Sempurna
+## 3. Komponen-Komponen Baru & Fitur yang Telah Selesai Hari Ini
 
-### A. Alur Pemesanan Produk Pelanggan (User Flow)
-1. **Katalog & Modal Detail:**
-   - Tombol lama *"Pesan via WA"* telah diganti menjadi **"Tambah ke Keranjang"**.
-   - Pelanggan dapat mengatur jumlah kuantitas (`-` dan `+`) langsung dari modal detail produk.
-   - Terdapat tombol keranjang dengan badge jumlah barang di Navbar (desktop & mobile) serta Floating Cart Pill di pojok kanan bawah.
-2. **Keranjang Belanja (`CartDrawer.vue`):**
-   - Menampung berbagai item belanja sekaligus dengan perhitungan harga otomatis.
-   - Dilengkapi **Formulir Pengiriman Pelanggan**:
-     - *Nama Lengkap / Nama Usaha*
-     - *Nomor WhatsApp Aktif*
-     - *Alamat Lengkap Pengiriman*
-3. **Eksekusi Simultan Saat Submit:**
-   - **Ke Database Supabase:** Dicatat ke tabel `pesanan` dengan status awal **`'Menunggu Konfirmasi'`** (stok fisik **belum berkurang**) dan rincian item masuk ke `detail_pesanan`.
-   - **Ke WhatsApp Resmi (`08999192861`):** Otomatis membuka tab WA dengan pesan siap kirim berformat rapi (nomor tiket `#BNG-xxxx`, identitas pembeli, daftar item & harga, total belanja).
-   - Keranjang belanja dikosongkan dan drawer tertutup otomatis.
+### A. 5-Baris Marquee Menu Interaktif (`src/components/InteractiveMarqueeMenu.vue`)
+- **Posisi:** Terletak persis **sebelum section CTA Polaroid** di `App.vue`.
+- **Konten Autentik CV Banong Farms (Bukan Makanan/Resto):**
+  1. *TELUR AYAM & BEBEK SEGAR* (Foto: Keranjang & tray telur organik panen harian).
+  2. *PETERNAKAN UNGGAS ALAMI* (Foto: Kawasan peternakan unggas bebas di perbukitan Ajibarang).
+  3. *DAGING ORGANIK HIGIENIS* (Foto: Karkas ayam utuh segar higienis).
+  4. *PERIKANAN AIR DERAS* (Foto: Ikan air tawar segar & higienis).
+  5. *PUPUK KASGOT ORGANIK* (Foto: Pupuk kasgot hasil biokonversi maggot BSF ramah lingkungan).
+- **Karakteristik Animasi & UX:**
+  - 5 baris berjalan bersilangan (zigzag/berlawanan arah) dengan kecepatan selaras (~14s-20s linear infinite).
+  - Ukuran teks proporsional (`text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[64px]`).
+  - **Auto-Resume Saat Unhover:** Jika kursor dijauhkan, teks langsung kembali berjalan otomatis dan kartu foto tertutup (tidak ada state yang nyangkut).
+  - **Arah Popup Foto:** Baris 1-2 membuka ke bawah, sedangkan baris 3, 4, dan 5 membuka **ke atas** (`bottom-[...]`) sehingga kartu foto **tidak pernah terpotong** oleh batas bawah section.
+  - **Ukuran Kartu Foto:** Skala proporsional Goldilocks (`w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64`).
 
-### B. Proteksi & Login Admin (Auth Guard)
-- Rute `#/admin` dilindungi oleh Supabase Auth.
-- Jika admin belum login, sistem otomatis menampilkan **`AdminLoginView.vue`** (Form Login Email & Password).
-- Jika sudah terautentikasi, Command Center terbuka penuh, menampilkan nama/email admin yang aktif dan tombol **Logout**.
+### B. Kluster Foto Polaroid & CTA Section (`src/components/PolaroidCtaSection.vue`)
+- **Headline Rapi 1 Baris:** *"PANEN SEGAR, ALAMI!"* dengan tata letak satu baris penuh yang sangat nyaman dibaca tanpa pemotongan canggung.
+- **Kluster Polaroid 3 Foto Asimetris:**
+  - Jarak lapang terhadap teks kanan (`gap-12 lg:gap-16 xl:gap-24`).
+  - Variasi jarak asimetris: Foto kiri menempel rapat dengan foto tengah, sedangkan foto kanan lebih renggang.
+  - Skala kartu seimbang dan tidak terlalu menjulang tinggi ke atas.
+- **Tombol CTA Kuning Emas:** Tombol merah lama telah diganti dengan tombol Kuning Emas khas Banong Farm (`bg-secondary-container hover:bg-accent-hover text-primary font-black border border-yellow-400/40`).
+- **Glow & Badges:** Glow halus biru-kuning dan badge verifikasi berikon kuning emas.
 
-### C. Alur Validasi Pesanan & Pemotongan Stok Otomatis (Admin Flow)
-- Di tab **Pesanan WhatsApp Live Feed (`WhatsAppLiveFeed.vue`)**, admin dapat memfilter tiket:
-  - *Semua*
-  - *Menunggu Validasi*
-  - *Selesai*
-  - *Dibatalkan*
-- Tombol Aksi Admin:
-  - **"Validasi Selesai (Deal)":** Mengubah status pesanan ke `'Selesai'`, memotong stok produk di tabel `produk` sesuai kuantitas yang dibeli, menambah `jumlah_terjual`, mencatat transaksi ke `metrik_harian`, dan memperbarui tampilan katalog publik secara realtime.
-  - **"Batalkan":** Mengubah status ke `'Dibatalkan'` tanpa mengurangi stok fisik.
+### C. Pembersihan Warna pada Komponen Lain
+- **`VisiMisiSection.vue`:** Seluruh warna hijau emerald dan sky blue telah diubah menjadi kombinasi Navy Blue (`primary`) dan Kuning Emas (`secondary-container`).
+- **`Navbar.vue` & `App.vue`:** Tombol keranjang belanja dan floating cart button pojok kiri bawah menggunakan latar Biru Navy dengan badge counter Kuning Emas.
+- **`CartDrawer.vue` & `ProductModal.vue`:** Tombol checkout kirim pesanan WA dan tambah ke keranjang menggunakan Kuning Emas (`bg-secondary-container text-primary font-black`).
 
 ---
 
-## 4. Peta File Penting (Architecture Map)
-* **Klien Supabase & Auth:** `src/services/supabaseClient.js`
-* **Store Keranjang Belanja:** `src/stores/useCartStore.js`
-* **Store Admin & Telemetri:** `src/stores/useAdminStore.js`
-* **Komponen Keranjang & Form:** `src/components/CartDrawer.vue`
-* **Komponen Login Admin:** `src/components/admin/AdminLoginView.vue`
-* **Komponen Live Feed Pesanan:** `src/components/admin/WhatsAppLiveFeed.vue`
-* **Komponen Header Admin:** `src/components/admin/AdminHeader.vue`
-* **Kartu Produk Publik:** `src/components/ProductCard.vue` & `ProductModal.vue`
-* **Navigasi & Footer Publik:** `src/components/Navbar.vue` & `FooterSection.vue`
+## 4. Alur Bisnis & Integrasi Database (Sudah Aktif)
+1. **User Memilih Produk:** Pelanggan memilih produk dari katalog publik -> klik *"Tambah ke Keranjang"* -> menentukan jumlah di modal -> masuk ke `useCartStore`.
+2. **Submit Pesanan via Drawer:** Pelanggan mengisi formulir (Nama, WA, Alamat) -> klik tombol Kuning *"Kirim Pesanan ke WA Admin"*:
+   - Pesanan otomatis tersimpan di tabel Supabase `pesanan` (status: `'Menunggu Konfirmasi'`) dan `detail_pesanan`.
+   - Tab WhatsApp resmi admin (`08999192861`) terbuka dengan pesan tiket format rapi.
+3. **Validasi Admin di Dashboard (`#/admin`):**
+   - Admin login melalui email/password Supabase Auth.
+   - Admin memeriksa pesanan di **WhatsApp Live Feed**.
+   - Klik **"Validasi Selesai (Deal)"**: Status berubah jadi `'Selesai'`, stok fisik di tabel `produk` otomatis terpotong, dan metrik omzet harian tercatat.
+
+---
+
+## 5. Peta File Utama (Key Architecture Map)
+* **Section Marquee 5 Baris:** `src/components/InteractiveMarqueeMenu.vue`
+* **Section CTA Polaroid:** `src/components/PolaroidCtaSection.vue`
+* **Section Visi & Misi:** `src/components/VisiMisiSection.vue`
 * **Root Application:** `src/App.vue`
+* **Katalog Produk & Filter:** `src/components/ProductGrid.vue` & `ProductCard.vue`
+* **Modal Detail Produk:** `src/components/ProductModal.vue`
+* **Keranjang Belanja Drawer:** `src/components/CartDrawer.vue`
+* **Navigasi Atas & Footer:** `src/components/Navbar.vue` & `FooterSection.vue`
+* **Command Center Admin:** `src/components/admin/CommandCenter.vue`
+* **Feed Pesanan WA:** `src/components/admin/WhatsAppLiveFeed.vue`
+* **Store Keranjang & Admin:** `src/stores/useCartStore.js` & `src/stores/useAdminStore.js`
+* **Konfigurasi Tailwind & Warna:** `tailwind.config.js`
 
 ---
 
-## 5. Rencana & Ide Pengembangan Berikutnya (Untuk Sesi Lanjutan)
-Saat melanjutkan sesi berikutnya, beberapa fitur opsional yang siap dieksekusi:
-1. **Fitur Ekspor Laporan:** Tombol unduh laporan riwayat transaksi dalam format CSV/Excel atau PDF untuk pembukuan CV Banong Farms.
-2. **Filter & Pencarian Lanjutan di Admin:** Pencarian pesanan berdasarkan nama pembeli atau kode tiket, serta filter rentang tanggal custom.
-3. **Notifikasi Suara/Audio Alert:** Menambahkan efek suara bel saat pesanan baru dari website masuk ke dashboard admin.
-4. **Manajemen Admin Multi-User:** Antarmuka untuk menambah akun pengelola/staf gudang baru.
+## 6. Checklist Pengingat untuk Memulai Sesi Berikutnya
+Saat pengguna membuka sesi berikutnya, asisten AI berikutnya **wajib membaca checklist ini sebelum menyentuh kode**:
+- [ ] **Pertahankan Aturan Warna 60:30:10:** Jangan memasukkan warna merah (`#c8102e`, `red-...`) atau hijau (`emerald-...`) pada komponen publik. Selalu gunakan Putih, Biru Navy (`primary`), dan Kuning Emas (`secondary-container`).
+- [ ] **Pertahankan Posisi & Kecepatan Marquee:** Marquee tetap berada persis sebelum CTA Polaroid, dengan arah popup baris 3-5 mengarah ke atas agar tidak terpotong.
+- [ ] **Ide Fitur Lanjutan yang Siap Dikerjakan (Jika Diinstruksikan Pengguna):**
+  1. *Ekspor Laporan Transaksi:* Menambahkan tombol download rekap penjualan bulanan/mingguan ke format Excel (.xlsx) atau PDF di dashboard admin.
+  2. *Filter Tanggal & Pencarian Pesanan:* Fitur cari pesanan berdasarkan nama pembeli / kode tiket `#BNG-xxxx` di dashboard admin.
+  3. *Audio/Sound Alert Pesanan Baru:* Notifikasi suara denting bel saat ada orderan masuk di dashboard admin.
+  4. *Multi-admin Role:* Pengaturan hak akses (Super Admin vs Staf Gudang).
 
 ---
 
-## 6. Perintah Operasional
-* **Menjalankan Server Dev:**
+## 7. Perintah Operasional
+* **Menjalankan Server Lokal:**
   ```bash
   npm run dev
   ```
-  *(Akses web: `http://localhost:5173/` | Akses admin: `http://localhost:5173/#/admin`)*
-* **Kompilasi Siap Hosting:**
+  - URL Pengunjung: `http://localhost:5173/`
+  - URL Dashboard Admin: `http://localhost:5173/#/admin`
+* **Verifikasi Build Produksi:**
   ```bash
   npm run build
   ```
+  *(Status terakhir: 101 modul berhasil di-bundle, 0 error).*

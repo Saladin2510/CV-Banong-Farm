@@ -33,7 +33,7 @@
           
           <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
             <div class="flex flex-col">
-              <span class="text-xs uppercase tracking-wider text-emerald-400 font-bold font-telemetry-code">
+              <span class="text-xs uppercase tracking-wider text-secondary-container font-bold font-telemetry-code">
                 {{ product.category || 'Pakan Ternak' }}
               </span>
               <h3 class="text-xl font-bold text-white leading-snug">
@@ -45,8 +45,8 @@
               :class="[
                 'px-3 py-1 rounded-full text-xs font-semibold shadow-md shrink-0 border font-telemetry-code',
                 (product.stock > 0) 
-                  ? 'bg-emerald-950/90 text-emerald-300 border-emerald-700' 
-                  : 'bg-rose-950/90 text-rose-300 border-rose-700'
+                  ? 'bg-primary/90 text-secondary-container border-blue-400/40' 
+                  : 'bg-slate-800 text-slate-400 border-slate-700'
               ]"
             >
               Stok: {{ (product.stock || 0).toLocaleString('id-ID') }} {{ product.unit || 'kg' }}
@@ -99,7 +99,7 @@
           <!-- Total Calculation Row -->
           <div class="flex items-center justify-between px-1 text-sm">
             <span class="text-on-surface-variant dark:text-slate-400 font-medium">Subtotal ({{ quantity }} {{ product.unit || 'kg' }}):</span>
-            <span class="font-extrabold text-xl text-emerald-600 dark:text-emerald-400 font-telemetry-code">
+            <span class="font-extrabold text-xl text-primary dark:text-secondary-container font-telemetry-code">
               {{ formatPrice(product.price * quantity) }}
             </span>
           </div>
