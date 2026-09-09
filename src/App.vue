@@ -1,8 +1,19 @@
 <template>
   <div class="min-h-screen font-sans antialiased">
-    <!-- Admin Command Center View -->
+    <!-- Admin View with Supabase Auth Guard -->
     <div v-if="currentView === 'admin'">
-      <CommandCenter @switchView="switchView" />
+      <!-- If authenticated: show Command Center -->
+      <CommandCenter 
+        v-if="adminStore.isAuthenticated.value" 
+        @switchView="switchView" 
+        @logout="handleAdminLogout"
+      />
+      <!-- If not authenticated: show Supabase Auth Login Screen -->
+      <AdminLoginView 
+        v-else 
+        @loginSuccess="switchView('admin')" 
+        @switchView="switchView" 
+      />
     </div>
 
     <!-- Public Landing Page View -->
@@ -25,12 +36,43 @@
       <!-- 4. Floating AI Chatbot Mascot Widget -->
       <ChatbotMascot />
 
-      <!-- 5. Interactive Product Quantity / Detail Modal -->
+      <!-- 5. Interactive Product Checkout Modal -->
       <ProductModal 
         :isOpen="isModalOpen" 
         :product="selectedProduct" 
         @close="isModalOpen = false" 
       />
+
+      <!-- 6. Floating Cart Trigger (Visible when items are in cart) -->
+      <transition
+        enter-active-class="transition duration-300 ease-out"
+        enter-from-class="opacity-0 translate-y-4 scale-90"
+        enter-to-class="opacity-100 translate-y-0 scale-100"
+        leave-active-class="transition duration-200 ease-in"
+        leave-from-class="opacity-100 translate-y-0 scale-100"
+        leave-to-class="opacity-0 translate-y-4 scale-90"
+      >
+        <button 
+          v-if="cartStore.totalItems.value > 0"
+          @click="cartStore.openCart()"
+          class="fixed bottom-24 right-6 z-[90] flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer border border-emerald-400/40"
+          title="Buka Keranjang Belanja"
+          type="button"
+        >
+          <div class="relative flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+            <span class="absolute -top-2 -right-2 px-1.5 py-0.2 rounded-full bg-amber-400 text-slate-900 font-extrabold text-[10px] font-telemetry-code shadow-xs">
+              {{ cartStore.totalItems.value }}
+            </span>
+          </div>
+          <span class="font-bold font-telemetry-code">
+            {{ formatPrice(cartStore.totalPrice.value) }}
+          </span>
+        </button>
+      </transition>
+
+      <!-- 7. Sliding Cart Drawer & WhatsApp Checkout -->
+      <CartDrawer />
     </div>
   </div>
 </template>
@@ -43,8 +85,22 @@ import ProductGrid from './components/ProductGrid.vue'
 import FooterSection from './components/FooterSection.vue'
 import ChatbotMascot from './components/ChatbotMascot.vue'
 import ProductModal from './components/ProductModal.vue'
+import CartDrawer from './components/CartDrawer.vue'
 import CommandCenter from './components/admin/CommandCenter.vue'
+import AdminLoginView from './components/admin/AdminLoginView.vue'
+import { useAdminStore } from './stores/useAdminStore'
+import { useCartStore } from './stores/useCartStore'
 
+const adminStore = useAdminStore()
+const cartStore = useCartStore()
+
+const formatPrice = (val) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0
+  }).format(val || 0).replace('Rp', 'Rp ')
+}
 const currentView = ref('landing')
 const isModalOpen = ref(false)
 const selectedProduct = ref(null)
@@ -63,6 +119,11 @@ const switchView = (view) => {
   }
 }
 
+const handleAdminLogout = async () => {
+  await adminStore.logoutAdmin()
+  switchView('landing')
+}
+
 const checkHash = () => {
   if (window.location.hash.toLowerCase().includes('admin')) {
     currentView.value = 'admin'
@@ -71,9 +132,10 @@ const checkHash = () => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   checkHash()
   window.addEventListener('hashchange', checkHash)
+  await adminStore.checkAuthSession()
 })
 
 onUnmounted(() => {

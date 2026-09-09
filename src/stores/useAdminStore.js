@@ -9,6 +9,55 @@ const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_v2'
 const isServerDbConnected = ref(false)
 const isSupabaseConnected = ref(false)
 
+// Admin Auth State (Supabase Auth)
+const adminUser = ref(null)
+const isAuthenticated = ref(false)
+const isAuthChecking = ref(true)
+
+async function checkAuthSession() {
+  isAuthChecking.value = true
+  try {
+    const session = await supabaseApi.getAdminSession()
+    if (session?.user) {
+      adminUser.value = {
+        id: session.user.id,
+        email: session.user.email,
+        nama_lengkap: session.user.user_metadata?.nama_lengkap || session.user.email?.split('@')[0] || 'Administrator Banong',
+        peran: 'Super Admin'
+      }
+      isAuthenticated.value = true
+    } else {
+      adminUser.value = null
+      isAuthenticated.value = false
+    }
+  } catch (err) {
+    adminUser.value = null
+    isAuthenticated.value = false
+  } finally {
+    isAuthChecking.value = false
+  }
+}
+
+async function loginAdmin(email, password) {
+  const res = await supabaseApi.loginAdmin(email, password)
+  if (res.success) {
+    adminUser.value = res.profile || {
+      id: res.user.id,
+      email: res.user.email,
+      nama_lengkap: res.user.email?.split('@')[0] || 'Administrator',
+      peran: 'Super Admin'
+    }
+    isAuthenticated.value = true
+  }
+  return res
+}
+
+async function logoutAdmin() {
+  await supabaseApi.logoutAdmin()
+  adminUser.value = null
+  isAuthenticated.value = false
+}
+
 const DAY_NAMES = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab']
 
 function formatLocalDateKey(d) {
@@ -397,16 +446,16 @@ async function syncWithSupabaseDatabase() {
             if (!products.value.some(p => p.id == newP.id)) {
               products.value.unshift({
                 id: Number(newP.id),
-                name: newP.name,
-                category: newP.category_name || 'Hasil Tani',
-                price: Number(newP.price) || 0,
-                stock: Number(newP.stock) || 0,
-                maxStock: Number(newP.max_stock) || 5000,
-                unit: newP.unit || 'kg',
-                soldCount: Number(newP.sold_count) || 0,
-                icon: newP.icon || 'eco',
-                image: newP.image_url || '/assets/product-fertilizer.png',
-                description: newP.description || ''
+                name: newP.nama_produk || newP.name || 'Produk Pakan',
+                category: newP.category_name || 'Pakan Ternak',
+                price: Number(newP.harga ?? newP.price) || 0,
+                stock: Number(newP.stok ?? newP.stock) || 0,
+                maxStock: Number(newP.stok_maksimal ?? newP.max_stock) || 5000,
+                unit: newP.satuan || newP.unit || 'kg',
+                soldCount: Number(newP.jumlah_terjual ?? newP.sold_count) || 0,
+                icon: 'eco',
+                image: newP.url_gambar || newP.image_url || '/assets/product-fertilizer.png',
+                description: newP.deskripsi || newP.description || ''
               })
               broadcastUpdate()
             }
@@ -414,10 +463,18 @@ async function syncWithSupabaseDatabase() {
             const updatedP = payload.new
             const idx = products.value.findIndex(p => p.id == updatedP.id)
             if (idx !== -1) {
-              products.value[idx].stock = Number(updatedP.stock)
-              products.value[idx].price = Number(updatedP.price)
-              products.value[idx].soldCount = Number(updatedP.sold_count)
-              if (updatedP.name) products.value[idx].name = updatedP.name
+              if (updatedP.stok !== undefined || updatedP.stock !== undefined) {
+                products.value[idx].stock = Number(updatedP.stok ?? updatedP.stock)
+              }
+              if (updatedP.harga !== undefined || updatedP.price !== undefined) {
+                products.value[idx].price = Number(updatedP.harga ?? updatedP.price)
+              }
+              if (updatedP.jumlah_terjual !== undefined || updatedP.sold_count !== undefined) {
+                products.value[idx].soldCount = Number(updatedP.jumlah_terjual ?? updatedP.sold_count)
+              }
+              if (updatedP.nama_produk || updatedP.name) {
+                products.value[idx].name = updatedP.nama_produk || updatedP.name
+              }
               broadcastUpdate()
             }
           } else if (payload.eventType === 'DELETE') {
@@ -433,16 +490,16 @@ async function syncWithSupabaseDatabase() {
         (payload) => {
           if (payload.eventType === 'INSERT') {
             const newO = payload.new
-            const orderCode = newO.order_code || `#WA-${newO.id}`
+            const orderCode = newO.kode_pesanan || newO.order_code || `#WA-${newO.id}`
             if (!whatsappOrders.value.some(o => o.id === orderCode)) {
               whatsappOrders.value.unshift({
                 id: orderCode,
-                customer: newO.customer_name || 'Mitra Pembeli WhatsApp',
+                customer: newO.nama_pelanggan || newO.customer_name || 'Pelanggan CV Banong',
                 productId: 1,
-                productName: 'Komoditas Segar',
+                productName: 'Pakan Ternak',
                 qty: 1,
-                totalPrice: Number(newO.total_amount) || 0,
-                status: newO.status || 'Stok Terupdate Otomatis',
+                totalPrice: Number(newO.total_harga ?? newO.total_amount) || 0,
+                status: newO.status || 'Menunggu Konfirmasi',
                 timeAgo: 'Baru saja (Real-time Cloud)',
                 timestamp: Date.now()
               })
@@ -631,15 +688,200 @@ function addWhatsAppOrder({ customer, productId, qty }) {
   return { success: true, order: newOrder }
 }
 
-// Customer Order From Landing Page
-function createCustomerOrder({ productId, qty, customerName, note }) {
-  const result = addWhatsAppOrder({
-    customer: customerName || 'Pelanggan Web CV Banong',
-    productId,
-    qty: Number(qty) || 1
-  })
+// Customer Order From Landing Page (Status Awal: Menunggu Konfirmasi, Stok Belum Terpotong)
+async function createCustomerOrder({ productId, qty, customerName, phone, address, note }) {
+  const prod = products.value.find(p => p.id === productId)
+  if (!prod) return { success: false, message: 'Produk tidak ditemukan' }
 
-  return result
+  const buyQty = Number(qty) || 1
+  const totalPrice = buyQty * prod.price
+  const orderCode = `BNG-${Date.now().toString().slice(-4)}`
+
+  const newOrder = {
+    id: orderCode,
+    customer: customerName || 'Pelanggan Web CV Banong',
+    phone: phone || '',
+    address: address || '',
+    productId: prod.id,
+    productName: prod.name,
+    qty: buyQty,
+    totalPrice,
+    status: 'Menunggu Konfirmasi',
+    timeAgo: 'Baru saja (Web)',
+    timestamp: Date.now()
+  }
+
+  whatsappOrders.value.unshift(newOrder)
+
+  const toastData = {
+    id: Date.now(),
+    orderId: newOrder.id,
+    customer: newOrder.customer,
+    productName: prod.name,
+    qty: buyQty,
+    remainingStock: prod.stock,
+    isPending: true
+  }
+
+  lastSyncToast.value = toastData
+  broadcastUpdate(toastData)
+
+  setTimeout(() => {
+    if (lastSyncToast.value?.id === toastData.id) {
+      lastSyncToast.value = null
+    }
+  }, 5000)
+
+  // Sync to Supabase Cloud (Tabel pesanan & detail_pesanan)
+  if (isSupabaseConnected.value) {
+    supabaseApi.insertOrder({
+      orderCode: newOrder.id,
+      customer: newOrder.customer,
+      phone: newOrder.phone,
+      address: newOrder.address,
+      productId: prod.id,
+      productName: prod.name,
+      qty: buyQty,
+      totalPrice,
+      autoDeduct: false
+    }).catch(e => console.warn('Supabase sync error for order:', e))
+  }
+
+  return { success: true, orderCode, order: newOrder }
+}
+
+// Customer Order From Shopping Cart (Multiple items)
+async function createCustomerOrderFromCart({ customerName, phone, address, items, totalPrice }) {
+  if (!Array.isArray(items) || items.length === 0) return { success: false, message: 'Keranjang belanja masih kosong.' }
+
+  const orderCode = `BNG-${Date.now().toString().slice(-4)}`
+  const totalAmount = Number(totalPrice) || items.reduce((sum, it) => sum + (it.price * it.qty), 0)
+  const totalQty = items.reduce((sum, it) => sum + (it.qty || 1), 0)
+  const productSummary = items.map(it => `${it.qty}x ${it.title || it.name}`).join(', ')
+
+  const newOrder = {
+    id: orderCode,
+    customer: customerName || 'Pelanggan Keranjang Web',
+    phone: phone || '08999192861',
+    address: address || '',
+    productId: items[0].id,
+    productName: productSummary,
+    items: items,
+    qty: totalQty,
+    totalPrice: totalAmount,
+    status: 'Menunggu Konfirmasi',
+    timeAgo: 'Baru saja (Keranjang)',
+    timestamp: Date.now()
+  }
+
+  whatsappOrders.value.unshift(newOrder)
+
+  const toastData = {
+    id: Date.now(),
+    orderId: newOrder.id,
+    customer: newOrder.customer,
+    productName: productSummary,
+    qty: totalQty,
+    remainingStock: 0,
+    isPending: true
+  }
+
+  lastSyncToast.value = toastData
+  broadcastUpdate(toastData)
+
+  setTimeout(() => {
+    if (lastSyncToast.value?.id === toastData.id) {
+      lastSyncToast.value = null
+    }
+  }, 5000)
+
+  // Sync to Supabase Cloud (Header pesanan & semua items di detail_pesanan)
+  if (isSupabaseConnected.value) {
+    supabaseApi.insertOrder({
+      orderCode: newOrder.id,
+      customer: newOrder.customer,
+      phone: newOrder.phone,
+      address: newOrder.address,
+      items: items,
+      productId: items[0].id,
+      productName: productSummary,
+      qty: totalQty,
+      totalPrice: totalAmount,
+      autoDeduct: false
+    }).catch(e => console.warn('Supabase sync error for cart order:', e))
+  }
+
+  return { success: true, orderCode, order: newOrder }
+}
+
+// Admin Validation Operations: 'complete' (Deal/Selesai) atau 'cancel' (Batal)
+async function validateOrder({ orderId, action }) {
+  const orderIndex = whatsappOrders.value.findIndex(o => o.id === orderId)
+  if (orderIndex === -1) return { success: false, message: 'Tiket pesanan tidak ditemukan' }
+
+  const targetOrder = whatsappOrders.value[orderIndex]
+
+  if (action === 'complete') {
+    // 1. Potong stok produk di memori
+    const prod = products.value.find(p => p.id === targetOrder.productId)
+    if (prod) {
+      prod.stock = Math.max(0, prod.stock - targetOrder.qty)
+      prod.soldCount = (prod.soldCount || 0) + targetOrder.qty
+    }
+
+    // 2. Ubah status pesanan menjadi Selesai
+    targetOrder.status = 'Selesai'
+
+    // 3. Update metrik harian di memori
+    const todayKey = formatLocalDateKey(new Date())
+    const currentTodayVal = Number(dailyChartMap.value[todayKey]) || 225
+    dailyChartMap.value[todayKey] = currentTodayVal + targetOrder.qty
+
+    // 4. Sinkronkan aksi ke Supabase Cloud (RPC atau update transaksional)
+    if (isSupabaseConnected.value) {
+      supabaseApi.completeOrder(orderId).catch(e => console.warn('Supabase completeOrder error:', e))
+    }
+
+    const toastData = {
+      id: Date.now(),
+      orderId: targetOrder.id,
+      customer: targetOrder.customer,
+      productName: targetOrder.productName,
+      qty: targetOrder.qty,
+      remainingStock: prod?.stock || 0,
+      isCompleted: true
+    }
+
+    lastSyncToast.value = toastData
+    broadcastUpdate(toastData)
+
+    return { 
+      success: true, 
+      message: `Pesanan ${orderId} berhasil divalidasi (Selesai). Stok terpotong ${targetOrder.qty} ${prod?.unit || 'kg'} & tercatat di Laporan Keuangan.` 
+    }
+  } else if (action === 'cancel') {
+    // Ubah status pesanan menjadi Dibatalkan tanpa potong stok
+    targetOrder.status = 'Dibatalkan'
+
+    if (isSupabaseConnected.value) {
+      supabaseApi.cancelOrder(orderId).catch(e => console.warn('Supabase cancelOrder error:', e))
+    }
+
+    const toastData = {
+      id: Date.now(),
+      orderId: targetOrder.id,
+      customer: targetOrder.customer,
+      isCancelled: true
+    }
+
+    lastSyncToast.value = toastData
+    broadcastUpdate(toastData)
+
+    return { 
+      success: true, 
+      message: `Pesanan ${orderId} telah dibatalkan. Stok produk tidak berkurang.` 
+    }
+  }
 }
 
 // Simulation Helper
@@ -660,12 +902,14 @@ function simulateIncomingOrder() {
   const targetProduct = pool[Math.floor(Math.random() * pool.length)]
   const buyer = mockBuyers[Math.floor(Math.random() * mockBuyers.length)]
   
-  const qty = (Math.floor(Math.random() * 8) + 2) * (targetProduct.unit === 'ekor' || targetProduct.unit === 'tray' ? 5 : 25)
+  const qty = (Math.floor(Math.random() * 4) + 1) * (targetProduct.unit === 'drum' || targetProduct.unit === 'karung 50kg' ? 2 : 10)
 
-  return addWhatsAppOrder({
-    customer: buyer,
+  return createCustomerOrder({
     productId: targetProduct.id,
-    qty
+    qty,
+    customerName: buyer,
+    phone: '0812' + Math.floor(10000000 + Math.random() * 90000000),
+    address: 'Kawasan Agribisnis ' + (buyer.split('(')[1]?.replace(')', '') || 'Banyumas')
   })
 }
 
@@ -796,8 +1040,19 @@ export function useAdminStore() {
     dailyChartMap,
     dynamic7DaysInfo,
     getDynamicLast7Days,
+    // Admin Auth
+    adminUser,
+    isAuthenticated,
+    isAuthChecking,
+    checkAuthSession,
+    loginAdmin,
+    logoutAdmin,
+
+    // Order Operations
     addWhatsAppOrder,
     createCustomerOrder,
+    createCustomerOrderFromCart,
+    validateOrder,
     simulateIncomingOrder,
     addProduct,
     updateProduct,

@@ -76,7 +76,7 @@
             </li>
             <li>
               <a 
-                href="https://wa.me/6281234567890" 
+                href="https://wa.me/628999192861" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="hover:text-surface-pure transition-colors flex items-center gap-2"
@@ -98,8 +98,8 @@
               <span class="material-symbols-outlined text-secondary-container text-[20px] mt-0.5">call</span>
               <div>
                 <div class="font-semibold text-surface-pure">WhatsApp Hotline</div>
-                <a href="https://wa.me/6281234567890" target="_blank" class="hover:underline text-secondary-fixed">
-                  +62 812-3456-7890
+                <a href="https://wa.me/628999192861" target="_blank" class="hover:underline text-secondary-fixed">
+                  +62 899-9192-861
                 </a>
               </div>
             </div>

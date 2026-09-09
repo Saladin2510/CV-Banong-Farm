@@ -102,25 +102,41 @@
 
       <div class="h-6 w-px bg-white/15"></div>
 
-      <!-- Admin Profile -->
-      <div class="flex items-center gap-3 pl-1">
+      <!-- Admin Profile & Supabase Auth Info -->
+      <div class="flex items-center gap-2.5 pl-1">
         <div class="text-right hidden sm:flex flex-col leading-tight">
-          <span class="text-sm text-white font-bold">Admin Unit 01</span>
-          <span class="font-telemetry-code text-[11px] text-white/60">OP-ID #8821</span>
+          <span class="text-xs text-white font-bold truncate max-w-[140px]">
+            {{ adminStore.adminUser.value?.nama_lengkap || 'Admin CV Banong' }}
+          </span>
+          <span class="font-telemetry-code text-[10px] text-emerald-400 font-semibold truncate max-w-[140px]">
+            {{ adminStore.adminUser.value?.email || 'admin@banongfarms.com' }}
+          </span>
         </div>
         <img 
-          alt="Direktur Operasional CV Banong Farms" 
-          class="w-9 h-9 rounded-full object-cover ring-1 ring-white/20 shadow-md" 
+          alt="Avatar Admin CV Banong Farms" 
+          class="w-9 h-9 rounded-full object-cover ring-2 ring-emerald-500/40 shadow-md" 
           src="/assets/admin-avatar.png"
           onerror="this.src='/assets/logo.png'"
         />
       </div>
 
+      <!-- Logout Button (Supabase Auth) -->
+      <button
+        @click="handleLogout"
+        class="ml-1 px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer"
+        title="Keluar dari Sesi Admin (Logout)"
+        type="button"
+      >
+        <span class="material-symbols-outlined text-[16px]">logout</span>
+        <span class="hidden md:inline">Keluar</span>
+      </button>
+
       <!-- Direct Exit to Public Website -->
       <button
         @click="$emit('switchView', 'landing')"
-        class="ml-1 p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+        class="p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
         title="Buka Halaman Utama Publik"
+        type="button"
       >
         <span class="material-symbols-outlined text-[20px]">open_in_new</span>
       </button>
@@ -132,12 +148,17 @@
 import { ref, onMounted } from 'vue'
 import { useAdminStore } from '../../stores/useAdminStore'
 
-defineEmits(['switchView', 'search', 'openAiSettings'])
+const emit = defineEmits(['switchView', 'search', 'openAiSettings', 'logout'])
 
 const adminStore = useAdminStore()
 const searchQuery = ref('')
 const showNotifications = ref(false)
 const isDark = ref(false)
+
+const handleLogout = async () => {
+  await adminStore.logoutAdmin()
+  emit('switchView', 'landing')
+}
 
 onMounted(() => {
   isDark.value = document.documentElement.classList.contains('dark')

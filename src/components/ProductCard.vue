@@ -43,21 +43,22 @@
       </div>
 
       <div class="mt-space-20 pt-space-12 border-t border-surface-container-high dark:border-slate-700">
-        <a 
-          :href="getWhatsAppLink(product)" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="w-full inline-flex items-center justify-center gap-space-8 py-3 px-space-16 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-label-md text-label-md font-bold transition-all duration-200 shadow-sm hover:shadow-md active:scale-98 tracking-wide"
+        <button 
+          @click.stop="handleAddToCart(product)"
+          type="button"
+          class="w-full inline-flex items-center justify-center gap-2 py-3 px-space-16 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-label-md text-label-md font-bold transition-all duration-200 shadow-sm hover:shadow-md active:scale-98 tracking-wide cursor-pointer"
         >
-          <span class="material-symbols-outlined text-[19px]">chat</span>
-          <span>Pesan via WA</span>
-        </a>
+          <span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+          <span>Tambah ke Keranjang</span>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useCartStore } from '../stores/useCartStore'
+
 const props = defineProps({
   product: {
     type: Object,
@@ -67,6 +68,8 @@ const props = defineProps({
 
 defineEmits(['select'])
 
+const cartStore = useCartStore()
+
 const formatPrice = (value) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -75,8 +78,8 @@ const formatPrice = (value) => {
   }).format(value).replace('Rp', 'Rp ')
 }
 
-const getWhatsAppLink = (product) => {
-  const message = encodeURIComponent(`Halo CV Banong Farms, saya ingin memesan ${product.title} (${formatPrice(product.price)} / ${product.unit}). Apakah produk ini masih tersedia?`)
-  return `https://wa.me/6281234567890?text=${message}`
+const handleAddToCart = (product) => {
+  cartStore.addToCart(product, 1)
+  cartStore.openCart()
 }
 </script>

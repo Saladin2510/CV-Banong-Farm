@@ -9,96 +9,110 @@
   >
     <div 
       v-if="isOpen && product" 
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
       @click.self="close"
     >
-      <div class="relative w-full max-w-lg bg-surface-pure dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border dark:border-slate-800 transition-colors">
+      <div class="relative w-full max-w-lg bg-surface-pure dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-surface-container-high dark:border-slate-800 transition-colors">
         <!-- Close Button -->
         <button 
           @click="close"
-          class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition-colors"
+          class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Tutup"
         >
           <span class="material-symbols-outlined text-[20px]">close</span>
         </button>
 
         <!-- Product Image Header -->
-        <div class="relative w-full h-56 bg-surface-container-low dark:bg-slate-950 overflow-hidden">
+        <div class="relative w-full h-56 bg-surface-container-low dark:bg-slate-950 overflow-hidden shrink-0">
           <img 
             :src="product.image" 
-            :alt="product.title" 
+            :alt="product.title || product.name" 
             class="w-full h-full object-cover"
           />
-          <div 
-            :class="[
-              'absolute bottom-3 left-3 px-3 py-1 rounded-full font-label-sm text-label-sm font-semibold shadow-md border',
-              product.inStock 
-                ? 'bg-white/90 dark:bg-slate-900/90 text-primary dark:text-white border-primary/20 dark:border-slate-600' 
-                : 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-200 dark:border-amber-700'
-            ]"
-          >
-            {{ product.stockBadge }}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          
+          <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs uppercase tracking-wider text-emerald-400 font-bold font-telemetry-code">
+                {{ product.category || 'Pakan Ternak' }}
+              </span>
+              <h3 class="text-xl font-bold text-white leading-snug">
+                {{ product.title || product.name }}
+              </h3>
+            </div>
+
+            <span 
+              :class="[
+                'px-3 py-1 rounded-full text-xs font-semibold shadow-md shrink-0 border font-telemetry-code',
+                (product.stock > 0) 
+                  ? 'bg-emerald-950/90 text-emerald-300 border-emerald-700' 
+                  : 'bg-rose-950/90 text-rose-300 border-rose-700'
+              ]"
+            >
+              Stok: {{ (product.stock || 0).toLocaleString('id-ID') }} {{ product.unit || 'kg' }}
+            </span>
           </div>
         </div>
 
-        <!-- Details Content -->
-        <div class="p-6 flex flex-col overflow-y-auto">
-          <div class="text-on-surface-variant dark:text-slate-400 font-label-sm text-label-sm uppercase tracking-wide">
-            {{ product.category }}
-          </div>
-          <h3 class="font-headline-lg text-headline-lg text-primary dark:text-white font-bold mt-1">
-            {{ product.title }}
-          </h3>
-          <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-2">
-            {{ product.description }}
+        <!-- Product Details & Add to Cart -->
+        <div class="p-6 flex flex-col gap-4">
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            {{ product.description || 'Komoditas dan pakan ternak berkualitas tinggi diproduksi dengan standar higienis dan nutrisi teruji dari CV Banong Farms Ajibarang.' }}
           </p>
 
-          <div class="mt-4 p-4 rounded-xl bg-surface-subtle dark:bg-slate-800/80 flex items-center justify-between border border-surface-container-high dark:border-slate-700">
+          <!-- Quantity Controls & Price Summary -->
+          <div class="p-4 rounded-xl bg-surface-subtle dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 flex items-center justify-between">
             <div>
-              <div class="text-xs text-on-surface-variant dark:text-slate-400">Harga Satuan:</div>
-              <div class="font-headline-md text-headline-md text-primary dark:text-secondary-container font-bold">
-                {{ formatPrice(product.price) }} / {{ product.unit }}
+              <div class="text-[11px] text-on-surface-variant dark:text-slate-400">Harga Satuan:</div>
+              <div class="font-bold text-base text-primary dark:text-white font-telemetry-code">
+                {{ formatPrice(product.price) }} / {{ product.unit || 'kg' }}
               </div>
             </div>
 
-            <!-- Quantity Controls -->
-            <div class="flex items-center gap-3 bg-surface-pure dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-surface-container-high dark:border-slate-700">
+            <!-- Quantity Stepper -->
+            <div class="flex items-center gap-2 bg-surface-pure dark:bg-slate-900 px-3 py-1 rounded-lg border border-surface-container-high dark:border-slate-700">
               <button 
+                type="button"
                 @click="quantity > 1 ? quantity-- : null"
-                class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container dark:hover:bg-slate-700 text-primary dark:text-white font-bold flex items-center justify-center transition-colors disabled:opacity-40"
+                class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container text-primary dark:text-white font-bold flex items-center justify-center transition-colors disabled:opacity-40 cursor-pointer"
                 :disabled="quantity <= 1"
               >
                 -
               </button>
-              <span class="font-semibold text-primary dark:text-white w-6 text-center">{{ quantity }}</span>
+              <input 
+                v-model.number="quantity" 
+                type="number" 
+                min="1" 
+                :max="product.stock || 9999"
+                class="w-12 text-center font-bold text-sm bg-transparent text-primary dark:text-white focus:outline-none font-telemetry-code"
+              />
               <button 
-                @click="quantity++"
-                class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container dark:hover:bg-slate-700 text-primary dark:text-white font-bold flex items-center justify-center transition-colors"
+                type="button"
+                @click="quantity < (product.stock || 9999) ? quantity++ : null"
+                class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container text-primary dark:text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
               >
                 +
               </button>
             </div>
           </div>
 
-          <!-- Total Calculation -->
-          <div class="mt-4 flex items-center justify-between text-sm">
-            <span class="text-on-surface-variant dark:text-slate-400 font-medium">Estimasi Total:</span>
-            <span class="font-headline-md text-headline-md text-primary dark:text-secondary-container font-extrabold">
+          <!-- Total Calculation Row -->
+          <div class="flex items-center justify-between px-1 text-sm">
+            <span class="text-on-surface-variant dark:text-slate-400 font-medium">Subtotal ({{ quantity }} {{ product.unit || 'kg' }}):</span>
+            <span class="font-extrabold text-xl text-emerald-600 dark:text-emerald-400 font-telemetry-code">
               {{ formatPrice(product.price * quantity) }}
             </span>
           </div>
 
-          <!-- WhatsApp Order Button (60-30-10 Accent Conversion) -->
-          <a 
-            :href="whatsappOrderUrl" 
-            @click="handleOrderSubmit"
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="mt-6 w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-label-lg text-label-lg font-bold shadow-md hover:shadow-lg transition-all active:scale-98 tracking-wide"
+          <!-- Action Button: Tambah ke Keranjang -->
+          <button 
+            type="button"
+            @click="handleAddToCart"
+            class="mt-2 w-full h-12 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-98 tracking-wide"
           >
-            <span class="material-symbols-outlined text-[22px]">chat</span>
-            <span>Pesan {{ quantity }} {{ product.unit }} via WhatsApp</span>
-          </a>
+            <span class="material-symbols-outlined text-[22px]">add_shopping_cart</span>
+            <span>+ Tambah ke Keranjang</span>
+          </button>
         </div>
       </div>
     </div>
@@ -106,8 +120,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useAdminStore } from '../stores/useAdminStore'
+import { ref, watch } from 'vue'
+import { useCartStore } from '../stores/useCartStore'
 
 const props = defineProps({
   isOpen: Boolean,
@@ -116,7 +130,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const adminStore = useAdminStore()
+const cartStore = useCartStore()
 const quantity = ref(1)
 
 watch(() => props.product, () => {
@@ -124,16 +138,6 @@ watch(() => props.product, () => {
 })
 
 const close = () => {
-  emit('close')
-}
-
-const handleOrderSubmit = () => {
-  if (!props.product) return
-  adminStore.createCustomerOrder({
-    productId: props.product.id,
-    qty: quantity.value,
-    customerName: 'Pelanggan Web (Landing Page)'
-  })
   emit('close')
 }
 
@@ -146,12 +150,10 @@ const formatPrice = (value) => {
   }).format(value).replace('Rp', 'Rp ')
 }
 
-const whatsappOrderUrl = computed(() => {
-  if (!props.product) return '#'
-  const total = formatPrice(props.product.price * quantity.value)
-  const text = encodeURIComponent(
-    `Halo CV Banong Farms,\n\nSaya ingin memesan:\n- Produk: ${props.product.title || props.product.name}\n- Jumlah: ${quantity.value} ${props.product.unit}\n- Total: ${total}\n\nMohon informasi ketersediaan dan proses pengiriman ke Ajibarang/sekitarnya. Terima kasih!`
-  )
-  return `https://wa.me/6281234567890?text=${text}`
-})
+const handleAddToCart = () => {
+  if (!props.product) return
+  cartStore.addToCart(props.product, quantity.value)
+  emit('close')
+  cartStore.openCart()
+}
 </script>

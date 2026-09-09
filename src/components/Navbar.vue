@@ -72,8 +72,28 @@
           </span>
         </button>
 
+        <!-- Shopping Cart Trigger Button -->
+        <button
+          @click="cartStore.openCart()"
+          class="relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all duration-300 font-bold text-xs shadow-xs active:scale-95 cursor-pointer"
+          :class="isWhiteNav 
+            ? 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-300' 
+            : 'bg-emerald-950/80 text-emerald-300 hover:bg-emerald-900 border border-emerald-700'"
+          title="Buka Keranjang Belanja"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+          <span>Keranjang</span>
+          <span 
+            v-if="cartStore.totalItems.value > 0"
+            class="ml-0.5 px-1.5 py-0.2 rounded-full bg-cc-orange text-white text-[10px] font-telemetry-code font-extrabold"
+          >
+            {{ cartStore.totalItems.value }}
+          </span>
+        </button>
+
         <a 
-          href="https://wa.me/6281234567890?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20bertanya%20mengenai%20produk%20dan%20layanan" 
+          href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20bertanya%20mengenai%20produk%20dan%20layanan" 
           target="_blank" 
           rel="noopener noreferrer"
           class="inline-flex items-center justify-center px-space-20 py-space-8 rounded-full bg-secondary-container text-primary hover:bg-accent-hover active:scale-95 transition-all font-label-md text-label-md font-bold shadow-md"
@@ -82,8 +102,27 @@
         </a>
       </div>
 
-      <!-- Mobile Right Controls (Toggle + Hamburger) -->
+      <!-- Mobile Right Controls (Toggle + Cart + Hamburger) -->
       <div class="md:hidden flex items-center gap-2">
+        <!-- Mobile Cart Button -->
+        <button
+          @click="cartStore.openCart()"
+          class="relative p-2 rounded-lg transition-colors cursor-pointer"
+          :class="isWhiteNav 
+            ? 'bg-emerald-50 text-emerald-800 border border-emerald-300' 
+            : 'bg-emerald-950/80 text-emerald-300 border border-emerald-700'"
+          title="Keranjang"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+          <span 
+            v-if="cartStore.totalItems.value > 0"
+            class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-cc-orange text-white text-[9px] font-bold flex items-center justify-center font-telemetry-code"
+          >
+            {{ cartStore.totalItems.value }}
+          </span>
+        </button>
+
         <button
           @click="toggleTheme"
           :aria-label="isDark ? 'Mode Terang' : 'Mode Gelap'"
@@ -152,11 +191,11 @@
             :class="isWhiteNav ? 'border-slate-200' : 'border-white/15 dark:border-slate-800'"
           >
             <a 
-              href="https://wa.me/6281234567890?text=Halo%20CV%20Banong%20Farms" 
+              href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms" 
               target="_blank" 
               class="w-full text-center py-3 rounded-full bg-secondary-container text-primary font-bold shadow-md hover:bg-accent-hover"
             >
-              Hubungi Kami via WA
+              Hubungi Kami via WA (08999192861)
             </a>
           </div>
         </div>
@@ -167,8 +206,11 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useCartStore } from '../stores/useCartStore'
 
 defineEmits(['openAdmin'])
+
+const cartStore = useCartStore()
 
 const activeNav = ref('katalog')
 const isMobileMenuOpen = ref(false)
