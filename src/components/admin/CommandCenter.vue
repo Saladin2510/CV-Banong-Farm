@@ -23,63 +23,58 @@
         <div class="max-w-[1400px] mx-auto p-6 md:p-8 flex flex-col gap-6">
           
           <!-- Dynamic Page Header & Tactical Actions -->
-          <header class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 pb-3 border-b border-cc-outline dark:border-slate-800">
-            <div class="flex flex-col gap-1">
-              <div class="flex items-center gap-2">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-telemetry-code text-[11px] uppercase font-bold">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-ping"></span>
+          <header class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-white text-xs font-bold">
+                  <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
                   {{ currentHeaderInfo.badge }}
                 </span>
                 <span 
-                  class="font-telemetry-code text-[11px] px-2.5 py-0.5 rounded-full flex items-center gap-1 font-semibold"
-                  :class="adminStore.isSupabaseConnected.value ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' : 'bg-slate-100 dark:bg-slate-800 text-[#797067] dark:text-slate-400'"
+                  class="text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                 >
-                  <span v-if="adminStore.isSupabaseConnected.value" class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>DATABASE: {{ adminStore.isSupabaseConnected.value ? 'SUPABASE CLOUD (ONLINE 24/7)' : adminStore.isServerDbConnected.value ? 'SERVER REST API' : 'LOKAL PERSISTEN' }}</span>
-                </span>
-                <span class="text-[#797067] dark:text-slate-400 font-telemetry-code text-[11px] hidden sm:inline">
-                  • 7 HARI TERAKHIR DINAMIS
+                  <span v-if="adminStore.isSupabaseConnected.value" class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+                  <span>Database: {{ adminStore.isSupabaseConnected.value ? 'Supabase Cloud (Online)' : 'Lokal Persisten' }}</span>
                 </span>
               </div>
 
-              <h1 class="text-2xl sm:text-3xl text-[#1b1c1a] dark:text-white font-extrabold uppercase tracking-tight mt-1 leading-snug">
+              <h1 class="text-2xl sm:text-3xl text-primary dark:text-white font-extrabold tracking-tight mt-1 leading-snug">
                 {{ currentHeaderInfo.title }}
               </h1>
-              <p class="text-xs sm:text-sm text-[#594136] dark:text-slate-400">
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                 {{ currentHeaderInfo.subtitle }}
               </p>
             </div>
 
-            <!-- Quick Ops Tactical Buttons -->
+            <!-- Action Buttons (Strict 60:30:10 Colors) -->
             <div class="flex flex-wrap items-center gap-2.5">
-              <!-- Prominent CREATE Product Button (visible across tabs) -->
+              <!-- Prominent CREATE Product Button (Golden Yellow 10% Accent) -->
               <button 
                 @click="openAddProductModal"
-                class="h-10 px-4 rounded-lg font-bold text-xs shadow-md transition-all flex items-center gap-2 active:scale-95 cursor-pointer text-white"
-                style="background-color: #fe6e00; color: #ffffff;"
+                class="h-10 px-4 rounded-xl font-bold text-xs shadow-xs hover:shadow-md transition-all flex items-center gap-2 active:scale-95 cursor-pointer bg-secondary-container text-primary hover:bg-accent-hover"
                 type="button"
-                title="Tambah Komoditas Baru ke Inventaris (CREATE)"
+                title="Tambah Komoditas Baru ke Inventaris"
               >
-                <span class="material-symbols-outlined text-[18px]">add_box</span>
-                <span>+ Tambah Komoditas (Create)</span>
+                <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                <span>+ Tambah Komoditas</span>
               </button>
 
               <button 
                 @click="triggerManualSync"
-                class="h-10 px-4 rounded-lg bg-white dark:bg-[#161b22] text-[#1b1c1a] dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium text-xs shadow-sm transition-all flex items-center gap-2 border border-cc-outline dark:border-slate-700 active:scale-95 cursor-pointer" 
+                class="h-10 px-4 rounded-xl bg-white dark:bg-[#1E3A5F] text-primary dark:text-white hover:bg-slate-50 dark:hover:bg-[#132A4A] font-semibold text-xs shadow-xs transition-all flex items-center gap-2 border border-slate-200 dark:border-white/15 active:scale-95 cursor-pointer" 
                 type="button"
               >
                 <span class="material-symbols-outlined text-[18px]" :class="{ 'animate-spin': isSyncing }">sync</span>
-                <span>{{ isSyncing ? 'Menyinkronkan...' : 'Sinkronisasi Manual' }}</span>
+                <span>{{ isSyncing ? 'Menyinkronkan...' : 'Sinkronisasi' }}</span>
               </button>
 
               <button 
                 @click="exportTelemetry"
-                class="h-10 px-4 rounded-lg bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-semibold text-xs shadow-sm transition-all flex items-center gap-2 active:scale-95 cursor-pointer" 
+                class="h-10 px-4 rounded-xl bg-primary hover:bg-primary-container text-white font-semibold text-xs shadow-xs transition-all flex items-center gap-2 active:scale-95 cursor-pointer" 
                 type="button"
               >
                 <span class="material-symbols-outlined text-[18px]">file_download</span>
-                <span>Ekspor Telemetri</span>
+                <span>Ekspor Data</span>
               </button>
             </div>
           </header>
@@ -93,70 +88,70 @@
 
             <!-- Executive Quick Summary Grid (2 Columns) -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-              <!-- Left: AI Analytics Trend Preview -->
-              <div class="lg:col-span-7 bg-white dark:bg-[#161b22] rounded-xl p-5 border border-cc-outline dark:border-slate-800 shadow-sm flex flex-col justify-between transition-colors">
+              <!-- Left: Sales & Demand Trend Preview -->
+              <div class="lg:col-span-7 bg-white dark:bg-[#0E1726] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between transition-colors">
                 <div>
                   <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <div class="flex items-center gap-2">
-                      <span class="material-symbols-outlined text-cc-orange text-[20px]">insights</span>
-                      <h3 class="text-base font-bold text-[#1b1c1a] dark:text-white uppercase tracking-tight">
-                        Ringkasan Tren Permintaan AI (7 Hari)
+                    <div class="flex items-center gap-2.5">
+                      <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[22px]">insights</span>
+                      <h3 class="text-base font-bold text-primary dark:text-white tracking-tight">
+                        Ringkasan Tren Permintaan Panen
                       </h3>
                     </div>
-                    <span class="px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-950 text-cc-orange-strong font-telemetry-code text-[11px] font-bold">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-primary dark:text-secondary-container text-xs font-bold">
                       HARI INI: {{ todayLabel }}
                     </span>
                   </div>
 
-                  <p class="text-xs text-[#797067] dark:text-slate-400 mt-3 leading-relaxed">
-                    Aliran kurva permintaan produk sinkron secara otomatis terhadap pesanan WhatsApp yang masuk dan volume panen harian dari Kluster Banong-Barat.
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                    Aliran kurva permintaan produk sinkron secara otomatis terhadap pesanan WhatsApp yang masuk dan volume panen harian peternakan Ajibarang.
                   </p>
 
-                  <!-- Quick Telemetry Highlight Node -->
-                  <div class="mt-4 p-3.5 rounded-lg bg-[#fbf9f6] dark:bg-[#0d1117] border border-orange-200 dark:border-orange-900/40 flex items-center justify-between">
+                  <!-- Quick Highlight Card -->
+                  <div class="mt-4 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between">
                     <div class="flex items-center gap-2.5">
-                      <span class="w-2.5 h-2.5 rounded-full bg-cc-orange animate-ping"></span>
+                      <span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
                       <div class="flex flex-col">
-                        <span class="text-xs font-bold text-[#1b1c1a] dark:text-white font-telemetry-code">
+                        <span class="text-xs font-bold text-primary dark:text-white">
                           {{ adminStore.dynamic7DaysInfo.value.peakInfo.amount }}
                         </span>
-                        <span class="text-[11px] text-[#797067] dark:text-slate-400">
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">
                           {{ adminStore.dynamic7DaysInfo.value.peakInfo.val }}
                         </span>
                       </div>
                     </div>
-                    <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 font-telemetry-code">
-                      Korelasi 0,984
+                    <span class="text-xs font-semibold text-primary dark:text-secondary-container">
+                      Puncak Permintaan
                     </span>
                   </div>
                 </div>
 
                 <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span class="text-xs text-[#797067] dark:text-slate-400">
-                    Kurva spline 7 hari &amp; proyeksi AI (+19,4%)
+                  <span class="text-xs text-slate-500 dark:text-slate-400">
+                    Grafik 7 hari &amp; proyeksi serapan pasar
                   </span>
                   <button 
                     @click="currentTab = 'analytics'"
-                    class="h-8 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 text-cc-orange-strong font-bold text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                    class="h-8 px-3.5 rounded-lg bg-primary/10 hover:bg-primary/20 dark:bg-white/10 dark:hover:bg-white/20 text-primary dark:text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
                     type="button"
                   >
-                    <span>Buka Grafik Analitik Penuh</span>
+                    <span>Lihat Analitik Penuh</span>
                     <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                   </button>
                 </div>
               </div>
 
               <!-- Right: Recent WhatsApp Orders Preview -->
-              <div class="lg:col-span-5 bg-white dark:bg-[#161b22] rounded-xl p-5 border border-cc-outline dark:border-slate-800 shadow-sm flex flex-col justify-between transition-colors">
+              <div class="lg:col-span-5 bg-white dark:bg-[#0E1726] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between transition-colors">
                 <div>
                   <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
                     <div class="flex items-center gap-2">
-                      <span class="material-symbols-outlined text-emerald-600 text-[20px]">chat</span>
-                      <h3 class="text-base font-bold text-[#1b1c1a] dark:text-white uppercase tracking-tight">
+                      <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[22px]">chat</span>
+                      <h3 class="text-base font-bold text-primary dark:text-white tracking-tight">
                         Pesanan WA Terkini
                       </h3>
                     </div>
-                    <span class="font-telemetry-code text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2 py-0.5 rounded font-bold">
+                    <span class="text-xs text-primary font-bold bg-secondary-container px-2.5 py-0.5 rounded-full">
                       {{ (adminStore.whatsappOrders.value || []).length }} Total
                     </span>
                   </div>
@@ -165,33 +160,24 @@
                     <div 
                       v-for="order in (adminStore.whatsappOrders.value || []).slice(0, 3)" 
                       :key="order.id"
-                      class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#0d1117] border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs"
+                      class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between text-xs"
                     >
                       <div class="flex flex-col min-w-0 pr-2">
-                        <span class="font-semibold text-slate-900 dark:text-white truncate">{{ order.customer || 'Pelanggan WhatsApp' }}</span>
+                        <span class="font-bold text-primary dark:text-white truncate">{{ order.customer || 'Pelanggan WhatsApp' }}</span>
                         <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty || 0 }} kg {{ order.productName || 'Komoditas Unggulan' }}</span>
                       </div>
                       <div class="flex flex-col items-end shrink-0">
-                        <span class="font-bold text-slate-900 dark:text-white font-telemetry-code">Rp {{ (order.totalPrice || 0).toLocaleString('id-ID') }}</span>
-                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-telemetry-code">{{ order.id }}</span>
+                        <span class="font-bold text-primary dark:text-white">Rp {{ (order.totalPrice || 0).toLocaleString('id-ID') }}</span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400">{{ order.id }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="pt-4 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <button 
-                    @click="adminStore.simulateIncomingOrder()"
-                    class="h-8 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-telemetry-code text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
-                    type="button"
-                    title="Simulasi Pesanan Baru Masuk"
-                  >
-                    <span class="material-symbols-outlined text-[16px]">add</span>
-                    <span>+ Order WA</span>
-                  </button>
+                <div class="pt-4 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end">
                   <button 
                     @click="currentTab = 'orders'"
-                    class="h-8 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                    class="h-8 px-3.5 rounded-lg bg-primary/10 hover:bg-primary/20 dark:bg-white/10 dark:hover:bg-white/20 text-primary dark:text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
                     type="button"
                   >
                     <span>Lihat Semua Pesanan</span>
@@ -201,17 +187,17 @@
               </div>
             </div>
 
-            <!-- Quick Catalog & Low Stock Alert Strip -->
-            <div class="bg-white dark:bg-[#161b22] rounded-xl p-5 border border-cc-outline dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors">
+            <!-- Quick Catalog Alert Strip -->
+            <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950 text-cc-orange flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-[22px]">inventory</span>
+                <div class="w-11 h-11 rounded-xl bg-secondary-container/20 text-primary dark:text-secondary-container flex items-center justify-center shrink-0 border border-secondary-container/30">
+                  <span class="material-symbols-outlined text-[24px]">inventory</span>
                 </div>
                 <div>
-                  <h4 class="text-sm font-bold text-[#1b1c1a] dark:text-white">
+                  <h4 class="text-sm font-bold text-primary dark:text-white">
                     Total {{ adminStore.products.value.length }} Komoditas Aktif di Gudang
                   </h4>
-                  <p class="text-xs text-[#797067] dark:text-slate-400">
+                  <p class="text-xs text-slate-600 dark:text-slate-400">
                     Komoditas serapan tertinggi: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} kg terjual)
                   </p>
                 </div>
@@ -219,10 +205,10 @@
 
               <button 
                 @click="currentTab = 'products'"
-                class="h-9 px-4 rounded-lg bg-[#1b1c1a] dark:bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto"
+                class="h-9 px-4 rounded-xl bg-primary hover:bg-primary-container text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-xs"
                 type="button"
               >
-                <span>Buka Manajemen Produk CRUD</span>
+                <span>Kelola Produk</span>
                 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
               </button>
             </div>
@@ -363,34 +349,34 @@ const currentHeaderInfo = computed(() => {
   switch (currentTab.value) {
     case 'products':
       return {
-        badge: 'KATALOG & CRUD KOMODITAS',
+        badge: 'KATALOG PRODUK PANEN',
         title: 'Manajemen Komoditas & Inventaris Gudang',
-        subtitle: 'Kelola stok fisik, harga per satuan, dan katalog 7 kategori komoditas pertanian & peternakan'
+        subtitle: 'Kelola stok fisik, harga per satuan, dan katalog komoditas peternakan CV Banong Farms'
       }
     case 'orders':
       return {
-        badge: 'SALURAN TIKET WHATSAPP // REAL-TIME',
-        title: 'Pusat Pengelolaan Pesanan WhatsApp & Distribusi',
-        subtitle: 'Pantau aliran pesanan masuk dari mitra restoran, grosir, dan konsumen terverifikasi'
+        badge: 'PESANAN MASUK // LIVE',
+        title: 'Manajemen Pesanan WhatsApp',
+        subtitle: 'Validasi pesanan masuk dan otomatisasi pemotongan stok fisik gudang'
       }
     case 'analytics':
       return {
-        badge: 'ANALITIK PREDIKTIF // AI ENGINE',
-        title: 'Prediksi Tren Permintaan & Rekomendasi Pemasaran',
-        subtitle: 'Kurva kontinuitas spline dinamis 7 hari terakhir, estimasi puncak serapan pasar, dan insight AI'
+        badge: 'ANALITIK PENJUALAN',
+        title: 'Tren Permintaan & Analitik Usaha',
+        subtitle: 'Grafik kurva penjualan dan ringkasan komoditas panen harian Ajibarang'
       }
     case 'database':
       return {
-        badge: 'STRUKTUR DATA TERNORMALISASI (3NF)',
+        badge: 'SKEMA DATABASE',
         title: 'Arsitektur Relasi Database (ERD) & Skema Tabel',
-        subtitle: 'Peta relasi 7 tabel, skema kolom, dan penjelajah data persisten LocalStorage'
+        subtitle: 'Peta relasi tabel database Supabase Cloud dan sinkronisasi data'
       }
     case 'overview':
     default:
       return {
-        badge: 'NODE KOMANDO 04 // REAL-TIME PERSISTEN',
-        title: 'Pusat Komando Operasional',
-        subtitle: 'Kluster Banong-Barat • Matriks Penyaluran Prediktif & Agribisnis Terintegrasi'
+        badge: 'OPERASIONAL FARM // AKTIF',
+        title: 'Dashboard Operasional Farm',
+        subtitle: 'Ringkasan inventaris produk panen, pesanan WhatsApp masuk, dan analitik usaha'
       }
   }
 })

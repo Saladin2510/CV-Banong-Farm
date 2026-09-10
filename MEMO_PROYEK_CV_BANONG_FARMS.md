@@ -86,6 +86,21 @@ Sesuai arahan mutlak proyek ini, seluruh UI/UX landing page wajib tunduk pada **
 - **Judul Raksasa Terkunci 1 Baris Utuh:** Teks judul **`CV BANONG FARMS`** berukuran masif (**`text-4xl sm:text-5xl md:text-7xl lg:text-[86px] xl:text-[112px] 2xl:text-[136px] font-black`**) dengan kelas **`whitespace-nowrap leading-none`** dan efek retro 3D extrusion text shadow berlapis kuning emas `#fcd400` di atas navy `#132A4A`.
 - **Bilah Paling Bawah Bersih:** Tombol *"Cari Produk"* dan tag wilayah *"Ajibarang, ID"* telah dihapus, menyisakan teks hak cipta serta tautan *Kebijakan Privasi* dan *Syarat & Ketentuan* yang tenang dan simetris.
 
+### G. Pembersihan Total & Redesain Admin Dashboard (Strict 60:30:10)
+- **Penghapusan Tab Atas yang Mengganggu:**
+  - Search bar telemetri (*"Cari telemetri, komoditas..."*) dan badge *SISTEM ONLINE - KLUSTER PANEN 04* telah **dihapus total**.
+  - Tombol oranye *AI Token (1M)* dan tombol hijau simulasi *+ Order WA* telah dibuang dari header.
+  - Sisi kiri kini bersih dengan breadcrumb bisnis profesional: `CV Banong Farms / Pusat Operasional Farm`.
+- **Penerapan Ketat 3 Warna (60 : 30 : 10):**
+  - **60% Putih/Netral (`#FFFFFF`, `#F8FAFC`):** Kartu metrik, kontainer tabel CRUD, dan latar area kerja.
+  - **30% Biru Navy (`#022448`):** Seluruh background Sidebar, active item state (`bg-[#1E3A5F] text-white border-l-4 border-secondary-container`), heading judul, dan tombol sekunder.
+  - **10% Kuning Emas (`#FCD400`):** Tombol aksi utama (*"+ Tambah Komoditas"*, *"+ Tambah Produk Baru"*, *"Validasi Selesai (Deal)"*), dan badge counter.
+  - **Pemusnahan Warna Oranye/Ungu/Neon:** Warna oranye (`#fe6e00`), ungu, dan hijau/merah neon yang membuat dashboard ramai telah dibuang total.
+- **Pembersihan Jargon Fiksi & Metrik Nyata:**
+  - Menghapus fiksi ilmiah (*Node Komando 04, Neural-V4, Korelasi 0,984*).
+  - Mengganti kartu metrik fiktif AI dengan metrik bisnis asli: **Komoditas Aktif** (siap di katalog publik).
+  - Menyelaraskan daftar komoditas ke produk asli Banong (*Telur, Unggas, Daging Organik, Ikan Nila, Kasgot*).
+
 ---
 
 ## 4. Alur Bisnis & Integrasi Database (Sudah Aktif)

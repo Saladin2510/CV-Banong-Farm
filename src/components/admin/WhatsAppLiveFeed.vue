@@ -127,11 +127,11 @@
         <!-- Top Row: Order Code & Status -->
         <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
           <div class="flex items-center gap-2">
-            <span class="font-telemetry-code text-sm text-cc-orange-strong font-extrabold tracking-tight">
+            <span class="text-sm text-primary dark:text-secondary-container font-extrabold tracking-tight">
               {{ order.id }}
             </span>
             <span class="text-slate-400 text-xs">•</span>
-            <span class="text-xs text-[#797067] dark:text-slate-400 font-telemetry-code">
+            <span class="text-xs text-slate-500 dark:text-slate-400">
               {{ order.timeAgo || 'Baru saja' }}
             </span>
           </div>
@@ -243,7 +243,7 @@
             <button 
               @click="handleValidate(order.id, 'complete')"
               type="button"
-              class="h-8 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+              class="h-8 px-4 rounded-xl bg-secondary-container text-primary hover:bg-accent-hover active:scale-95 font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer"
               title="Validasi berhasil (Deal): Potong stok produk & catat ke Laporan Keuangan"
             >
               <span class="material-symbols-outlined text-[16px]">check_circle</span>

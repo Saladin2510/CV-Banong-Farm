@@ -1,124 +1,124 @@
 <template>
-  <section aria-label="Metrik Utama Operasional" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  <section aria-label="Metrik Utama Operasional" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
     
     <!-- Card 1: Pesanan WA Masuk -->
-    <div class="bg-white dark:bg-[#161b22] rounded-xl p-5 shadow-sm flex flex-col justify-between border border-cc-outline dark:border-slate-800 hover:border-cc-orange/50 transition-all">
+    <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 shadow-xs hover:shadow-md flex flex-col justify-between border border-slate-200/80 dark:border-slate-800 hover:border-primary/40 transition-all">
       <div class="flex items-start justify-between gap-2">
         <div class="flex flex-col">
-          <span class="font-telemetry-code text-xs text-[#797067] dark:text-slate-400 uppercase font-semibold">
+          <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
             Pesanan WA Masuk
           </span>
-          <span class="text-3xl text-[#1b1c1a] dark:text-white tracking-tight mt-1 font-extrabold">
+          <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
             {{ adminStore.totalOrdersCount.value.toLocaleString('id-ID') }}
           </span>
         </div>
-        <div class="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-950/60 flex items-center justify-center text-cc-orange shrink-0">
-          <span class="material-symbols-outlined text-[22px]">chat</span>
+        <div class="w-11 h-11 rounded-xl bg-secondary-container/20 flex items-center justify-center text-primary dark:text-secondary-container shrink-0 border border-secondary-container/30">
+          <span class="material-symbols-outlined text-[24px]">chat</span>
         </div>
       </div>
       
-      <div class="mt-4 pt-2 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-semibold">
+      <div class="mt-4 pt-3 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-1.5">
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-primary font-bold text-xs">
             +12,4%
           </span>
-          <span class="text-xs text-[#797067] dark:text-slate-400">vs siklus lalu</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Pertumbuhan pesanan</span>
         </div>
-        <span class="font-telemetry-code text-[11px] text-cc-orange-strong font-semibold leading-tight pt-0.5">
-          WA LANGSUNG: 88,4% TERARAHKAN OTOMATIS
+        <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium pt-0.5">
+          Terhubung langsung ke WhatsApp Admin
         </span>
       </div>
     </div>
 
-    <!-- Card 2: Update Stok Real-time -->
-    <div class="bg-white dark:bg-[#161b22] rounded-xl p-5 shadow-sm flex flex-col justify-between border border-cc-outline dark:border-slate-800 hover:border-cc-orange/50 transition-all">
+    <!-- Card 2: Total Stok Panen -->
+    <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 shadow-xs hover:shadow-md flex flex-col justify-between border border-slate-200/80 dark:border-slate-800 hover:border-primary/40 transition-all">
       <div class="flex items-start justify-between gap-2">
         <div class="flex flex-col">
-          <span class="font-telemetry-code text-xs text-[#797067] dark:text-slate-400 uppercase font-semibold">
-            Update Stok Real-time
+          <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
+            Total Stok Panen
           </span>
-          <span class="text-3xl text-[#1b1c1a] dark:text-white tracking-tight mt-1 font-extrabold">
-            {{ adminStore.totalStockTon.value }} <span class="text-base font-normal text-[#797067] dark:text-slate-400">Ton</span>
+          <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
+            {{ adminStore.totalStockTon.value }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Ton</span>
           </span>
         </div>
-        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-700 dark:text-emerald-400 shrink-0">
-          <span class="material-symbols-outlined text-[22px]">inventory_2</span>
+        <div class="w-11 h-11 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center text-primary dark:text-white shrink-0 border border-primary/20">
+          <span class="material-symbols-outlined text-[24px]">inventory_2</span>
         </div>
       </div>
 
-      <div class="mt-4 pt-2 flex flex-col gap-1.5 border-t border-slate-100 dark:border-slate-800">
+      <div class="mt-4 pt-3 flex flex-col gap-1.5 border-t border-slate-100 dark:border-slate-800">
         <div class="flex justify-between items-center text-xs">
-          <span class="text-[#797067] dark:text-slate-400">Kapasitas Gudang Dingin</span>
-          <span class="font-telemetry-code text-[#1b1c1a] dark:text-white font-bold">
+          <span class="text-slate-500 dark:text-slate-400">Kapasitas Gudang Terisi</span>
+          <span class="text-primary dark:text-white font-bold">
             {{ adminStore.totalCapacityPercent.value }}%
           </span>
         </div>
         <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
           <div 
-            class="bg-cc-orange h-full rounded-full transition-all duration-500" 
+            class="bg-secondary-container h-full rounded-full transition-all duration-500" 
             :style="{ width: `${adminStore.totalCapacityPercent.value}%` }"
           ></div>
         </div>
-        <span class="text-[11px] text-[#797067] dark:text-slate-400 truncate">
-          Buah Naga • Cabai Rawit • Kopi Robusta
+        <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+          Telur • Unggas • Daging • Ikan • Kasgot
         </span>
       </div>
     </div>
 
     <!-- Card 3: Total Pendapatan -->
-    <div class="bg-white dark:bg-[#161b22] rounded-xl p-5 shadow-sm flex flex-col justify-between border border-cc-outline dark:border-slate-800 hover:border-cc-orange/50 transition-all">
+    <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 shadow-xs hover:shadow-md flex flex-col justify-between border border-slate-200/80 dark:border-slate-800 hover:border-primary/40 transition-all">
       <div class="flex items-start justify-between gap-2">
         <div class="flex flex-col">
-          <span class="font-telemetry-code text-xs text-[#797067] dark:text-slate-400 uppercase font-semibold">
+          <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
             Total Pendapatan
           </span>
-          <span class="text-3xl text-[#1b1c1a] dark:text-white tracking-tight mt-1 font-extrabold">
-            Rp {{ adminStore.totalRevenueJuta.value }} <span class="text-base font-normal text-[#797067] dark:text-slate-400">Juta</span>
+          <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
+            Rp {{ adminStore.totalRevenueJuta.value }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Juta</span>
           </span>
         </div>
-        <div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[#1b1c1a] dark:text-slate-200 shrink-0">
-          <span class="material-symbols-outlined text-[22px]">payments</span>
+        <div class="w-11 h-11 rounded-xl bg-secondary-container/20 flex items-center justify-center text-primary dark:text-secondary-container shrink-0 border border-secondary-container/30">
+          <span class="material-symbols-outlined text-[24px]">payments</span>
         </div>
       </div>
 
-      <div class="mt-4 pt-2 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
+      <div class="mt-4 pt-3 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-semibold">
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-primary font-bold text-xs">
             +18,2%
           </span>
-          <span class="text-xs text-[#797067] dark:text-slate-400">target berjalan</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Target berjalan</span>
         </div>
-        <span class="font-telemetry-code text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold truncate pt-0.5">
-          TERKUMPUL: 92% OPTIMAL
+        <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate pt-0.5">
+          Akumulasi transaksi komoditas panen
         </span>
       </div>
     </div>
 
-    <!-- Card 4: Skor Pemasaran AI -->
-    <div class="bg-white dark:bg-[#161b22] rounded-xl p-5 shadow-sm flex flex-col justify-between border border-cc-outline dark:border-slate-800 hover:border-cc-orange/50 transition-all">
+    <!-- Card 4: Komoditas Aktif (Real Metric - No Fake AI Neural) -->
+    <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 shadow-xs hover:shadow-md flex flex-col justify-between border border-slate-200/80 dark:border-slate-800 hover:border-primary/40 transition-all">
       <div class="flex items-start justify-between gap-2">
         <div class="flex flex-col">
-          <span class="font-telemetry-code text-xs text-[#797067] dark:text-slate-400 uppercase font-semibold">
-            Skor Pemasaran AI
+          <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
+            Komoditas Aktif
           </span>
-          <span class="text-3xl text-[#1b1c1a] dark:text-white tracking-tight mt-1 font-extrabold">
-            94,8 <span class="text-base font-normal text-[#797067] dark:text-slate-400">/ 100</span>
+          <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
+            {{ adminStore.products.value.length }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Produk</span>
           </span>
         </div>
-        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-950/60 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-          <span class="material-symbols-outlined text-[22px]">auto_graph</span>
+        <div class="w-11 h-11 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center text-primary dark:text-white shrink-0 border border-primary/20">
+          <span class="material-symbols-outlined text-[24px]">inventory</span>
         </div>
       </div>
 
-      <div class="mt-4 pt-2 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
+      <div class="mt-4 pt-3 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
         <div class="flex items-center justify-between gap-1">
-          <span class="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 font-telemetry-code text-[10px] uppercase font-bold leading-tight">
-            NEURAL-V4 OPTIMAL
+          <span class="px-2 py-0.5 rounded-full bg-primary/10 dark:bg-white/15 text-primary dark:text-white text-xs font-bold leading-tight">
+            Katalog Publik Siap
           </span>
-          <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+          <span class="w-2 h-2 rounded-full bg-secondary-container shrink-0"></span>
         </div>
-        <span class="font-telemetry-code text-[11px] text-cc-orange-strong font-semibold leading-tight pt-0.5 truncate">
-          LONJAKAN PERMINTAAN TINGGI (Panen #8)
+        <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight pt-0.5 truncate">
+          Tersedia &amp; terhubung form pemesanan
         </span>
       </div>
     </div>
@@ -131,3 +131,4 @@ import { useAdminStore } from '../../stores/useAdminStore'
 
 const adminStore = useAdminStore()
 </script>
+
