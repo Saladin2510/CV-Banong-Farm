@@ -2,10 +2,10 @@ import { ref, computed } from 'vue'
 import { apiService } from '../services/apiService'
 import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 
-const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v8'
-const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v8'
-const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v8'
-const SUPABASE_RESET_KEY = 'cv_banong_reset_zero_synced_v8'
+const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
+const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
+const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v9'
+const SUPABASE_RESET_KEY = 'cv_banong_reset_zero_synced_v9'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
@@ -16,9 +16,29 @@ if (typeof window !== 'undefined' && window.localStorage) {
       'cv_banong_farms_products_v4', 'cv_banong_farms_orders_v4', 'cv_banong_farms_daily_chart_v4',
       'cv_banong_farms_products_clean_v5', 'cv_banong_farms_orders_clean_v5', 'cv_banong_farms_daily_chart_clean_v5',
       'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6',
-      'cv_banong_farms_products_pcs_v7', 'cv_banong_farms_orders_pcs_v7', 'cv_banong_farms_daily_chart_pcs_v7'
+      'cv_banong_farms_products_pcs_v7', 'cv_banong_farms_orders_pcs_v7', 'cv_banong_farms_daily_chart_pcs_v7',
+      'cv_banong_farms_products_pure_v8', 'cv_banong_farms_orders_pure_v8', 'cv_banong_farms_daily_chart_pure_v8',
+      'cv_banong_reset_zero_synced_v8'
     ].forEach(k => localStorage.removeItem(k))
   } catch (_) {}
+}
+
+// Filter komprehensif untuk membuang semua sisa produk fiktif / mock
+export function isMockProduct(p) {
+  if (!p) return true
+  const name = (p.name || p.nama_produk || p.title || '').toLowerCase()
+  return (
+    name.includes('madura') ||
+    name.includes('sangkuriang') ||
+    name.includes('ayam organik utuh') ||
+    name.includes('omega-3') ||
+    name.includes('karkas') ||
+    name.includes('gurame') ||
+    name.includes('kasgot super') ||
+    name.includes('cabai rawit') ||
+    name.includes('buah naga') ||
+    name.includes('robusta')
+  )
 }
 
 const isServerDbConnected = ref(false)
@@ -114,7 +134,9 @@ function loadInitialProducts() {
     const raw = localStorage.getItem(STORAGE_PRODUCTS_KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.filter(p => !isMockProduct(p))
+      }
     }
   } catch (e) {}
   return []
@@ -201,6 +223,9 @@ function broadcastUpdate(toastData = null) {
 
 // Sinkronisasi dengan Database Server Nyata (/api/)
 async function syncWithServerDatabase() {
+  // Jika Supabase sudah dikonfigurasi, gunakan Supabase murni sebagai sumber utama
+  if (isSupabaseConfigured()) return
+
   try {
     const conn = await apiService.checkConnection()
     if (conn.connected) {
@@ -209,16 +234,13 @@ async function syncWithServerDatabase() {
         apiService.getProducts().catch(() => null),
         apiService.getOrders().catch(() => null)
       ])
-      // Jika Supabase tidak aktif, gunakan data server lokal /api/
-      if (!isSupabaseConnected.value) {
-        if (Array.isArray(serverProds)) {
-          products.value = serverProds.filter(p => !p.name?.toLowerCase().includes('madura'))
-        }
-        if (Array.isArray(serverOrders)) {
-          whatsappOrders.value = serverOrders
-        }
-        broadcastUpdate()
+      if (Array.isArray(serverProds)) {
+        products.value = serverProds.filter(p => !isMockProduct(p))
       }
+      if (Array.isArray(serverOrders)) {
+        whatsappOrders.value = serverOrders
+      }
+      broadcastUpdate()
     } else {
       isServerDbConnected.value = false
     }
@@ -262,7 +284,7 @@ async function syncWithSupabaseDatabase() {
     ])
 
     if (Array.isArray(cloudProds)) {
-      products.value = cloudProds.filter(p => !p.name?.toLowerCase().includes('madura'))
+      products.value = cloudProds.filter(p => !isMockProduct(p))
     }
     if (Array.isArray(cloudOrders)) {
       whatsappOrders.value = cloudOrders
@@ -276,6 +298,7 @@ async function syncWithSupabaseDatabase() {
         (payload) => {
           if (payload.eventType === 'INSERT') {
             const newP = payload.new
+            if (isMockProduct(newP)) return
             if (!products.value.some(p => p.id == newP.id)) {
               products.value.unshift({
                 id: Number(newP.id),
@@ -351,8 +374,11 @@ async function syncWithSupabaseDatabase() {
 }
 
 if (typeof window !== 'undefined') {
-  syncWithSupabaseDatabase()
-  syncWithServerDatabase()
+  if (isSupabaseConfigured()) {
+    syncWithSupabaseDatabase()
+  } else {
+    syncWithServerDatabase()
+  }
 }
 
 // Computed Metrics (Pure Satuan Pcs)

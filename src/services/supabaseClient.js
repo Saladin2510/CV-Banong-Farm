@@ -163,11 +163,14 @@ export const supabaseApi = {
         await client.from('orders').delete().neq('id', 0)
       } catch (_) {}
 
-      // 2. Hapus produk bernama "telur bebek asli madura" atau yang mengandung kata "madura"
-      try {
-        await client.from('produk').delete().ilike('nama_produk', '%madura%')
-        await client.from('products').delete().ilike('name', '%madura%')
-      } catch (_) {}
+      // 2. Hapus semua produk mock lama (Madura, Sangkuriang, Karkas, Gurame, Cabai, Naga, dsb.)
+      const mockKeywords = ['madura', 'sangkuriang', 'karkas', 'gurame', 'kasgot super', 'cabai', 'naga', 'robusta']
+      for (const kw of mockKeywords) {
+        try {
+          await client.from('produk').delete().ilike('nama_produk', `%${kw}%`)
+          await client.from('products').delete().ilike('name', `%${kw}%`)
+        } catch (_) {}
+      }
 
       // 3. Set seluruh stok produk dan jumlah_terjual ke 0 pcs
       try {

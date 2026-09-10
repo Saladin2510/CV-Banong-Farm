@@ -175,7 +175,7 @@ const products = computed(() => {
     inStock: (Number(p.stock) || 0) > 0,
     stockBadge: (Number(p.stock) || 0) === 0 
       ? 'Stok Habis' 
-      : ((Number(p.stock) || 0) <= 50 ? `Sisa ${p.stock} ${p.unit || 'kg'}` : 'Tersedia')
+      : ((Number(p.stock) || 0) <= 50 ? `Sisa ${p.stock} ${p.unit || 'pcs'}` : 'Tersedia')
   }))
 })
 

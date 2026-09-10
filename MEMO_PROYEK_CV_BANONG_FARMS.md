@@ -185,11 +185,9 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 
 ---
 
-## 8. Catatan Sesi Terakhir (Default Nol Murni & Eliminasi Flash Data Fiktif)
-1. **Eliminasi Flash 1 Frame 10 Produk:** `DEFAULT_PRODUCTS = []` dan `loadInitialProducts()` sekarang mengembalikan `[]`. Komponen `ProductGrid.vue` dan `CommandCenter.vue` tidak lagi mengalami flash 1 frame data tiruan saat halaman di-refresh.
-2. **Default Nol Otomatis (0 Pesanan, 0 Pcs Stok, Rp 0 Pendapatan):**
-   - Basis data `database/local_db.json` dikosongkan pesanan (`orders: []`), grafik nol, dan seluruh stok produk diset ke 0 pcs.
-   - Produk *"Telur Bebek asli madura"* telah dihapus permanen.
-   - Ditambahkan `resetOperationalDataToZero()` di `src/services/supabaseClient.js` untuk membersihkan tiket pesanan, menghapus produk yang mengandung kata *"madura"*, dan mengatur stok seluruh komoditas ke 0 pcs di Supabase Cloud.
-3. **Pembersihan UI Header Admin:** Tombol *"Reset ke Nol (0)"* dan fungsi `confirmResetZero` telah dihapus sepenuhnya dari `CommandCenter.vue` karena sistem sudah berstatus default nol secara otomatis.
-4. **Validasi & Integritas Data:** Build produksi `npm run build` sukses 100% dan endpoint API `/api/products` serta `/api/orders` tervalidasi bersih.
+## 8. Catatan Sesi Terakhir (Default Nol Murni & Eliminasi Total 9 Produk Fiktif)
+1. **Eliminasi Total 9 Produk Fiktif:** 9 produk tiruan lama (*Lele Sangkuriang, Ayam Organik Utuh, Omega-3, Bebek Karkas, Gurame, Kasgot Super, Cabai Rawit, Buah Naga, Kopi Robusta*) telah dihapus permanen dari `database/local_db.json`. Basis data lokal kini murni berisi 4 komoditas riil farm (*Konsentrat Bebek, Pelet Lele LP-2, Silase Pakan, Pupuk Kasgot Biokonversi*) dengan stok awal 0 pcs.
+2. **Multi-Layer Guard `isMockProduct()`:** Ditambahkan fungsi penyaring `isMockProduct()` di `useAdminStore.js` yang menyaring produk fiktif pada initial load, localStorage, fetch server, fetch Supabase Cloud, dan WebSocket realtime.
+3. **Single Source of Truth:** Jika Supabase Cloud aktif (`isSupabaseConfigured()`), sinkronisasi lokal server dimatikan agar tidak terjadi perlombaan (race condition) yang menyebabkan flash 1 frame.
+4. **Pembersihan Cache LocalStorage:** Cache dinaikkan ke versi `v9` (`cv_banong_farms_products_pure_v9`), membersihkan total seluruh residu data dari `v8`, `v7`, hingga versi lama lainnya.
+5. **Verifikasi Build & API:** `npm run build` sukses 100% (6.07s) dan `/api/products` mengembalikan murni 4 komoditas riil.
