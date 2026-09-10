@@ -38,8 +38,22 @@
         </button>
       </div>
 
+      <!-- Empty / Syncing State -->
+      <div v-if="filteredProducts.length === 0" class="py-16 text-center flex flex-col items-center justify-center animate-fade-in">
+        <div class="w-16 h-16 rounded-full bg-surface-container-low dark:bg-slate-800 flex items-center justify-center text-primary dark:text-secondary-container mb-4 shadow-xs">
+          <span class="material-symbols-outlined text-[32px]">inventory_2</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm text-primary dark:text-white font-bold mb-1">
+          Belum Ada Komoditas Tersedia
+        </h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 max-w-sm">
+          Semua data disinkronkan langsung dari database. Produk panen baru akan segera tampil di sini.
+        </p>
+      </div>
+
       <!-- 4-Column Product Grid (Max 8 products per page view) -->
       <transition-group
+        v-else
         tag="div"
         name="product-grid"
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-9"

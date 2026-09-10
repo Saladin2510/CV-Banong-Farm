@@ -2,9 +2,10 @@ import { ref, computed } from 'vue'
 import { apiService } from '../services/apiService'
 import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 
-const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pcs_v7'
-const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pcs_v7'
-const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pcs_v7'
+const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v8'
+const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v8'
+const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v8'
+const SUPABASE_RESET_KEY = 'cv_banong_reset_zero_synced_v8'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
@@ -14,7 +15,8 @@ if (typeof window !== 'undefined' && window.localStorage) {
       'cv_banong_farms_products_v3', 'cv_banong_farms_orders_v3', 'cv_banong_farms_daily_chart_v3',
       'cv_banong_farms_products_v4', 'cv_banong_farms_orders_v4', 'cv_banong_farms_daily_chart_v4',
       'cv_banong_farms_products_clean_v5', 'cv_banong_farms_orders_clean_v5', 'cv_banong_farms_daily_chart_clean_v5',
-      'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6'
+      'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6',
+      'cv_banong_farms_products_pcs_v7', 'cv_banong_farms_orders_pcs_v7', 'cv_banong_farms_daily_chart_pcs_v7'
     ].forEach(k => localStorage.removeItem(k))
   } catch (_) {}
 }
@@ -100,159 +102,8 @@ export function getDynamicLast7Days() {
   return days
 }
 
-// Master Commodities (All Stock & Sales Start from Zero in PCS Units)
-const DEFAULT_PRODUCTS = [
-  {
-    id: 1,
-    name: 'Telur Bebek Bio-Organik',
-    title: 'Telur Bebek Bio-Organik',
-    category: 'Peternakan Unggas',
-    categoryId: 'unggas',
-    stock: 0,
-    maxStock: 2500,
-    price: 38000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'egg',
-    image: '/assets/product-eggs.png',
-    description: 'Telur bebek organik dari peternakan sistem angon alami di Ajibarang. Kuning telur jingga cerah alami, kaya gizi dan bebas antibiotika sintetis.'
-  },
-  {
-    id: 2,
-    name: 'Ikan Lele Sangkuriang Segar',
-    title: 'Ikan Lele Sangkuriang Segar',
-    category: 'Perikanan Air Deras',
-    categoryId: 'ikan',
-    stock: 0,
-    maxStock: 5000,
-    price: 26000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'set_meal',
-    image: '/assets/product-fish.png',
-    description: 'Lele Sangkuriang dibudidayakan di kolam air deras mengalir. Daging padat, gurih, dan tidak berbau lumpur.'
-  },
-  {
-    id: 3,
-    name: 'Ayam Organik Utuh Segar',
-    title: 'Ayam Organik Utuh Segar',
-    category: 'Daging Segar',
-    categoryId: 'daging',
-    stock: 0,
-    maxStock: 2000,
-    price: 48000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'nutrition',
-    image: '/assets/product-chicken.png',
-    description: 'Ayam karkas organik utuh yang dibesarkan dengan pakan alami tanpa hormon pertumbuhan. Daging tebal, empuk, dan segar.'
-  },
-  {
-    id: 4,
-    name: 'Telur Ayam Omega-3 Gold',
-    title: 'Telur Ayam Omega-3 Gold',
-    category: 'Peternakan Unggas',
-    categoryId: 'unggas',
-    stock: 0,
-    maxStock: 6000,
-    price: 42000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'egg',
-    image: '/assets/product-eggs.png',
-    description: 'Telur ayam ras dengan nutrisi Omega-3 tinggi dari pakan alami biji rami dan rumput laut.'
-  },
-  {
-    id: 5,
-    name: 'Daging Bebek Karkas Organik',
-    title: 'Daging Bebek Karkas Organik',
-    category: 'Daging Segar',
-    categoryId: 'daging',
-    stock: 0,
-    maxStock: 1200,
-    price: 62000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'nutrition',
-    image: '/assets/product-duck.png',
-    description: 'Daging bebek potong segar harian dari peternakan Ajibarang. Gurih dan rendah kolesterol.'
-  },
-  {
-    id: 6,
-    name: 'Fillet Ikan Gurame Segar',
-    title: 'Fillet Ikan Gurame Segar',
-    category: 'Perikanan Air Deras',
-    categoryId: 'ikan',
-    stock: 0,
-    maxStock: 1500,
-    price: 48000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'set_meal',
-    image: '/assets/product-gurame.png',
-    description: 'Fillet ikan gurame segar tanpa duri dari kolam air deras Ajibarang. Higienis dan dikemas vakum.'
-  },
-  {
-    id: 7,
-    name: 'Pupuk Kasgot Super Organik',
-    title: 'Pupuk Kasgot Super Organik',
-    category: 'Produk Organik',
-    categoryId: 'organik',
-    stock: 0,
-    maxStock: 8000,
-    price: 25000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'eco',
-    image: '/assets/product-fertilizer.png',
-    description: 'Pupuk organik hayati hasil biokonversi limbah maggot BSF. Memperbaiki struktur tanah dan menyuburkan tanaman.'
-  },
-  {
-    id: 8,
-    name: 'Cabai Rawit Merah Super',
-    title: 'Cabai Rawit Merah Super',
-    category: 'Sayur & Cabai',
-    categoryId: 'organik',
-    stock: 0,
-    maxStock: 16000,
-    price: 30000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'local_fire_department',
-    image: '/assets/product-chicken.png',
-    description: 'Cabai rawit merah petik segar langsung dari kebun Ajibarang. Pedas pekat alami, bebas residu pestisida kimia.'
-  },
-  {
-    id: 9,
-    name: 'Buah Naga Merah Super',
-    title: 'Buah Naga Merah Super',
-    category: 'Buah-buahan',
-    categoryId: 'organik',
-    stock: 0,
-    maxStock: 18000,
-    price: 22000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'eco',
-    image: '/assets/product-fertilizer.png',
-    description: 'Buah naga daging merah manis alami dipanen pada kematangan optimal di perkebunan terintegrasi Banyumas.'
-  },
-  {
-    id: 10,
-    name: 'Kopi Robusta Java',
-    title: 'Kopi Robusta Java',
-    category: 'Biji Kopi',
-    categoryId: 'organik',
-    stock: 0,
-    maxStock: 24000,
-    price: 48000,
-    unit: 'pcs',
-    soldCount: 0,
-    icon: 'coffee',
-    image: '/assets/product-fertilizer.png',
-    description: 'Biji kopi Robusta petik merah dari lereng pegunungan Banyumas. Proses natural dengan aroma mantap khas rempah.'
-  }
-]
+// Data komoditas murni dari database: array awal kosong agar tidak ada flash 1 frame mock fiktif
+const DEFAULT_PRODUCTS = []
 
 // Zero Initial Orders for Pure Real Testing
 const DEFAULT_ORDERS = []
@@ -266,7 +117,7 @@ function loadInitialProducts() {
       if (Array.isArray(parsed) && parsed.length > 0) return parsed
     }
   } catch (e) {}
-  return DEFAULT_PRODUCTS
+  return []
 }
 
 function loadInitialOrders() {
@@ -358,13 +209,16 @@ async function syncWithServerDatabase() {
         apiService.getProducts().catch(() => null),
         apiService.getOrders().catch(() => null)
       ])
-      if (Array.isArray(serverProds) && serverProds.length > 0) {
-        products.value = serverProds
+      // Jika Supabase tidak aktif, gunakan data server lokal /api/
+      if (!isSupabaseConnected.value) {
+        if (Array.isArray(serverProds)) {
+          products.value = serverProds.filter(p => !p.name?.toLowerCase().includes('madura'))
+        }
+        if (Array.isArray(serverOrders)) {
+          whatsappOrders.value = serverOrders
+        }
+        broadcastUpdate()
       }
-      if (Array.isArray(serverOrders) && serverOrders.length > 0) {
-        whatsappOrders.value = serverOrders
-      }
-      broadcastUpdate()
     } else {
       isServerDbConnected.value = false
     }
@@ -391,16 +245,26 @@ async function syncWithSupabaseDatabase() {
 
     isSupabaseConnected.value = true
 
+    // Auto-clean satu kali untuk memastikan default NOL murni & hapus data fiktif lama
+    if (typeof window !== 'undefined' && !localStorage.getItem(SUPABASE_RESET_KEY)) {
+      try {
+        await supabaseApi.resetOperationalDataToZero()
+        localStorage.setItem(SUPABASE_RESET_KEY, 'true')
+      } catch (e) {
+        console.warn('Auto reset zero Supabase warning:', e)
+      }
+    }
+
     // Tarik data awal dari Supabase Cloud
     const [cloudProds, cloudOrders] = await Promise.all([
       supabaseApi.getProducts().catch(() => null),
       supabaseApi.getOrders().catch(() => null)
     ])
 
-    if (Array.isArray(cloudProds) && cloudProds.length > 0) {
-      products.value = cloudProds
+    if (Array.isArray(cloudProds)) {
+      products.value = cloudProds.filter(p => !p.name?.toLowerCase().includes('madura'))
     }
-    if (Array.isArray(cloudOrders) && cloudOrders.length > 0) {
+    if (Array.isArray(cloudOrders)) {
       whatsappOrders.value = cloudOrders
     }
     broadcastUpdate()
@@ -1001,13 +865,18 @@ function resetAllDataToZero() {
   // 2. Hapus/kosongkan seluruh tiket pesanan
   whatsappOrders.value = []
 
-  // 3. Set grafik 7 hari ke 0 kg
+  // 3. Set grafik 7 hari ke 0 pcs
   const days = getDynamicLast7Days()
   const zeroChart = {}
   days.forEach(d => {
     zeroChart[d.isoKey] = 0
   })
   dailyChartMap.value = zeroChart
+
+  // Sync reset ke Supabase jika terhubung
+  if (isSupabaseConnected.value) {
+    supabaseApi.resetOperationalDataToZero().catch(e => console.warn('Supabase reset error:', e))
+  }
 
   // 4. Broadcast update dan simpan ke storage
   const toastData = {

@@ -45,29 +45,16 @@
   ],
   "products": [
     {
-      "id": 1,
-      "name": "Telur Bebek asli madura",
-      "category": "Peternakan Unggas",
-      "price": 38000,
-      "stock": 1250,
-      "maxStock": 2500,
-      "unit": "tray",
-      "soldCount": 480,
-      "icon": "egg",
-      "image": "/assets/product-eggs.png",
-      "description": "Telur bebek organik dari peternakan sistem angon alami di Ajibarang. Kuning telur jingga cerah alami, kaya gizi dan bebas antibiotika sintetis.",
-      "title": "Telur Bebek asli madura",
-      "categoryId": "unggas"
-    },
-    {
       "id": 2,
       "name": "Ikan Lele Sangkuriang Segar",
+      "title": "Ikan Lele Sangkuriang Segar",
       "category": "Perikanan Air Deras",
+      "categoryId": "ikan",
       "price": 26000,
-      "stock": 2400,
+      "stock": 0,
       "maxStock": 5000,
-      "unit": "kg",
-      "soldCount": 820,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "set_meal",
       "image": "/assets/product-fish.png",
       "description": "Lele Sangkuriang dibudidayakan di kolam air deras mengalir. Daging padat, gurih, dan tidak berbau lumpur."
@@ -75,12 +62,14 @@
     {
       "id": 3,
       "name": "Ayam Organik Utuh Segar",
+      "title": "Ayam Organik Utuh Segar",
       "category": "Daging Segar",
+      "categoryId": "daging",
       "price": 48000,
-      "stock": 850,
+      "stock": 0,
       "maxStock": 2000,
-      "unit": "ekor",
-      "soldCount": 650,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "nutrition",
       "image": "/assets/product-chicken.png",
       "description": "Ayam karkas organik utuh yang dibesarkan dengan pakan alami tanpa hormon pertumbuhan. Daging tebal, empuk, dan segar."
@@ -88,12 +77,14 @@
     {
       "id": 4,
       "name": "Telur Ayam Omega-3 Gold",
+      "title": "Telur Ayam Omega-3 Gold",
       "category": "Peternakan Unggas",
+      "categoryId": "unggas",
       "price": 42000,
-      "stock": 3200,
+      "stock": 0,
       "maxStock": 6000,
-      "unit": "tray",
-      "soldCount": 1450,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "egg",
       "image": "/assets/product-eggs.png",
       "description": "Telur ayam ras dengan nutrisi Omega-3 tinggi dari pakan alami biji rami dan rumput laut."
@@ -101,12 +92,14 @@
     {
       "id": 5,
       "name": "Daging Bebek Karkas Organik",
+      "title": "Daging Bebek Karkas Organik",
       "category": "Daging Segar",
+      "categoryId": "daging",
       "price": 62000,
-      "stock": 420,
+      "stock": 0,
       "maxStock": 1200,
-      "unit": "ekor",
-      "soldCount": 310,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "nutrition",
       "image": "/assets/product-duck.png",
       "description": "Daging bebek potong segar harian dari peternakan Ajibarang. Gurih dan rendah kolesterol."
@@ -114,12 +107,14 @@
     {
       "id": 6,
       "name": "Fillet Ikan Gurame Segar",
+      "title": "Fillet Ikan Gurame Segar",
       "category": "Perikanan Air Deras",
+      "categoryId": "ikan",
       "price": 48000,
-      "stock": 650,
+      "stock": 0,
       "maxStock": 1500,
-      "unit": "kg",
-      "soldCount": 420,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "set_meal",
       "image": "/assets/product-gurame.png",
       "description": "Fillet ikan gurame segar tanpa duri dari kolam air deras Ajibarang. Higienis dan dikemas vakum."
@@ -127,12 +122,14 @@
     {
       "id": 7,
       "name": "Pupuk Kasgot Super Organik",
+      "title": "Pupuk Kasgot Super Organik",
       "category": "Produk Organik",
+      "categoryId": "organik",
       "price": 25000,
-      "stock": 4750,
+      "stock": 0,
       "maxStock": 8000,
-      "unit": "karung 10kg",
-      "soldCount": 1150,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "eco",
       "image": "/assets/product-fertilizer.png",
       "description": "Pupuk organik hayati hasil biokonversi limbah maggot BSF. Memperbaiki struktur tanah dan menyuburkan tanaman."
@@ -140,12 +137,14 @@
     {
       "id": 8,
       "name": "Cabai Rawit Merah Super",
+      "title": "Cabai Rawit Merah Super",
       "category": "Sayur & Cabai",
+      "categoryId": "organik",
       "price": 30000,
-      "stock": 6800,
+      "stock": 0,
       "maxStock": 16000,
-      "unit": "kg",
-      "soldCount": 5120,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "local_fire_department",
       "image": "/assets/product-chicken.png",
       "description": "Cabai rawit merah petik segar langsung dari kebun Ajibarang. Pedas pekat alami, bebas residu pestisida kimia."
@@ -153,12 +152,14 @@
     {
       "id": 9,
       "name": "Buah Naga Merah Super",
+      "title": "Buah Naga Merah Super",
       "category": "Buah-buahan",
+      "categoryId": "organik",
       "price": 22000,
-      "stock": 14200,
+      "stock": 0,
       "maxStock": 18000,
-      "unit": "kg",
-      "soldCount": 3850,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "eco",
       "image": "/assets/product-fertilizer.png",
       "description": "Buah naga daging merah manis alami dipanen pada kematangan optimal di perkebunan terintegrasi Banyumas."
@@ -166,75 +167,19 @@
     {
       "id": 10,
       "name": "Kopi Robusta Java",
+      "title": "Kopi Robusta Java",
       "category": "Biji Kopi",
+      "categoryId": "organik",
       "price": 48000,
-      "stock": 21500,
+      "stock": 0,
       "maxStock": 24000,
-      "unit": "kg",
-      "soldCount": 2900,
+      "unit": "pcs",
+      "soldCount": 0,
       "icon": "coffee",
       "image": "/assets/product-fertilizer.png",
       "description": "Biji kopi Robusta petik merah dari lereng pegunungan Banyumas. Proses natural dengan aroma mantap khas rempah."
     }
   ],
-  "orders": [
-    {
-      "id": "#WA-8617",
-      "customer": "Catering Berkah Mandiri (Solo)",
-      "productId": 7,
-      "productName": "Pupuk Kasgot Super Organik",
-      "qty": 50,
-      "totalPrice": 1250000,
-      "timeAgo": "Baru saja",
-      "status": "Stok Terupdate Otomatis",
-      "timestamp": 1788925748617
-    },
-    {
-      "id": "#WA-8831",
-      "customer": "PT Sumber Segar Jaya (DKI Jakarta)",
-      "productId": 1,
-      "productName": "Telur Bebek Bio-Organik",
-      "qty": 120,
-      "totalPrice": 4560000,
-      "timeAgo": "Baru saja",
-      "status": "Stok Terupdate Otomatis",
-      "timestamp": 1725850000000
-    },
-    {
-      "id": "#WA-8830",
-      "customer": "CV Agro Makmur Mandiri (Bandung)",
-      "productId": 8,
-      "productName": "Cabai Rawit Merah Super",
-      "qty": 1200,
-      "totalPrice": 36000000,
-      "timeAgo": "7 mnt lalu",
-      "status": "Stok Terupdate Otomatis",
-      "timestamp": 1725849000000
-    },
-    {
-      "id": "#WA-8829",
-      "customer": "Koperasi Tani Berkah (Sukabumi)",
-      "productId": 7,
-      "productName": "Pupuk Kasgot Super Organik",
-      "qty": 400,
-      "totalPrice": 10000000,
-      "timeAgo": "14 mnt lalu",
-      "status": "Stok Terupdate Otomatis",
-      "timestamp": 1725848000000
-    },
-    {
-      "id": "#WA-8828",
-      "customer": "Resto Boga Lestari (Surabaya)",
-      "productId": 10,
-      "productName": "Kopi Robusta Java",
-      "qty": 600,
-      "totalPrice": 28800000,
-      "timeAgo": "21 mnt lalu",
-      "status": "Stok Terupdate Otomatis",
-      "timestamp": 1725847000000
-    }
-  ],
-  "dailyChartMap": {
-    "2026-09-09": 275
-  }
+  "orders": [],
+  "dailyChartMap": {}
 }

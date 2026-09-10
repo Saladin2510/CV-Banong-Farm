@@ -76,17 +76,6 @@
                 <span class="material-symbols-outlined text-[18px]">file_download</span>
                 <span>Ekspor Data</span>
               </button>
-
-              <!-- Reset Data ke Nol Button -->
-              <button 
-                @click="confirmResetZero"
-                class="h-10 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs shadow-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer border border-slate-300/80 dark:border-slate-700" 
-                type="button"
-                title="Reset SEMUA Data ke NOL (Stok 0, Pesanan Kosong, Pendapatan Rp 0) untuk Mulai Baru"
-              >
-                <span class="material-symbols-outlined text-[18px] text-slate-500">restart_alt</span>
-                <span>Reset ke Nol (0)</span>
-              </button>
             </div>
           </header>
 
@@ -466,13 +455,6 @@ const exportTelemetry = () => {
   URL.revokeObjectURL(url)
 
   showToast('File telemetri operasional berhasil diekspor!')
-}
-
-const confirmResetZero = () => {
-  if (typeof window !== 'undefined' && window.confirm('Apakah Anda yakin ingin me-reset SEMUA data operasional ke NOL (0)?\n\n- Seluruh stok produk akan di-set ke 0 pcs\n- Seluruh antrean pesanan WhatsApp akan dikosongkan\n- Total pendapatan menjadi Rp 0\n- Grafik kurva penjualan 7 hari kembali ke 0\n\nData siap digunakan untuk pengujian alur nyata dari nol.')) {
-    const res = adminStore.resetAllDataToZero()
-    showToast(res.message)
-  }
 }
 
 // Product CRUD Handlers

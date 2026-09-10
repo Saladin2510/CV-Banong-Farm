@@ -102,7 +102,7 @@ export const supabaseApi = {
         .select('*, kategori(nama_kategori)')
         .order('id', { ascending: true })
 
-      if (!error && Array.isArray(data) && data.length > 0) {
+      if (!error && Array.isArray(data)) {
         return data.map(p => ({
           id: Number(p.id),
           name: p.nama_produk || p.name || 'Produk Pakan',
@@ -110,7 +110,7 @@ export const supabaseApi = {
           price: Number(p.harga) || 0,
           stock: Number(p.stok) || 0,
           maxStock: Number(p.stok_maksimal) || 5000,
-          unit: p.satuan || 'kg',
+          unit: p.satuan || 'pcs',
           soldCount: Number(p.jumlah_terjual) || 0,
           icon: 'eco',
           image: p.url_gambar || '/assets/product-fertilizer.png',
@@ -128,7 +128,7 @@ export const supabaseApi = {
           price: Number(p.price) || 0,
           stock: Number(p.stock) || 0,
           maxStock: Number(p.max_stock) || 5000,
-          unit: p.unit || 'kg',
+          unit: p.unit || 'pcs',
           soldCount: Number(p.sold_count) || 0,
           icon: p.icon || 'eco',
           image: p.image_url || '/assets/product-fertilizer.png',
@@ -136,10 +136,56 @@ export const supabaseApi = {
         }))
       }
 
-      return null
+      return []
     } catch (err) {
       console.warn('Supabase getProducts error:', err)
-      return null
+      return []
+    }
+  },
+
+  // Reset seluruh data operasional ke default NOL di Supabase Cloud (Hapus Madura, reset stok & pesanan)
+  async resetOperationalDataToZero() {
+    const client = getSupabase()
+    if (!client) return { success: false, message: 'Supabase belum terhubung' }
+
+    try {
+      // 1. Hapus detail pesanan & pesanan
+      try {
+        await client.from('detail_pesanan').delete().neq('id', 0)
+        await client.from('pesanan').delete().neq('id', 0)
+      } catch (e1) {
+        console.warn('Delete pesanan error:', e1)
+      }
+      
+      // Fallback tabel lama jika ada
+      try {
+        await client.from('order_items').delete().neq('id', 0)
+        await client.from('orders').delete().neq('id', 0)
+      } catch (_) {}
+
+      // 2. Hapus produk bernama "telur bebek asli madura" atau yang mengandung kata "madura"
+      try {
+        await client.from('produk').delete().ilike('nama_produk', '%madura%')
+        await client.from('products').delete().ilike('name', '%madura%')
+      } catch (_) {}
+
+      // 3. Set seluruh stok produk dan jumlah_terjual ke 0 pcs
+      try {
+        await client.from('produk').update({ stok: 0, jumlah_terjual: 0, satuan: 'pcs' }).neq('id', 0)
+      } catch (_) {}
+      try {
+        await client.from('products').update({ stock: 0, sold_count: 0, unit: 'pcs' }).neq('id', 0)
+      } catch (_) {}
+
+      // 4. Hapus riwayat metrik harian jika ada
+      try {
+        await client.from('metrik_harian').delete().neq('volume_aktual_kg', -9999)
+      } catch (_) {}
+
+      return { success: true, message: 'Supabase Cloud berhasil di-reset ke default NOL murni.' }
+    } catch (err) {
+      console.warn('resetOperationalDataToZero error:', err)
+      return { success: false, message: err.message }
     }
   },
 
@@ -298,10 +344,10 @@ export const supabaseApi = {
         })
       }
 
-      return null
+      return []
     } catch (err) {
       console.warn('Supabase getOrders error:', err)
-      return null
+      return []
     }
   },
 

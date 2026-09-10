@@ -181,4 +181,15 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
   ```bash
   npm run build
   ```
-  *(Status terakhir: 101 modul berhasil di-bundle dalam 6.65s, 0 error).*
+  *(Status terakhir: 101 modul berhasil di-bundle dalam 6.09s, 0 error).*
+
+---
+
+## 8. Catatan Sesi Terakhir (Default Nol Murni & Eliminasi Flash Data Fiktif)
+1. **Eliminasi Flash 1 Frame 10 Produk:** `DEFAULT_PRODUCTS = []` dan `loadInitialProducts()` sekarang mengembalikan `[]`. Komponen `ProductGrid.vue` dan `CommandCenter.vue` tidak lagi mengalami flash 1 frame data tiruan saat halaman di-refresh.
+2. **Default Nol Otomatis (0 Pesanan, 0 Pcs Stok, Rp 0 Pendapatan):**
+   - Basis data `database/local_db.json` dikosongkan pesanan (`orders: []`), grafik nol, dan seluruh stok produk diset ke 0 pcs.
+   - Produk *"Telur Bebek asli madura"* telah dihapus permanen.
+   - Ditambahkan `resetOperationalDataToZero()` di `src/services/supabaseClient.js` untuk membersihkan tiket pesanan, menghapus produk yang mengandung kata *"madura"*, dan mengatur stok seluruh komoditas ke 0 pcs di Supabase Cloud.
+3. **Pembersihan UI Header Admin:** Tombol *"Reset ke Nol (0)"* dan fungsi `confirmResetZero` telah dihapus sepenuhnya dari `CommandCenter.vue` karena sistem sudah berstatus default nol secara otomatis.
+4. **Validasi & Integritas Data:** Build produksi `npm run build` sukses 100% dan endpoint API `/api/products` serta `/api/orders` tervalidasi bersih.
