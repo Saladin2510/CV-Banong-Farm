@@ -20,7 +20,7 @@
     </div>
 
     <!-- Hero Content Container (100vh Responsive Layout) -->
-    <div class="relative z-10 w-full max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop pt-24 md:pt-28 pb-28 sm:pb-32 md:pb-40 flex flex-col items-start justify-center my-auto pointer-events-auto">
+    <div class="relative z-10 w-full max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop pt-28 sm:pt-32 md:pt-36 pb-28 sm:pb-32 md:pb-40 flex flex-col items-start justify-center my-auto pointer-events-auto">
       
       <!-- Text Slider Container: CSS Grid Stack for Zero Layout Shift & Pure Simultaneous Crossfade (No Jump / Naik-Turun) -->
       <div class="w-full max-w-3xl grid grid-cols-1 grid-rows-1 items-start">
@@ -154,7 +154,7 @@ const slides = [
     image: '/assets/hero-bg.png',
     badge: 'Peternakan Modern · Ajibarang',
     titleHighlight: 'CV Banong Farms',
-    titleRest: 'Hadirkan Kesegaran Alami',
+    titleRest: 'Pilihan Pakan Berkualitas',
     description: 'Peternakan & Agribisnis Berkelanjutan Ajibarang. Menghasilkan produk pangan segar, bebas bahan aditif, dan dikelola secara ramah lingkungan.'
   },
   {
