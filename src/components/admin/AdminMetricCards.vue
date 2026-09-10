@@ -19,10 +19,13 @@
       
       <div class="mt-4 pt-3 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-primary font-bold text-xs">
-            +12,4%
+          <span 
+            class="px-2 py-0.5 rounded-full font-bold text-xs"
+            :class="adminStore.totalOrdersCount.value > 0 ? 'bg-secondary-container text-primary' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'"
+          >
+            {{ adminStore.totalOrdersCount.value > 0 ? `+${adminStore.totalOrdersCount.value} Tiket` : '0 Pesanan' }}
           </span>
-          <span class="text-xs text-slate-500 dark:text-slate-400">Pertumbuhan pesanan</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Status pesanan masuk</span>
         </div>
         <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium pt-0.5">
           Terhubung langsung ke WhatsApp Admin
@@ -38,7 +41,7 @@
             Total Stok Panen
           </span>
           <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
-            {{ adminStore.totalStockTon.value }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Ton</span>
+            {{ adminStore.totalStockKg.value.toLocaleString('id-ID') }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">kg</span>
           </span>
         </div>
         <div class="w-11 h-11 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center text-primary dark:text-white shrink-0 border border-primary/20">
@@ -60,7 +63,7 @@
           ></div>
         </div>
         <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-          Telur • Unggas • Daging • Ikan • Kasgot
+          {{ adminStore.totalStockKg.value === 0 ? 'Stok fisik gudang kosong (Mulai dari nol)' : 'Telur • Unggas • Daging • Ikan • Kasgot' }}
         </span>
       </div>
     </div>
@@ -72,8 +75,8 @@
           <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
             Total Pendapatan
           </span>
-          <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
-            Rp {{ adminStore.totalRevenueJuta.value }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Juta</span>
+          <span class="text-2xl sm:text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
+            Rp {{ Number(adminStore.totalRevenue.value || 0).toLocaleString('id-ID') }}
           </span>
         </div>
         <div class="w-11 h-11 rounded-xl bg-secondary-container/20 flex items-center justify-center text-primary dark:text-secondary-container shrink-0 border border-secondary-container/30">
@@ -83,13 +86,16 @@
 
       <div class="mt-4 pt-3 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-primary font-bold text-xs">
-            +18,2%
+          <span 
+            class="px-2 py-0.5 rounded-full font-bold text-xs"
+            :class="adminStore.totalRevenue.value > 0 ? 'bg-secondary-container text-primary' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'"
+          >
+            {{ adminStore.totalRevenue.value > 0 ? 'Transaksi Riil' : 'Mulai dari Rp 0' }}
           </span>
-          <span class="text-xs text-slate-500 dark:text-slate-400">Target berjalan</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Akumulasi pendapatan</span>
         </div>
         <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate pt-0.5">
-          Akumulasi transaksi komoditas panen
+          {{ adminStore.totalRevenue.value > 0 ? 'Tervalidasi dari pesanan selesai' : 'Belum ada transaksi tervalidasi' }}
         </span>
       </div>
     </div>

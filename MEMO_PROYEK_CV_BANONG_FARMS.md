@@ -101,6 +101,22 @@ Sesuai arahan mutlak proyek ini, seluruh UI/UX landing page wajib tunduk pada **
   - Mengganti kartu metrik fiktif AI dengan metrik bisnis asli: **Komoditas Aktif** (siap di katalog publik).
   - Menyelaraskan daftar komoditas ke produk asli Banong (*Telur, Unggas, Daging Organik, Ikan Nila, Kasgot*).
 
+### H. Pembersihan Total Data Mock ke Nol (Zero-State for Real Testing)
+- **Eliminasi Angka Hardcoded Siluman:**
+  - Menghapus konstanta baseline pendapatan `482900000` (Rp 482,9 Juta) dari `totalRevenue`. Pendapatan kini murni dihitung dari pesanan riil berstatus `'Selesai'` / `'Stok Terupdate Otomatis'` (`Rp 0` saat awal).
+  - Menghapus konstanta `1428 +` dari `totalOrdersCount`. Total pesanan kini murni dihitung dari panjang array tiket pesanan riil (`0` saat awal).
+  - Menghapus kurva baseline default harian `[120, 145, 175, 195, 240, 210, 225]` di `dailyChartMap`. Baseline kini `[0, 0, 0, 0, 0, 0, 0]`.
+  - Menghapus dataset mock analitik periode `1H`, `1B`, `YTD` di `AiAnalyticsSection.vue`.
+- **Inisialisasi Seluruh Stok Produk ke 0 kg:**
+  - Seluruh 10 komoditas peternakan kini memiliki `stock: 0` dan `soldCount: 0`. Pengguna dapat menambah stok fisik secara nyata melalui form *Edit Komoditas* di tab Manajemen Produk.
+- **Daftar Pesanan Kosong Murni (`DEFAULT_ORDERS = []`):**
+  - Live Feed WhatsApp dan preview pesanan terkini dimulai dari antrean kosong dengan *Empty State* yang informatif.
+- **Tombol & Fungsi "Reset ke Nol (0)":**
+  - Ditambahkan tombol aksi **`Reset ke Nol (0)`** dengan ikon `restart_alt` di barisan header `CommandCenter.vue`.
+  - Fungsi `resetAllDataToZero()` di `useAdminStore.js` mereset stok ke 0, mengosongkan antrean pesanan, dan mengembalikan kurva grafik 7 hari ke 0 dengan 1 klik.
+- **Cache Invalidation Bersih:**
+  - LocalStorage key diperbarui ke `zero_v6` dan seluruh cache lama (`v2`, `v3`, `v4`, `clean_v5`) otomatis dibersihkan saat aplikasi dimuat.
+
 ---
 
 ## 4. Alur Bisnis & Integrasi Database (Sudah Aktif)

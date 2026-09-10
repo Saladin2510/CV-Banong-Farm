@@ -2,9 +2,21 @@ import { ref, computed } from 'vue'
 import { apiService } from '../services/apiService'
 import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 
-const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_v2'
-const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_v2'
-const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_v2'
+const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_zero_v6'
+const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_zero_v6'
+const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_zero_v6'
+
+// Clear legacy cached data from previous mock versions to start fresh from ZERO
+if (typeof window !== 'undefined' && window.localStorage) {
+  try {
+    [
+      'cv_banong_farms_products_v2', 'cv_banong_farms_orders_v2', 'cv_banong_farms_daily_chart_v2',
+      'cv_banong_farms_products_v3', 'cv_banong_farms_orders_v3', 'cv_banong_farms_daily_chart_v3',
+      'cv_banong_farms_products_v4', 'cv_banong_farms_orders_v4', 'cv_banong_farms_daily_chart_v4',
+      'cv_banong_farms_products_clean_v5', 'cv_banong_farms_orders_clean_v5', 'cv_banong_farms_daily_chart_clean_v5'
+    ].forEach(k => localStorage.removeItem(k))
+  } catch (_) {}
+}
 
 const isServerDbConnected = ref(false)
 const isSupabaseConnected = ref(false)
@@ -87,7 +99,7 @@ export function getDynamicLast7Days() {
   return days
 }
 
-// Initial Default Master Products (Unifying Landing Page & Command Center)
+// Master Commodities (All Stock & Sales Start from Zero for Real Testing)
 const DEFAULT_PRODUCTS = [
   {
     id: 1,
@@ -95,11 +107,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Telur Bebek Bio-Organik',
     category: 'Peternakan Unggas',
     categoryId: 'unggas',
-    stock: 1250,
+    stock: 0,
     maxStock: 2500,
     price: 38000,
     unit: 'tray',
-    soldCount: 480,
+    soldCount: 0,
     icon: 'egg',
     image: '/assets/product-eggs.png',
     description: 'Telur bebek organik dari peternakan sistem angon alami di Ajibarang. Kuning telur jingga cerah alami, kaya gizi dan bebas antibiotika sintetis.'
@@ -110,11 +122,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Ikan Lele Sangkuriang Segar',
     category: 'Perikanan Air Deras',
     categoryId: 'ikan',
-    stock: 2400,
+    stock: 0,
     maxStock: 5000,
     price: 26000,
     unit: 'kg',
-    soldCount: 820,
+    soldCount: 0,
     icon: 'set_meal',
     image: '/assets/product-fish.png',
     description: 'Lele Sangkuriang dibudidayakan di kolam air deras mengalir. Daging padat, gurih, dan tidak berbau lumpur.'
@@ -125,11 +137,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Ayam Organik Utuh Segar',
     category: 'Daging Segar',
     categoryId: 'daging',
-    stock: 850,
+    stock: 0,
     maxStock: 2000,
     price: 48000,
     unit: 'ekor',
-    soldCount: 650,
+    soldCount: 0,
     icon: 'nutrition',
     image: '/assets/product-chicken.png',
     description: 'Ayam karkas organik utuh yang dibesarkan dengan pakan alami tanpa hormon pertumbuhan. Daging tebal, empuk, dan segar.'
@@ -140,11 +152,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Telur Ayam Omega-3 Gold',
     category: 'Peternakan Unggas',
     categoryId: 'unggas',
-    stock: 3200,
+    stock: 0,
     maxStock: 6000,
     price: 42000,
     unit: 'tray',
-    soldCount: 1450,
+    soldCount: 0,
     icon: 'egg',
     image: '/assets/product-eggs.png',
     description: 'Telur ayam ras dengan nutrisi Omega-3 tinggi dari pakan alami biji rami dan rumput laut.'
@@ -155,11 +167,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Daging Bebek Karkas Organik',
     category: 'Daging Segar',
     categoryId: 'daging',
-    stock: 420,
+    stock: 0,
     maxStock: 1200,
     price: 62000,
     unit: 'ekor',
-    soldCount: 310,
+    soldCount: 0,
     icon: 'nutrition',
     image: '/assets/product-duck.png',
     description: 'Daging bebek potong segar harian dari peternakan Ajibarang. Gurih dan rendah kolesterol.'
@@ -170,11 +182,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Fillet Ikan Gurame Segar',
     category: 'Perikanan Air Deras',
     categoryId: 'ikan',
-    stock: 650,
+    stock: 0,
     maxStock: 1500,
     price: 48000,
     unit: 'kg',
-    soldCount: 420,
+    soldCount: 0,
     icon: 'set_meal',
     image: '/assets/product-gurame.png',
     description: 'Fillet ikan gurame segar tanpa duri dari kolam air deras Ajibarang. Higienis dan dikemas vakum.'
@@ -185,11 +197,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Pupuk Kasgot Super Organik',
     category: 'Produk Organik',
     categoryId: 'organik',
-    stock: 4800,
+    stock: 0,
     maxStock: 8000,
     price: 25000,
     unit: 'karung 10kg',
-    soldCount: 1100,
+    soldCount: 0,
     icon: 'eco',
     image: '/assets/product-fertilizer.png',
     description: 'Pupuk organik hayati hasil biokonversi limbah maggot BSF. Memperbaiki struktur tanah dan menyuburkan tanaman.'
@@ -200,11 +212,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Cabai Rawit Merah Super',
     category: 'Sayur & Cabai',
     categoryId: 'organik',
-    stock: 6800,
+    stock: 0,
     maxStock: 16000,
     price: 30000,
     unit: 'kg',
-    soldCount: 5120, // highest selling
+    soldCount: 0,
     icon: 'local_fire_department',
     image: '/assets/product-chicken.png',
     description: 'Cabai rawit merah petik segar langsung dari kebun Ajibarang. Pedas pekat alami, bebas residu pestisida kimia.'
@@ -215,11 +227,11 @@ const DEFAULT_PRODUCTS = [
     title: 'Buah Naga Merah Super',
     category: 'Buah-buahan',
     categoryId: 'organik',
-    stock: 14200,
+    stock: 0,
     maxStock: 18000,
     price: 22000,
     unit: 'kg',
-    soldCount: 3850,
+    soldCount: 0,
     icon: 'eco',
     image: '/assets/product-fertilizer.png',
     description: 'Buah naga daging merah manis alami dipanen pada kematangan optimal di perkebunan terintegrasi Banyumas.'
@@ -230,63 +242,19 @@ const DEFAULT_PRODUCTS = [
     title: 'Kopi Robusta Java',
     category: 'Biji Kopi',
     categoryId: 'organik',
-    stock: 21500,
+    stock: 0,
     maxStock: 24000,
     price: 48000,
     unit: 'kg',
-    soldCount: 2900,
+    soldCount: 0,
     icon: 'coffee',
     image: '/assets/product-fertilizer.png',
     description: 'Biji kopi Robusta petik merah dari lereng pegunungan Banyumas. Proses natural dengan aroma mantap khas rempah.'
   }
 ]
 
-const DEFAULT_ORDERS = [
-  {
-    id: '#WA-8831',
-    customer: 'PT Sumber Segar Jaya (DKI Jakarta)',
-    productId: 1,
-    productName: 'Telur Bebek Bio-Organik',
-    qty: 120,
-    totalPrice: 4560000,
-    timeAgo: 'Baru saja (2 mnt lalu)',
-    timestamp: Date.now() - 120000,
-    status: 'Stok Terupdate Otomatis'
-  },
-  {
-    id: '#WA-8830',
-    customer: 'CV Agro Makmur Mandiri (Bandung)',
-    productId: 8,
-    productName: 'Cabai Rawit Merah Super',
-    qty: 1200,
-    totalPrice: 36000000,
-    timeAgo: '7 mnt lalu',
-    timestamp: Date.now() - 420000,
-    status: 'Stok Terupdate Otomatis'
-  },
-  {
-    id: '#WA-8829',
-    customer: 'Koperasi Tani Berkah (Sukabumi)',
-    productId: 7,
-    productName: 'Pupuk Kasgot Super Organik',
-    qty: 400,
-    totalPrice: 10000000,
-    timeAgo: '14 mnt lalu',
-    timestamp: Date.now() - 840000,
-    status: 'Stok Terupdate Otomatis'
-  },
-  {
-    id: '#WA-8828',
-    customer: 'Resto Boga Lestari (Surabaya)',
-    productId: 10,
-    productName: 'Kopi Robusta Java',
-    qty: 600,
-    totalPrice: 28800000,
-    timeAgo: '21 mnt lalu',
-    timestamp: Date.now() - 1260000,
-    status: 'Stok Terupdate Otomatis'
-  }
-]
+// Zero Initial Orders for Pure Real Testing
+const DEFAULT_ORDERS = []
 
 // Initialize from LocalStorage or Defaults
 function loadInitialProducts() {
@@ -313,7 +281,7 @@ function loadInitialOrders() {
 
 function loadInitialDailyChart() {
   const days = getDynamicLast7Days()
-  const defaultBaseline = [120, 145, 175, 195, 240, 210, 225]
+  const defaultBaseline = [0, 0, 0, 0, 0, 0, 0]
   try {
     const raw = localStorage.getItem(STORAGE_CHART_KEY)
     if (raw) {
@@ -322,7 +290,7 @@ function loadInitialDailyChart() {
         // Ensure all current 7 days exist
         days.forEach((day, idx) => {
           if (parsed[day.isoKey] === undefined) {
-            parsed[day.isoKey] = defaultBaseline[idx] || 180
+            parsed[day.isoKey] = defaultBaseline[idx] || 0
           }
         })
         return parsed
@@ -332,7 +300,7 @@ function loadInitialDailyChart() {
 
   const initialMap = {}
   days.forEach((day, idx) => {
-    initialMap[day.isoKey] = defaultBaseline[idx] || 180
+    initialMap[day.isoKey] = defaultBaseline[idx] || 0
   })
   return initialMap
 }
@@ -538,9 +506,9 @@ const totalCapacityPercent = computed(() => {
 })
 
 const totalRevenue = computed(() => {
-  const baseRevenue = 482900000
-  const ordersTotal = whatsappOrders.value.reduce((acc, o) => acc + (Number(o.totalPrice) || 0), 0)
-  return baseRevenue + ordersTotal
+  return whatsappOrders.value
+    .filter(o => o.status === 'Selesai' || o.status === 'Stok Terupdate Otomatis')
+    .reduce((acc, o) => acc + (Number(o.totalPrice) || 0), 0)
 })
 
 const totalRevenueJuta = computed(() => {
@@ -548,7 +516,7 @@ const totalRevenueJuta = computed(() => {
 })
 
 const totalOrdersCount = computed(() => {
-  return 1428 + whatsappOrders.value.length
+  return whatsappOrders.value.length
 })
 
 // Top Selling Product
@@ -560,24 +528,24 @@ const topSellingProduct = computed(() => {
 // AI Strategy Computation
 const aiStrategy = computed(() => {
   const top = topSellingProduct.value
-  if (!top) {
+  if (!top || !top.soldCount) {
     return {
       title: 'Strategi Penyaluran Terintegrasi',
-      productName: 'Hasil Panen Umum',
-      analysis: 'Belum ada data komoditas yang cukup untuk menghasilkan model strategi AI.',
-      accuracy: '94,2%',
-      risk: 'Rendah (0,14)',
-      priority: 'Prioritas Normal'
+      productName: 'Semua Komoditas',
+      analysis: 'Mulai dari nol: Belum ada transaksi penjualan komoditas tercatat. Silakan lakukan penjualan untuk mengaktifkan kalkulasi tren AI.',
+      accuracy: '100%',
+      risk: 'Normal (Mulai Baru)',
+      priority: 'Menunggu Pesanan'
     }
   }
 
   return {
     title: `Strategi Pemasaran Komoditas ${top.name}`,
     productName: top.name,
-    analysis: `Berdasarkan analisis algoritma prediktif, permintaan komoditas ${top.name} menduduki volume serapan tertinggi sebesar ${(top.soldCount || 0).toLocaleString('id-ID')} kg dengan sisa stok aktif ${top.stock.toLocaleString('id-ID')} kg. Diproyeksikan terjadi lonjakan pesanan lanjutan sebesar +28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% stok panen Kluster 04 langsung ke kanal WhatsApp Business B2B terverifikasi dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin sebelum siklus panen raya berikutnya.`,
+    analysis: `Berdasarkan serapan nyata, produk ${top.name} mencatat volume serapan sebesar ${(top.soldCount || 0).toLocaleString('id-ID')} kg dengan sisa stok aktif ${top.stock.toLocaleString('id-ID')} kg. Lanjutkan pemantauan pesanan WhatsApp untuk memaksimalkan perputaran stok fisik.`,
     accuracy: '96,2%',
-    risk: top.stock < 500 ? 'Sedang (Stok Menipis)' : 'Rendah (0,12)',
-    priority: top.stock < 500 ? 'Segera Restok' : 'Prioritas Utama'
+    risk: top.stock < 10 ? 'Stok Menipis' : 'Stabilitas Aman',
+    priority: top.stock < 10 ? 'Segera Restok' : 'Prioritas Utama'
   }
 })
 
@@ -585,24 +553,24 @@ const aiStrategy = computed(() => {
 const dynamic7DaysInfo = computed(() => {
   const days = getDynamicLast7Days()
   const labels = days.map(d => d.label)
-  const actual = days.map(d => Number(dailyChartMap.value[d.isoKey]) || 180)
+  const actual = days.map(d => Number(dailyChartMap.value[d.isoKey]) || 0)
   
-  // Model Prediksi AI: smooth spline trend + projected bump
-  const predicted = actual.map((v, idx) => Math.round(v * (0.92 + idx * 0.024)))
+  // Model Prediksi AI: jika volume 0 maka prediksi 0
+  const predicted = actual.map((v, idx) => v === 0 ? 0 : Math.round(v * (0.92 + idx * 0.024)))
   
   // Compute Peak Information dynamically from the highest demand day
   let maxVal = 0
-  let peakIndex = 0
+  let peakIndex = -1
   actual.forEach((v, idx) => {
-    if (v >= maxVal) {
+    if (v > maxVal) {
       maxVal = v
       peakIndex = idx
     }
   })
 
-  const peakDayName = days[peakIndex]?.label || 'Hari Ini'
-  const peakAmount = `${maxVal.toLocaleString('id-ID')} kg`
-  const peakValRupiah = `Rp ${(maxVal * 32000).toLocaleString('id-ID')}`
+  const peakDayName = peakIndex !== -1 ? days[peakIndex]?.label : 'Hari Ini'
+  const peakAmount = maxVal > 0 ? `${maxVal.toLocaleString('id-ID')} kg` : '0 kg'
+  const peakValRupiah = maxVal > 0 ? `Rp ${(maxVal * 32000).toLocaleString('id-ID')}` : 'Rp 0'
 
   return {
     days,
@@ -612,7 +580,7 @@ const dynamic7DaysInfo = computed(() => {
     peakInfo: {
       amount: peakAmount,
       val: peakValRupiah,
-      buyer: `Puncak Kanal WA: Mitra ${peakDayName}`
+      buyer: maxVal > 0 ? `Puncak Kanal WA: Mitra ${peakDayName}` : 'Belum Ada Transaksi'
     }
   }
 })
@@ -628,7 +596,7 @@ function addWhatsAppOrder({ customer, productId, qty }) {
 
   // Update Daily Chart Volume for Today (Persisted in Real Time!)
   const todayKey = formatLocalDateKey(new Date())
-  const currentTodayVal = Number(dailyChartMap.value[todayKey]) || 225
+  const currentTodayVal = Number(dailyChartMap.value[todayKey]) || 0
   dailyChartMap.value[todayKey] = currentTodayVal + deductQty
 
   const totalPrice = deductQty * prod.price
@@ -834,7 +802,7 @@ async function validateOrder({ orderId, action }) {
 
     // 3. Update metrik harian di memori
     const todayKey = formatLocalDateKey(new Date())
-    const currentTodayVal = Number(dailyChartMap.value[todayKey]) || 225
+    const currentTodayVal = Number(dailyChartMap.value[todayKey]) || 0
     dailyChartMap.value[todayKey] = currentTodayVal + targetOrder.qty
 
     // 4. Sinkronkan aksi ke Supabase Cloud (RPC atau update transaksional)
@@ -1020,6 +988,50 @@ function getCategoryId(cat) {
   return 'organik'
 }
 
+function resetAllDataToZero() {
+  // 1. Reset semua stok komoditas ke 0 dan soldCount ke 0
+  products.value.forEach(p => {
+    p.stock = 0
+    p.soldCount = 0
+  })
+
+  // 2. Hapus/kosongkan seluruh tiket pesanan
+  whatsappOrders.value = []
+
+  // 3. Set grafik 7 hari ke 0 kg
+  const days = getDynamicLast7Days()
+  const zeroChart = {}
+  days.forEach(d => {
+    zeroChart[d.isoKey] = 0
+  })
+  dailyChartMap.value = zeroChart
+
+  // 4. Broadcast update dan simpan ke storage
+  const toastData = {
+    id: Date.now(),
+    orderId: 'SYS-RESET-0',
+    customer: 'Admin Banong Farms',
+    productName: 'Reset Sistem ke Nol',
+    qty: 0,
+    remainingStock: 0,
+    isCompleted: true
+  }
+
+  lastSyncToast.value = toastData
+  broadcastUpdate(toastData)
+
+  setTimeout(() => {
+    if (lastSyncToast.value?.id === toastData.id) {
+      lastSyncToast.value = null
+    }
+  }, 4000)
+
+  return {
+    success: true,
+    message: 'Semua data operasional berhasil di-reset ke NOL (0). Siap untuk troubleshooting pengujian riil!'
+  }
+}
+
 export function useAdminStore() {
   return {
     products,
@@ -1040,6 +1052,7 @@ export function useAdminStore() {
     dailyChartMap,
     dynamic7DaysInfo,
     getDynamicLast7Days,
+    resetAllDataToZero,
     // Admin Auth
     adminUser,
     isAuthenticated,

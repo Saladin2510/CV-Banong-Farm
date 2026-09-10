@@ -189,36 +189,36 @@ const defaultAiAnalysis = computed(() => {
   return `Berdasarkan analisis algoritma prediktif, permintaan komoditas ${top.name} mencatat serapan pasar terbesar sebesar ${top.soldCount?.toLocaleString('id-ID') || 0} kg dengan cadangan stok tersisa ${top.stock?.toLocaleString('id-ID') || 0} kg. Diproyeksikan terjadi peningkatan pesanan sebesar 28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% pasokan Kluster 04 langsung ke mitra WhatsApp B2B dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin keuntungan.`
 })
 
-// Period Data Sets for other timeframes
+// Period Data Sets for other timeframes (Clean Zero-State for Pure Real Testing)
 const otherPeriodDatasets = {
   '1H': {
     labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', 'Sekarang'],
-    actual: [45, 70, 115, 180, 240, 210, 195],
-    predicted: [40, 65, 110, 190, 230, 220, 215],
+    actual: [0, 0, 0, 0, 0, 0, 0],
+    predicted: [0, 0, 0, 0, 0, 0, 0],
     peak: {
-      amount: '240 kg / jam',
-      val: 'Rp 7.200.000',
-      buyer: 'Kanal WA Restoran Barlingmas'
+      amount: '0 kg / jam',
+      val: 'Rp 0',
+      buyer: 'Belum Ada Transaksi'
     }
   },
   '1B': {
-    labels: ['Mgg 1 (Awal)', 'Mgg 2', 'Mgg 3', 'Mgg 4 (Puncak Panen)'],
-    actual: [850, 1120, 1430, 1890],
-    predicted: [800, 1050, 1390, 1950],
+    labels: ['Mgg 1', 'Mgg 2', 'Mgg 3', 'Mgg 4'],
+    actual: [0, 0, 0, 0],
+    predicted: [0, 0, 0, 0],
     peak: {
-      amount: '1.890 kg',
-      val: 'Rp 142.000.000',
-      buyer: 'Konsorsium Mitra B2B'
+      amount: '0 kg',
+      val: 'Rp 0',
+      buyer: 'Belum Ada Transaksi'
     }
   },
   'YTD': {
-    labels: ['Q1 (Jan-Mar)', 'Q2 (Apr-Jun)', 'Q3 (Jul-Sep)', 'Q4 (Proyeksi)'],
-    actual: [4800, 6900, 8450, 9200],
-    predicted: [4500, 6500, 8100, 9800],
+    labels: ['Q1 (Jan-Mar)', 'Q2 (Apr-Jun)', 'Q3 (Jul-Sep)', 'Q4 (Okt-Des)'],
+    actual: [0, 0, 0, 0],
+    predicted: [0, 0, 0, 0],
     peak: {
-      amount: '9.200 kg',
-      val: 'Rp 482.900.000',
-      buyer: 'Ekosistem Agribisnis Terintegrasi'
+      amount: '0 kg',
+      val: 'Rp 0',
+      buyer: 'Belum Ada Transaksi'
     }
   }
 }

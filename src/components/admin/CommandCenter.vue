@@ -76,6 +76,17 @@
                 <span class="material-symbols-outlined text-[18px]">file_download</span>
                 <span>Ekspor Data</span>
               </button>
+
+              <!-- Reset Data ke Nol Button -->
+              <button 
+                @click="confirmResetZero"
+                class="h-10 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs shadow-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer border border-slate-300/80 dark:border-slate-700" 
+                type="button"
+                title="Reset SEMUA Data ke NOL (Stok 0, Pesanan Kosong, Pendapatan Rp 0) untuk Mulai Baru"
+              >
+                <span class="material-symbols-outlined text-[18px] text-slate-500">restart_alt</span>
+                <span>Reset ke Nol (0)</span>
+              </button>
             </div>
           </header>
 
@@ -158,13 +169,24 @@
 
                   <div class="flex flex-col gap-2 mt-3">
                     <div 
+                      v-if="(adminStore.whatsappOrders.value || []).length === 0" 
+                      class="py-6 px-4 flex flex-col items-center justify-center text-center rounded-xl bg-slate-50/60 dark:bg-slate-800/30 border border-dashed border-slate-200 dark:border-slate-800 gap-1.5"
+                    >
+                      <span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-[32px]">inbox</span>
+                      <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Belum Ada Pesanan Masuk</p>
+                      <p class="text-[11px] text-slate-500 dark:text-slate-400 max-w-[260px]">
+                        Pesanan baru dari landing page web atau formulir WhatsApp akan muncul di sini secara real-time.
+                      </p>
+                    </div>
+                    <div 
+                      v-else
                       v-for="order in (adminStore.whatsappOrders.value || []).slice(0, 3)" 
                       :key="order.id"
                       class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between text-xs"
                     >
                       <div class="flex flex-col min-w-0 pr-2">
                         <span class="font-bold text-primary dark:text-white truncate">{{ order.customer || 'Pelanggan WhatsApp' }}</span>
-                        <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty || 0 }} kg {{ order.productName || 'Komoditas Unggulan' }}</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty || 0 }} {{ order.productName || 'Komoditas' }}</span>
                       </div>
                       <div class="flex flex-col items-end shrink-0">
                         <span class="font-bold text-primary dark:text-white">Rp {{ (order.totalPrice || 0).toLocaleString('id-ID') }}</span>
@@ -198,7 +220,12 @@
                     Total {{ adminStore.products.value.length }} Komoditas Aktif di Gudang
                   </h4>
                   <p class="text-xs text-slate-600 dark:text-slate-400">
-                    Komoditas serapan tertinggi: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} kg terjual)
+                    <span v-if="adminStore.topSellingProduct.value && adminStore.topSellingProduct.value.soldCount > 0">
+                      Komoditas serapan tertinggi: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} kg terjual)
+                    </span>
+                    <span v-else>
+                      Mulai dari nol: Semua komoditas memiliki stok awal 0 kg. Anda dapat menambah stok panen di tab Kelola Produk.
+                    </span>
                   </p>
                 </div>
               </div>
@@ -439,6 +466,13 @@ const exportTelemetry = () => {
   URL.revokeObjectURL(url)
 
   showToast('File telemetri operasional berhasil diekspor!')
+}
+
+const confirmResetZero = () => {
+  if (typeof window !== 'undefined' && window.confirm('Apakah Anda yakin ingin me-reset SEMUA data operasional ke NOL (0)?\n\n- Seluruh stok produk akan di-set ke 0 kg\n- Seluruh antrean pesanan WhatsApp akan dikosongkan\n- Total pendapatan menjadi Rp 0\n- Grafik kurva penjualan 7 hari kembali ke 0\n\nData siap digunakan untuk pengujian alur nyata dari nol.')) {
+    const res = adminStore.resetAllDataToZero()
+    showToast(res.message)
+  }
 }
 
 // Product CRUD Handlers
