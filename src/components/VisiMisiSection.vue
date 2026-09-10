@@ -1,7 +1,7 @@
 <template>
   <section 
     id="tentang-kami" 
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-28 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
     <!-- Subtle Background Ambient Accents (Blue & Yellow) -->
     <div class="absolute top-1/4 left-10 w-96 h-96 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -10,43 +10,38 @@
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
       
       <!-- Top Breadcrumb / Category Tracker (Style like Whello reference) -->
-      <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 sm:mb-8 font-telemetry-code">
+      <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-3 sm:mb-4 font-telemetry-code">
         <span>Sentra Agribisnis Ajibarang</span>
         <span class="text-slate-300 dark:text-slate-600">/</span>
         <span class="text-primary dark:text-secondary-container font-bold">Tentang CV Banong Farms</span>
       </div>
 
       <!-- Main Split Layout (Grid 12 cols: 6 or 7 cols Left, 5 or 6 cols Right) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-center">
         
         <!-- LEFT COLUMN: Content & Vision / Mission Narrative -->
         <div class="lg:col-span-7 flex flex-col justify-center">
           
           <!-- Big Section Title (Style like "Discover our DNA") -->
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-4">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-2 sm:mb-2.5">
             Discover our DNA
           </h2>
 
           <!-- Bold Lead Statement -->
-          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-4">
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5">
             CV Banong Farms hadir untuk ketahanan &amp; kemandirian pangan sejati.
           </h3>
 
-          <!-- Narrative Paragraphs -->
-          <div class="space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            <p>
-              Potensi agribisnis ramah lingkungan di tanah Ajibarang, Banyumas begitu melimpah. Namun di balik itu, tantangan kualitas nutrisi, integritas sanitasi peternakan, dan keaslian bahan pangan menuntut integritas nyata. CV Banong Farms menggabungkan kearifan peternak lokal, sanitasi veteriner modern, dan biokonversi sirkular untuk menghasilkan pangan hewani yang murni, sehat, dan beretika.
-            </p>
-            <p>
-              Seluruh dedikasi peternak, inovasi pakan non-kimia, dan rantai pasok dingin harian kami hanya berfokus pada satu tujuan utama: <span class="font-semibold text-slate-800 dark:text-slate-100">menjamin produk panen segar bermutu tinggi langsung tiba di dapur keluarga maupun mitra usaha Anda.</span>
-            </p>
-          </div>
+          <!-- Narrative Paragraph (Cukup 1 Paragraf Saja Sesuai Arahan) -->
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            CV Banong Farms menghadirkan agribisnis berkelanjutan di tanah Ajibarang, Banyumas dengan memadukan kearifan peternak lokal, sanitasi veteriner modern, dan biokonversi sirkular ramah lingkungan untuk menghasilkan pangan hewani murni, sehat, halal, dan beretika langsung ke meja Anda.
+          </p>
 
-          <!-- Visi & Misi Key Highlights (Modern Accordion-like / Feature Cards) -->
-          <div class="mt-6 pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-4">
+          <!-- Visi & Misi Key Highlights (Lebih Rapat & Padat) -->
+          <div class="mt-5 pt-5 sm:mt-6 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3.5 sm:space-y-4">
             
-            <!-- Visi Card -->
-            <div class="p-4 rounded-2xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40">
+            <!-- Visi Card (Compact & Sleek) -->
+            <div class="p-3.5 sm:p-4 rounded-xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40">
               <div class="flex items-center gap-2 mb-1.5">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">visibility</span>
                 <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-white font-telemetry-code">
@@ -59,7 +54,7 @@
             </div>
 
             <!-- Misi 4 Bullet Grid (Yellow Checkmark Accents) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Pangan segar &amp; pakan bernutrisi bebas hormon sintetis.</span>
@@ -78,41 +73,6 @@
               </div>
             </div>
 
-          </div>
-
-          <!-- Action CTA Links with Circular Arrow Icons (Whello Style) -->
-          <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
-            <!-- CTA 1: Jelajahi Katalog (Primary Navy) -->
-            <a 
-              href="#katalog-produk" 
-              class="inline-flex items-center gap-3.5 group cursor-pointer"
-            >
-              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-secondary-container transition-colors">
-                Jelajahi Produk Panen
-              </span>
-              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary hover:bg-primary-container text-white flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-primary/30 transition-all duration-300">
-                <span class="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">
-                  arrow_forward
-                </span>
-              </div>
-            </a>
-
-            <!-- CTA 2: Hubungi Kami via WhatsApp (Yellow Accent) -->
-            <a 
-              href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20tahu%20lebih%20lanjut%20mengenai%20peternakan%20dan%20produk%20Anda."
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-3.5 group cursor-pointer"
-            >
-              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-secondary-container dark:group-hover:text-secondary-container transition-colors">
-                Hubungi Banong Farms
-              </span>
-              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-secondary-container hover:bg-accent-hover text-primary font-black flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-yellow-500/30 transition-all duration-300 border border-yellow-400/40">
-                <span class="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">
-                  arrow_forward
-                </span>
-              </div>
-            </a>
           </div>
 
         </div>

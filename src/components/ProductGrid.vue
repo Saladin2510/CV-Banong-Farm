@@ -1,11 +1,11 @@
 <template>
-  <section class="w-full bg-surface-pure dark:bg-[#0A1128] py-space-48 lg:py-space-64 transition-colors duration-300" id="katalog-produk">
+  <section class="w-full bg-surface-pure dark:bg-[#070D1E] pt-24 sm:pt-36 lg:pt-48 pb-12 sm:pb-16 lg:pb-20 transition-colors duration-300" id="katalog-produk">
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">
       
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-32 gap-space-16 animate-fade-in-up">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6 sm:gap-8 animate-fade-in-up">
         <div>
-          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-slate-200 font-label-sm text-label-sm font-semibold mb-space-8 border border-primary/20 dark:border-white/20">
+          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-slate-200 font-label-sm text-label-sm font-semibold mb-3 sm:mb-4 border border-primary/20 dark:border-white/20">
             <span class="material-symbols-outlined text-[16px] text-primary dark:text-secondary-container">verified</span>
             <span>Langsung dari Peternakan Ajibarang</span>
           </div>
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Category Filter Tabs -->
-      <div class="flex items-center gap-2 mb-space-32 overflow-x-auto pb-2 scrollbar-none animate-fade-in">
+      <div class="flex items-center gap-2.5 mb-10 sm:mb-12 overflow-x-auto pb-2 scrollbar-none animate-fade-in">
         <button
           v-for="cat in categories"
           :key="cat.id"
@@ -42,7 +42,7 @@
       <transition-group
         tag="div"
         name="product-grid"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-24"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-9"
       >
         <ProductCard
           v-for="product in paginatedProducts"
@@ -52,8 +52,8 @@
         />
       </transition-group>
 
-      <!-- 8/8 Section Switcher / Pagination Navigation -->
-      <div v-if="totalPages > 1" class="mt-space-40 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 border border-surface-container-high/80 dark:border-slate-800 animate-fade-in">
+      <!-- 8/8 Section Switcher / Pagination Navigation (Dekat & Rapi) -->
+      <div v-if="totalPages > 1" class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 border border-surface-container-high/80 dark:border-slate-800 animate-fade-in">
         <div class="text-on-surface-variant dark:text-slate-400 font-label-md text-xs sm:text-sm">
           Menampilkan <span class="font-bold text-primary dark:text-white">{{ (currentPage - 1) * ITEMS_PER_PAGE + 1 }}</span> - 
           <span class="font-bold text-primary dark:text-white">{{ Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length) }}</span> dari 
@@ -64,7 +64,7 @@
           <button
             @click="goToPage(currentPage - 1)"
             :disabled="currentPage === 1"
-            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high dark:border-slate-700 bg-surface-pure dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+            class="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-surface-container-high dark:border-slate-700 bg-surface-pure dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
             aria-label="Halaman sebelumnya"
           >
             <span class="material-symbols-outlined text-[16px]">chevron_left</span>
@@ -90,7 +90,7 @@
           <button
             @click="goToPage(currentPage + 1)"
             :disabled="currentPage === totalPages"
-            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full border border-surface-container-high dark:border-slate-700 bg-surface-pure dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+            class="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-surface-container-high dark:border-slate-700 bg-surface-pure dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
             aria-label="Halaman berikutnya"
           >
             <span>Berikutnya</span>
@@ -99,31 +99,31 @@
         </div>
       </div>
 
-      <!-- Trust Bar / Farm-to-Table Highlights -->
+      <!-- Trust Bar / Farm-to-Table Highlights (Dibuat Lebih Dekat dengan Katalog) -->
       <div 
-        class="mt-space-64 p-space-32 rounded-xl bg-surface-subtle dark:bg-slate-900/70 flex flex-col lg:flex-row items-center justify-between gap-space-24 shadow-xs border border-surface-container-high/70 dark:border-slate-800 animate-fade-in-up" 
+        class="mt-8 sm:mt-10 lg:mt-12 p-6 sm:p-8 lg:p-10 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-12 shadow-xs border border-surface-container-high/70 dark:border-slate-800 animate-fade-in-up" 
         id="standar-etika"
       >
-        <div class="flex items-center gap-space-20">
-          <div class="w-14 h-14 rounded-full bg-primary-fixed dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-xs border border-primary-container/20 dark:border-slate-700">
-            <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[28px]">agriculture</span>
+        <div class="flex items-center gap-5 sm:gap-6">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary-fixed dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-xs border border-primary-container/20 dark:border-slate-700">
+            <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[28px] sm:text-[32px]">agriculture</span>
           </div>
           <div>
-            <div class="font-headline-md text-headline-md text-primary dark:text-white font-bold">
+            <div class="font-headline-md text-headline-md sm:text-headline-lg text-primary dark:text-white font-bold">
               Peternakan Beretika di Ajibarang
             </div>
-            <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-0.5">
+            <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-1 max-w-xl leading-relaxed">
               Pakan alami, sanitasi berstandar veteriner, dan pengiriman rantai dingin langsung ke rumah tangga maupun mitra kuliner.
             </p>
           </div>
         </div>
 
-        <div class="flex items-center gap-space-16 flex-shrink-0 flex-wrap sm:flex-nowrap">
-          <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-3.5 py-2 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
+        <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0 flex-wrap sm:flex-nowrap">
+          <span class="inline-flex items-center gap-2 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-4 py-2.5 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
             <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
             Tanpa Pengawet
           </span>
-          <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-3.5 py-2 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
+          <span class="inline-flex items-center gap-2 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-4 py-2.5 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
             <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
             Halal &amp; Higienis
           </span>

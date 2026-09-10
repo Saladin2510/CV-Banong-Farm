@@ -1,15 +1,15 @@
 <template>
   <section 
     id="cta-panen"
-    class="relative w-full bg-surface-subtle dark:bg-[#060D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80"
   >
     <!-- Soft Decorative Ambient Glows (Blue & Yellow) -->
     <div class="absolute -top-12 left-1/4 w-80 h-80 bg-primary/5 dark:bg-primary/10 blur-[140px] rounded-full pointer-events-none"></div>
     <div class="absolute -bottom-10 right-1/4 w-80 h-80 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[140px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
-      <!-- Grid dengan jarak/gap lapang dengan kolom teks kanan (gap-12 lg:gap-16 xl:gap-24) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-24 items-center">
+      <!-- Grid dengan jarak/gap sangat lapang dengan kolom teks kanan (gap-16 lg:gap-24 xl:gap-32) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 xl:gap-32 items-center">
         
         <!-- LEFT COLUMN: Kluster Polaroid Skala Proporsional & Variasi Jarak Asimetris (lg:col-span-6) -->
         <div class="lg:col-span-6 flex items-center justify-center lg:justify-start">
@@ -81,18 +81,18 @@
           </h2>
 
           <!-- Descriptive Subtitle Singkat & Mengalir -->
-          <p class="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mt-3 sm:mt-4">
+          <p class="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mt-6 sm:mt-8">
             Lengkapi kehangatan meja makan keluarga dan kebutuhan dapur usaha Anda dengan pasokan telur, ayam, bebek, dan ikan segar harian langsung dari peternakan Ajibarang.
           </p>
 
           <!-- Action Buttons Group (Yellow 10% Accent CTA, White/Navy Secondary) -->
-          <div class="mt-6 sm:mt-7 flex flex-wrap items-center gap-3.5">
+          <div class="mt-12 sm:mt-16 flex flex-wrap items-center gap-4">
             <!-- Bold Primary Button: PESAN SEKARANG (Gold Yellow Accent with Navy text) -->
             <a 
               href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20memesan%20panen%20segar%20(telur/ayam/ikan)."
               target="_blank"
               rel="noopener noreferrer"
-              class="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:shadow-yellow-500/25 active:scale-95 transition-all duration-300 inline-flex items-center gap-2 cursor-pointer font-telemetry-code border border-yellow-400/40"
+              class="px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:shadow-yellow-500/25 active:scale-95 transition-all duration-300 inline-flex items-center gap-2.5 cursor-pointer font-telemetry-code border border-yellow-400/40"
             >
               <span>PESAN SEKARANG</span>
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -101,24 +101,24 @@
             <!-- Secondary Button: LIHAT KATALOG (Clean White/Navy) -->
             <a 
               href="#katalog-produk"
-              class="px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-primary dark:text-slate-200 font-bold text-xs sm:text-sm border border-primary/20 dark:border-slate-700 shadow-xs active:scale-95 transition-all duration-300 cursor-pointer font-telemetry-code"
+              class="px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-primary dark:text-slate-200 font-bold text-xs sm:text-sm border border-primary/20 dark:border-slate-700 shadow-xs active:scale-95 transition-all duration-300 cursor-pointer font-telemetry-code"
             >
               LIHAT KATALOG
             </a>
           </div>
 
           <!-- Trust Badges Row (Yellow Icon Accents) -->
-          <div class="mt-7 pt-4 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400 font-telemetry-code">
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">verified</span>
+          <div class="mt-14 pt-8 sm:mt-18 sm:pt-10 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center gap-5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-telemetry-code">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[20px]">verified</span>
               <span>100% Halal</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">schedule</span>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[20px]">schedule</span>
               <span>Kirim &lt; 12 Jam</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">pin_drop</span>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[20px]">pin_drop</span>
               <span>Ajibarang</span>
             </div>
           </div>

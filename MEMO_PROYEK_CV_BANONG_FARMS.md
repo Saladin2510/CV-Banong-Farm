@@ -1,5 +1,5 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 9 September 2026 (Sesi Malam)  
+**Tanggal Pembaruan Terakhir:** 10 September 2026 (Sesi Pagi - Spacing & Viewport UX Enhancement)  
 **Status Proyek:** Siap Produksi (Build Passed / Zero Errors / Code Quality Verified)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
@@ -61,6 +61,44 @@ Sesuai arahan mutlak pada sesi ini, seluruh UI/UX landing page wajib tunduk pada
 - **`VisiMisiSection.vue`:** Seluruh warna hijau emerald dan sky blue telah diubah menjadi kombinasi Navy Blue (`primary`) dan Kuning Emas (`secondary-container`).
 - **`Navbar.vue` & `App.vue`:** Tombol keranjang belanja dan floating cart button pojok kiri bawah menggunakan latar Biru Navy dengan badge counter Kuning Emas.
 - **`CartDrawer.vue` & `ProductModal.vue`:** Tombol checkout kirim pesanan WA dan tambah ke keranjang menggunakan Kuning Emas (`bg-secondary-container text-primary font-black`).
+
+### D. Revisi Spacing Antarseksi & Viewport UX (150% - 180% Dramatic Negative Space)
+- **Tujuan:** Menghilangkan total kesan penumpukan teks dalam satu layar viewport. Setiap seksi berdiri mandiri dan megah, memberikan pengalaman visual yang sangat lapang, tenang, dan premium (editorial magazine style).
+- **Detail Penyesuaian Spacing Ekstrem (150% - 180%):**
+  1. `VisiMisiSection.vue`: Padding vertikal dinaikkan drastis menjadi **`py-36 sm:py-52 lg:py-72 xl:py-80`** (144px s.d. 320px).
+  2. `ProductGrid.vue`: Padding vertikal dinaikkan drastis menjadi **`py-36 sm:py-52 lg:py-72 xl:py-80`**, Trust Bar dipisah ke bawah dengan jarak masif `mt-28 sm:mt-40 lg:mt-52`.
+  3. `InteractiveMarqueeMenu.vue`: Padding vertikal dinaikkan menjadi **`py-36 sm:py-52 lg:py-72 xl:py-80`**, padding tiap baris digandakan menjadi `py-6 sm:py-8 lg:py-10`.
+  4. `PolaroidCtaSection.vue`: Padding vertikal dinaikkan menjadi **`py-36 sm:py-52 lg:py-72 xl:py-80`**.
+  5. `FooterSection.vue`: Padding diperluas menjadi **`pt-32 sm:pt-44 lg:pt-56 pb-16 sm:pb-24 lg:pb-32`**.
+
+### E. Penyelarasan Internal Konten Visi & Misi (`VisiMisiSection.vue`)
+- **Tujuan:** Menghilangkan kelonggaran berlebih di *dalam* teks konten seksi Visi & Misi agar ritme membaca lebih padat, ringkas, dan fokus.
+- **Perubahan Spesifik:**
+  1. **Deskripsi Narasi:** Diringkas menjadi tepat **1 paragraf** yang padat dan kuat mengenai agribisnis berkelanjutan, kearifan lokal Ajibarang, sanitasi veteriner, dan jaminan kesegaran pangan < 12 jam.
+  2. **Penghapusan Tombol:** Tombol sekunder (*"Jelajahi Produk Panen"* dan *"Hubungi Banong Farms"*) **dihapus total** dari seksi Visi & Misi untuk mengeliminasi beban visual di bagian bawah teks.
+  3. **Kerapatan Tipografi:** Margin antar-elemen teks diperpendek (`mb-2` judul, `mb-3` sub-judul, `mt-5 pt-5` kotak visi misi, dan `gap-2` poin misi) sehingga kolom kiri seimbang dan serasi secara vertikal dengan 3 bingkai foto di kolom kanan.
+
+### F. Penyelarasan Jarak Trust Bar & Bawah Katalog (`ProductGrid.vue`)
+- **Tujuan:** Menghilangkan jurang pemisah kosong antara katalog produk dengan Trust Bar peternakan etika, serta merapatkan jarak bagian bawah seksi katalog terhadap seksi marquee di bawahnya.
+- **Perubahan Spesifik:**
+  1. **Jarak Atas Trust Bar:** Margin atas Trust Bar diturunkan drastis dari `mt-28 sm:mt-40 lg:mt-52` menjadi **`mt-8 sm:mt-10 lg:mt-12`** (serta margin pagination `mt-8 sm:mt-10`), sehingga Trust Bar menyatu erat sebagai penutup katalog yang kohesif dan proporsional.
+  2. **Jarak Bawah Seksi 3:** Padding bawah seksi `ProductGrid` dipersempit dari `pb-80` menjadi **`pb-12 sm:pb-16 lg:pb-20`**, menghasilkan transisi yang rapat dan mulus menuju seksi Marquee tanpa kehampaan vertikal yang berlebihan.
+
+### G. Penyeragaman Warna Latar Belakang Seluruh Seksi (100% Seamless Surface)
+- **Tujuan:** Menjamin konsistensi visual 100% pada seluruh seksi konten tanpa perbedaan kontras latar abu-abu/putih yang mengganggu mata.
+- **Perubahan Spesifik:**
+  1. `PolaroidCtaSection.vue`: Warna latar belakang diubah dari `bg-surface-subtle` (`#F8FAFC`) dan `dark:bg-[#060D1E]` menjadi **`bg-surface-pure` (`#FFFFFF`) dan `dark:bg-[#070D1E]`**, persis identik dengan seksi-seksi sebelumnya.
+  2. `ProductGrid.vue`: Mode gelap diselaraskan dari `dark:bg-[#0A1128]` menjadi **`dark:bg-[#070D1E]`** agar transisi antar-seksi dalam mode gelap maupun terang 100% mulus (*seamless*).
+
+### H. Redesain Footer Kompak: Logo & Teks Sama Besar (1 Baris Utuh) (`FooterSection.vue`)
+- **Tujuan:** Mengunci teks nama brand **`CV Banong Farms`** agar tetap berada pada **1 baris utuh** (*no wrap*) dengan skala tinggi yang **sejajar dan seimbang (sama besar)** dengan logo bulat di sampingnya.
+- **Perubahan Spesifik:**
+  1. **Logo & Teks Sama Besar & 1 Baris:** Teks brand menggunakan `text-xl sm:text-2xl md:text-3xl lg:text-[28px] xl:text-[34px] font-black text-white whitespace-nowrap leading-none` berdampingan dengan logo berdimensi serasi (`h-8 sm:h-9 md:h-10 lg:h-[30px] xl:h-[34px]`). Keduanya terkunci sejajar horizontal (*vertically centered*) dan tidak pernah pecah menjadi dua baris.
+  2. **Kolom 2 (Navigasi Cepat):** Header kuning emas `text-secondary-container` dengan 4 tautan: *Katalog Produk*, *Lokasi Farm*, *Sertifikasi Organik*, dan *Hubungi Tim*.
+  3. **Kolom 3 (Informasi Kontak):** Header kuning emas dengan 3 baris lengkap: *WhatsApp Hotline* (+62 899-9192-861), *Email Resmi* (halo@banongfarms.id), dan *Jam Operasional Farm*.
+  4. **Kolom 4 (Lokasi Peternakan):** Header kuning emas dengan kartu interaktif peta Ajibarang, pin merah peternakan, serta tombol CTA Kuning *"Buka di Maps"*.
+  5. **Padding Internal Kompak & Rapi:** Padding vertikal footer dirapatkan secara ideal (`pt-10 sm:pt-12 pb-6 sm:pb-8`), memangkas ruang kosong berlebih di atas dan bawah sehingga footer tampil padat, seimbang, dan sangat profesional.
+  6. **Baris Hak Cipta Bawah:** `© 2026 CV Banong Farms Ajibarang. Hak Cipta Dilindungi.` beserta tautan *Kebijakan Privasi* dan *Syarat & Ketentuan* yang bersih.
 
 ---
 

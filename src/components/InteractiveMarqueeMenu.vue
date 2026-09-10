@@ -2,28 +2,28 @@
   <section 
     id="komoditas-marquee"
     @mouseleave="activeRow = null"
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-12 sm:py-16 lg:py-20 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 select-none"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 select-none"
   >
     <!-- Background Ambient Glow (Blue & Yellow) -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[360px] bg-primary/4 dark:bg-blue-500/5 blur-[160px] rounded-full pointer-events-none"></div>
 
     <!-- Section Header / Subtitle -->
-    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop text-center mb-6 sm:mb-9 relative z-10">
+    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop text-center mb-16 sm:mb-24 lg:mb-32 relative z-10">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 dark:bg-primary-container/30 text-primary dark:text-secondary-container font-bold text-xs uppercase tracking-wider border border-primary/20 dark:border-secondary-container/30 shadow-2xs">
         <span class="material-symbols-outlined text-[16px] text-secondary-container">agriculture</span>
         <span>Komoditas Unggulan Peternakan</span>
       </div>
-      <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase mt-2.5">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase mt-3 sm:mt-4">
         Panen Segar <span class="text-primary dark:text-secondary-container">CV Banong Farms</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 max-w-md mx-auto">
         Arahkan kursor pada baris komoditas untuk melihat hasil panen alami langsung dari Ajibarang
       </p>
     </div>
 
     <!-- 5-Row Marquee Stacking Container -->
     <div 
-      class="relative w-full flex flex-col py-1"
+      class="relative w-full flex flex-col py-4"
       @mouseleave="activeRow = null"
     >
       
@@ -34,7 +34,7 @@
         @mouseenter="activeRow = idx"
         @mouseleave="activeRow = null"
         @click="activeRow = idx"
-        class="relative w-full py-3 sm:py-3.5 lg:py-4 cursor-pointer group transition-colors duration-200"
+        class="relative w-full py-6 sm:py-8 lg:py-10 cursor-pointer group transition-colors duration-200"
         :class="[
           idx < rows.length - 1 ? 'border-b border-dashed border-slate-200/90 dark:border-slate-800/90' : ''
         ]"
@@ -48,7 +48,7 @@
           ]"
         >
           <!-- Track A (Repeated 6 times) -->
-          <div class="flex items-center gap-6 sm:gap-10 lg:gap-14 shrink-0 pr-6 sm:pr-10 lg:pr-14">
+          <div class="flex items-center gap-10 sm:gap-14 lg:gap-20 shrink-0 pr-10 sm:pr-14 lg:pr-20">
             <span 
               v-for="n in 6" 
               :key="'track-a-' + n"
@@ -64,7 +64,7 @@
           </div>
 
           <!-- Track B (Exact Duplicate for Seamless Infinite Loop) -->
-          <div class="flex items-center gap-6 sm:gap-10 lg:gap-14 shrink-0 pr-6 sm:pr-10 lg:pr-14" aria-hidden="true">
+          <div class="flex items-center gap-10 sm:gap-14 lg:gap-20 shrink-0 pr-10 sm:pr-14 lg:pr-20" aria-hidden="true">
             <span 
               v-for="n in 6" 
               :key="'track-b-' + n"
