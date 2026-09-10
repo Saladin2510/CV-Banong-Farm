@@ -3,7 +3,7 @@
     <!-- Kontainer Lebar Maksimal Layar (100vh Desktop dengan Distribusi Vertikal Sempurna) -->
     <div class="max-w-[1440px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col justify-between">
       
-      <!-- Bagian Atas: 4 Kolom Navigasi & Image Hook Card -->
+      <!-- Bagian Atas: 4 Kolom Navigasi & Peta Interaktif -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 pb-8 sm:pb-10 border-b border-white/10 animate-fade-in">
         
         <!-- Kolom 1: Produk Panen -->
@@ -80,7 +80,7 @@
               <a 
                 href="https://wa.me/628999192861" 
                 target="_blank" 
-                rel="noopener noreferrer"
+                rel="noopener noreferrer" 
                 class="hover:text-white hover:underline transition-colors"
               >
                 Hubungi Tim Admin
@@ -125,38 +125,28 @@
           </div>
         </div>
 
-        <!-- Kolom 4: IMAGE HOOK CARD (Foto Peternakan & Link Google Maps Resmi) -->
+        <!-- Kolom 4: PETA INTERAKTIF (Bisa Digeser / Zoom) & Ikon Medsos Lebih Besar -->
         <div class="lg:col-span-4 flex flex-col items-start lg:items-end">
           
-          <!-- Image Hook Card: Foto Peternakan Ajibarang dengan Pin & Link Maps Resmi -->
-          <div class="relative w-full max-w-sm rounded-2xl overflow-hidden bg-[#0a1829] shadow-xl border border-white/20 flex flex-col group">
-            <!-- Background Image Hook -->
-            <div 
-              class="w-full h-36 bg-cover bg-center relative transition-transform duration-500 group-hover:scale-105" 
-              style="background-image: url('/assets/hero-bg.png');"
-            >
-              <div class="absolute inset-0 bg-[#022448]/50 backdrop-blur-[0.5px]"></div>
-              
-              <!-- Static Pin Marker -->
-              <div class="absolute inset-0 flex items-center justify-center">
-                <div class="flex flex-col items-center">
-                  <span class="material-symbols-outlined text-[#ef4444] text-[34px] drop-shadow-md">location_on</span>
-                  <span class="px-2 py-0.5 rounded bg-white text-[#022448] text-[11px] font-bold shadow-md -mt-1">
-                    CV Banong Farms
-                  </span>
-                </div>
-              </div>
-
-              <!-- Badge Hook -->
-              <div class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-[#022448]/80 backdrop-blur-md border border-white/20 text-[10px] text-white font-semibold">
-                📍 Ajibarang, Banyumas
-              </div>
+          <!-- Peta Google Maps Interaktif (Live Iframe yang Bisa Digeser-geser Langsung di Web) -->
+          <div class="relative w-full max-w-sm rounded-2xl overflow-hidden bg-[#0a1829] shadow-xl border border-white/20 flex flex-col">
+            <!-- Iframe Google Maps Asli Banong Farms -->
+            <div class="w-full h-40 relative bg-[#061527]">
+              <iframe
+                title="Peta Interaktif CV Banong Farms Ajibarang"
+                class="w-full h-full border-0"
+                src="https://maps.google.com/maps?q=-7.4065147,109.0743739+(Banong+Farms)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
 
-            <!-- Card Bottom Strip dengan Link Google Maps Resmi -->
-            <div class="p-3 bg-[#0c1e34] flex items-center justify-between gap-2">
-              <span class="text-xs text-slate-300 font-medium truncate">
-                Kawasan Peternakan Alami
+            <!-- Card Bottom Strip dengan Tombol Buka di Maps -->
+            <div class="p-3 bg-[#0c1e34] flex items-center justify-between gap-2 border-t border-white/10">
+              <span class="text-xs text-slate-200 font-semibold truncate flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Banong Farms Ajibarang</span>
               </span>
               <a 
                 href="https://maps.app.goo.gl/AXAGnr9V4D15MyUz9" 
@@ -170,34 +160,34 @@
             </div>
           </div>
 
-          <!-- Social Icons Row -->
-          <div class="flex items-center gap-3 pt-3">
+          <!-- Ikon Medsos Lebih Besar Sesuai Permintaan User -->
+          <div class="flex items-center gap-3 pt-3.5">
             <a 
               href="https://instagram.com" 
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label="Instagram"
-              class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary-container hover:text-primary text-white flex items-center justify-center transition-all shadow-xs"
+              class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-secondary-container hover:text-primary text-white flex items-center justify-center transition-all duration-200 transform hover:-translate-y-1 shadow-md cursor-pointer"
             >
-              <span class="material-symbols-outlined text-[17px]">photo_camera</span>
+              <span class="material-symbols-outlined text-[22px] sm:text-[24px]">photo_camera</span>
             </a>
             <a 
               href="https://facebook.com" 
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label="Facebook"
-              class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary-container hover:text-primary text-white flex items-center justify-center transition-all shadow-xs"
+              class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-secondary-container hover:text-primary text-white flex items-center justify-center transition-all duration-200 transform hover:-translate-y-1 shadow-md cursor-pointer"
             >
-              <span class="material-symbols-outlined text-[17px]">public</span>
+              <span class="material-symbols-outlined text-[22px] sm:text-[24px]">public</span>
             </a>
             <a 
               href="https://youtube.com" 
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label="YouTube"
-              class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary-container hover:text-primary text-white flex items-center justify-center transition-all shadow-xs"
+              class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-secondary-container hover:text-primary text-white flex items-center justify-center transition-all duration-200 transform hover:-translate-y-1 shadow-md cursor-pointer"
             >
-              <span class="material-symbols-outlined text-[17px]">play_circle</span>
+              <span class="material-symbols-outlined text-[22px] sm:text-[24px]">play_circle</span>
             </a>
           </div>
 
@@ -205,40 +195,25 @@
 
       </div>
 
-      <!-- Bagian Bawah: JUDUL BESAR RAKSASA (1 BARIS UTUH DENGAN EFEK 3D OPTIMIZELY) -->
+      <!-- Bagian Bawah: JUDUL BESAR RAKSASA (1 BARIS UTUH DIPERBESAR SEDIKIT LAGI) -->
       <div class="py-8 sm:py-10 lg:py-14 flex items-center justify-center w-full overflow-hidden select-none">
         <h2 
-          class="font-black text-center tracking-tighter text-secondary-container text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[98px] 2xl:text-[120px] leading-none uppercase whitespace-nowrap transition-transform duration-300 hover:scale-[1.01]"
+          class="font-black text-center tracking-tighter text-secondary-container text-4xl sm:text-5xl md:text-7xl lg:text-[86px] xl:text-[112px] 2xl:text-[136px] leading-none uppercase whitespace-nowrap transition-transform duration-300 hover:scale-[1.01]"
           style="text-shadow: 2px 2px 0 #051426, 4px 4px 0 #051426, 6px 6px 0 #051426, 8px 8px 0 #051426, 11px 11px 0 #051426;"
         >
           CV BANONG FARMS
         </h2>
       </div>
 
-      <!-- Baris Paling Bawah: Search Pill, Location Tag & Legal Info -->
-      <div class="pt-5 sm:pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-300">
-        
-        <!-- Sisi Kiri: Tombol Search & Tag Wilayah -->
-        <div class="flex items-center gap-2.5">
-          <a 
-            href="#katalog-produk" 
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-secondary-container hover:text-primary text-white text-xs font-semibold transition-all shadow-xs cursor-pointer"
-          >
-            <span class="material-symbols-outlined text-[15px]">search</span>
-            <span>Cari Produk</span>
-          </a>
-          <div class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 text-xs font-medium">
-            <span>Ajibarang, ID 🇮🇩</span>
-          </div>
+      <!-- Baris Paling Bawah: Hak Cipta & Kebijakan Bersih (Search & Ajibarang ID Dihapus) -->
+      <div class="pt-5 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
+        <div>
+          © 2026 CV Banong Farms. Seluruh Hak Cipta Dilindungi.
         </div>
-
-        <!-- Sisi Kanan: Hak Cipta & Kebijakan -->
-        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-slate-300 text-[11px] sm:text-xs">
-          <span>© 2026 CV Banong Farms. Seluruh Hak Cipta Dilindungi.</span>
+        <div class="flex flex-wrap items-center gap-5 sm:gap-6 text-slate-300 text-xs">
           <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
           <a href="#" class="hover:text-white transition-colors">Syarat &amp; Ketentuan</a>
         </div>
-
       </div>
 
     </div>

@@ -90,14 +90,13 @@ Sesuai arahan mutlak pada sesi ini, seluruh UI/UX landing page wajib tunduk pada
   1. `PolaroidCtaSection.vue`: Warna latar belakang diubah dari `bg-surface-subtle` (`#F8FAFC`) dan `dark:bg-[#060D1E]` menjadi **`bg-surface-pure` (`#FFFFFF`) dan `dark:bg-[#070D1E]`**, persis identik dengan seksi-seksi sebelumnya.
   2. `ProductGrid.vue`: Mode gelap diselaraskan dari `dark:bg-[#0A1128]` menjadi **`dark:bg-[#070D1E]`** agar transisi antar-seksi dalam mode gelap maupun terang 100% mulus (*seamless*).
 
-### H. Redesain Footer Editorial 100vh Desktop: Judul 1 Baris & Tautan Maps Resmi (`FooterSection.vue`)
-- **Tujuan:** Mengatur tinggi footer menjadi **`100vh` (min-h-screen)** pada desktop dengan padding atas yang lega (`pt-20 sm:pt-28 lg:pt-36`), mengunci judul raksasa **`CV BANONG FARMS`** dalam **1 baris utuh** tanpa wrap, menghapus pill announcement dan badge hook atas judul, serta memperbarui tautan Google Maps ke URL resmi yang diberikan user.
+### H. Redesain Footer Editorial 100vh Desktop: Peta Interaktif, Medsos Besar & Judul Raksasa (`FooterSection.vue`)
+- **Tujuan:** Mengintegrasikan peta interaktif asli (*draggable/zoomable Google Maps iframe*) di dalam website, memperbesar ukuran tombol ikon media sosial, membersihkan bilah bawah dari tombol pencarian & tag wilayah, serta memperbesar sedikit lagi skala judul raksasa **`CV BANONG FARMS`** dalam 1 baris utuh.
 - **Perubahan Spesifik:**
-  1. **Tinggi 100vh & Padding Atas Lega:** Ditambahkan kelas **`lg:min-h-screen flex flex-col justify-between`** dan padding atas ditingkatkan ke **`pt-20 sm:pt-28 lg:pt-36`**, memberikan ruang bernapas yang megah, editorial, dan sangat elegan pada layar desktop.
-  2. **Penghapusan Elemen Minor:** *Announcement Pill* ("Panen Segar Hari Ini...") di kanan atas dan *Visual Badge Hook* ("Agribisnis & Peternakan...") di atas judul telah **dihapus total** sesuai permintaan.
-  3. **Judul Raksasa Terkunci 1 Baris:** Teks **`CV BANONG FARMS`** kini terkunci tepat pada **1 baris utuh** dengan kelas **`whitespace-nowrap leading-none`** dan skala responsif presisi (**`text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[98px] 2xl:text-[120px] font-black`**) beserta efek retro 3D extrusion shadow kuning emas `#fcd400` di atas navy `#132A4A`.
-  4. **Tautan Google Maps Resmi:** Tautan pada kartu foto dan link Lokasi Peternakan diarahkan langsung ke URL resmi: **`https://maps.app.goo.gl/AXAGnr9V4D15MyUz9`**.
-  5. **Bilah Paling Bawah (Search & Legal):** Tombol *Cari Produk*, tag wilayah *Ajibarang, ID*, hak cipta, dan tautan legal.
+  1. **Peta Google Maps Interaktif (Live Draggable Iframe):** Mengganti foto kartu statis dengan `<iframe>` Google Maps interaktif resmi CV Banong Farms di koordinat Ajibarang (`-7.4065147, 109.0743739`). Pengunjung dapat menggeser, memperbesar (*zoom*), menjelajahi area peternakan langsung di web, serta klik tombol *"Buka di Maps"* untuk tautan aplikasi.
+  2. **Ikon Sosial Media Diperbesar:** Ukuran tombol media sosial di bawah peta dinaikkan drastis dari `w-8 h-8` menjadi **`w-11 h-11 sm:w-12 sm:h-12`** dengan ikon `text-[22px] sm:text-[24px]` dan efek hover translasi yang interaktif.
+  3. **Pembersihan Bilah Bawah:** Tombol *"Cari Produk"* dan tag *"Ajibarang, ID"* telah **dihapus total**. Bilah paling bawah kini tampil bersih dan elegan hanya dengan teks hak cipta serta tautan *Kebijakan Privasi* dan *Syarat & Ketentuan*.
+  4. **Judul Raksasa Diperbesar Sedikit Lagi (1 Baris Utuh):** Ukuran teks judul **`CV BANONG FARMS`** dinaikkan sedikit lagi ke **`text-4xl sm:text-5xl md:text-7xl lg:text-[86px] xl:text-[112px] 2xl:text-[136px] font-black`** dengan **`whitespace-nowrap leading-none`** dan efek 3D text shadow kuning emas `#fcd400` di atas navy `#132A4A`.
 
 ---
 
