@@ -90,16 +90,14 @@ Sesuai arahan mutlak pada sesi ini, seluruh UI/UX landing page wajib tunduk pada
   1. `PolaroidCtaSection.vue`: Warna latar belakang diubah dari `bg-surface-subtle` (`#F8FAFC`) dan `dark:bg-[#060D1E]` menjadi **`bg-surface-pure` (`#FFFFFF`) dan `dark:bg-[#070D1E]`**, persis identik dengan seksi-seksi sebelumnya.
   2. `ProductGrid.vue`: Mode gelap diselaraskan dari `dark:bg-[#0A1128]` menjadi **`dark:bg-[#070D1E]`** agar transisi antar-seksi dalam mode gelap maupun terang 100% mulus (*seamless*).
 
-### H. Redesain Footer Kompak: Padding Kiri-Kanan Lebih Ramping & Logo/Teks Diperbesar (1 Baris) (`FooterSection.vue`)
-- **Tujuan:** Mengurangi ruang kosong/padding berlebih di sisi kiri dan kanan footer agar konten membentang lebih proporsional di layar lebar, sekaligus memperbesar skala logo dan judul brand **`CV Banong Farms`** dengan jaminan tetap berada pada **1 baris utuh** (*no line break*).
+### H. Redesain Footer Editorial 100vh Desktop: Judul 1 Baris & Tautan Maps Resmi (`FooterSection.vue`)
+- **Tujuan:** Mengatur tinggi footer menjadi **`100vh` (min-h-screen)** pada desktop dengan padding atas yang lega (`pt-20 sm:pt-28 lg:pt-36`), mengunci judul raksasa **`CV BANONG FARMS`** dalam **1 baris utuh** tanpa wrap, menghapus pill announcement dan badge hook atas judul, serta memperbarui tautan Google Maps ke URL resmi yang diberikan user.
 - **Perubahan Spesifik:**
-  1. **Pengurangan Padding & Pelebaran Kontainer:** Kontainer footer diperlebar dari batas default `1280px` menjadi **`max-w-[1440px] 2xl:max-w-[1560px]`** dengan padding sisi yang lebih ramping (**`px-4 sm:px-6 lg:px-8`**), menghasilkan tampilan yang lebih lapang ke tepi kanan-kiri layar tanpa margin kosong yang menyiksa.
-  2. **Logo & Teks Diperbesar Lebih Dominan (Terkunci 1 Baris):** Teks brand dinaikkan ke skala **`text-2xl sm:text-3xl md:text-4xl lg:text-[32px] xl:text-[38px] 2xl:text-[42px] font-black whitespace-nowrap leading-none`** berdampingan dengan logo resmi yang berdimensi seimbang (**`h-9 sm:h-10 md:h-11 lg:h-10 xl:h-11 2xl:h-12`**), terkunci mutlak dalam 1 baris horizontal.
-  3. **Kolom 2 (Navigasi Cepat):** Header kuning emas `text-secondary-container` dengan 4 tautan: *Katalog Produk*, *Lokasi Farm*, *Sertifikasi Organik*, dan *Hubungi Tim*.
-  4. **Kolom 3 (Informasi Kontak):** Header kuning emas dengan 3 baris lengkap: *WhatsApp Hotline* (+62 899-9192-861), *Email Resmi* (halo@banongfarms.id), dan *Jam Operasional Farm*.
-  5. **Kolom 4 (Lokasi Peternakan):** Header kuning emas dengan kartu interaktif peta Ajibarang, pin merah peternakan, serta tombol CTA Kuning *"Buka di Maps"*.
-  6. **Padding Internal Kompak & Rapi:** Padding vertikal footer tetap ringkas (**`pt-10 sm:pt-12 pb-6 sm:pb-8`**).
-  7. **Baris Hak Cipta Bawah:** `© 2026 CV Banong Farms Ajibarang. Hak Cipta Dilindungi.` beserta tautan *Kebijakan Privasi* dan *Syarat & Ketentuan* yang bersih.
+  1. **Tinggi 100vh & Padding Atas Lega:** Ditambahkan kelas **`lg:min-h-screen flex flex-col justify-between`** dan padding atas ditingkatkan ke **`pt-20 sm:pt-28 lg:pt-36`**, memberikan ruang bernapas yang megah, editorial, dan sangat elegan pada layar desktop.
+  2. **Penghapusan Elemen Minor:** *Announcement Pill* ("Panen Segar Hari Ini...") di kanan atas dan *Visual Badge Hook* ("Agribisnis & Peternakan...") di atas judul telah **dihapus total** sesuai permintaan.
+  3. **Judul Raksasa Terkunci 1 Baris:** Teks **`CV BANONG FARMS`** kini terkunci tepat pada **1 baris utuh** dengan kelas **`whitespace-nowrap leading-none`** dan skala responsif presisi (**`text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[98px] 2xl:text-[120px] font-black`**) beserta efek retro 3D extrusion shadow kuning emas `#fcd400` di atas navy `#132A4A`.
+  4. **Tautan Google Maps Resmi:** Tautan pada kartu foto dan link Lokasi Peternakan diarahkan langsung ke URL resmi: **`https://maps.app.goo.gl/AXAGnr9V4D15MyUz9`**.
+  5. **Bilah Paling Bawah (Search & Legal):** Tombol *Cari Produk*, tag wilayah *Ajibarang, ID*, hak cipta, dan tautan legal.
 
 ---
 
