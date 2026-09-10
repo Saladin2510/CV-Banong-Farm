@@ -1,25 +1,26 @@
 <template>
   <footer class="w-full bg-[#132A4A] dark:bg-[#071326] text-white pt-10 sm:pt-12 pb-6 sm:pb-8 border-t border-transparent dark:border-slate-800/80 transition-colors duration-300" id="kontak">
-    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">
+    <!-- Kontainer Footer Diperlebar & Padding Kiri-Kanan Dikurangi Sesuai Permintaan User -->
+    <div class="max-w-[1440px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- 4 Columns Grid (Tata Letak Asli: Logo & Text Sama Besar, 1 Baris Saja Tanpa Wrap) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-6 sm:pb-8 border-b border-white/10 animate-fade-in">
+      <!-- 4 Columns Grid (Tata Letak Asli: Padding Kiri-Kanan Ramping, Logo & Judul Lebih Besar & Terkunci 1 Baris) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 pb-6 sm:pb-8 border-b border-white/10 animate-fade-in">
         
-        <!-- Col 1: Logo & Nama Website Sama Besar (1 Baris Saja), Deskripsi, dan Sosial Media -->
+        <!-- Col 1: Logo & Nama Website Lebih Besar Lagi (Terkunci 1 Baris Utuh), Deskripsi, dan Sosial Media -->
         <div class="lg:col-span-5 flex flex-col space-y-3 sm:space-y-4">
-          <!-- Logo & Tulisan Nama Website: Sama Besar & 1 Baris Saja Sesuai Arahan User -->
-          <div class="flex items-center gap-2.5 sm:gap-3">
+          <!-- Logo & Tulisan Nama Website: Diperbesar Lagi, Sama Tinggi, & Terkunci 1 Baris (whitespace-nowrap) -->
+          <div class="flex items-center gap-3 sm:gap-3.5">
             <img 
               alt="CV Banong Farms" 
-              class="h-8 sm:h-9 md:h-10 lg:h-[30px] xl:h-[34px] w-auto object-contain drop-shadow shrink-0" 
+              class="h-9 sm:h-10 md:h-11 lg:h-10 xl:h-11 2xl:h-12 w-auto object-contain drop-shadow shrink-0" 
               src="/assets/logo.png" 
             />
-            <span class="text-xl sm:text-2xl md:text-3xl lg:text-[28px] xl:text-[34px] font-black text-white tracking-tight whitespace-nowrap leading-none font-sans select-none">
+            <span class="text-2xl sm:text-3xl md:text-4xl lg:text-[32px] xl:text-[38px] 2xl:text-[42px] font-black text-white tracking-tight whitespace-nowrap leading-none font-sans select-none">
               CV Banong Farms
             </span>
           </div>
 
-          <p class="text-xs sm:text-sm text-slate-200 dark:text-slate-300 leading-relaxed pr-2 sm:pr-4">
+          <p class="text-xs sm:text-sm text-slate-200 dark:text-slate-300 leading-relaxed pr-2 sm:pr-6 max-w-lg">
             Agribisnis berkelanjutan berkualitas tinggi dari Ajibarang, Banyumas. Menghadirkan gizi segar, alami, dan terpercaya bagi masyarakat luas.
           </p>
 
