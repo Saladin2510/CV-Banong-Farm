@@ -7,19 +7,7 @@
     <!-- Background Ambient Glow (Blue & Yellow) -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[360px] bg-primary/4 dark:bg-blue-500/5 blur-[160px] rounded-full pointer-events-none"></div>
 
-    <!-- Section Header / Subtitle -->
-    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop text-center mb-16 sm:mb-24 lg:mb-32 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 dark:bg-primary-container/30 text-primary dark:text-secondary-container font-bold text-xs uppercase tracking-wider border border-primary/20 dark:border-secondary-container/30 shadow-2xs">
-        <span class="material-symbols-outlined text-[16px] text-secondary-container">agriculture</span>
-        <span>Komoditas Unggulan Peternakan</span>
-      </div>
-      <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase mt-3 sm:mt-4">
-        Panen Segar <span class="text-primary dark:text-secondary-container">CV Banong Farms</span>
-      </h2>
-      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 max-w-md mx-auto">
-        Arahkan kursor pada baris komoditas untuk melihat hasil panen alami langsung dari Ajibarang
-      </p>
-    </div>
+
 
     <!-- 5-Row Marquee Stacking Container -->
     <div 

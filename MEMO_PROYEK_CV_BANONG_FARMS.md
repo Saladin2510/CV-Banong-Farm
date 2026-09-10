@@ -41,6 +41,7 @@ Sesuai arahan mutlak pada sesi ini, seluruh UI/UX landing page wajib tunduk pada
   3. *DAGING ORGANIK HIGIENIS* (Foto: Karkas ayam utuh segar higienis).
   4. *PERIKANAN AIR DERAS* (Foto: Ikan air tawar segar & higienis).
   5. *PUPUK KASGOT ORGANIK* (Foto: Pupuk kasgot hasil biokonversi maggot BSF ramah lingkungan).
+  - **Pembaruan Header:** Elemen *Section Header / Subtitle* (badge komoditas unggulan, judul panen segar, dan panduan kursor) telah **dihapus total** untuk memaksimalkan kesan minimalis, elegan, dan lapang (*pure continuous marquee focus*).
 - **Karakteristik Animasi & UX:**
   - 5 baris berjalan bersilangan (zigzag/berlawanan arah) dengan kecepatan selaras (~14s-20s linear infinite).
   - Ukuran teks proporsional (`text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[64px]`).
