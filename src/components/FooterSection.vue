@@ -3,46 +3,58 @@
     <!-- Kontainer Lebar Maksimal Layar (100vh Desktop dengan Distribusi Vertikal Sempurna) -->
     <div class="max-w-[1440px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col justify-between">
       
-      <!-- Bagian Atas: 4 Kolom Navigasi & Peta Interaktif -->
+      <!-- Bagian Atas: 4 Kolom Navigasi, Logo Resmi & Peta Interaktif -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 pb-8 sm:pb-10 border-b border-white/10 animate-fade-in">
         
-        <!-- Kolom 1: Produk Panen -->
-        <div class="lg:col-span-3 flex flex-col">
-          <h4 class="font-bold text-secondary-container text-sm sm:text-base uppercase tracking-wider mb-4 font-headline-md">
-            Produk Panen
-          </h4>
-          <ul class="flex flex-col space-y-2.5 text-xs sm:text-sm text-slate-200">
-            <li>
-              <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                <span>Telur Ayam &amp; Bebek Segar</span>
-              </a>
-            </li>
-            <li>
-              <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                <span>Karkas Ayam Kampung Organik</span>
-              </a>
-            </li>
-            <li>
-              <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                <span>Domba Bakalan &amp; Aqiqah</span>
-              </a>
-            </li>
-            <li>
-              <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                <span>Perikanan Air Deras Nila</span>
-              </a>
-            </li>
-            <li>
-              <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                <span>Pupuk Kasgot Organik BSF</span>
-              </a>
-            </li>
-          </ul>
+        <!-- Kolom 1: Logo Resmi di Samping Produk Panen -->
+        <div class="lg:col-span-4 flex items-start gap-4 sm:gap-6">
+          <!-- Logo Resmi CV Banong Farms -->
+          <a href="#" class="shrink-0 transition-transform duration-300 hover:scale-105" aria-label="Kembali ke atas">
+            <img 
+              alt="CV Banong Farms" 
+              class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain drop-shadow" 
+              src="/assets/logo.png" 
+            />
+          </a>
+
+          <!-- Daftar Produk Panen -->
+          <div class="flex flex-col">
+            <h4 class="font-bold text-secondary-container text-sm sm:text-base uppercase tracking-wider mb-4 font-headline-md">
+              Produk Panen
+            </h4>
+            <ul class="flex flex-col space-y-2.5 text-xs sm:text-sm text-slate-200">
+              <li>
+                <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
+                  <span>Telur Ayam &amp; Bebek Segar</span>
+                </a>
+              </li>
+              <li>
+                <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
+                  <span>Karkas Ayam Kampung Organik</span>
+                </a>
+              </li>
+              <li>
+                <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
+                  <span>Domba Bakalan &amp; Aqiqah</span>
+                </a>
+              </li>
+              <li>
+                <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
+                  <span>Perikanan Air Deras Nila</span>
+                </a>
+              </li>
+              <li>
+                <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
+                  <span>Pupuk Kasgot Organik BSF</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <!-- Kolom 2: Navigasi Cepat -->
@@ -126,7 +138,7 @@
         </div>
 
         <!-- Kolom 4: PETA INTERAKTIF (Bisa Digeser / Zoom) & Ikon Medsos Lebih Besar -->
-        <div class="lg:col-span-4 flex flex-col items-start lg:items-end">
+        <div class="lg:col-span-3 flex flex-col items-start lg:items-end">
           
           <!-- Peta Google Maps Interaktif (Live Iframe yang Bisa Digeser-geser Langsung di Web) -->
           <div class="relative w-full max-w-sm rounded-2xl overflow-hidden bg-[#0a1829] shadow-xl border border-white/20 flex flex-col">
