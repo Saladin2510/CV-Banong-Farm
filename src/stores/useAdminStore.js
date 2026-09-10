@@ -2,18 +2,19 @@ import { ref, computed } from 'vue'
 import { apiService } from '../services/apiService'
 import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 
-const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_zero_v6'
-const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_zero_v6'
-const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_zero_v6'
+const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pcs_v7'
+const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pcs_v7'
+const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pcs_v7'
 
-// Clear legacy cached data from previous mock versions to start fresh from ZERO
+// Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
   try {
     [
       'cv_banong_farms_products_v2', 'cv_banong_farms_orders_v2', 'cv_banong_farms_daily_chart_v2',
       'cv_banong_farms_products_v3', 'cv_banong_farms_orders_v3', 'cv_banong_farms_daily_chart_v3',
       'cv_banong_farms_products_v4', 'cv_banong_farms_orders_v4', 'cv_banong_farms_daily_chart_v4',
-      'cv_banong_farms_products_clean_v5', 'cv_banong_farms_orders_clean_v5', 'cv_banong_farms_daily_chart_clean_v5'
+      'cv_banong_farms_products_clean_v5', 'cv_banong_farms_orders_clean_v5', 'cv_banong_farms_daily_chart_clean_v5',
+      'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6'
     ].forEach(k => localStorage.removeItem(k))
   } catch (_) {}
 }
@@ -99,7 +100,7 @@ export function getDynamicLast7Days() {
   return days
 }
 
-// Master Commodities (All Stock & Sales Start from Zero for Real Testing)
+// Master Commodities (All Stock & Sales Start from Zero in PCS Units)
 const DEFAULT_PRODUCTS = [
   {
     id: 1,
@@ -110,7 +111,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 2500,
     price: 38000,
-    unit: 'tray',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'egg',
     image: '/assets/product-eggs.png',
@@ -125,7 +126,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 5000,
     price: 26000,
-    unit: 'kg',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'set_meal',
     image: '/assets/product-fish.png',
@@ -140,7 +141,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 2000,
     price: 48000,
-    unit: 'ekor',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'nutrition',
     image: '/assets/product-chicken.png',
@@ -155,7 +156,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 6000,
     price: 42000,
-    unit: 'tray',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'egg',
     image: '/assets/product-eggs.png',
@@ -170,7 +171,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 1200,
     price: 62000,
-    unit: 'ekor',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'nutrition',
     image: '/assets/product-duck.png',
@@ -185,7 +186,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 1500,
     price: 48000,
-    unit: 'kg',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'set_meal',
     image: '/assets/product-gurame.png',
@@ -200,7 +201,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 8000,
     price: 25000,
-    unit: 'karung 10kg',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'eco',
     image: '/assets/product-fertilizer.png',
@@ -215,7 +216,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 16000,
     price: 30000,
-    unit: 'kg',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'local_fire_department',
     image: '/assets/product-chicken.png',
@@ -230,7 +231,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 18000,
     price: 22000,
-    unit: 'kg',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'eco',
     image: '/assets/product-fertilizer.png',
@@ -245,7 +246,7 @@ const DEFAULT_PRODUCTS = [
     stock: 0,
     maxStock: 24000,
     price: 48000,
-    unit: 'kg',
+    unit: 'pcs',
     soldCount: 0,
     icon: 'coffee',
     image: '/assets/product-fertilizer.png',
@@ -490,19 +491,21 @@ if (typeof window !== 'undefined') {
   syncWithServerDatabase()
 }
 
-// Computed Metrics
-const totalStockKg = computed(() => {
+// Computed Metrics (Pure Satuan Pcs)
+const totalStockPcs = computed(() => {
   return products.value.reduce((acc, p) => acc + (Number(p.stock) || 0), 0)
 })
 
+const totalStockKg = totalStockPcs // alias untuk kompatibilitas
+
 const totalStockTon = computed(() => {
-  return (totalStockKg.value / 1000).toFixed(1)
+  return (totalStockPcs.value / 1000).toFixed(1)
 })
 
 const totalCapacityPercent = computed(() => {
   const totalMax = products.value.reduce((acc, p) => acc + (Number(p.maxStock) || Number(p.stock) * 1.3), 0)
   if (!totalMax) return 0
-  return Math.min(100, Math.round((totalStockKg.value / totalMax) * 100))
+  return Math.min(100, Math.round((totalStockPcs.value / totalMax) * 100))
 })
 
 const totalRevenue = computed(() => {
@@ -542,7 +545,7 @@ const aiStrategy = computed(() => {
   return {
     title: `Strategi Pemasaran Komoditas ${top.name}`,
     productName: top.name,
-    analysis: `Berdasarkan serapan nyata, produk ${top.name} mencatat volume serapan sebesar ${(top.soldCount || 0).toLocaleString('id-ID')} kg dengan sisa stok aktif ${top.stock.toLocaleString('id-ID')} kg. Lanjutkan pemantauan pesanan WhatsApp untuk memaksimalkan perputaran stok fisik.`,
+    analysis: `Berdasarkan serapan nyata, produk ${top.name} mencatat volume serapan sebesar ${(top.soldCount || 0).toLocaleString('id-ID')} pcs dengan sisa stok aktif ${top.stock.toLocaleString('id-ID')} pcs. Lanjutkan pemantauan pesanan WhatsApp untuk memaksimalkan perputaran stok fisik.`,
     accuracy: '96,2%',
     risk: top.stock < 10 ? 'Stok Menipis' : 'Stabilitas Aman',
     priority: top.stock < 10 ? 'Segera Restok' : 'Prioritas Utama'
@@ -569,7 +572,7 @@ const dynamic7DaysInfo = computed(() => {
   })
 
   const peakDayName = peakIndex !== -1 ? days[peakIndex]?.label : 'Hari Ini'
-  const peakAmount = maxVal > 0 ? `${maxVal.toLocaleString('id-ID')} kg` : '0 kg'
+  const peakAmount = maxVal > 0 ? `${maxVal.toLocaleString('id-ID')} pcs` : '0 pcs'
   const peakValRupiah = maxVal > 0 ? `Rp ${(maxVal * 32000).toLocaleString('id-ID')}` : 'Rp 0'
 
   return {
@@ -1041,6 +1044,7 @@ export function useAdminStore() {
     isSupabaseConnected,
     syncWithServerDatabase,
     syncWithSupabaseDatabase,
+    totalStockPcs,
     totalStockKg,
     totalStockTon,
     totalCapacityPercent,

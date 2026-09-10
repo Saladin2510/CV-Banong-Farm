@@ -94,7 +94,7 @@
           <span class="mt-0.5">
             {{ adminStore.lastSyncToast.value.customer }} - 
             <span v-if="adminStore.lastSyncToast.value.isCompleted">
-              Stok dipotong <strong>{{ adminStore.lastSyncToast.value.qty }} kg</strong>. Sisa stok: <strong>{{ (adminStore.lastSyncToast.value.remainingStock || 0).toLocaleString('id-ID') }} kg</strong>. Laporan harian terupdate!
+              Stok dipotong <strong>{{ adminStore.lastSyncToast.value.qty }} pcs</strong>. Sisa stok: <strong>{{ (adminStore.lastSyncToast.value.remainingStock || 0).toLocaleString('id-ID') }} pcs</strong>. Laporan harian terupdate!
             </span>
             <span v-else-if="adminStore.lastSyncToast.value.isCancelled">
               Pesanan ditolak tanpa mengurangi sisa stok komoditas.
@@ -203,7 +203,7 @@
                 {{ order.productName || 'Pakan Ternak Banong' }}
               </span>
               <span class="text-xs text-[#594136] dark:text-slate-300 font-telemetry-code">
-                Jumlah Beli: <strong>{{ (order.qty || 1).toLocaleString('id-ID') }} unit/kg</strong>
+                Jumlah Beli: <strong>{{ (order.qty || 1).toLocaleString('id-ID') }} pcs</strong>
               </span>
             </div>
 

@@ -33,15 +33,15 @@
       </div>
     </div>
 
-    <!-- Card 2: Total Stok Panen -->
+    <!-- Card 2: Total Stok Produk (Satuan Pcs) -->
     <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 shadow-xs hover:shadow-md flex flex-col justify-between border border-slate-200/80 dark:border-slate-800 hover:border-primary/40 transition-all">
       <div class="flex items-start justify-between gap-2">
         <div class="flex flex-col">
           <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
-            Total Stok Panen
+            Total Stok Produk
           </span>
           <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
-            {{ adminStore.totalStockKg.value.toLocaleString('id-ID') }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">kg</span>
+            {{ (adminStore.totalStockPcs?.value ?? adminStore.totalStockKg.value).toLocaleString('id-ID') }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Pcs</span>
           </span>
         </div>
         <div class="w-11 h-11 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center text-primary dark:text-white shrink-0 border border-primary/20">
@@ -63,7 +63,7 @@
           ></div>
         </div>
         <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-          {{ adminStore.totalStockKg.value === 0 ? 'Stok fisik gudang kosong (Mulai dari nol)' : 'Telur • Unggas • Daging • Ikan • Kasgot' }}
+          {{ (adminStore.totalStockPcs?.value ?? adminStore.totalStockKg.value) === 0 ? 'Stok produk kosong (Mulai dari 0 Pcs)' : 'Akumulasi inventaris satuan produk' }}
         </span>
       </div>
     </div>

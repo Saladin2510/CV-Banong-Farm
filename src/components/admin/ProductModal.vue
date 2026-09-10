@@ -87,40 +87,52 @@
             </div>
           </div>
 
-          <!-- Stock & Max Capacity -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Stock, Max Capacity & Unit -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="flex flex-col gap-1.5">
               <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
-                Stok Fisik (kg) <span class="text-red-500">*</span>
+                Stok Fisik (pcs) <span class="text-red-500">*</span>
               </label>
               <input 
                 v-model.number="formData.stock" 
                 type="number" 
                 min="0"
                 required
-                placeholder="1000"
-                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors font-telemetry-code text-sm shadow-xs"
+                placeholder="100"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors font-telemetry-code text-sm shadow-xs"
               />
             </div>
 
             <div class="flex flex-col gap-1.5">
               <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
-                Kapasitas Maksimal (kg)
+                Kapasitas Maksimal (pcs)
               </label>
               <input 
                 v-model.number="formData.maxStock" 
                 type="number" 
                 min="10"
-                placeholder="15000"
-                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors font-telemetry-code text-sm shadow-xs"
+                placeholder="5000"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors font-telemetry-code text-sm shadow-xs"
+              />
+            </div>
+
+            <div class="flex flex-col gap-1.5">
+              <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
+                Satuan Produk
+              </label>
+              <input 
+                v-model="formData.unit" 
+                type="text" 
+                placeholder="pcs"
+                class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors font-telemetry-code text-sm shadow-xs"
               />
             </div>
           </div>
 
-          <!-- Price per kg -->
+          <!-- Price per unit -->
           <div class="flex flex-col gap-1.5">
             <label class="font-bold text-slate-700 dark:text-slate-300 text-xs uppercase font-telemetry-code">
-              Harga Satuan (Rp/kg) <span class="text-red-500">*</span>
+              Harga Satuan (Rp/{{ formData.unit || 'pcs' }}) <span class="text-red-500">*</span>
             </label>
             <div class="relative">
               <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-telemetry-code text-xs font-bold">Rp</span>
@@ -130,7 +142,7 @@
                 min="100"
                 required
                 placeholder="25000"
-                class="w-full h-11 pl-11 pr-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors font-telemetry-code text-sm shadow-xs"
+                class="w-full h-11 pl-11 pr-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors font-telemetry-code text-sm shadow-xs"
               />
             </div>
           </div>
@@ -146,8 +158,7 @@
             </button>
             <button 
               type="submit" 
-              class="h-11 px-6 rounded-lg font-bold shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer text-xs"
-              style="background-color: #fe6e00; color: #ffffff;"
+              class="h-11 px-6 rounded-lg font-bold shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer text-xs bg-secondary-container text-primary hover:bg-accent-hover"
             >
               <span class="material-symbols-outlined text-[18px]">save</span>
               <span>{{ isEditMode ? 'Simpan Perubahan' : 'Tambah Produk Baru' }}</span>
@@ -179,9 +190,10 @@ const isEditMode = computed(() => !!props.productToEdit)
 
 const formData = ref({
   name: '',
-  category: 'Buah-buahan',
-  icon: 'eco',
-  stock: 1000,
+  category: 'Peternakan Unggas',
+  icon: 'egg',
+  unit: 'pcs',
+  stock: 0,
   maxStock: 5000,
   price: 20000
 })
@@ -190,18 +202,20 @@ watch(() => props.productToEdit, (val) => {
   if (val) {
     formData.value = {
       name: val.name || '',
-      category: val.category || 'Buah-buahan',
-      icon: val.icon || 'eco',
-      stock: val.stock !== undefined ? val.stock : 1000,
-      maxStock: val.maxStock || 10000,
+      category: val.category || 'Peternakan Unggas',
+      icon: val.icon || 'egg',
+      unit: val.unit || 'pcs',
+      stock: val.stock !== undefined ? val.stock : 0,
+      maxStock: val.maxStock || 5000,
       price: val.price || 20000
     }
   } else {
     formData.value = {
       name: '',
-      category: 'Buah-buahan',
-      icon: 'eco',
-      stock: 1000,
+      category: 'Peternakan Unggas',
+      icon: 'egg',
+      unit: 'pcs',
+      stock: 0,
       maxStock: 5000,
       price: 20000
     }

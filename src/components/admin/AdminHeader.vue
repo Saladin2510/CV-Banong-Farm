@@ -58,7 +58,7 @@
             >
               <div class="flex justify-between items-center text-[11px]">
                 <span class="text-secondary-container font-bold">{{ order.id }}</span>
-                <span class="text-white/80 font-medium">{{ order.qty }} kg</span>
+                <span class="text-white/80 font-medium">{{ order.qty }} {{ order.unit || 'pcs' }}</span>
               </div>
               <span class="text-white font-semibold truncate mt-0.5">{{ order.customer }}</span>
               <span class="text-white/70 text-[11px]">{{ order.productName }}</span>

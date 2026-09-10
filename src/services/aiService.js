@@ -166,9 +166,9 @@ export async function generateAiMarketingStrategy(metrics, topProduct, inventory
       const prompt = `Anda adalah Chief Agricultural Strategist AI untuk CV Banong Farms di Ajibarang, Banyumas.
 Berikut adalah data telemetri terkini:
 - Komoditas Terlaris: ${topProduct.name}
-- Volume Terjual: ${topProduct.soldCount} kg
-- Sisa Stok Gudang: ${topProduct.stock} kg (Maks: ${topProduct.maxStock || 10000} kg)
-- Harga Satuan: Rp ${topProduct.price}/kg
+- Volume Terjual: ${topProduct.soldCount} pcs
+- Sisa Stok Gudang: ${topProduct.stock} pcs (Maks: ${topProduct.maxStock || 5000} pcs)
+- Harga Satuan: Rp ${topProduct.price}/pcs
 - Total Omset Berjalan: Rp ${metrics.totalRevenueJuta} Juta
 - Total Pesanan WA: ${metrics.totalOrders} tiket
 
@@ -206,7 +206,7 @@ Buatlah analisis strategi pasar dan rekomendasi operasional 2 paragraf padat dal
 
   // Smart Algorithmic fallback
   return {
-    analysis: `Berdasarkan analisis algoritma prediktif, permintaan komoditas ${topProduct?.name || 'Hasil Panen'} mencatat serapan pasar terbesar sebesar ${topProduct?.soldCount?.toLocaleString('id-ID') || '5.120'} kg dengan cadangan stok tersisa ${topProduct?.stock?.toLocaleString('id-ID') || '6.800'} kg. Diproyeksikan terjadi peningkatan pesanan sebesar 28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% pasokan Kluster 04 langsung ke mitra WhatsApp B2B dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin keuntungan sebelum siklus panen raya berikutnya.`,
+    analysis: `Berdasarkan serapan nyata, permintaan komoditas ${topProduct?.name || 'Hasil Panen'} mencatat volume serapan sebesar ${topProduct?.soldCount?.toLocaleString('id-ID') || 0} pcs dengan cadangan stok tersisa ${topProduct?.stock?.toLocaleString('id-ID') || 0} pcs. Diproyeksikan terjadi peningkatan pesanan terarah dalam 72 jam ke depan. Disarankan memprioritaskan alokasi stok ke mitra WhatsApp B2B terverifikasi guna memaksimalkan margin keuntungan operasional.`,
     isLiveAi: false,
     provider: 'Algoritma Prediktif Internal'
   }

@@ -186,7 +186,7 @@ const topProduct = computed(() => adminStore.topSellingProduct.value)
 const defaultAiAnalysis = computed(() => {
   const top = topProduct.value
   if (!top) return 'Memuat data tren komoditas panen...'
-  return `Berdasarkan analisis algoritma prediktif, permintaan komoditas ${top.name} mencatat serapan pasar terbesar sebesar ${top.soldCount?.toLocaleString('id-ID') || 0} kg dengan cadangan stok tersisa ${top.stock?.toLocaleString('id-ID') || 0} kg. Diproyeksikan terjadi peningkatan pesanan sebesar 28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% pasokan Kluster 04 langsung ke mitra WhatsApp B2B dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin keuntungan.`
+  return `Berdasarkan analisis algoritma prediktif, permintaan komoditas ${top.name} mencatat serapan pasar terbesar sebesar ${top.soldCount?.toLocaleString('id-ID') || 0} pcs dengan cadangan stok tersisa ${top.stock?.toLocaleString('id-ID') || 0} pcs. Diproyeksikan terjadi peningkatan pesanan sebesar 28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% pasokan langsung ke mitra WhatsApp B2B dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin keuntungan.`
 })
 
 // Period Data Sets for other timeframes (Clean Zero-State for Pure Real Testing)
@@ -196,7 +196,7 @@ const otherPeriodDatasets = {
     actual: [0, 0, 0, 0, 0, 0, 0],
     predicted: [0, 0, 0, 0, 0, 0, 0],
     peak: {
-      amount: '0 kg / jam',
+      amount: '0 pcs / jam',
       val: 'Rp 0',
       buyer: 'Belum Ada Transaksi'
     }
@@ -206,7 +206,7 @@ const otherPeriodDatasets = {
     actual: [0, 0, 0, 0],
     predicted: [0, 0, 0, 0],
     peak: {
-      amount: '0 kg',
+      amount: '0 pcs',
       val: 'Rp 0',
       buyer: 'Belum Ada Transaksi'
     }
@@ -216,7 +216,7 @@ const otherPeriodDatasets = {
     actual: [0, 0, 0, 0],
     predicted: [0, 0, 0, 0],
     peak: {
-      amount: '0 kg',
+      amount: '0 pcs',
       val: 'Rp 0',
       buyer: 'Belum Ada Transaksi'
     }
@@ -323,7 +323,7 @@ const initChart = () => {
           borderWidth: 1,
           callbacks: {
             label: function(context) {
-              return `${context.dataset.label}: ${context.raw} kg`
+              return `${context.dataset.label}: ${context.raw} pcs`
             }
           }
         }
@@ -353,7 +353,7 @@ const initChart = () => {
             },
             color: colors.tickColor,
             callback: function(val) {
-              return val + ' kg'
+              return val + ' pcs'
             }
           }
         }

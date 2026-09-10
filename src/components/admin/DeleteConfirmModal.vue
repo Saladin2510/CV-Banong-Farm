@@ -27,7 +27,7 @@
           <strong class="text-[#1b1c1a] dark:text-white font-bold">{{ product?.name }}</strong> 
           dari katalog inventaris?
           <span v-if="product && product.stock > 0" class="block mt-1 text-xs text-red-600 dark:text-red-400 font-telemetry-code">
-            Peringatan: Masih terdapat {{ product.stock.toLocaleString('id-ID') }} kg stok fisik di gudang.
+            Peringatan: Masih terdapat {{ product.stock.toLocaleString('id-ID') }} {{ product.unit || 'pcs' }} stok fisik di gudang.
           </span>
         </p>
 

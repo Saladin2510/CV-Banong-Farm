@@ -107,15 +107,23 @@ Sesuai arahan mutlak proyek ini, seluruh UI/UX landing page wajib tunduk pada **
   - Menghapus konstanta `1428 +` dari `totalOrdersCount`. Total pesanan kini murni dihitung dari panjang array tiket pesanan riil (`0` saat awal).
   - Menghapus kurva baseline default harian `[120, 145, 175, 195, 240, 210, 225]` di `dailyChartMap`. Baseline kini `[0, 0, 0, 0, 0, 0, 0]`.
   - Menghapus dataset mock analitik periode `1H`, `1B`, `YTD` di `AiAnalyticsSection.vue`.
-- **Inisialisasi Seluruh Stok Produk ke 0 kg:**
-  - Seluruh 10 komoditas peternakan kini memiliki `stock: 0` dan `soldCount: 0`. Pengguna dapat menambah stok fisik secara nyata melalui form *Edit Komoditas* di tab Manajemen Produk.
+- **Inisialisasi Seluruh Stok Produk ke 0 Pcs:**
+  - Seluruh 10 komoditas peternakan kini memiliki `stock: 0` dan `soldCount: 0` dengan satuan **Pcs**.
 - **Daftar Pesanan Kosong Murni (`DEFAULT_ORDERS = []`):**
   - Live Feed WhatsApp dan preview pesanan terkini dimulai dari antrean kosong dengan *Empty State* yang informatif.
 - **Tombol & Fungsi "Reset ke Nol (0)":**
   - Ditambahkan tombol aksi **`Reset ke Nol (0)`** dengan ikon `restart_alt` di barisan header `CommandCenter.vue`.
   - Fungsi `resetAllDataToZero()` di `useAdminStore.js` mereset stok ke 0, mengosongkan antrean pesanan, dan mengembalikan kurva grafik 7 hari ke 0 dengan 1 klik.
 - **Cache Invalidation Bersih:**
-  - LocalStorage key diperbarui ke `zero_v6` dan seluruh cache lama (`v2`, `v3`, `v4`, `clean_v5`) otomatis dibersihkan saat aplikasi dimuat.
+  - LocalStorage key diperbarui ke `pcs_v7` dan seluruh cache lama (`v2`, `v3`, `v4`, `clean_v5`, `zero_v6`) otomatis dibersihkan saat aplikasi dimuat.
+
+### I. Transisi Satuan Stok Produk dari KG ke Satuan (PCS)
+- **Standardisasi Satuan 'Pcs':**
+  - Seluruh komoditas peternakan tidak lagi menggunakan satuan berat `kg` atau `tray`/`karung`, melainkan menggunakan satuan **`pcs`** sesuai permintaan operasional bisnis.
+  - Kartu Metrik 2 diubah dari *"Total Stok Panen: X Ton / X kg"* menjadi **"Total Stok Produk: X Pcs"**.
+  - Form Modal CRUD Admin (`ProductModal.vue`) kini menyediakan input *"Stok Fisik (pcs)"*, *"Kapasitas Maksimal (pcs)"*, dan *"Satuan Produk (pcs)"* serta tombol simpan kuning emas 60:30:10.
+  - Tampilan katalog publik (`ProductCard.vue`), modal detail pembeli (`ProductModal.vue`), drawer keranjang belanja (`CartDrawer.vue`), dan template teks pemesanan WhatsApp kini menampilkan harga per `pcs` dan jumlah dalam `pcs`.
+  - Tooltip dan sumbu grafik kurva penjualan di `AiAnalyticsSection.vue` telah diselaraskan ke satuan `pcs`.
 
 ---
 

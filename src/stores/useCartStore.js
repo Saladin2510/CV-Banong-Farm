@@ -57,7 +57,7 @@ export function useCartStore() {
         title: product.title || product.name || 'Produk Pakan',
         category: product.category || 'Pakan Ternak',
         price: Number(product.price) || 0,
-        unit: product.unit || 'kg',
+        unit: product.unit || 'pcs',
         image: product.image || '/assets/product-fertilizer.png',
         stock: product.stock || 0,
         qty: addQty

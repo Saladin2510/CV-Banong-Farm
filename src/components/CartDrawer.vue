@@ -294,8 +294,8 @@ const handleCheckoutSubmit = async () => {
     waText += `*Rincian Keranjang Barang:*\n`
     itemsSnapshot.forEach((it, idx) => {
       waText += `${idx + 1}. ${it.title || it.name}\n`
-      waText += `   Jumlah: ${it.qty} ${it.unit || 'kg'}\n`
-      waText += `   Harga: ${formatPrice(it.price)} / ${it.unit || 'kg'}\n`
+      waText += `   Jumlah: ${it.qty} ${it.unit || 'pcs'}\n`
+      waText += `   Harga: ${formatPrice(it.price)} / ${it.unit || 'pcs'}\n`
       waText += `   Subtotal: ${formatPrice(it.price * it.qty)}\n`
     })
     waText += `----------------------------------------\n`

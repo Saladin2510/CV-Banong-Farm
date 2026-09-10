@@ -98,7 +98,7 @@
 
           <!-- Total Calculation Row -->
           <div class="flex items-center justify-between px-1 text-sm">
-            <span class="text-on-surface-variant dark:text-slate-400 font-medium">Subtotal ({{ quantity }} {{ product.unit || 'kg' }}):</span>
+            <span class="text-on-surface-variant dark:text-slate-400 font-medium">Subtotal ({{ quantity }} {{ product.unit || 'pcs' }}):</span>
             <span class="font-extrabold text-xl text-primary dark:text-secondary-container font-telemetry-code">
               {{ formatPrice(product.price * quantity) }}
             </span>

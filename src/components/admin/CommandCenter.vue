@@ -221,10 +221,10 @@
                   </h4>
                   <p class="text-xs text-slate-600 dark:text-slate-400">
                     <span v-if="adminStore.topSellingProduct.value && adminStore.topSellingProduct.value.soldCount > 0">
-                      Komoditas serapan tertinggi: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} kg terjual)
+                      Komoditas serapan tertinggi: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} pcs terjual)
                     </span>
                     <span v-else>
-                      Mulai dari nol: Semua komoditas memiliki stok awal 0 kg. Anda dapat menambah stok panen di tab Kelola Produk.
+                      Mulai dari nol: Semua komoditas memiliki stok awal 0 pcs. Anda dapat menambah stok di tab Kelola Produk.
                     </span>
                   </p>
                 </div>
@@ -469,7 +469,7 @@ const exportTelemetry = () => {
 }
 
 const confirmResetZero = () => {
-  if (typeof window !== 'undefined' && window.confirm('Apakah Anda yakin ingin me-reset SEMUA data operasional ke NOL (0)?\n\n- Seluruh stok produk akan di-set ke 0 kg\n- Seluruh antrean pesanan WhatsApp akan dikosongkan\n- Total pendapatan menjadi Rp 0\n- Grafik kurva penjualan 7 hari kembali ke 0\n\nData siap digunakan untuk pengujian alur nyata dari nol.')) {
+  if (typeof window !== 'undefined' && window.confirm('Apakah Anda yakin ingin me-reset SEMUA data operasional ke NOL (0)?\n\n- Seluruh stok produk akan di-set ke 0 pcs\n- Seluruh antrean pesanan WhatsApp akan dikosongkan\n- Total pendapatan menjadi Rp 0\n- Grafik kurva penjualan 7 hari kembali ke 0\n\nData siap digunakan untuk pengujian alur nyata dari nol.')) {
     const res = adminStore.resetAllDataToZero()
     showToast(res.message)
   }
