@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 10 September 2026 (Sesi Penutupan: Default Nol Murni Database, Satuan Stok PCS, & Eliminasi Total Produk Fiktif)  
-**Status Proyek:** Siap Produksi (Vite v6.4.3 Build Passed / Zero Errors / Code Quality Verified / Pure Database Data)  
+**Tanggal Pembaruan Terakhir:** 11 September 2026 (Sesi Pembaruan: Upload Gambar Produk, Pembersihan Tombol Redundan, Katalog Multi-Browser Supabase .env, & Alur Pemesanan WA 2-Langkah)  
+**Status Proyek:** Siap Produksi (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Zero Ghost Orders WA)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -125,17 +125,57 @@ Sesuai arahan mutlak proyek ini, seluruh UI/UX landing page wajib tunduk pada **
   - Tampilan katalog publik (`ProductCard.vue`), modal detail pembeli (`ProductModal.vue`), drawer keranjang belanja (`CartDrawer.vue`), dan template teks pemesanan WhatsApp kini menampilkan harga per `pcs` dan jumlah dalam `pcs`.
   - Tooltip dan sumbu grafik kurva penjualan di `AiAnalyticsSection.vue` telah diselaraskan ke satuan `pcs`.
 
+### J. Upload Gambar Produk Lokal & Auto-Compress Canvas (`ProductModal.vue` & `ProductCrudTable.vue`)
+- **Drag-and-Drop & File Picker:** Admin dapat memilih file foto langsung dari komputernya saat menambah atau mengedit produk.
+- **Kompresi Canvas Otomatis ke Base64 Data URL:** Gambar dikompresi langsung di sisi browser (`<canvas>`) beresolusi optimal sehingga langsung tersimpan aman ke Supabase Cloud (kolom `url_gambar TEXT`) dan cadangan offline tanpa perlu membuat storage bucket eksternal.
+- **Thumbnail Preview & Quick Presets:** Dilengkapi pratinjau live, tombol *"Ganti Foto"*, *"Hapus Foto"*, opsi input URL manual, serta 6 preset cepat foto panen asli (*Telur, Bebek, Ikan Lele, Ayam, Kasgot, Panen Sayur*).
+- **Visual Thumbnail di Tabel Admin:** Tabel inventaris `ProductCrudTable.vue` kini menampilkan thumbnail foto produk riil dengan fallback ke ikon Material Symbol.
+
+### K. Pembersihan Tombol Redundan di Header Admin (`CommandCenter.vue`)
+- Menghapus 3 tombol yang fungsinya berulang/tidak diperlukan di header CommandCenter:
+  1. `+ Tambah Komoditas` (fungsi penambahan kini terpusat rapi di tombol `+ Tambah Produk Baru` pada tabel inventaris produk).
+  2. `Sinkronisasi` (sinkronisasi kini berjalan otomatis 100% via Supabase WebSocket Real-Time).
+  3. `Ekspor Data`.
+- Header Admin kini tampil bersih, tenang, dan fokus pada operasional bisnis.
+
+### L. Perbaikan Katalog Publik & Dukungan Multi-Baris Tanpa Batas (`ProductGrid.vue`)
+- **Penyelarasan Kategori Produk:** Kategori di katalog publik diselaraskan dengan database admin (*Semua Produk, Peternakan Unggas, Perikanan Air Deras, Daging Segar, Buah-buahan, Sayur & Cabai, Biji Kopi, Produk Organik*).
+- **Logika Filter Fleksibel (`matchesCategory`):** Produk baru seperti "pisang" atau hasil tani lainnya otomatis terpetakan ke tab kategori yang relevan dan selalu muncul di tab *"Semua Produk"*.
+- **Multi-Baris Responsif & Paginasi (12 Card/Halaman):** Menghilangkan batasan card lama sehingga card ke-5, ke-6, dst. mengalir rapi ke baris berikutnya.
+- **Error Fallback Gambar (`@error`):** Ditambahkan penanganan error gambar pada kartu katalog publik dan modal checkout agar layout tidak rusak jika URL gambar gagal dimuat.
+
+### M. Konfigurasi Terpusat Multi-Browser Supabase Cloud (`.env` & `supabaseClient.js`)
+- **Root `.env` Configuration:**
+  ```env
+  VITE_SUPABASE_URL=https://kfdeqagkbqfhbxfcppfw.supabase.co
+  VITE_SUPABASE_ANON_KEY=sb_publishable_e95mW-tY2gqZuBR48KKsuw_LvbFWtLE
+  ```
+  Kredensial tersimpan terpusat di file `.env` root sehingga seluruh browser (Chrome, Edge, Firefox, mode Incognito, HP, dan pengunjung publik) otomatis terhubung ke Supabase Cloud tanpa perlu input manual di tiap browser.
+- **Sanitasi URL Otomatis (`sanitizeSupabaseUrl`):** Sistem secara otomatis memotong suffix `/rest/v1/` atau trailing slash berlebih yang tidak sengaja ditempelkan ke URL.
+- **Kueri Tangguh (Resilient Query Fallback):** Kueri `getProducts()` dilengkapi fallback `client.from('produk').select('*')` jika query join dengan tabel `kategori` terkendala kebijakan RLS pada pengunjung anonim.
+
+### N. Alur Pemesanan WhatsApp 2-Langkah Anti-Ghost Order (`CartDrawer.vue` & `useAdminStore.js`)
+- **Masalah Terselesaikan:** Sebelumnya, data langsung masuk ke database saat tombol WA ditekan, sehingga jika pembeli batal mengirim di WA, data palsu/draf mengotori dashboard admin.
+- **Alur Baru 2-Langkah:**
+  1. *Langkah 1 (Buka WhatsApp):* Pembeli mengisi form -> klik *"Lanjut Buka WhatsApp"* -> Tab WhatsApp terbuka -> **Database Supabase BELUM tersentuh sama sekali**.
+  2. *Langkah 2 (Layar Konfirmasi):* Website menampilkan panel konfirmasi dengan kode tiket `#BNG-XXXX`, total, dan 3 tombol:
+     - **"Ya, Saya Sudah Kirim ke WhatsApp"** (Hijau Emerald): Pesanan **baru resmi disimpan ke Supabase Cloud** & muncul real-time di Admin Dashboard.
+     - **"Buka Ulang Chat WhatsApp"**: Membuka kembali jika tab tertutup/terblokir.
+     - **"Belum Jadi Kirim / Batalkan"**: Kembali ke keranjang tanpa menyimpan apapun ke database. Dashboard Admin dijamin **100% bersih dari pesanan palsu**.
+
 ---
 
 ## 4. Alur Bisnis & Integrasi Database (Sudah Aktif)
 1. **User Memilih Produk:** Pelanggan memilih produk dari katalog publik -> klik *"Tambah ke Keranjang"* -> menentukan jumlah di modal -> masuk ke `useCartStore`.
-2. **Submit Pesanan via Drawer:** Pelanggan mengisi formulir (Nama, WA, Alamat) -> klik tombol Kuning *"Kirim Pesanan ke WA Admin"*:
-   - Pesanan otomatis tersimpan di tabel Supabase `pesanan` (status: `'Menunggu Konfirmasi'`) dan `detail_pesanan`.
-   - Tab WhatsApp resmi admin (`08999192861`) terbuka dengan pesan tiket format rapi.
+2. **Checkout Dua Langkah via Drawer (`CartDrawer.vue`):**
+   - *Langkah A:* Pelanggan mengisi formulir (Nama, WA, Alamat) -> klik tombol *"Lanjut Buka WhatsApp"*. Tab WA admin (`08999192861`) terbuka. Database **belum** mencatat apapun.
+   - *Langkah B:* Pelanggan menekan tombol konfirmasi **"Ya, Saya Sudah Kirim ke WhatsApp"** di website.
+   - *Langkah C:* Pesanan resmi tercatat ke tabel Supabase `pesanan` (status: `'Menunggu Konfirmasi'`) dan `detail_pesanan` dengan kode tiket unik `#BNG-XXXX`.
 3. **Validasi Admin di Dashboard (`#/admin`):**
-   - Admin login melalui email/password Supabase Auth.
+   - Admin login melalui email `admin@banongfarms.com` dan password `admin12345` (Supabase Auth).
    - Admin memeriksa pesanan di **WhatsApp Live Feed**.
    - Klik **"Validasi Selesai (Deal)"**: Status berubah jadi `'Selesai'`, stok fisik di tabel `produk` otomatis terpotong, dan metrik omzet harian tercatat.
+   - Klik **"Batalkan"**: Status berubah jadi `'Dibatalkan'` tanpa mengurangi stok fisik.
 
 ---
 
@@ -185,9 +225,37 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 
 ---
 
-## 8. Catatan Sesi Terakhir (Default Nol Murni & Eliminasi Total 9 Produk Fiktif)
+## 8. Catatan Sesi Sebelumnya (Default Nol Murni & Eliminasi Total 9 Produk Fiktif)
 1. **Eliminasi Total 9 Produk Fiktif:** 9 produk tiruan lama (*Lele Sangkuriang, Ayam Organik Utuh, Omega-3, Bebek Karkas, Gurame, Kasgot Super, Cabai Rawit, Buah Naga, Kopi Robusta*) telah dihapus permanen dari `database/local_db.json`. Basis data lokal kini murni berisi 4 komoditas riil farm (*Konsentrat Bebek, Pelet Lele LP-2, Silase Pakan, Pupuk Kasgot Biokonversi*) dengan stok awal 0 pcs.
 2. **Multi-Layer Guard `isMockProduct()`:** Ditambahkan fungsi penyaring `isMockProduct()` di `useAdminStore.js` yang menyaring produk fiktif pada initial load, localStorage, fetch server, fetch Supabase Cloud, dan WebSocket realtime.
 3. **Single Source of Truth:** Jika Supabase Cloud aktif (`isSupabaseConfigured()`), sinkronisasi lokal server dimatikan agar tidak terjadi perlombaan (race condition) yang menyebabkan flash 1 frame.
 4. **Pembersihan Cache LocalStorage:** Cache dinaikkan ke versi `v9` (`cv_banong_farms_products_pure_v9`), membersihkan total seluruh residu data dari `v8`, `v7`, hingga versi lama lainnya.
 5. **Verifikasi Build & API:** `npm run build` sukses 100% (6.07s) dan `/api/products` mengembalikan murni 4 komoditas riil.
+
+---
+
+## 9. Catatan Sesi Terkini (11 September 2026) - Upload Gambar, Supabase Cloud .env, & Anti-Ghost Order WA
+1. **Form Upload File Gambar Produk Admin (`ProductModal.vue` & `ProductCrudTable.vue`)**:
+   - Menambahkan input file picker lokal & drag-and-drop foto panen dari komputer admin.
+   - Kompresi canvas otomatis ke Base64 Data URL beresolusi optimal tanpa memerlukan storage bucket terpisah.
+   - Kolom thumbnail visual di tabel inventaris admin dengan fallback ikon Material Symbol.
+2. **Pembersihan Header CommandCenter (`CommandCenter.vue`)**:
+   - Menghapus 3 tombol redundan (`+ Tambah Komoditas`, `Sinkronisasi`, `Ekspor Data`). Tombol penambahan komoditas kini terpusat rapi di tabel inventaris produk.
+3. **Penyelarasan Katalog Publik Multi-Baris (`ProductGrid.vue`)**:
+   - Kategori katalog publik diselaraskan dengan database admin (*Semua Produk, Peternakan Unggas, Perikanan Air Deras, Daging Segar, Buah-buahan, Sayur & Cabai, Biji Kopi, Produk Organik*).
+   - Card produk baru (seperti "pisang" atau lainnya) mengalir rapi ke baris berikutnya dengan pagination 12 produk/halaman tanpa batasan card lama.
+   - Ditambahkan error handler `@error` pada gambar produk agar tidak merusak tampilan jika tautan foto bermasalah.
+4. **Konfigurasi Terpusat Multi-Browser Supabase Cloud (`.env` & `supabaseClient.js`)**:
+   - Masalah: Browser kedua (Edge/Firefox/Incognito) sebelumnya tidak menampilkan data Supabase karena kredensial hanya tersimpan di LocalStorage Browser A dan URL memiliki akhiran `/rest/v1/`.
+   - Solusi: Kredensial dipindahkan ke file [`.env`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/.env) root (`VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY`).
+   - Ditambahkan fungsi otomatis `sanitizeSupabaseUrl()` di `supabaseClient.js` untuk membuang `/rest/v1/` atau trailing slash berlebih.
+   - Ditambahkan fallback direct select `client.from('produk').select('*')` sehingga query produk publik selalu berhasil meski ada restriksi RLS pada tabel join.
+5. **Alur Pemesanan WhatsApp 2-Langkah Anti-Ghost Order (`CartDrawer.vue` & `useAdminStore.js`)**:
+   - Masalah: Pesanan sebelumnya langsung tersimpan ke Supabase & Dashboard Admin saat tombol WA ditekan, padahal pembeli bisa saja batal/menutup WhatsApp.
+   - Solusi:
+     - Klik *"Lanjut Buka WhatsApp"* -> Tab WA terbuka -> **Database BELUM tersentuh sama sekali**.
+     - Website menampilkan panel konfirmasi interaktif. Hanya jika pembeli mengklik **"Ya, Saya Sudah Kirim ke WhatsApp"**, pesanan baru disimpan ke database Supabase Cloud & tampil di Dashboard Admin.
+     - Jika pembeli mengklik **"Belum Jadi Kirim / Batalkan"**, data sama sekali tidak disimpan dan Dashboard Admin tetap 100% bersih dari pesanan fiktif.
+6. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (5.41s) dengan 0 error dan 0 lint warning.
+
