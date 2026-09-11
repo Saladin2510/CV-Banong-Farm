@@ -260,8 +260,7 @@ export const supabaseApi = {
     try {
       const { data, error } = await client.from('produk').insert([row]).select().single()
       if (error) {
-        console.warn('Gagal insert produk ke tabel produk:', error)
-        // Jika gagal karena constraint foreign key (id_kategori tidak valid), coba insert dengan id_kategori null
+        // 1. Jika gagal karena constraint foreign key (id_kategori tidak valid), coba insert dengan id_kategori null
         if (error.code === '23503' || error.message?.toLowerCase().includes('foreign key') || error.details?.toLowerCase().includes('id_kategori')) {
           const retryRow = { ...row }
           delete retryRow.id_kategori
@@ -270,6 +269,22 @@ export const supabaseApi = {
             return { success: true, data: retry.data }
           }
         }
+
+        // 2. Jika gagal karena sequence nomor ID belum sinkron (duplicate key produk_pkey)
+        if (error.code === '23505' || error.message?.toLowerCase().includes('produk_pkey') || error.message?.toLowerCase().includes('duplicate key')) {
+          try {
+            const { data: maxRows } = await client.from('produk').select('id').order('id', { ascending: false }).limit(1)
+            const highestId = (maxRows && maxRows[0] && maxRows[0].id) ? Number(maxRows[0].id) : 4
+            const retryWithNextId = { ...row, id: highestId + 1 }
+            const retry = await client.from('produk').insert([retryWithNextId]).select().single()
+            if (!retry.error && retry.data) {
+              return { success: true, data: retry.data }
+            }
+          } catch (e) {
+            console.warn('Auto recovery nextId failed:', e)
+          }
+        }
+
         return { success: false, error: error.message || error.details || JSON.stringify(error) }
       }
       return { success: true, data }
