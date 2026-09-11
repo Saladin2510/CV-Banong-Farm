@@ -627,10 +627,10 @@ async function createCustomerOrder({ productId, qty, customerName, phone, addres
 }
 
 // Customer Order From Shopping Cart (Multiple items)
-async function createCustomerOrderFromCart({ customerName, phone, address, items, totalPrice }) {
+async function createCustomerOrderFromCart({ customerName, phone, address, items, totalPrice, orderCode: customOrderCode }) {
   if (!Array.isArray(items) || items.length === 0) return { success: false, message: 'Keranjang belanja masih kosong.' }
 
-  const orderCode = `BNG-${Date.now().toString().slice(-4)}`
+  const orderCode = customOrderCode || `BNG-${Date.now().toString().slice(-4)}`
   const totalAmount = Number(totalPrice) || items.reduce((sum, it) => sum + (it.price * it.qty), 0)
   const totalQty = items.reduce((sum, it) => sum + (it.qty || 1), 0)
   const productSummary = items.map(it => `${it.qty}x ${it.title || it.name}`).join(', ')
