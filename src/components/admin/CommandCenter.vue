@@ -46,37 +46,6 @@
               </p>
             </div>
 
-            <!-- Action Buttons (Strict 60:30:10 Colors) -->
-            <div class="flex flex-wrap items-center gap-2.5">
-              <!-- Prominent CREATE Product Button (Golden Yellow 10% Accent) -->
-              <button 
-                @click="openAddProductModal"
-                class="h-10 px-4 rounded-xl font-bold text-xs shadow-xs hover:shadow-md transition-all flex items-center gap-2 active:scale-95 cursor-pointer bg-secondary-container text-primary hover:bg-accent-hover"
-                type="button"
-                title="Tambah Komoditas Baru ke Inventaris"
-              >
-                <span class="material-symbols-outlined text-[18px]">add_circle</span>
-                <span>+ Tambah Komoditas</span>
-              </button>
-
-              <button 
-                @click="triggerManualSync"
-                class="h-10 px-4 rounded-xl bg-white dark:bg-[#1E3A5F] text-primary dark:text-white hover:bg-slate-50 dark:hover:bg-[#132A4A] font-semibold text-xs shadow-xs transition-all flex items-center gap-2 border border-slate-200 dark:border-white/15 active:scale-95 cursor-pointer" 
-                type="button"
-              >
-                <span class="material-symbols-outlined text-[18px]" :class="{ 'animate-spin': isSyncing }">sync</span>
-                <span>{{ isSyncing ? 'Menyinkronkan...' : 'Sinkronisasi' }}</span>
-              </button>
-
-              <button 
-                @click="exportTelemetry"
-                class="h-10 px-4 rounded-xl bg-primary hover:bg-primary-container text-white font-semibold text-xs shadow-xs transition-all flex items-center gap-2 active:scale-95 cursor-pointer" 
-                type="button"
-              >
-                <span class="material-symbols-outlined text-[18px]">file_download</span>
-                <span>Ekspor Data</span>
-              </button>
-            </div>
           </header>
 
           <!-- ============================================== -->

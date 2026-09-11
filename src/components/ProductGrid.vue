@@ -158,18 +158,35 @@ const emit = defineEmits(['openModal'])
 const adminStore = useAdminStore()
 const selectedCategory = ref('all')
 const currentPage = ref(1)
-const ITEMS_PER_PAGE = 8
+const ITEMS_PER_PAGE = 12
 
 const categories = [
   { id: 'all', name: 'Semua Produk' },
   { id: 'unggas', name: 'Peternakan Unggas' },
-  { id: 'daging', name: 'Daging Segar' },
   { id: 'ikan', name: 'Perikanan Air Deras' },
+  { id: 'daging', name: 'Daging Segar' },
+  { id: 'buah', name: 'Buah-buahan' },
+  { id: 'sayur', name: 'Sayur & Cabai' },
+  { id: 'kopi', name: 'Biji Kopi' },
   { id: 'organik', name: 'Produk Organik' }
 ]
 
+const matchesCategory = (p, catId) => {
+  if (catId === 'all') return true
+  if (p.categoryId === catId) return true
+  const catName = (p.category || '').toLowerCase()
+  if (catId === 'unggas') return catName.includes('unggas') || catName.includes('telur')
+  if (catId === 'ikan') return catName.includes('ikan') || catName.includes('lele') || catName.includes('nila')
+  if (catId === 'daging') return catName.includes('daging') || catName.includes('ayam') || catName.includes('bebek')
+  if (catId === 'buah') return catName.includes('buah') || catName.includes('pisang')
+  if (catId === 'sayur') return catName.includes('sayur') || catName.includes('cabai')
+  if (catId === 'kopi') return catName.includes('kopi')
+  if (catId === 'organik') return catName.includes('organik') || catName.includes('kasgot') || catName.includes('pupuk') || catName.includes('ruminansia') || catName.includes('silase')
+  return false
+}
+
 const products = computed(() => {
-  return adminStore.products.value.map(p => ({
+  return (adminStore.products.value || []).map(p => ({
     ...p,
     title: p.title || p.name,
     inStock: (Number(p.stock) || 0) > 0,
@@ -180,13 +197,11 @@ const products = computed(() => {
 })
 
 const getCategoryCount = (catId) => {
-  if (catId === 'all') return products.value.length
-  return products.value.filter(p => p.categoryId === catId).length
+  return products.value.filter(p => matchesCategory(p, catId)).length
 }
 
 const filteredProducts = computed(() => {
-  if (selectedCategory.value === 'all') return products.value
-  return products.value.filter(p => p.categoryId === selectedCategory.value)
+  return products.value.filter(p => matchesCategory(p, selectedCategory.value))
 })
 
 const totalPages = computed(() => {

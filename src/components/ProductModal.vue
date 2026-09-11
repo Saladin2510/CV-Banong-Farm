@@ -25,9 +25,10 @@
         <!-- Product Image Header -->
         <div class="relative w-full h-56 bg-surface-container-low dark:bg-slate-950 overflow-hidden shrink-0">
           <img 
-            :src="product.image" 
+            :src="product.image || '/assets/product-fertilizer.png'" 
             :alt="product.title || product.name" 
             class="w-full h-full object-cover"
+            @error="$event.target.src = '/assets/product-fertilizer.png'"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           

@@ -71,11 +71,18 @@
             :key="product.id"
             class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors"
           >
-            <!-- Product Name & Icon -->
+            <!-- Product Name & Thumbnail Image -->
             <td class="px-4 py-3">
               <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-secondary-container/20 text-primary dark:text-secondary-container flex items-center justify-center shrink-0 border border-secondary-container/30">
-                  <span class="material-symbols-outlined text-[19px]">{{ product.icon || 'eco' }}</span>
+                <div class="w-10 h-10 rounded-xl bg-secondary-container/20 text-primary dark:text-secondary-container flex items-center justify-center shrink-0 border border-secondary-container/30 overflow-hidden">
+                  <img 
+                    v-if="product.image" 
+                    :src="product.image" 
+                    :alt="product.name" 
+                    class="w-full h-full object-cover"
+                    @error="$event.target.style.display = 'none'"
+                  />
+                  <span v-else class="material-symbols-outlined text-[19px]">{{ product.icon || 'eco' }}</span>
                 </div>
                 <div class="flex flex-col">
                   <span class="font-bold text-primary dark:text-white leading-tight">

@@ -284,7 +284,13 @@ async function syncWithSupabaseDatabase() {
     ])
 
     if (Array.isArray(cloudProds)) {
-      products.value = cloudProds.filter(p => !isMockProduct(p))
+      const validCloud = cloudProds.filter(p => !isMockProduct(p))
+      // Pertahankan produk yang ada di lokal jika belum ada di cloudProds
+      const localOnly = products.value.filter(lp => 
+        !isMockProduct(lp) && 
+        !validCloud.some(cp => cp.id == lp.id || cp.name.toLowerCase() === lp.name.toLowerCase())
+      )
+      products.value = [...validCloud, ...localOnly]
     }
     if (Array.isArray(cloudOrders)) {
       whatsappOrders.value = cloudOrders
@@ -299,11 +305,20 @@ async function syncWithSupabaseDatabase() {
           if (payload.eventType === 'INSERT') {
             const newP = payload.new
             if (isMockProduct(newP)) return
-            if (!products.value.some(p => p.id == newP.id)) {
+            const existingIdx = products.value.findIndex(p => 
+              p.id == newP.id || 
+              (p.name && p.name.toLowerCase() === (newP.nama_produk || newP.name || '').toLowerCase())
+            )
+            if (existingIdx !== -1) {
+              products.value[existingIdx].id = Number(newP.id)
+            } else {
+              const catName = newP.category_name || 'Peternakan Unggas'
               products.value.unshift({
                 id: Number(newP.id),
                 name: newP.nama_produk || newP.name || 'Produk Pakan',
-                category: newP.category_name || 'Pakan Ternak',
+                title: newP.nama_produk || newP.name || 'Produk Pakan',
+                category: catName,
+                categoryId: getCategoryId(catName),
                 price: Number(newP.harga ?? newP.price) || 0,
                 stock: Number(newP.stok ?? newP.stock) || 0,
                 maxStock: Number(newP.stok_maksimal ?? newP.max_stock) || 5000,
@@ -313,8 +328,8 @@ async function syncWithSupabaseDatabase() {
                 image: newP.url_gambar || newP.image_url || '/assets/product-fertilizer.png',
                 description: newP.deskripsi || newP.description || ''
               })
-              broadcastUpdate()
             }
+            broadcastUpdate()
           } else if (payload.eventType === 'UPDATE') {
             const updatedP = payload.new
             const idx = products.value.findIndex(p => p.id == updatedP.id)
@@ -807,7 +822,12 @@ function addProduct(data) {
 
   // Sync to Supabase Cloud
   if (isSupabaseConnected.value) {
-    supabaseApi.insertProduct(newProduct).catch(e => console.warn('Supabase sync error for product create:', e))
+    supabaseApi.insertProduct(newProduct).then(res => {
+      if (res?.id) {
+        newProduct.id = Number(res.id)
+        broadcastUpdate()
+      }
+    }).catch(e => console.warn('Supabase sync error for product create:', e))
   }
 
   return newProduct
@@ -878,6 +898,9 @@ function getCategoryId(cat) {
   if (c.includes('unggas') || c.includes('telur')) return 'unggas'
   if (c.includes('daging') || c.includes('ayam') || c.includes('bebek')) return 'daging'
   if (c.includes('ikan') || c.includes('perikanan') || c.includes('lele') || c.includes('nila') || c.includes('gurame')) return 'ikan'
+  if (c.includes('sayur') || c.includes('cabai')) return 'sayur'
+  if (c.includes('buah') || c.includes('pisang')) return 'buah'
+  if (c.includes('kopi')) return 'kopi'
   return 'organik'
 }
 

@@ -71,6 +71,17 @@ export function isSupabaseConfigured() {
 // FUNGSI OPERASIONAL SUPABASE CLOUD (CRUD & REAL-TIME)
 // --------------------------------------------------------------------
 
+export function getCategoryId(cat) {
+  const c = (cat || '').toLowerCase()
+  if (c.includes('unggas') || c.includes('telur')) return 'unggas'
+  if (c.includes('daging') || c.includes('ayam') || c.includes('bebek')) return 'daging'
+  if (c.includes('ikan') || c.includes('perikanan') || c.includes('lele') || c.includes('nila') || c.includes('gurame')) return 'ikan'
+  if (c.includes('sayur') || c.includes('cabai')) return 'sayur'
+  if (c.includes('buah') || c.includes('pisang')) return 'buah'
+  if (c.includes('kopi')) return 'kopi'
+  return 'organik'
+}
+
 export const supabaseApi = {
   // Uji koneksi ke Supabase Cloud
   async testConnection() {
@@ -103,37 +114,47 @@ export const supabaseApi = {
         .order('id', { ascending: true })
 
       if (!error && Array.isArray(data)) {
-        return data.map(p => ({
-          id: Number(p.id),
-          name: p.nama_produk || p.name || 'Produk Pakan',
-          category: p.kategori?.nama_kategori || 'Pakan Ternak',
-          price: Number(p.harga) || 0,
-          stock: Number(p.stok) || 0,
-          maxStock: Number(p.stok_maksimal) || 5000,
-          unit: p.satuan || 'pcs',
-          soldCount: Number(p.jumlah_terjual) || 0,
-          icon: 'eco',
-          image: p.url_gambar || '/assets/product-fertilizer.png',
-          description: p.deskripsi || ''
-        }))
+        return data.map(p => {
+          const categoryName = p.kategori?.nama_kategori || p.category_name || 'Peternakan Unggas'
+          return {
+            id: Number(p.id),
+            name: p.nama_produk || p.name || 'Produk Pakan',
+            title: p.nama_produk || p.name || 'Produk Pakan',
+            category: categoryName,
+            categoryId: getCategoryId(categoryName),
+            price: Number(p.harga ?? p.price) || 0,
+            stock: Number(p.stok ?? p.stock) || 0,
+            maxStock: Number(p.stok_maksimal ?? p.max_stock) || 5000,
+            unit: p.satuan || p.unit || 'pcs',
+            soldCount: Number(p.jumlah_terjual ?? p.sold_count) || 0,
+            icon: p.ikon || p.icon || 'eco',
+            image: p.url_gambar || p.image_url || '/assets/product-fertilizer.png',
+            description: p.deskripsi || p.description || ''
+          }
+        })
       }
 
       // Fallback: Jika tabel produk kosong atau belum ada data, cek tabel lama jika masih ada
       const fallback = await client.from('products').select('*').order('id', { ascending: true })
       if (!fallback.error && Array.isArray(fallback.data)) {
-        return fallback.data.map(p => ({
-          id: Number(p.id),
-          name: p.name,
-          category: p.category_name || 'Hasil Tani',
-          price: Number(p.price) || 0,
-          stock: Number(p.stock) || 0,
-          maxStock: Number(p.max_stock) || 5000,
-          unit: p.unit || 'pcs',
-          soldCount: Number(p.sold_count) || 0,
-          icon: p.icon || 'eco',
-          image: p.image_url || '/assets/product-fertilizer.png',
-          description: p.description || ''
-        }))
+        return fallback.data.map(p => {
+          const categoryName = p.category_name || 'Peternakan Unggas'
+          return {
+            id: Number(p.id),
+            name: p.name,
+            title: p.name,
+            category: categoryName,
+            categoryId: getCategoryId(categoryName),
+            price: Number(p.price) || 0,
+            stock: Number(p.stock) || 0,
+            maxStock: Number(p.max_stock) || 5000,
+            unit: p.unit || 'pcs',
+            soldCount: Number(p.sold_count) || 0,
+            icon: p.icon || 'eco',
+            image: p.image_url || '/assets/product-fertilizer.png',
+            description: p.description || ''
+          }
+        })
       }
 
       return []
@@ -198,8 +219,16 @@ export const supabaseApi = {
     if (!client) return null
 
     // Format tabel produk (Bahasa Indonesia)
+    let idKategori = 1
+    const cat = (product.category || '').toLowerCase()
+    if (cat.includes('ikan') || cat.includes('perikanan')) idKategori = 2
+    else if (cat.includes('ruminansia') || cat.includes('sapi') || cat.includes('kambing')) idKategori = 3
+    else if (cat.includes('organik') || cat.includes('pupuk') || cat.includes('kasgot') || cat.includes('buah') || cat.includes('sayur') || cat.includes('kopi')) idKategori = 4
+    else idKategori = 1
+
     const row = {
       nama_produk: product.name,
+      id_kategori: idKategori,
       harga: product.price,
       stok: product.stock,
       stok_maksimal: product.maxStock,
