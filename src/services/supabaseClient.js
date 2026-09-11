@@ -216,102 +216,104 @@ export const supabaseApi = {
   // Tambah produk baru ke Supabase
   async insertProduct(product) {
     const client = getSupabase()
-    if (!client) return null
+    if (!client) return { success: false, error: 'URL atau Anon Key Supabase belum diatur di aplikasi.' }
 
-    // Format tabel produk (Bahasa Indonesia)
-    let idKategori = 1
-    const cat = (product.category || '').toLowerCase()
-    if (cat.includes('ikan') || cat.includes('perikanan')) idKategori = 2
-    else if (cat.includes('ruminansia') || cat.includes('sapi') || cat.includes('kambing')) idKategori = 3
-    else if (cat.includes('organik') || cat.includes('pupuk') || cat.includes('kasgot') || cat.includes('buah') || cat.includes('sayur') || cat.includes('kopi')) idKategori = 4
-    else idKategori = 1
+    // 1. Cari id_kategori yang valid secara dinamis dari tabel kategori jika ada
+    let idKategori = null
+    try {
+      const { data: catRows } = await client.from('kategori').select('id, nama_kategori, slug')
+      if (Array.isArray(catRows) && catRows.length > 0) {
+        const catLower = (product.category || '').toLowerCase()
+        const matched = catRows.find(c => 
+          catLower.includes((c.slug || '').toLowerCase()) || 
+          catLower.includes((c.nama_kategori || '').toLowerCase()) ||
+          (c.slug === 'unggas' && (catLower.includes('telur') || catLower.includes('unggas'))) ||
+          (c.slug === 'ikan' && (catLower.includes('ikan') || catLower.includes('lele') || catLower.includes('nila'))) ||
+          (c.slug === 'organik' && (catLower.includes('pupuk') || catLower.includes('kasgot') || catLower.includes('buah') || catLower.includes('sayur') || catLower.includes('kopi')))
+        )
+        if (matched) {
+          idKategori = matched.id
+        } else {
+          // Fallback ke baris pertama kategori yang tersedia
+          idKategori = catRows[0].id
+        }
+      }
+    } catch (_) {
+      idKategori = null
+    }
 
     const row = {
       nama_produk: product.name,
-      id_kategori: idKategori,
-      harga: product.price,
-      stok: product.stock,
-      stok_maksimal: product.maxStock,
+      harga: Number(product.price) || 0,
+      stok: Number(product.stock) || 0,
+      stok_maksimal: Number(product.maxStock) || 5000,
       satuan: product.unit || 'kg',
       url_gambar: product.image || '/assets/product-fertilizer.png',
       deskripsi: product.description || '',
       jumlah_terjual: 0
     }
 
+    if (idKategori !== null) {
+      row.id_kategori = idKategori
+    }
+
     try {
       const { data, error } = await client.from('produk').insert([row]).select().single()
-      if (!error) return data
-
-      // Fallback ke products jika tabel produk bermasalah
-      const legacyRow = {
-        name: product.name,
-        category_name: product.category,
-        price: product.price,
-        stock: product.stock,
-        max_stock: product.maxStock,
-        unit: product.unit,
-        icon: product.icon,
-        image_url: product.image,
-        description: product.description,
-        sold_count: 0
+      if (error) {
+        console.warn('Gagal insert produk ke tabel produk:', error)
+        // Jika gagal karena constraint foreign key (id_kategori tidak valid), coba insert dengan id_kategori null
+        if (error.code === '23503' || error.message?.toLowerCase().includes('foreign key') || error.details?.toLowerCase().includes('id_kategori')) {
+          const retryRow = { ...row }
+          delete retryRow.id_kategori
+          const retry = await client.from('produk').insert([retryRow]).select().single()
+          if (!retry.error && retry.data) {
+            return { success: true, data: retry.data }
+          }
+        }
+        return { success: false, error: error.message || error.details || JSON.stringify(error) }
       }
-      const legacy = await client.from('products').insert([legacyRow]).select().single()
-      return legacy.data
+      return { success: true, data }
     } catch (err) {
-      console.warn('Supabase insertProduct error:', err)
-      return null
+      console.warn('Supabase insertProduct exception:', err)
+      return { success: false, error: err.message || String(err) }
     }
   },
 
   // Update produk di Supabase
   async updateProduct(id, product) {
     const client = getSupabase()
-    if (!client) return null
+    if (!client) return { success: false, error: 'Supabase belum terkonfigurasi' }
 
     const updatePayload = {}
     if (product.name !== undefined) updatePayload.nama_produk = product.name
-    if (product.price !== undefined) updatePayload.harga = product.price
-    if (product.stock !== undefined) updatePayload.stok = product.stock
-    if (product.maxStock !== undefined) updatePayload.stok_maksimal = product.maxStock
+    if (product.price !== undefined) updatePayload.harga = Number(product.price) || 0
+    if (product.stock !== undefined) updatePayload.stok = Number(product.stock) || 0
+    if (product.maxStock !== undefined) updatePayload.stok_maksimal = Number(product.maxStock) || 5000
     if (product.unit !== undefined) updatePayload.satuan = product.unit
     if (product.image !== undefined) updatePayload.url_gambar = product.image
     if (product.description !== undefined) updatePayload.deskripsi = product.description
 
     try {
       const { data, error } = await client.from('produk').update(updatePayload).eq('id', id).select().single()
-      if (!error) return data
-
-      // Fallback ke products
-      const legacyPayload = {}
-      if (product.name !== undefined) legacyPayload.name = product.name
-      if (product.category !== undefined) legacyPayload.category_name = product.category
-      if (product.price !== undefined) legacyPayload.price = product.price
-      if (product.stock !== undefined) legacyPayload.stock = product.stock
-      if (product.maxStock !== undefined) legacyPayload.max_stock = product.maxStock
-      if (product.unit !== undefined) legacyPayload.unit = product.unit
-      if (product.icon !== undefined) legacyPayload.icon = product.icon
-      const legacy = await client.from('products').update(legacyPayload).eq('id', id).select().single()
-      return legacy.data
+      if (error) return { success: false, error: error.message }
+      return { success: true, data }
     } catch (err) {
       console.warn('Supabase updateProduct error:', err)
-      return null
+      return { success: false, error: err.message || String(err) }
     }
   },
 
   // Hapus produk dari Supabase
   async deleteProduct(id) {
     const client = getSupabase()
-    if (!client) return null
+    if (!client) return { success: false, error: 'Supabase belum terkonfigurasi' }
     try {
       const { error } = await client.from('produk').delete().eq('id', id)
-      if (!error) return true
-
-      // Fallback
-      const legacy = await client.from('products').delete().eq('id', id)
-      return !legacy.error
+      if (error) return { success: false, error: error.message }
+      return { success: true }
     } catch (err) {
       console.warn('Supabase deleteProduct error:', err)
-      return false
+      return { success: false, error: err.message || String(err) }
     }
   },
 

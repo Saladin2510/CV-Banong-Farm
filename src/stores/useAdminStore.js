@@ -790,7 +790,7 @@ function simulateIncomingOrder() {
 }
 
 // Product CRUD Operations (Persisted & Synced)
-function addProduct(data) {
+async function addProduct(data) {
   const newId = Date.now()
   const initialStock = Number(data.stock) || 100
   const maxStock = Number(data.maxStock) || Math.round(initialStock * 1.5)
@@ -815,6 +815,8 @@ function addProduct(data) {
   products.value.unshift(newProduct)
   broadcastUpdate()
 
+  let supabaseError = null
+
   // Sync to Real Server Database
   if (isServerDbConnected.value) {
     apiService.createProduct(newProduct).catch(e => console.warn('Server sync error for product create:', e))
@@ -822,18 +824,23 @@ function addProduct(data) {
 
   // Sync to Supabase Cloud
   if (isSupabaseConnected.value) {
-    supabaseApi.insertProduct(newProduct).then(res => {
-      if (res?.id) {
-        newProduct.id = Number(res.id)
+    try {
+      const res = await supabaseApi.insertProduct(newProduct)
+      if (res?.success && res.data?.id) {
+        newProduct.id = Number(res.data.id)
         broadcastUpdate()
+      } else if (res && !res.success) {
+        supabaseError = res.error
       }
-    }).catch(e => console.warn('Supabase sync error for product create:', e))
+    } catch (err) {
+      supabaseError = err.message || String(err)
+    }
   }
 
-  return newProduct
+  return { product: newProduct, supabaseError }
 }
 
-function updateProduct(id, data) {
+async function updateProduct(id, data) {
   const index = products.value.findIndex(p => p.id === id)
   if (index === -1) return null
 
@@ -859,6 +866,8 @@ function updateProduct(id, data) {
 
   broadcastUpdate()
 
+  let supabaseError = null
+
   // Sync to Real Server Database
   if (isServerDbConnected.value) {
     apiService.updateProduct(id, products.value[index]).catch(e => console.warn('Server sync error for product update:', e))
@@ -866,17 +875,26 @@ function updateProduct(id, data) {
 
   // Sync to Supabase Cloud
   if (isSupabaseConnected.value) {
-    supabaseApi.updateProduct(id, products.value[index]).catch(e => console.warn('Supabase sync error for product update:', e))
+    try {
+      const res = await supabaseApi.updateProduct(id, products.value[index])
+      if (res && !res.success) {
+        supabaseError = res.error
+      }
+    } catch (err) {
+      supabaseError = err.message || String(err)
+    }
   }
 
-  return products.value[index]
+  return { product: products.value[index], supabaseError }
 }
 
-function deleteProduct(id) {
+async function deleteProduct(id) {
   const index = products.value.findIndex(p => p.id === id)
   if (index !== -1) {
     const deleted = products.value.splice(index, 1)[0]
     broadcastUpdate()
+
+    let supabaseError = null
 
     // Sync to Real Server Database
     if (isServerDbConnected.value) {
@@ -885,10 +903,17 @@ function deleteProduct(id) {
 
     // Sync to Supabase Cloud
     if (isSupabaseConnected.value) {
-      supabaseApi.deleteProduct(id).catch(e => console.warn('Supabase sync error for product delete:', e))
+      try {
+        const res = await supabaseApi.deleteProduct(id)
+        if (res && !res.success) {
+          supabaseError = res.error
+        }
+      } catch (err) {
+        supabaseError = err.message || String(err)
+      }
     }
 
-    return deleted
+    return { deleted, supabaseError }
   }
   return null
 }

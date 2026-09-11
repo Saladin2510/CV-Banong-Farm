@@ -442,23 +442,35 @@ const openDeleteProductModal = (product) => {
   isDeleteModalOpen.value = true
 }
 
-const handleSaveProduct = (formData) => {
+const handleSaveProduct = async (formData) => {
   if (formData.id) {
     // Edit existing product
-    adminStore.updateProduct(formData.id, formData)
-    showToast(`Data produk "${formData.name}" berhasil diperbarui.`)
+    const res = await adminStore.updateProduct(formData.id, formData)
+    if (res?.supabaseError) {
+      showToast(`Data produk diperbarui di Lokal, tetapi Supabase menolak: ${res.supabaseError}`)
+    } else {
+      showToast(`Data produk "${formData.name}" berhasil diperbarui & tersinkron!`)
+    }
   } else {
     // Add new product
-    adminStore.addProduct(formData)
-    showToast(`Produk baru "${formData.name}" berhasil ditambahkan ke inventaris.`)
+    const res = await adminStore.addProduct(formData)
+    if (res?.supabaseError) {
+      showToast(`Produk tersimpan di Lokal, tetapi Supabase menolak: ${res.supabaseError}`)
+    } else {
+      showToast(`Produk baru "${formData.name}" berhasil ditambahkan & tersimpan di Supabase Cloud!`)
+    }
   }
   isProductModalOpen.value = false
 }
 
-const handleConfirmDelete = (productId) => {
+const handleConfirmDelete = async (productId) => {
   if (productId) {
-    const deleted = adminStore.deleteProduct(productId)
-    showToast(`Komoditas "${deleted?.name || 'Produk'}" berhasil dihapus.`)
+    const res = await adminStore.deleteProduct(productId)
+    if (res?.supabaseError) {
+      showToast(`Produk dihapus dari Lokal, namun gagal di Supabase: ${res.supabaseError}`)
+    } else {
+      showToast(`Komoditas "${res?.deleted?.name || 'Produk'}" berhasil dihapus.`)
+    }
   }
   isDeleteModalOpen.value = false
 }
