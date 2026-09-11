@@ -3,13 +3,23 @@ import { createClient } from '@supabase/supabase-js'
 const STORAGE_KEY_URL = 'banong_supabase_url'
 const STORAGE_KEY_ANON = 'banong_supabase_anon_key'
 
+// Pembersih URL Supabase otomatis (menghapus trailing slashes dan suffix /rest/v1 jika tidak sengaja ditempel)
+export function sanitizeSupabaseUrl(rawUrl) {
+  if (!rawUrl) return ''
+  let clean = String(rawUrl).trim()
+  clean = clean.replace(/\/rest\/v1\/?$/i, '')
+  clean = clean.replace(/\/auth\/v1\/?$/i, '')
+  clean = clean.replace(/\/+$/, '')
+  return clean
+}
+
 // Ambil URL & Key dari ENV atau LocalStorage pengguna
 export function getStoredCredentials() {
-  const envUrl = import.meta.env.VITE_SUPABASE_URL || ''
-  const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+  const envUrl = sanitizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL || '')
+  const envKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim()
 
-  const localUrl = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY_URL) || '' : ''
-  const localKey = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY_ANON) || '' : ''
+  const localUrl = typeof window !== 'undefined' ? sanitizeSupabaseUrl(localStorage.getItem(STORAGE_KEY_URL) || '') : ''
+  const localKey = typeof window !== 'undefined' ? (localStorage.getItem(STORAGE_KEY_ANON) || '').trim() : ''
 
   return {
     url: localUrl || envUrl,
@@ -20,7 +30,8 @@ export function getStoredCredentials() {
 
 export function saveCredentials(url, key) {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(STORAGE_KEY_URL, (url || '').trim())
+    const cleanUrl = sanitizeSupabaseUrl(url)
+    localStorage.setItem(STORAGE_KEY_URL, cleanUrl)
     localStorage.setItem(STORAGE_KEY_ANON, (key || '').trim())
     supabaseInstance = null // reset client agar menginisialisasi ulang
   }
@@ -107,15 +118,33 @@ export const supabaseApi = {
     if (!client) return null
 
     try {
-      // 1. Coba ambil dari tabel bahasa Indonesia: 'produk'
-      const { data, error } = await client
+      // 1. Coba ambil dari tabel bahasa Indonesia: 'produk' dengan relasi kategori
+      let result = await client
         .from('produk')
         .select('*, kategori(nama_kategori)')
         .order('id', { ascending: true })
 
-      if (!error && Array.isArray(data)) {
-        return data.map(p => {
-          const categoryName = p.kategori?.nama_kategori || p.category_name || 'Peternakan Unggas'
+      // Fallback tangguh: Jika query join kategori terkendala RLS bagi pengunjung publik/anon,
+      // langsung ambil seluruh baris dari tabel 'produk'
+      if (result.error || !result.data || result.data.length === 0) {
+        const directRes = await client
+          .from('produk')
+          .select('*')
+          .order('id', { ascending: true })
+        if (!directRes.error && Array.isArray(directRes.data) && directRes.data.length > 0) {
+          result = directRes
+        }
+      }
+
+      if (!result.error && Array.isArray(result.data) && result.data.length > 0) {
+        return result.data.map(p => {
+          const categoryName = p.kategori?.nama_kategori || p.category_name || (
+            p.id_kategori === 1 ? 'Peternakan Unggas' :
+            p.id_kategori === 2 ? 'Perikanan Air Deras' :
+            p.id_kategori === 3 ? 'Daging Segar' :
+            p.id_kategori === 4 ? 'Produk Organik' :
+            'Buah & Hasil Panen'
+          )
           return {
             id: Number(p.id),
             name: p.nama_produk || p.name || 'Produk Pakan',

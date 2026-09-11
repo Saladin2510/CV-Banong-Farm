@@ -85,6 +85,21 @@
       "icon": "eco",
       "image": "/assets/product-fertilizer.png",
       "description": "Pupuk hayati kaya hara makro hasil biokonversi limbah organik larva maggot BSF."
+    },
+    {
+      "id": 5,
+      "name": "pisang",
+      "title": "pisang",
+      "category": "Buah-buahan",
+      "categoryId": "buah",
+      "price": 20000,
+      "stock": 10,
+      "maxStock": 10,
+      "unit": "pcs",
+      "soldCount": 0,
+      "icon": "eco",
+      "image": "/assets/product-fertilizer.png",
+      "description": "Komoditas organik segar harian dari peternakan CV Banong Farms."
     }
   ],
   "orders": [],
