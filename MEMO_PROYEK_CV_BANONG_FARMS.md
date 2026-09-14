@@ -259,3 +259,25 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 6. **Verifikasi Build Produksi**:
    - `npm run build` sukses 100% (5.41s) dengan 0 error dan 0 lint warning.
 
+---
+
+## 10. Catatan Sesi (14 September 2026) - Proteksi Kredensial .env vs Form Manual & Kesiapan Hosting Supabase API
+1. **Analisis Masalah Override Form Browser (`DatabaseErdViewer.vue` & `supabaseClient.js`)**:
+   - *Penyebab Banner Kuning di Screenshot:* Form browser sebelumnya sempat diisi URL acak (`https://lajgsiglkaik`) dan disimpan. Karena `localStorage` sebelumnya diprioritaskan sebelum `.env`, URL acak menimpa file `.env` di browser tersebut dan memutuskan koneksi Supabase Cloud (`MODE PENYIMPANAN SEMENTARA (LOKAL)`).
+   - *Solusi:*
+     - Ditambahkan fungsi `getEnvCredentials()` dan pengayaan metadata di `getStoredCredentials()` untuk mendeteksi `isCustom` (apakah ada override manual dari browser).
+     - Ditambahkan indikator cerdas di `DatabaseErdViewer.vue`: Jika konfigurasi dari `.env` aktif, tampil badge hijau *"Konfigurasi Otomatis Aktif: Menggunakan file .env bawaan"*. Jika pengguna mengacak-acak form, tampil peringatan kuning dengan tombol **"Kembalikan ke .env Bawaan"** / **"Reset ke .env"**.
+     - Tombol Reset otomatis membersihkan `localStorage`, mengembalikan kredensial asli dari `.env`, dan menghubungkan ulang WebSocket & database Supabase Cloud secara instan.
+2. **Indikator Reaktif Sidebar Admin (`AdminSidebar.vue`)**:
+   - Status di sudut kiri bawah sidebar yang sebelumnya teks statis `ONLINE` kini dibuat reaktif: menyala hijau `ONLINE` saat Supabase terhubung, dan amber `LOKAL` jika koneksi terputus.
+3. **Kesiapan Hosting dengan API Supabase Cloud**:
+   - *Arsitektur Serverless Jamstack:* Frontend CV Banong Farms adalah SPA (Single Page Application) murni. Ketika di-hosting, frontend berkomunikasi langsung dengan Supabase Cloud (PostgreSQL, Auth, Storage, WebSocket) tanpa memerlukan backend server PHP/Node.js terpisah.
+   - *Vite Build-time Injection:* Saat `npm run build` dijalankan, nilai `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY` otomatis tertanam ke dalam file static JavaScript (`dist/assets/index-*.js`).
+   - *Panduan Hosting:*
+     - **Shared Hosting / cPanel / Hostinger:** Cukup build lokal `npm run build`, lalu unggah seluruh isi folder `dist/` ke `public_html`.
+     - **Git CI/CD (Vercel / Netlify / Cloudflare Pages):** Masukkan `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY` ke menu *Environment Variables* di dashboard hosting.
+     - **Supabase Auth URL Configuration:** Daftarkan domain publik (misal `https://banongfarms.com`) ke menu *Authentication > URL Configuration > Redirect URLs* di dashboard Supabase agar sesi login admin aman dan tidak terblokir.
+4. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (5.90s) tanpa error.
+
+

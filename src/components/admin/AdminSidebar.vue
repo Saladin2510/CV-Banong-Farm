@@ -69,10 +69,26 @@
     <div class="p-4 border-t border-white/10 flex flex-col gap-3">
       <div class="flex items-center justify-between px-1">
         <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+          <span 
+            :class="[
+              'w-2 h-2 rounded-full',
+              adminStore.isSupabaseConnected.value 
+                ? 'bg-secondary-container animate-pulse' 
+                : 'bg-amber-400'
+            ]"
+          ></span>
           <span class="text-[11px] text-white/70 font-medium">Database Supabase</span>
         </div>
-        <span class="text-[11px] text-secondary-container font-bold">ONLINE</span>
+        <span 
+          :class="[
+            'text-[11px] font-bold font-telemetry-code',
+            adminStore.isSupabaseConnected.value 
+              ? 'text-secondary-container' 
+              : 'text-amber-400'
+          ]"
+        >
+          {{ adminStore.isSupabaseConnected.value ? 'ONLINE' : 'LOKAL' }}
+        </span>
       </div>
 
       <!-- Back to Public Landing Page Button -->

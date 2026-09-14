@@ -351,6 +351,33 @@
             </p>
           </div>
 
+          <!-- Indikator Sumber Kredensial (.env vs Manual) -->
+          <div v-if="hasEnvCredentials" class="text-xs">
+            <div 
+              v-if="isCustomCreds"
+              class="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+            >
+              <div class="flex items-center gap-2 text-amber-900 dark:text-amber-200">
+                <span class="material-symbols-outlined text-[18px]">warning</span>
+                <span><strong>Override Manual Browser:</strong> Input lokal menimpa file <code>.env</code>.</span>
+              </div>
+              <button 
+                type="button" 
+                @click="handleResetToEnv"
+                class="px-2.5 py-1 rounded-md bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] shrink-0 transition-all cursor-pointer shadow-xs active:scale-95"
+              >
+                Kembalikan ke .env Bawaan
+              </button>
+            </div>
+            <div 
+              v-else
+              class="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 flex items-center gap-2 text-emerald-900 dark:text-emerald-200"
+            >
+              <span class="material-symbols-outlined text-[18px]">verified</span>
+              <span><strong>Konfigurasi Otomatis Aktif:</strong> Menggunakan file <code>.env</code> bawaan proyek. Siap hosting tanpa perlu input manual.</span>
+            </div>
+          </div>
+
           <form @submit.prevent="handleConnect" class="flex flex-col gap-4 text-xs">
             <!-- Project URL -->
             <div class="flex flex-col gap-1.5">
@@ -402,16 +429,28 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-2 pt-2">
+            <div class="flex flex-wrap items-center gap-2 pt-2">
               <button 
                 type="submit"
                 :disabled="isConnecting"
-                class="flex-1 h-10 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                class="flex-1 min-w-[180px] h-10 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 <span class="material-symbols-outlined text-[18px]" :class="{ 'animate-spin': isConnecting }">
                   {{ isConnecting ? 'sync' : 'link' }}
                 </span>
                 <span>{{ isConnecting ? 'Menguji Koneksi Cloud...' : 'Simpan & Sambungkan Supabase' }}</span>
+              </button>
+
+              <button 
+                v-if="hasEnvCredentials"
+                type="button"
+                @click="handleResetToEnv"
+                :disabled="isConnecting"
+                class="h-10 px-3.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+                title="Kembalikan kredensial ke file .env bawaan proyek"
+              >
+                <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+                <span>Reset ke .env</span>
               </button>
             </div>
           </form>
@@ -527,7 +566,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAdminStore } from '../../stores/useAdminStore'
-import { getStoredCredentials, saveCredentials, clearCredentials } from '../../services/supabaseClient'
+import { getStoredCredentials, getEnvCredentials, saveCredentials, clearCredentials } from '../../services/supabaseClient'
 
 const adminStore = useAdminStore()
 const activeSubView = ref('erd')
@@ -535,6 +574,8 @@ const selectedLiveDataset = ref('products')
 
 // State Konfigurasi Supabase
 const creds = getStoredCredentials()
+const hasEnvCredentials = ref(creds.hasEnv)
+const isCustomCreds = ref(creds.isCustom)
 const supabaseUrl = ref(creds.url || '')
 const supabaseAnonKey = ref(creds.key || '')
 const showAnonKey = ref(false)
@@ -554,6 +595,9 @@ const handleConnect = async () => {
   connectStatus.value = { success: false, message: '' }
   try {
     saveCredentials(supabaseUrl.value, supabaseAnonKey.value)
+    const freshCreds = getStoredCredentials()
+    isCustomCreds.value = freshCreds.isCustom
+
     const res = await adminStore.syncWithSupabaseDatabase()
     if (res && res.success) {
       connectStatus.value = { 
@@ -573,12 +617,42 @@ const handleConnect = async () => {
   }
 }
 
+const handleResetToEnv = async () => {
+  isConnecting.value = true
+  connectStatus.value = { success: false, message: '' }
+  try {
+    clearCredentials()
+    const envCreds = getEnvCredentials()
+    supabaseUrl.value = envCreds.url
+    supabaseAnonKey.value = envCreds.key
+    isCustomCreds.value = false
+
+    const res = await adminStore.syncWithSupabaseDatabase()
+    if (res && res.success) {
+      connectStatus.value = { 
+        success: true, 
+        message: 'Berhasil dikembalikan ke konfigurasi file .env bawaan! Supabase Cloud AKTIF & ONLINE!' 
+      }
+    } else {
+      connectStatus.value = { 
+        success: false, 
+        message: res?.message || 'Gagal tersambung ke konfigurasi .env.' 
+      }
+    }
+  } catch (err) {
+    connectStatus.value = { success: false, message: `Kesalahan saat reset ke .env: ${err.message}` }
+  } finally {
+    isConnecting.value = false
+  }
+}
+
 const handleDisconnect = () => {
   clearCredentials()
   supabaseUrl.value = ''
   supabaseAnonKey.value = ''
+  isCustomCreds.value = false
   adminStore.isSupabaseConnected.value = false
-  connectStatus.value = { success: false, message: 'Koneksi Supabase diputus. Sistem kembali ke mode lokal persisten.' }
+  connectStatus.value = { success: false, message: 'Koneksi Supabase diputus. Sistem kembali ke mode penyimpanan lokal.' }
 }
 
 const copySqlScript = async () => {

@@ -13,18 +13,33 @@ export function sanitizeSupabaseUrl(rawUrl) {
   return clean
 }
 
-// Ambil URL & Key dari ENV atau LocalStorage pengguna
-export function getStoredCredentials() {
+// Ambil URL & Key dari ENV bawaan proyek
+export function getEnvCredentials() {
   const envUrl = sanitizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL || '')
   const envKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim()
+  return {
+    url: envUrl,
+    key: envKey,
+    hasEnv: !!(envUrl && envKey)
+  }
+}
+
+// Ambil URL & Key dari ENV atau LocalStorage pengguna
+export function getStoredCredentials() {
+  const envCreds = getEnvCredentials()
 
   const localUrl = typeof window !== 'undefined' ? sanitizeSupabaseUrl(localStorage.getItem(STORAGE_KEY_URL) || '') : ''
   const localKey = typeof window !== 'undefined' ? (localStorage.getItem(STORAGE_KEY_ANON) || '').trim() : ''
 
+  const isCustom = !!(localUrl && (localUrl !== envCreds.url || localKey !== envCreds.key))
+
   return {
-    url: localUrl || envUrl,
-    key: localKey || envKey,
-    isCustom: !!localUrl
+    url: localUrl || envCreds.url,
+    key: localKey || envCreds.key,
+    isCustom,
+    hasEnv: envCreds.hasEnv,
+    envUrl: envCreds.url,
+    envKey: envCreds.key
   }
 }
 
