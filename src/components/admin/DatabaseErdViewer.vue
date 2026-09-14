@@ -13,33 +13,18 @@
           </span>
         </div>
         <p class="text-xs text-[#797067] dark:text-slate-400">
-          Struktur data ternormalisasi (3NF) yang saat ini berjalan secara persisten di peramban via Reactive LocalStorage &amp; siap dihubungkan ke MySQL / PostgreSQL di Hostinger.
+          Struktur data relasional ternormalisasi (3NF) yang terhubung otomatis ke PostgreSQL Supabase Cloud 24/7 melalui file .env proyek.
         </p>
       </div>
 
       <!-- Quick Action Buttons -->
       <div class="flex flex-wrap items-center gap-2">
         <button 
-          @click="activeSubView = 'supabase'"
-          :class="[
-            'h-9 px-3.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5',
-            activeSubView === 'supabase' 
-              ? 'bg-emerald-600 text-white shadow-sm font-bold' 
-              : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100'
-          ]"
-          type="button"
-        >
-          <span class="material-symbols-outlined text-[16px]">cloud_sync</span>
-          <span>Koneksi Supabase (Online)</span>
-          <span v-if="adminStore.isSupabaseConnected.value" class="w-2 h-2 rounded-full bg-emerald-400 animate-ping ml-0.5"></span>
-        </button>
-
-        <button 
           @click="activeSubView = 'erd'"
           :class="[
             'h-9 px-3.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5',
             activeSubView === 'erd' 
-              ? 'bg-cc-orange text-white shadow-sm' 
+              ? 'bg-cc-orange text-white shadow-sm font-bold' 
               : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
           ]"
           type="button"
@@ -53,7 +38,7 @@
           :class="[
             'h-9 px-3.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5',
             activeSubView === 'schema' 
-              ? 'bg-cc-orange text-white shadow-sm' 
+              ? 'bg-cc-orange text-white shadow-sm font-bold' 
               : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
           ]"
           type="button"
@@ -63,11 +48,25 @@
         </button>
 
         <button 
+          @click="activeSubView = 'sql'"
+          :class="[
+            'h-9 px-3.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5',
+            activeSubView === 'sql' 
+              ? 'bg-cc-orange text-white shadow-sm font-bold' 
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+          ]"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[16px]">terminal</span>
+          <span>Skrip SQL (schema.sql)</span>
+        </button>
+
+        <button 
           @click="activeSubView = 'live'"
           :class="[
             'h-9 px-3.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5',
             activeSubView === 'live' 
-              ? 'bg-cc-orange text-white shadow-sm' 
+              ? 'bg-cc-orange text-white shadow-sm font-bold' 
               : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
           ]"
           type="button"
@@ -293,224 +292,47 @@
       </div>
     </div>
 
-    <!-- SUBVIEW 0: Supabase Cloud Real-time Database Connector -->
-    <div v-else-if="activeSubView === 'supabase'" class="flex flex-col gap-5">
-      <!-- Status Card -->
-      <div 
-        :class="[
-          'rounded-xl p-5 border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all shadow-sm',
-          adminStore.isSupabaseConnected.value 
-            ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800' 
-            : 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800'
-        ]"
-      >
-        <div class="flex items-center gap-3.5">
-          <div 
-            :class="[
-              'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-xs',
-              adminStore.isSupabaseConnected.value ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'
-            ]"
-          >
-            <span class="material-symbols-outlined text-[26px]">
-              {{ adminStore.isSupabaseConnected.value ? 'cloud_done' : 'cloud_off' }}
-            </span>
-          </div>
-          <div class="flex flex-col">
-            <span class="font-telemetry-code text-xs font-bold uppercase tracking-wide" :class="adminStore.isSupabaseConnected.value ? 'text-emerald-900 dark:text-emerald-200' : 'text-amber-900 dark:text-amber-200'">
-              {{ adminStore.isSupabaseConnected.value ? '● SUPABASE CLOUD AKTIF & REAL-TIME (ONLINE 24/7)' : '○ MODE PENYIMPANAN SEMENTARA (LOKAL)' }}
-            </span>
-            <p class="text-xs mt-0.5" :class="adminStore.isSupabaseConnected.value ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'">
-              {{ adminStore.isSupabaseConnected.value 
-                ? 'Terhubung langsung ke PostgreSQL Cloud via WebSocket. Setiap transaksi WA atau mutasi stok terupdate instan di seluruh internet!' 
-                : 'Belum terhubung ke Supabase Cloud. Masukkan Project URL dan Anon Key Supabase Anda di bawah untuk mengaktifkan database online.' }}
-            </p>
-          </div>
+    <!-- SUBVIEW: SQL Schema Script (schema.sql) -->
+    <div v-else-if="activeSubView === 'sql'" class="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-cc-outline dark:border-slate-800 shadow-sm flex flex-col gap-4 transition-colors">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div>
+          <h3 class="text-sm font-bold text-[#1b1c1a] dark:text-white uppercase font-telemetry-code flex items-center gap-2">
+            <span class="material-symbols-outlined text-cc-orange text-[20px]">terminal</span>
+            Skrip SQL Skema Basis Data (schema.sql)
+          </h3>
+          <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
+            Skrip DDL PostgreSQL untuk Supabase Cloud (7 tabel terstruktur, relasi foreign key, indeks performa, &amp; kebijakan RLS publik/admin).
+          </p>
         </div>
 
         <button 
-          v-if="adminStore.isSupabaseConnected.value"
-          @click="handleDisconnect"
-          class="h-9 px-4 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer"
+          @click="copySqlScript"
+          class="h-9 px-4 rounded-lg bg-cc-orange hover:bg-cc-orange-strong text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer shrink-0"
           type="button"
         >
-          Putus Sambungan
+          <span class="material-symbols-outlined text-[18px]">{{ copiedSql ? 'check' : 'content_copy' }}</span>
+          <span>{{ copiedSql ? 'Tersalin ke Clipboard!' : 'Salin Skrip SQL' }}</span>
         </button>
       </div>
 
-      <!-- Main Config & SQL Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        <!-- Left: Supabase Credentials Form (6 cols) -->
-        <div class="lg:col-span-6 bg-white dark:bg-[#161b22] rounded-xl p-6 border border-cc-outline dark:border-slate-800 shadow-sm flex flex-col gap-4 transition-colors">
-          <div class="border-b border-slate-100 dark:border-slate-800 pb-3">
-            <h3 class="text-sm font-bold text-[#1b1c1a] dark:text-white uppercase font-telemetry-code flex items-center gap-2">
-              <span class="material-symbols-outlined text-emerald-600 text-[18px]">key</span>
-              Kredensial API Supabase Project
-            </h3>
-            <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-              Dapatkan dari menu: <strong>Project Settings > API</strong> di dashboard Supabase Anda.
-            </p>
-          </div>
+      <!-- Code Snippet Container -->
+      <div class="bg-slate-950 text-slate-200 rounded-xl p-4 font-telemetry-code text-xs overflow-y-auto max-h-[500px] border border-slate-800">
+        <pre class="whitespace-pre-wrap leading-relaxed">{{ supabaseSqlSnippet }}</pre>
+      </div>
 
-          <!-- Indikator Sumber Kredensial (.env vs Manual) -->
-          <div v-if="hasEnvCredentials" class="text-xs">
-            <div 
-              v-if="isCustomCreds"
-              class="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
-            >
-              <div class="flex items-center gap-2 text-amber-900 dark:text-amber-200">
-                <span class="material-symbols-outlined text-[18px]">warning</span>
-                <span><strong>Override Manual Browser:</strong> Input lokal menimpa file <code>.env</code>.</span>
-              </div>
-              <button 
-                type="button" 
-                @click="handleResetToEnv"
-                class="px-2.5 py-1 rounded-md bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] shrink-0 transition-all cursor-pointer shadow-xs active:scale-95"
-              >
-                Kembalikan ke .env Bawaan
-              </button>
-            </div>
-            <div 
-              v-else
-              class="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 flex items-center gap-2 text-emerald-900 dark:text-emerald-200"
-            >
-              <span class="material-symbols-outlined text-[18px]">verified</span>
-              <span><strong>Konfigurasi Otomatis Aktif:</strong> Menggunakan file <code>.env</code> bawaan proyek. Siap hosting tanpa perlu input manual.</span>
-            </div>
-          </div>
-
-          <form @submit.prevent="handleConnect" class="flex flex-col gap-4 text-xs">
-            <!-- Project URL -->
-            <div class="flex flex-col gap-1.5">
-              <label class="font-bold text-slate-700 dark:text-slate-300 uppercase font-telemetry-code text-[11px]">
-                Project URL (HTTPS) <span class="text-red-500">*</span>
-              </label>
-              <input 
-                v-model="supabaseUrl"
-                type="url"
-                required
-                placeholder="https://xyzabcdefghijklm.supabase.co"
-                class="h-10 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white font-telemetry-code text-xs focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
-              />
-            </div>
-
-            <!-- Anon Key -->
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-center justify-between">
-                <label class="font-bold text-slate-700 dark:text-slate-300 uppercase font-telemetry-code text-[11px]">
-                  Anon Public Key <span class="text-red-500">*</span>
-                </label>
-                <button 
-                  type="button" 
-                  @click="showAnonKey = !showAnonKey"
-                  class="text-[11px] text-emerald-600 hover:underline flex items-center gap-0.5"
-                >
-                  <span class="material-symbols-outlined text-[14px]">{{ showAnonKey ? 'visibility_off' : 'visibility' }}</span>
-                  <span>{{ showAnonKey ? 'Sembunyikan' : 'Tampilkan' }}</span>
-                </button>
-              </div>
-              <input 
-                v-model="supabaseAnonKey"
-                :type="showAnonKey ? 'text' : 'password'"
-                required
-                placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                class="h-10 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white font-telemetry-code text-xs focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
-              />
-            </div>
-
-            <!-- Connect Feedback -->
-            <div v-if="connectStatus.message" :class="[
-              'p-3 rounded-lg text-xs font-medium flex items-center gap-2 border',
-              connectStatus.success ? 'bg-emerald-100 dark:bg-emerald-950/60 border-emerald-300 text-emerald-900 dark:text-emerald-200' : 'bg-red-100 dark:bg-red-950/60 border-red-300 text-red-900 dark:text-red-200'
-            ]">
-              <span class="material-symbols-outlined text-[18px]">
-                {{ connectStatus.success ? 'check_circle' : 'error' }}
-              </span>
-              <span>{{ connectStatus.message }}</span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap items-center gap-2 pt-2">
-              <button 
-                type="submit"
-                :disabled="isConnecting"
-                class="flex-1 min-w-[180px] h-10 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                <span class="material-symbols-outlined text-[18px]" :class="{ 'animate-spin': isConnecting }">
-                  {{ isConnecting ? 'sync' : 'link' }}
-                </span>
-                <span>{{ isConnecting ? 'Menguji Koneksi Cloud...' : 'Simpan & Sambungkan Supabase' }}</span>
-              </button>
-
-              <button 
-                v-if="hasEnvCredentials"
-                type="button"
-                @click="handleResetToEnv"
-                :disabled="isConnecting"
-                class="h-10 px-3.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
-                title="Kembalikan kredensial ke file .env bawaan proyek"
-              >
-                <span class="material-symbols-outlined text-[16px]">restart_alt</span>
-                <span>Reset ke .env</span>
-              </button>
-            </div>
-          </form>
-
-          <!-- 3-Minute Quick Setup Guide -->
-          <div class="mt-2 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2 text-xs">
-            <span class="font-bold text-[#1b1c1a] dark:text-white uppercase font-telemetry-code text-[11px]">
-              Panduan 3 Langkah Cepat:
-            </span>
-            <ol class="list-decimal list-inside space-y-1 text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
-              <li>Buka <a href="https://supabase.com" target="_blank" class="text-emerald-600 underline font-semibold">supabase.com</a> dan buat proyek baru (100% gratis).</li>
-              <li>Buka menu <strong>SQL Editor</strong> di Supabase, klik tombol <em>"Salin Skrip SQL"</em> di sebelah kanan, tempelkan, dan klik <strong>Run</strong>.</li>
-              <li>Buka menu <strong>Project Settings > API</strong>, salin Project URL dan anon key, lalu masukkan di formulir ini.</li>
-            </ol>
-          </div>
-        </div>
-
-        <!-- Right: SQL Editor Script Box (6 cols) -->
-        <div class="lg:col-span-6 bg-white dark:bg-[#161b22] rounded-xl p-6 border border-cc-outline dark:border-slate-800 shadow-sm flex flex-col justify-between gap-4 transition-colors">
-          <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-            <div>
-              <h3 class="text-sm font-bold text-[#1b1c1a] dark:text-white uppercase font-telemetry-code flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-cc-orange text-[18px]">terminal</span>
-                Skrip SQL Supabase (schema.sql)
-              </h3>
-              <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-                Tinggal copy dan jalankan di SQL Editor Supabase dalam 1 kali klik.
-              </p>
-            </div>
-
-            <button 
-              @click="copySqlScript"
-              class="h-8 px-3 rounded-lg bg-cc-orange hover:bg-cc-orange-strong text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95 cursor-pointer"
-              type="button"
-            >
-              <span class="material-symbols-outlined text-[16px]">{{ copiedSql ? 'check' : 'content_copy' }}</span>
-              <span>{{ copiedSql ? 'Tersalin!' : 'Salin Skrip SQL' }}</span>
-            </button>
-          </div>
-
-          <!-- Code Snippet Container -->
-          <div class="bg-slate-950 text-slate-200 rounded-xl p-3.5 font-telemetry-code text-[11px] overflow-y-auto max-h-80 border border-slate-800">
-            <pre class="whitespace-pre-wrap">{{ supabaseSqlSnippet }}</pre>
-          </div>
-
-          <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
-            <span class="text-slate-500 dark:text-slate-400">
-              Otomatis membuat 7 tabel, RLS policies, &amp; Realtime Publication.
-            </span>
-            <a 
-              href="https://supabase.com/dashboard" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="text-emerald-600 font-bold hover:underline flex items-center gap-1"
-            >
-              <span>Buka Supabase Dashboard</span>
-              <span class="material-symbols-outlined text-[14px]">open_in_new</span>
-            </a>
-          </div>
-        </div>
+      <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+        <span class="text-slate-500 dark:text-slate-400">
+          Otomatis membuat 7 tabel, RLS policies, &amp; Realtime Publication. Tinggal tempel di SQL Editor Supabase jika ingin membuat ulang database.
+        </span>
+        <a 
+          href="https://supabase.com/dashboard" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="text-emerald-600 font-bold hover:underline flex items-center gap-1"
+        >
+          <span>Buka Supabase Dashboard</span>
+          <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+        </a>
       </div>
     </div>
 
@@ -566,94 +388,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAdminStore } from '../../stores/useAdminStore'
-import { getStoredCredentials, getEnvCredentials, saveCredentials, clearCredentials } from '../../services/supabaseClient'
 
 const adminStore = useAdminStore()
 const activeSubView = ref('erd')
 const selectedLiveDataset = ref('products')
-
-// State Konfigurasi Supabase
-const creds = getStoredCredentials()
-const hasEnvCredentials = ref(creds.hasEnv)
-const isCustomCreds = ref(creds.isCustom)
-const supabaseUrl = ref(creds.url || '')
-const supabaseAnonKey = ref(creds.key || '')
-const showAnonKey = ref(false)
-const isConnecting = ref(false)
-const connectStatus = ref({ 
-  success: adminStore.isSupabaseConnected.value, 
-  message: adminStore.isSupabaseConnected.value ? 'Terhubung aktif ke Supabase Cloud!' : '' 
-})
 const copiedSql = ref(false)
-
-const handleConnect = async () => {
-  if (!supabaseUrl.value || !supabaseAnonKey.value) {
-    connectStatus.value = { success: false, message: 'Harap masukkan Project URL dan Anon Key Supabase Anda.' }
-    return
-  }
-  isConnecting.value = true
-  connectStatus.value = { success: false, message: '' }
-  try {
-    saveCredentials(supabaseUrl.value, supabaseAnonKey.value)
-    const freshCreds = getStoredCredentials()
-    isCustomCreds.value = freshCreds.isCustom
-
-    const res = await adminStore.syncWithSupabaseDatabase()
-    if (res && res.success) {
-      connectStatus.value = { 
-        success: true, 
-        message: 'Koneksi Berhasil! Database Supabase Cloud kini AKTIF & REAL-TIME 24/7!' 
-      }
-    } else {
-      connectStatus.value = { 
-        success: false, 
-        message: res?.message || 'Gagal tersambung. Pastikan tabel di Supabase sudah dibuat menggunakan Skrip SQL di sebelah kanan.' 
-      }
-    }
-  } catch (err) {
-    connectStatus.value = { success: false, message: `Kesalahan koneksi: ${err.message}` }
-  } finally {
-    isConnecting.value = false
-  }
-}
-
-const handleResetToEnv = async () => {
-  isConnecting.value = true
-  connectStatus.value = { success: false, message: '' }
-  try {
-    clearCredentials()
-    const envCreds = getEnvCredentials()
-    supabaseUrl.value = envCreds.url
-    supabaseAnonKey.value = envCreds.key
-    isCustomCreds.value = false
-
-    const res = await adminStore.syncWithSupabaseDatabase()
-    if (res && res.success) {
-      connectStatus.value = { 
-        success: true, 
-        message: 'Berhasil dikembalikan ke konfigurasi file .env bawaan! Supabase Cloud AKTIF & ONLINE!' 
-      }
-    } else {
-      connectStatus.value = { 
-        success: false, 
-        message: res?.message || 'Gagal tersambung ke konfigurasi .env.' 
-      }
-    }
-  } catch (err) {
-    connectStatus.value = { success: false, message: `Kesalahan saat reset ke .env: ${err.message}` }
-  } finally {
-    isConnecting.value = false
-  }
-}
-
-const handleDisconnect = () => {
-  clearCredentials()
-  supabaseUrl.value = ''
-  supabaseAnonKey.value = ''
-  isCustomCreds.value = false
-  adminStore.isSupabaseConnected.value = false
-  connectStatus.value = { success: false, message: 'Koneksi Supabase diputus. Sistem kembali ke mode penyimpanan lokal.' }
-}
 
 const copySqlScript = async () => {
   try {

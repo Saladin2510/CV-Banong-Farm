@@ -3,6 +3,14 @@ import { createClient } from '@supabase/supabase-js'
 const STORAGE_KEY_URL = 'banong_supabase_url'
 const STORAGE_KEY_ANON = 'banong_supabase_anon_key'
 
+// Bersihkan residu input manual di localStorage pengguna secara otomatis
+if (typeof window !== 'undefined') {
+  try {
+    localStorage.removeItem(STORAGE_KEY_URL)
+    localStorage.removeItem(STORAGE_KEY_ANON)
+  } catch (e) {}
+}
+
 // Pembersih URL Supabase otomatis (menghapus trailing slashes dan suffix /rest/v1 jika tidak sengaja ditempel)
 export function sanitizeSupabaseUrl(rawUrl) {
   if (!rawUrl) return ''
@@ -13,51 +21,30 @@ export function sanitizeSupabaseUrl(rawUrl) {
   return clean
 }
 
-// Ambil URL & Key dari ENV bawaan proyek
-export function getEnvCredentials() {
+// Ambil URL & Key murni dari file .env (Single Source of Truth)
+export function getStoredCredentials() {
   const envUrl = sanitizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL || '')
   const envKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim()
   return {
     url: envUrl,
     key: envKey,
-    hasEnv: !!(envUrl && envKey)
+    hasEnv: !!(envUrl && envKey),
+    isCustom: false,
+    envUrl,
+    envKey
   }
 }
 
-// Ambil URL & Key dari ENV atau LocalStorage pengguna
-export function getStoredCredentials() {
-  const envCreds = getEnvCredentials()
-
-  const localUrl = typeof window !== 'undefined' ? sanitizeSupabaseUrl(localStorage.getItem(STORAGE_KEY_URL) || '') : ''
-  const localKey = typeof window !== 'undefined' ? (localStorage.getItem(STORAGE_KEY_ANON) || '').trim() : ''
-
-  const isCustom = !!(localUrl && (localUrl !== envCreds.url || localKey !== envCreds.key))
-
-  return {
-    url: localUrl || envCreds.url,
-    key: localKey || envCreds.key,
-    isCustom,
-    hasEnv: envCreds.hasEnv,
-    envUrl: envCreds.url,
-    envKey: envCreds.key
-  }
+export function getEnvCredentials() {
+  return getStoredCredentials()
 }
 
-export function saveCredentials(url, key) {
-  if (typeof window !== 'undefined') {
-    const cleanUrl = sanitizeSupabaseUrl(url)
-    localStorage.setItem(STORAGE_KEY_URL, cleanUrl)
-    localStorage.setItem(STORAGE_KEY_ANON, (key || '').trim())
-    supabaseInstance = null // reset client agar menginisialisasi ulang
-  }
+export function saveCredentials() {
+  // Kredensial kini terkunci permanen di file .env
 }
 
 export function clearCredentials() {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem(STORAGE_KEY_URL)
-    localStorage.removeItem(STORAGE_KEY_ANON)
-    supabaseInstance = null
-  }
+  // Kredensial dikelola terpusat oleh file .env
 }
 
 let supabaseInstance = null
