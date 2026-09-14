@@ -202,11 +202,12 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 - [ ] **Pertahankan Aturan Warna 60:30:10:** Jangan memasukkan warna merah (`#c8102e`, `red-...`) atau hijau (`emerald-...`) pada komponen publik. Selalu gunakan Putih, Biru Navy (`primary`), dan Kuning Emas (`secondary-container`).
 - [ ] **Pertahankan Format 1 Baris Footer:** Teks judul raksasa `CV BANONG FARMS` wajib tetap menggunakan `whitespace-nowrap` agar tidak pecah menjadi 2 baris.
 - [ ] **Pilihan Agenda Pengembangan yang Siap Dikerjakan (Sesuai Arahan Pengguna):**
-  1. *Optimasi Pengalaman Mobile (Responsive Polish):* Pengecekan menyeluruh layout pada layar smartphone kecil (< 400px).
-  2. *Ekspor Laporan Transaksi Admin:* Penambahan tombol unduh rekapitulasi penjualan (harian/bulanan) ke format Excel (.xlsx) atau PDF di dashboard admin.
-  3. *Filter & Pencarian Pesanan Admin:* Fitur pencarian tiket pesanan berdasarkan nama pembeli / ID pesanan `#BNG-xxxx`.
-  4. *Audio/Sound Alert Pesanan Baru:* Notifikasi suara denting bel saat ada orderan masuk di dashboard admin secara realtime.
-  5. *Penyempurnaan SEO & Meta Tags:* Penambahan Open Graph image dan structured data schema (LocalBusiness / Farm) untuk Google Search.
+  1. *Implementasi AI Smart Chatbot Pengunjung:* Widget asisten agribisnis virtual 24/7 di landing page (Google Gemini API) untuk konsultasi pakan/pupuk, cek stok/harga realtime, dan panduan takaran.
+  2. *Implementasi AI Business Intelligence Admin:* Integrasi analitik strategi bisnis berbasis tabel `strategi_ai` dan `metrik_harian` untuk peramalan stok (*demand forecasting*) dan penetapan harga dinamis.
+  3. *Ekspor Laporan Transaksi Admin:* Penambahan tombol unduh rekapitulasi penjualan (harian/bulanan) ke format Excel (.xlsx) atau PDF di dashboard admin.
+  4. *Filter & Pencarian Pesanan Admin:* Fitur pencarian tiket pesanan berdasarkan nama pembeli / ID pesanan `#BNG-xxxx`.
+  5. *Audio/Sound Alert Pesanan Baru:* Notifikasi suara denting bel saat ada orderan masuk di dashboard admin secara realtime.
+  6. *Optimasi Pengalaman Mobile & SEO:* Pengecekan responsif pada layar kecil (< 400px) dan Open Graph meta tags untuk Google Search.
 
 ---
 
@@ -299,3 +300,25 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
    - Sesuai instruksi khusus pengguna (*"BUKAN BAGIAN BACKEND ATAU LOGIKANYA!"*), modifikasi hanya difokuskan pada lapisan presentasi visual/ERD di Admin Dashboard tanpa menyentuh logika query dan state store.
 4. **Verifikasi Build**:
    - `npm run build` sukses 100% (5.82s) dengan 0 error.
+
+---
+
+## 12. Catatan Sesi (14 September 2026 - Bagian 2) - Validasi ERD, Diagram Arsitektur Sistem, & Rencana AI
+1. **Validasi ERD untuk Laporan Ujian (PSAJ Kelas 12 DPK)**:
+   - ERD pada skema visual Supabase terverifikasi **100% valid dan memenuhi standar bentuk normalisasi 3NF**:
+     - Kardinalitas $1:N$ jelas (`kategori` -> `produk`, `pesanan` -> `detail_pesanan`).
+     - Relasi $M:N$ terpecahkan secara bersih lewat tabel *junction* `detail_pesanan`.
+     - Isolasi otentikasi aman melalui relasi $1:1$ antara `admin` dengan `auth.users(id)` Supabase Auth.
+     - Tabel `metrik_harian` berdiri mandiri sebagai *time-series metric table* untuk telemetri grafik penjualan.
+2. **Diagram Arsitektur Sistem (PlantText / PlantUML)**:
+   - Dibuatkan diagram arsitektur multi-layer (User Layer, Vue 3 SPA Frontend, WhatsApp Gateway + Gemini AI API, dan Supabase Cloud BaaS) lengkap dengan teks pengantar resmi bergaya akademis untuk laporan.
+   - Kode PlantUML tersimpan siap pakai untuk dibuka di [planttext.com](https://www.planttext.com).
+3. **Perumusan Naratif Rencana Implementasi AI**:
+   - Diformulasikan dalam bentuk paragraf naratif mengalir (siap ditulis di bab pembahasan laporan):
+     - **AI Chatbot Pengunjung:** Konsultan agribisnis virtual 24/7 di landing page dengan kemampuan *context injection* data produk realtime, konsultasi pakan/pupuk, hitung estimasi takaran, dan asistensi checkout WA.
+     - **AI Analitik Bisnis Admin:** Sistem pendukung keputusan (*Decision Support System*) berbasis tabel `strategi_ai` dan `metrik_harian` untuk peramalan permintaan (*demand forecasting*), pencegahan stok menipis, dan strategi penetapan harga dinamis (*dynamic pricing*).
+4. **Status Eksekusi & Kondisi Proyek**:
+   - Coding dijeda sesuai instruksi pengguna; tidak ada perubahan kode yang belum tersimpan.
+   - Build produksi stabil: `dist/` terverifikasi 0 error.
+   - Agenda berikutnya yang siap dikerjakan saat pengguna kembali: Pembangunan fitur Smart Chatbot AI pengunjung atau Analitik AI Dashboard Admin.
+
