@@ -283,5 +283,19 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 4. **Verifikasi Build Produksi**:
    - `npm run build` sukses 100% (5.84s) dengan 0 error dan 0 warning.
 
-
-
+## 11. Catatan Sesi (14 September 2026) - Penyelarasan Penuh Visual ERD & Skema Tabel ke Supabase
+1. **Penyelarasan Skema 7 Tabel Supabase Cloud (`DatabaseErdViewer.vue`)**:
+   - Menyesuaikan 100% diagram ERD visual, metadata kolom, dan daftar tabel pada tab *Struktur Database* di Admin Dashboard agar sesuai dengan DDL PostgreSQL Supabase Cloud:
+     1. `admin` (UUID PK -> `auth.users(id)`, `email` UNIQUE, `nama_lengkap`, `peran` DEFAULT 'Administrator')
+     2. `kategori` (INT GENERATED ALWAYS AS IDENTITY PK, `nama_kategori`, `slug` UNIQUE, `ikon` DEFAULT 'eco')
+     3. `produk` (BIGINT GENERATED ALWAYS AS IDENTITY PK, `id_kategori` FK, `nama_produk`, `deskripsi`, `satuan` DEFAULT 'kg', `harga` NUMERIC DEFAULT 0.00, `stok` INT DEFAULT 0, `stok_maksimal` INT DEFAULT 5000, `jumlah_terjual` INT DEFAULT 0, `url_gambar` TEXT)
+     4. `pesanan` (BIGINT GENERATED ALWAYS AS IDENTITY PK, `kode_pesanan` UNIQUE, `nama_pelanggan`, `no_whatsapp`, `alamat_pelanggan`, `total_harga` NUMERIC DEFAULT 0.00, `status` DEFAULT 'Menunggu Konfirmasi', `dibuat_pada` TIMESTAMPTZ DEFAULT now())
+     5. `detail_pesanan` (BIGINT GENERATED ALWAYS AS IDENTITY PK, `id_pesanan` FK -> pesanan, `id_produk` FK -> produk, `jumlah_beli` INT DEFAULT 1, `harga_satuan` NUMERIC DEFAULT 0.00, `subtotal` NUMERIC DEFAULT 0.00)
+     6. `metrik_harian` (DATE PK DEFAULT CURRENT_DATE, `label_hari`, `volume_aktual_kg` INT DEFAULT 0, `prediksi_volume_kg` INT DEFAULT 0)
+     7. `strategi_ai` (BIGINT GENERATED ALWAYS AS IDENTITY PK, `id_produk_target` FK -> produk, `teks_analisis` TEXT, `tingkat_akurasi` DEFAULT '95.5%')
+2. **Pembaruan Tab Skrip SQL (`schema.sql`)**:
+   - Memperbarui skrip DDL salin 1-klik dengan sintaks PostgreSQL resmi (`GENERATED ALWAYS AS IDENTITY`, `NUMERIC`, `TIMESTAMPTZ`, serta kebijakan RLS dan Realtime Publication).
+3. **Pemberitahuan Lingkup Tugas**:
+   - Sesuai instruksi khusus pengguna (*"BUKAN BAGIAN BACKEND ATAU LOGIKANYA!"*), modifikasi hanya difokuskan pada lapisan presentasi visual/ERD di Admin Dashboard tanpa menyentuh logika query dan state store.
+4. **Verifikasi Build**:
+   - `npm run build` sukses 100% (5.82s) dengan 0 error.

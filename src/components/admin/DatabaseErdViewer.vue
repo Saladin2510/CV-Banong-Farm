@@ -93,142 +93,164 @@
         </span>
       </div>
 
-      <!-- Visual Node Diagram -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        <!-- Node 1: CATEGORIES -->
+      <!-- Visual Node Diagram (7 Tabel Supabase Cloud) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4.5">
+        <!-- Node 1: kategori -->
         <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
             <span class="font-bold font-telemetry-code text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]">folder</span>
-              CATEGORIES (1)
+              kategori (1)
             </span>
             <span class="text-[10px] bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-telemetry-code px-2 py-0.5 rounded">Master</span>
           </div>
           <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
-            <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">INT AUTO_INC</span></div>
-            <div class="flex justify-between"><span>name</span><span class="text-slate-400">VARCHAR(100)</span></div>
-            <div class="flex justify-between"><span>slug</span><span class="text-slate-400">VARCHAR(100) UNIQUE</span></div>
-            <div class="flex justify-between"><span>icon</span><span class="text-slate-400">VARCHAR(50)</span></div>
+            <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">INTEGER</span></div>
+            <div class="flex justify-between"><span>nama_kategori</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span>slug</span><span class="text-slate-400">VARCHAR UNIQUE</span></div>
+            <div class="flex justify-between"><span>ikon</span><span class="text-slate-400">VARCHAR ('eco')</span></div>
           </div>
           <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-blue-600 dark:text-blue-400 flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-            <span>Relasi 1:N ke PRODUCTS (category_id)</span>
+            <span>Relasi 1:N ke produk (id_kategori)</span>
           </div>
         </div>
 
-        <!-- Node 2: PRODUCTS -->
+        <!-- Node 2: produk -->
         <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border-2 border-cc-orange dark:border-cc-orange/70 flex flex-col gap-2 shadow-sm">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
             <span class="font-bold font-telemetry-code text-xs text-cc-orange flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]">inventory_2</span>
-              PRODUCTS (N)
+              produk (N)
             </span>
             <span class="text-[10px] bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300 font-telemetry-code px-2 py-0.5 rounded font-bold">Tabel Inti</span>
           </div>
           <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
             <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span class="text-blue-500 font-semibold">◆ category_id (FK)</span><span class="text-slate-400">INT</span></div>
-            <div class="flex justify-between"><span>name</span><span class="text-slate-400">VARCHAR(255)</span></div>
-            <div class="flex justify-between"><span>price</span><span class="text-slate-400">DECIMAL(12,2)</span></div>
-            <div class="flex justify-between"><span class="text-emerald-500 font-semibold">stock</span><span class="text-slate-400">INT (REAL-TIME)</span></div>
-            <div class="flex justify-between"><span>max_stock</span><span class="text-slate-400">INT</span></div>
-            <div class="flex justify-between"><span>sold_count</span><span class="text-slate-400">INT</span></div>
+            <div class="flex justify-between"><span class="text-blue-500 font-semibold">◆ id_kategori (FK)</span><span class="text-slate-400">INTEGER</span></div>
+            <div class="flex justify-between"><span>nama_produk</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span>deskripsi</span><span class="text-slate-400">TEXT</span></div>
+            <div class="flex justify-between"><span>satuan</span><span class="text-slate-400">VARCHAR ('kg')</span></div>
+            <div class="flex justify-between"><span>harga</span><span class="text-slate-400">NUMERIC</span></div>
+            <div class="flex justify-between"><span class="text-emerald-500 font-semibold">stok</span><span class="text-slate-400">INTEGER (REAL-TIME)</span></div>
+            <div class="flex justify-between"><span>stok_maksimal</span><span class="text-slate-400">INTEGER (5000)</span></div>
+            <div class="flex justify-between"><span>jumlah_terjual</span><span class="text-slate-400">INTEGER</span></div>
+            <div class="flex justify-between"><span>url_gambar</span><span class="text-slate-400">TEXT</span></div>
           </div>
           <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-cc-orange flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">sync_alt</span>
-            <span>Relasi 1:N ke ORDER_ITEMS &amp; AI</span>
+            <span>Relasi ke detail_pesanan &amp; strategi_ai</span>
           </div>
         </div>
 
-        <!-- Node 3: ORDER_ITEMS -->
+        <!-- Node 3: detail_pesanan -->
         <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
             <span class="font-bold font-telemetry-code text-xs text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]">receipt_long</span>
-              ORDER_ITEMS (N)
+              detail_pesanan (N)
             </span>
             <span class="text-[10px] bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 font-telemetry-code px-2 py-0.5 rounded">Junction</span>
           </div>
           <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
             <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span class="text-emerald-500 font-semibold">◆ order_id (FK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span class="text-cc-orange font-semibold">◆ product_id (FK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span>qty</span><span class="text-slate-400">INT</span></div>
-            <div class="flex justify-between"><span>unit_price</span><span class="text-slate-400">DECIMAL(12,2)</span></div>
-            <div class="flex justify-between"><span>subtotal</span><span class="text-slate-400">DECIMAL(12,2)</span></div>
+            <div class="flex justify-between"><span class="text-emerald-500 font-semibold">◆ id_pesanan (FK)</span><span class="text-slate-400">BIGINT</span></div>
+            <div class="flex justify-between"><span class="text-cc-orange font-semibold">◆ id_produk (FK)</span><span class="text-slate-400">BIGINT</span></div>
+            <div class="flex justify-between"><span>jumlah_beli</span><span class="text-slate-400">INTEGER</span></div>
+            <div class="flex justify-between"><span>harga_satuan</span><span class="text-slate-400">NUMERIC</span></div>
+            <div class="flex justify-between"><span>subtotal</span><span class="text-slate-400">NUMERIC</span></div>
           </div>
           <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-purple-600 dark:text-purple-400 flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">arrow_back</span>
-            <span>Menghubungkan ORDERS &amp; PRODUCTS</span>
+            <span>Menghubungkan pesanan &amp; produk</span>
           </div>
         </div>
 
-        <!-- Node 4: ORDERS (WhatsApp) -->
+        <!-- Node 4: pesanan -->
         <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
             <span class="font-bold font-telemetry-code text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]">chat</span>
-              ORDERS (1)
+              pesanan (1)
             </span>
             <span class="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-telemetry-code px-2 py-0.5 rounded">Transaksi WA</span>
           </div>
           <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
             <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span>order_code</span><span class="text-slate-400">VARCHAR(50) UNIQUE</span></div>
-            <div class="flex justify-between"><span>customer_name</span><span class="text-slate-400">VARCHAR(150)</span></div>
-            <div class="flex justify-between"><span>total_amount</span><span class="text-slate-400">DECIMAL(12,2)</span></div>
-            <div class="flex justify-between"><span>status</span><span class="text-slate-400">VARCHAR(50)</span></div>
-            <div class="flex justify-between"><span>created_at</span><span class="text-slate-400">TIMESTAMP</span></div>
+            <div class="flex justify-between"><span>kode_pesanan</span><span class="text-slate-400">VARCHAR UNIQUE</span></div>
+            <div class="flex justify-between"><span>nama_pelanggan</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span>no_whatsapp</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span>alamat_pelanggan</span><span class="text-slate-400">TEXT</span></div>
+            <div class="flex justify-between"><span>total_harga</span><span class="text-slate-400">NUMERIC</span></div>
+            <div class="flex justify-between"><span>status</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span>dibuat_pada</span><span class="text-slate-400">TIMESTAMPTZ</span></div>
           </div>
           <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-            <span>Relasi 1:N ke ORDER_ITEMS</span>
+            <span>Relasi 1:N ke detail_pesanan</span>
           </div>
         </div>
 
-        <!-- Node 5: DAILY_CHART_METRICS -->
+        <!-- Node 5: metrik_harian -->
         <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
             <span class="font-bold font-telemetry-code text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]">show_chart</span>
-              DAILY_CHART_METRICS
+              metrik_harian
             </span>
             <span class="text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-telemetry-code px-2 py-0.5 rounded">Telemetri</span>
           </div>
           <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
-            <div class="flex justify-between"><span class="text-cc-orange font-bold">● date_key (PK)</span><span class="text-slate-400">DATE (YYYY-MM-DD)</span></div>
-            <div class="flex justify-between"><span>day_label</span><span class="text-slate-400">VARCHAR(30)</span></div>
-            <div class="flex justify-between"><span class="text-cc-orange font-semibold">actual_volume_kg</span><span class="text-slate-400">INT (REAL-TIME)</span></div>
-            <div class="flex justify-between"><span>predicted_volume_kg</span><span class="text-slate-400">INT</span></div>
-            <div class="flex justify-between"><span>peak_amount_kg</span><span class="text-slate-400">INT</span></div>
-            <div class="flex justify-between"><span>peak_buyer</span><span class="text-slate-400">VARCHAR(150)</span></div>
+            <div class="flex justify-between"><span class="text-cc-orange font-bold">● tanggal (PK)</span><span class="text-slate-400">DATE</span></div>
+            <div class="flex justify-between"><span>label_hari</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span class="text-cc-orange font-semibold">volume_aktual_kg</span><span class="text-slate-400">INTEGER</span></div>
+            <div class="flex justify-between"><span>prediksi_volume_kg</span><span class="text-slate-400">INTEGER</span></div>
           </div>
           <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">bolt</span>
-            <span>Terupdate otomatis saat pesanan masuk</span>
+            <span>Snapshot kurva tren penjualan 7 hari</span>
           </div>
         </div>
 
-        <!-- Node 6: AI_STRATEGIES -->
+        <!-- Node 6: strategi_ai -->
         <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
             <span class="font-bold font-telemetry-code text-xs text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]">psychology</span>
-              AI_STRATEGIES
+              strategi_ai
             </span>
-            <span class="text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 font-telemetry-code px-2 py-0.5 rounded">Analitik 1M</span>
+            <span class="text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 font-telemetry-code px-2 py-0.5 rounded">Analitik AI</span>
           </div>
           <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
             <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span class="text-cc-orange font-semibold">◆ target_product_id (FK)</span><span class="text-slate-400">BIGINT</span></div>
-            <div class="flex justify-between"><span>provider</span><span class="text-slate-400">gemini / openai</span></div>
-            <div class="flex justify-between"><span>analysis_text</span><span class="text-slate-400">TEXT</span></div>
-            <div class="flex justify-between"><span>accuracy_rate</span><span class="text-slate-400">VARCHAR(10)</span></div>
-            <div class="flex justify-between"><span>tokens_used</span><span class="text-slate-400">INT</span></div>
+            <div class="flex justify-between"><span class="text-cc-orange font-semibold">◆ id_produk_target (FK)</span><span class="text-slate-400">BIGINT</span></div>
+            <div class="flex justify-between"><span>teks_analisis</span><span class="text-slate-400">TEXT</span></div>
+            <div class="flex justify-between"><span>tingkat_akurasi</span><span class="text-slate-400">VARCHAR ('95.5%')</span></div>
           </div>
           <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-rose-600 dark:text-rose-400 flex items-center gap-1">
             <span class="material-symbols-outlined text-[14px]">auto_awesome</span>
-            <span>Menganalisis komoditas dengan serapan tertinggi</span>
+            <span>Rekomendasi taktis komoditas dari AI</span>
+          </div>
+        </div>
+
+        <!-- Node 7: admin -->
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
+            <span class="font-bold font-telemetry-code text-xs text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+              admin
+            </span>
+            <span class="text-[10px] bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 font-telemetry-code px-2 py-0.5 rounded">Supabase Auth</span>
+          </div>
+          <div class="flex flex-col gap-1 text-[11px] font-telemetry-code text-slate-600 dark:text-slate-300">
+            <div class="flex justify-between"><span class="text-cc-orange font-bold">● id (PK)</span><span class="text-slate-400">UUID</span></div>
+            <div class="flex justify-between"><span>email</span><span class="text-slate-400">VARCHAR UNIQUE</span></div>
+            <div class="flex justify-between"><span>nama_lengkap</span><span class="text-slate-400">VARCHAR</span></div>
+            <div class="flex justify-between"><span>peran</span><span class="text-slate-400">VARCHAR ('Administrator')</span></div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">link</span>
+            <span>Relasi 1:1 ke auth.users(id)</span>
           </div>
         </div>
       </div>
@@ -267,17 +289,23 @@
             <tbody class="divide-y divide-slate-100 dark:divide-slate-800 font-telemetry-code">
               <tr v-for="col in table.columns" :key="col.name" class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
                 <td class="px-3 py-2 font-bold text-slate-800 dark:text-slate-200">
-                  <span v-if="col.key === 'PK'" class="text-cc-orange font-bold mr-1">●</span>
-                  <span v-else-if="col.key === 'FK'" class="text-blue-500 font-bold mr-1">◆</span>
+                  <span v-if="col.key && col.key.includes('PK')" class="text-cc-orange font-bold mr-1">●</span>
+                  <span v-else-if="col.key && col.key.includes('FK')" class="text-blue-500 font-bold mr-1">◆</span>
                   {{ col.name }}
                 </td>
                 <td class="px-3 py-2 text-slate-600 dark:text-slate-400">{{ col.type }}</td>
                 <td class="px-3 py-2">
                   <span 
-                    v-if="col.key" 
+                    v-if="col.key && col.key !== '-'" 
                     :class="[
-                      'px-1.5 py-0.5 rounded text-[10px] font-bold',
-                      col.key === 'PK' ? 'bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300' : 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300'
+                      'px-1.5 py-0.5 rounded text-[10px] font-bold font-telemetry-code',
+                      col.key.includes('PK') 
+                        ? 'bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300' 
+                        : col.key.includes('FK') 
+                          ? 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300' 
+                          : col.key.includes('UNIQUE')
+                            ? 'bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                     ]"
                   >
                     {{ col.key }}
@@ -435,7 +463,7 @@ CREATE TABLE admin (
 
 -- 3. TABEL: kategori
 CREATE TABLE kategori (
-    id INT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nama_kategori VARCHAR(100) NOT NULL,
     slug VARCHAR(100) NOT NULL UNIQUE,
     ikon VARCHAR(50) DEFAULT 'eco'
@@ -443,12 +471,12 @@ CREATE TABLE kategori (
 
 -- 4. TABEL: produk
 CREATE TABLE produk (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_kategori INT REFERENCES kategori(id) ON DELETE SET NULL,
     nama_produk VARCHAR(255) NOT NULL,
     deskripsi TEXT,
     satuan VARCHAR(50) NOT NULL DEFAULT 'kg',
-    harga DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+    harga NUMERIC NOT NULL DEFAULT 0.00,
     stok INT NOT NULL DEFAULT 0,
     stok_maksimal INT NOT NULL DEFAULT 5000,
     jumlah_terjual INT NOT NULL DEFAULT 0,
@@ -457,24 +485,24 @@ CREATE TABLE produk (
 
 -- 5. TABEL: pesanan
 CREATE TABLE pesanan (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     kode_pesanan VARCHAR(50) NOT NULL UNIQUE,
     nama_pelanggan VARCHAR(150) NOT NULL,
     no_whatsapp VARCHAR(20) NOT NULL,
     alamat_pelanggan TEXT,
-    total_harga DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+    total_harga NUMERIC NOT NULL DEFAULT 0.00,
     status VARCHAR(50) NOT NULL DEFAULT 'Menunggu Konfirmasi',
-    dibuat_pada TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    dibuat_pada TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- 6. TABEL: detail_pesanan
 CREATE TABLE detail_pesanan (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_pesanan BIGINT NOT NULL REFERENCES pesanan(id) ON DELETE CASCADE,
     id_produk BIGINT REFERENCES produk(id) ON DELETE SET NULL,
     jumlah_beli INT NOT NULL DEFAULT 1,
-    harga_satuan DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
-    subtotal DECIMAL(12, 2) NOT NULL DEFAULT 0.00
+    harga_satuan NUMERIC NOT NULL DEFAULT 0.00,
+    subtotal NUMERIC NOT NULL DEFAULT 0.00
 );
 
 -- 7. TABEL: metrik_harian
@@ -487,7 +515,7 @@ CREATE TABLE metrik_harian (
 
 -- 8. TABEL: strategi_ai
 CREATE TABLE strategi_ai (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_produk_target BIGINT REFERENCES produk(id) ON DELETE SET NULL,
     teks_analisis TEXT NOT NULL,
     tingkat_akurasi VARCHAR(10) DEFAULT '95.5%'
@@ -579,103 +607,85 @@ const exportJsonBackup = () => {
 
 const tableSchemas = [
   {
-    name: 'categories',
-    description: 'Master Klasifikasi Komoditas Agribisnis & Peternakan',
+    name: 'admin',
+    description: 'Profil & Otoritas Akun Administrator (Relasi 1:1 ke auth.users Supabase Auth)',
     columns: [
-      { name: 'id', type: 'INT AUTO_INCREMENT', key: 'PK', desc: 'Identifikator unik kategori' },
-      { name: 'name', type: 'VARCHAR(100)', key: '', desc: 'Nama kategori (Peternakan Unggas, Perikanan, dll)' },
-      { name: 'slug', type: 'VARCHAR(100) UNIQUE', key: '', desc: 'Slug URL (unggas, ikan, daging, organik)' },
-      { name: 'icon', type: 'VARCHAR(50)', key: '', desc: 'Kode ikon Material Symbols (egg, set_meal)' },
-      { name: 'description', type: 'TEXT', key: '', desc: 'Deskripsi singkat standar kelompok produk' }
+      { name: 'id', type: 'UUID', key: 'PK, FK', desc: 'Identifikator UUID pengguna (Foreign Key ke auth.users.id)' },
+      { name: 'email', type: 'VARCHAR', key: 'UNIQUE', desc: 'Alamat surel resmi administrator farm' },
+      { name: 'nama_lengkap', type: 'VARCHAR', key: '-', desc: 'Nama lengkap administrator pengelola sistem' },
+      { name: 'peran', type: 'VARCHAR', key: 'DEFAULT', desc: "Hak akses operasional (Default: 'Administrator')" }
     ]
   },
   {
-    name: 'products',
-    description: 'Master Katalog Komoditas Panen Aktif & Inventaris Fisik',
+    name: 'kategori',
+    description: 'Master Klasifikasi Komoditas Agribisnis & Peternakan Farm',
     columns: [
-      { name: 'id', type: 'BIGINT AUTO_INCREMENT', key: 'PK', desc: 'ID Produk Unik' },
-      { name: 'category_id', type: 'INT', key: 'FK', desc: 'Relasi ke categories.id' },
-      { name: 'sku', type: 'VARCHAR(50)', key: '', desc: 'Kode SKU/Barcode inventaris gudang' },
-      { name: 'name', type: 'VARCHAR(255)', key: '', desc: 'Nama produk resmi komoditas' },
-      { name: 'price', type: 'DECIMAL(12,2)', key: '', desc: 'Harga satuan aktif per kilogram / unit (Rp)' },
-      { name: 'stock', type: 'INT', key: '', desc: 'Kapasitas stok fisik saat ini (otomatis berkurang saat order)' },
-      { name: 'max_stock', type: 'INT', key: '', desc: 'Kapasitas maksimal tampung gudang/kolam' },
-      { name: 'unit', type: 'VARCHAR(30)', key: '', desc: 'Satuan komoditas (kg, tray, ekor, karung)' },
-      { name: 'sold_count', type: 'INT', key: '', desc: 'Akumulasi total kuantitas yang telah terjual' },
-      { name: 'icon', type: 'VARCHAR(50)', key: '', desc: 'Ikon telemetri visual' },
-      { name: 'image_url', type: 'VARCHAR(255)', key: '', desc: 'Alamat berkas gambar resolusi tinggi' },
-      { name: 'description', type: 'TEXT', key: '', desc: 'Deskripsi varietas, mutu, dan sertifikasi' },
-      { name: 'created_at', type: 'TIMESTAMP', key: '', desc: 'Waktu produk ditambahkan ke sistem' },
-      { name: 'updated_at', type: 'TIMESTAMP', key: '', desc: 'Waktu modifikasi terakhir data produk' }
+      { name: 'id', type: 'INTEGER', key: 'PK', desc: 'Identifikator unik kategori (GENERATED ALWAYS AS IDENTITY)' },
+      { name: 'nama_kategori', type: 'VARCHAR', key: '-', desc: 'Nama kategori komoditas (Unggas, Perikanan, Daging, dll)' },
+      { name: 'slug', type: 'VARCHAR', key: 'UNIQUE', desc: 'Slug URL unik untuk filter katalog publik' },
+      { name: 'ikon', type: 'VARCHAR', key: 'DEFAULT', desc: "Kode ikon Material Symbols (Default: 'eco')" }
     ]
   },
   {
-    name: 'orders',
-    description: 'Tiket Transaksi Masuk via Saluran WhatsApp & Web',
+    name: 'produk',
+    description: 'Master Katalog Komoditas Panen Aktif & Inventaris Fisik Farm',
     columns: [
-      { name: 'id', type: 'BIGINT AUTO_INCREMENT', key: 'PK', desc: 'ID Pesanan unik internal' },
-      { name: 'order_code', type: 'VARCHAR(50) UNIQUE', key: '', desc: 'Kode referensi pesanan (contoh: #WA-8831)' },
-      { name: 'customer_name', type: 'VARCHAR(150)', key: '', desc: 'Nama lengkap pelanggan / badan usaha mitra' },
-      { name: 'customer_phone', type: 'VARCHAR(30)', key: '', desc: 'Nomor kontak WhatsApp aktif' },
-      { name: 'customer_address', type: 'TEXT', key: '', desc: 'Kota & alamat lengkap tujuan pengiriman' },
-      { name: 'total_amount', type: 'DECIMAL(12,2)', key: '', desc: 'Total pembayaran transaksi (Rp)' },
-      { name: 'status', type: 'VARCHAR(50)', key: '', desc: 'Status pemenuhan (Stok Terupdate Otomatis, Selesai)' },
-      { name: 'source', type: 'VARCHAR(50)', key: '', desc: 'Kanal masuk (WhatsApp B2B / Web Katalog)' },
-      { name: 'created_at', type: 'TIMESTAMP', key: '', desc: 'Waktu pesanan masuk ke antrean' }
+      { name: 'id', type: 'BIGINT', key: 'PK', desc: 'Identifikator unik komoditas panen (GENERATED ALWAYS AS IDENTITY)' },
+      { name: 'id_kategori', type: 'INTEGER', key: 'FK', desc: 'Relasi foreign key ke kategori.id' },
+      { name: 'nama_produk', type: 'VARCHAR', key: '-', desc: 'Nama produk resmi hasil panen / olahan' },
+      { name: 'deskripsi', type: 'TEXT', key: '-', desc: 'Deskripsi mutu, spesifikasi, dan manfaat komoditas' },
+      { name: 'satuan', type: 'VARCHAR', key: 'DEFAULT', desc: "Satuan takaran komoditas (Default: 'kg' / pcs)" },
+      { name: 'harga', type: 'NUMERIC', key: 'DEFAULT', desc: 'Harga satuan aktif komoditas dalam Rupiah (Default: 0.00)' },
+      { name: 'stok', type: 'INTEGER', key: 'DEFAULT', desc: 'Kapasitas stok fisik saat ini (otomatis berkurang saat order)' },
+      { name: 'stok_maksimal', type: 'INTEGER', key: 'DEFAULT', desc: 'Kapasitas maksimal tampung gudang/kolam (Default: 5000)' },
+      { name: 'jumlah_terjual', type: 'INTEGER', key: 'DEFAULT', desc: 'Akumulasi total kuantitas produk yang telah terjual' },
+      { name: 'url_gambar', type: 'TEXT', key: 'DEFAULT', desc: "Tautan gambar atau Base64 foto produk (Default: '/assets/product-fertilizer.png')" }
     ]
   },
   {
-    name: 'order_items',
-    description: 'Detail Komoditas & Kuantitas per Tiket Pesanan',
+    name: 'pesanan',
+    description: 'Tiket Transaksi Pemesanan Masuk via Saluran WhatsApp',
     columns: [
-      { name: 'id', type: 'BIGINT AUTO_INCREMENT', key: 'PK', desc: 'ID Rincian Pesanan' },
-      { name: 'order_id', type: 'BIGINT', key: 'FK', desc: 'Relasi ke orders.id' },
-      { name: 'product_id', type: 'BIGINT', key: 'FK', desc: 'Relasi ke products.id' },
-      { name: 'qty', type: 'INT', key: '', desc: 'Volume pemesanan yang memotong stok fisik' },
-      { name: 'unit_price', type: 'DECIMAL(12,2)', key: '', desc: 'Harga satuan saat transaksi disepakati' },
-      { name: 'subtotal', type: 'DECIMAL(12,2)', key: '', desc: 'Subtotal harga (qty * unit_price)' }
+      { name: 'id', type: 'BIGINT', key: 'PK', desc: 'ID Pesanan unik transaksi (GENERATED ALWAYS AS IDENTITY)' },
+      { name: 'kode_pesanan', type: 'VARCHAR', key: 'UNIQUE', desc: 'Kode referensi tiket pesanan (contoh: #BNG-8831)' },
+      { name: 'nama_pelanggan', type: 'VARCHAR', key: '-', desc: 'Nama lengkap pelanggan pemesan komoditas' },
+      { name: 'no_whatsapp', type: 'VARCHAR', key: '-', desc: 'Nomor kontak WhatsApp aktif pelanggan' },
+      { name: 'alamat_pelanggan', type: 'TEXT', key: '-', desc: 'Alamat lengkap lokasi pengiriman komoditas' },
+      { name: 'total_harga', type: 'NUMERIC', key: 'DEFAULT', desc: 'Total pembayaran transaksi pesanan (Rp)' },
+      { name: 'status', type: 'VARCHAR', key: 'DEFAULT', desc: "Status pemenuhan (Default: 'Menunggu Konfirmasi')" },
+      { name: 'dibuat_pada', type: 'TIMESTAMPTZ', key: 'DEFAULT', desc: 'Waktu pesanan masuk ke antrean database (Default: now())' }
     ]
   },
   {
-    name: 'daily_chart_metrics',
-    description: 'Catatan Volume Harian & Data Kurva Prediksi AI 7 Hari',
+    name: 'detail_pesanan',
+    description: 'Rincian Komoditas & Kuantitas per Tiket Pesanan (Tabel Junction)',
     columns: [
-      { name: 'date_key', type: 'DATE (YYYY-MM-DD)', key: 'PK', desc: 'Tanggal kalender lokal harian' },
-      { name: 'day_label', type: 'VARCHAR(30)', key: '', desc: 'Label nama hari (misal: Sel H-1, Rab Hari Ini)' },
-      { name: 'actual_volume_kg', type: 'INT', key: '', desc: 'Volume serapan aktual harian (kg)' },
-      { name: 'predicted_volume_kg', type: 'INT', key: '', desc: 'Hasil proyeksi komputasi algoritma prediktif' },
-      { name: 'peak_amount_kg', type: 'INT', key: '', desc: 'Puncak pesanan terbesar per hari' },
-      { name: 'peak_buyer', type: 'VARCHAR(150)', key: '', desc: 'Mitra yang melakukan pemesanan puncak' },
-      { name: 'updated_at', type: 'TIMESTAMP', key: '', desc: 'Waktu pembaruan real-time terakhir' }
+      { name: 'id', type: 'BIGINT', key: 'PK', desc: 'ID Rincian item pesanan (GENERATED ALWAYS AS IDENTITY)' },
+      { name: 'id_pesanan', type: 'BIGINT', key: 'FK', desc: 'Relasi foreign key ke pesanan.id' },
+      { name: 'id_produk', type: 'BIGINT', key: 'FK', desc: 'Relasi foreign key ke produk.id' },
+      { name: 'jumlah_beli', type: 'INTEGER', key: 'DEFAULT', desc: 'Volume kuantitas pesanan yang memotong stok fisik (Default: 1)' },
+      { name: 'harga_satuan', type: 'NUMERIC', key: 'DEFAULT', desc: 'Harga satuan komoditas saat transaksi disepakati' },
+      { name: 'subtotal', type: 'NUMERIC', key: 'DEFAULT', desc: 'Subtotal nilai item (jumlah_beli * harga_satuan)' }
     ]
   },
   {
-    name: 'ai_strategies',
-    description: 'Hasil Rekomendasi Pemasaran & Log Kuota 1M Token AI',
+    name: 'metrik_harian',
+    description: 'Catatan Volume Harian & Data Kurva Prediksi Telemetri Penjualan Farm',
     columns: [
-      { name: 'id', type: 'BIGINT AUTO_INCREMENT', key: 'PK', desc: 'ID Analisis AI' },
-      { name: 'target_product_id', type: 'BIGINT', key: 'FK', desc: 'Komoditas dengan permintaan tertinggi' },
-      { name: 'provider', type: 'VARCHAR(30)', key: '', desc: 'Provider AI (gemini / openai)' },
-      { name: 'model_name', type: 'VARCHAR(50)', key: '', desc: 'Model aktif (gemini-1.5-flash / gpt-4o-mini)' },
-      { name: 'analysis_text', type: 'TEXT', key: '', desc: 'Rekomendasi taktis alokasi pasokan & batas harga' },
-      { name: 'accuracy_rate', type: 'VARCHAR(10)', key: '', desc: 'Skor akurasi korelasi tren (misal: 96.2%)' },
-      { name: 'risk_level', type: 'VARCHAR(50)', key: '', desc: 'Tingkat risiko penumpukan stok' },
-      { name: 'tokens_used', type: 'INT', key: '', desc: 'Pemakaian token dari kuota 1M' },
-      { name: 'generated_at', type: 'TIMESTAMP', key: '', desc: 'Waktu analitik dibuat' }
+      { name: 'tanggal', type: 'DATE', key: 'PK', desc: 'Tanggal kalender telemetri harian (Default: CURRENT_DATE)' },
+      { name: 'label_hari', type: 'VARCHAR', key: '-', desc: 'Label nama hari (misal: Senin, Selasa, Rabu)' },
+      { name: 'volume_aktual_kg', type: 'INTEGER', key: 'DEFAULT', desc: 'Volume serapan panen aktual harian dalam satuan fisik' },
+      { name: 'prediksi_volume_kg', type: 'INTEGER', key: 'DEFAULT', desc: 'Hasil proyeksi komputasi algoritma tren permintaan' }
     ]
   },
   {
-    name: 'admin_users',
-    description: 'Manajemen Akun & Otoritas Operator Komando',
+    name: 'strategi_ai',
+    description: 'Hasil Rekomendasi Taktis Pemasaran Komoditas Berbasis Kecerdasan Buatan',
     columns: [
-      { name: 'id', type: 'INT AUTO_INCREMENT', key: 'PK', desc: 'ID Operator' },
-      { name: 'username', type: 'VARCHAR(50) UNIQUE', key: '', desc: 'Nama pengguna login admin' },
-      { name: 'email', type: 'VARCHAR(100) UNIQUE', key: '', desc: 'Alamat surel resmi' },
-      { name: 'password_hash', type: 'VARCHAR(255)', key: '', desc: 'Hash kata sandi (Bcrypt / Argon2)' },
-      { name: 'full_name', type: 'VARCHAR(100)', key: '', desc: 'Nama lengkap direktur / operator' },
-      { name: 'role', type: 'VARCHAR(30)', key: '', desc: 'Level hak akses (Super Admin, Operator Gudang)' },
-      { name: 'operator_id', type: 'VARCHAR(30)', key: '', desc: 'Kode seri ID operator (contoh: OP-ID #8821)' },
-      { name: 'last_login_at', type: 'TIMESTAMP', key: '', desc: 'Waktu akses terakhir ke sistem komando' }
+      { name: 'id', type: 'BIGINT', key: 'PK', desc: 'ID Analisis rekomendasi AI (GENERATED ALWAYS AS IDENTITY)' },
+      { name: 'id_produk_target', type: 'BIGINT', key: 'FK', desc: 'Komoditas target analisis (Relasi foreign key ke produk.id)' },
+      { name: 'teks_analisis', type: 'TEXT', key: '-', desc: 'Rekomendasi taktis alokasi pasokan, batas harga, & promosi' },
+      { name: 'tingkat_akurasi', type: 'VARCHAR', key: 'DEFAULT', desc: "Skor akurasi korelasi tren pasar (Default: '95.5%')" }
     ]
   }
 ]
