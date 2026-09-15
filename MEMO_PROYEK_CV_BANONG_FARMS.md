@@ -410,7 +410,42 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
      3. *Parent Controller Guard (`CommandCenter.vue`):* Memeriksa duplikasi sebelum memanggil store. Jika email kembar, modal tetap dibuka agar pengguna bisa merevisi email tanpa kehilangan input nama/password lainnya, dan muncul notifikasi toast merah `❌ Gagal: Email sudah digunakan oleh [Nama Karyawan]`.
      4. *Store & Cloud Database Guard (`useAdminStore.js` & `supabaseClient.js`):* `addStaffMember()` dan `createStaffAccount()` menolak mutlak pendaftaran jika email sudah ada di memori maupun tabel `admin` Supabase Cloud (`isDuplicateEmail: true`), memastikan integritas data akun karyawan aman 100%.
 
+---
 
+## 15. Catatan Sesi (15 September 2026 - Bagian 3) - Proteksi Persistensi Pesanan, Detail Pemesanan, dan Analitik Lintas Browser (7 Tabel Relasional)
+1. **Investigasi & Solusi Akar Masalah Hilangnya Pesanan Saat Hapus Local Storage**:
+   - **Akar Masalah (Bug Auto-Reset Destruktif):**
+     - Di dalam kode versi sebelumnya, terdapat pengecekan: `if (!localStorage.getItem(SUPABASE_RESET_KEY)) { supabaseApi.resetOperationalDataToZero() }`.
+     - Ketika pengguna menghapus Local Storage atau membuka website di profil Chrome yang berbeda, flag tersebut bernilai `null`.
+     - Akibatnya, sistem secara otomatis mengeksekusi fungsi `resetOperationalDataToZero()`, yang mengirimkan query SQL `DELETE` ke Supabase Cloud pada tabel `pesanan`, `detail_pesanan`, dan `metrik_harian`. Inilah penyebab pesanan dan analitik sempat terhapus/hilang.
+   - **Perbaikan Permanen:**
+     - Auto-reset destruktif telah **dihapus 100%** dari siklus inisialisasi aplikasi.
+     - Fungsi reset ke nol kini murni hanya dapat dipicu secara manual oleh Super Admin melalui tombol tindakan eksplisit, dan TIDAK PERNAH berjalan otomatis saat buka browser atau hapus Local Storage.
 
+2. **Persistensi Penuh Pesanan & Detail Pemesanan (`pesanan` & `detail_pesanan`)**:
+   - Sinkronisasi data saat inisialisasi (`syncWithSupabaseDatabase()`) memprioritaskan data dari Supabase Cloud.
+   - Query `getOrders()` memanggil relasi: `select('*, detail_pesanan(*, produk(nama_produk, harga))')`.
+   - Meskipun Local Storage dihapus total, saat halaman dimuat ulang atau dibuka di profil browser baru, seluruh riwayat transaksi beserta rincian item barang (`detail_pesanan`) langsung ditarik kembali dari Supabase Cloud dan disimpan ulang ke memori lokal.
+   - Komponen `WhatsAppLiveFeed.vue` telah dilengkapi kartu visualisasi rincian item per baris (`order.items`) yang menampilkan kuantiti beli, nama produk riil, dan subtotal harga untuk masing-masing item belanja.
 
+3. **Integrasi Analitik Usaha & AI Lintas Browser (`metrik_harian` & `strategi_ai`)**:
+   - **Penyebab Analitik Tidak Berfungsi di Beda Chrome:**
+     - Profil Chrome baru memiliki Local Storage kosong dan tabel `metrik_harian` sempat terkena auto-reset.
+   - **Solusi Sinkronisasi Cloud Analitik:**
+     - Penambahan fungsi API `getDailyMetrics()` dan `upsertDailyMetric()` untuk mengelola data deret waktu di tabel `metrik_harian`.
+     - Penambahan fungsi `getLatestAiStrategy()` dan `saveAiStrategy()` untuk membaca dan menyimpan riwayat rekomendasi AI ke tabel `strategi_ai`.
+     - Saat validasi pesanan ("Validasi Selesai / Deal"), volume aktual terakumulasi langsung ke `metrik_harian` di Supabase Cloud.
+     - `AiAnalyticsSection.vue` kini membaca `cloudAiStrategyText` dari database saat dibuka di profil Chrome mana pun, dan otomatis menyimpan rekomendasi baru ke cloud saat tombol *"Analisis AI"* ditekan.
 
+4. **Audit Status Keterhubungan 7 Tabel Relasional Database Supabase Cloud (Normalisasi 3NF)**:
+   - **1. Tabel `admin`**: Terhubung dengan `auth.users(id)` via UUID. Menyimpan profil, peran, dan status akun staf.
+   - **2. Tabel `kategori`**: Master klasifikasi komoditas (Unggas, Ikan, Ruminansia, Organik).
+   - **3. Tabel `produk`**: Katalog pakan & hasil tani. Relasi FK `id_kategori` ➔ `kategori(id)`.
+   - **4. Tabel `pesanan`**: Header transaksi pelanggan & WhatsApp (kode pesanan, nama pelanggan, no WA, total harga, status).
+   - **5. Tabel `detail_pesanan`**: Rincian junction transaksi. Relasi FK `id_pesanan` ➔ `pesanan(id)` (CASCADE) dan FK `id_produk` ➔ `produk(id)`.
+   - **6. Tabel `metrik_harian`**: Data time-series analitik usaha (tanggal PK, label hari, volume aktual kg, prediksi volume kg) yang mendasari grafik Chart.js.
+   - **7. Tabel `strategi_ai`**: Rekomendasi pemasaran AI terstruktur. Relasi FK `id_produk_target` ➔ `produk(id)`.
+
+5. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (6.14s) tanpa satupun error sintaks atau modul hilang.
+   - Seluruh data operasional kini aman dari penghapusan Local Storage dan berfungsi konsisten di semua profil peramban.

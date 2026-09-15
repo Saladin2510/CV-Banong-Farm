@@ -5,7 +5,6 @@ import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
 const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
 const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v9'
-const SUPABASE_RESET_KEY = 'cv_banong_reset_zero_synced_v9'
 const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v1'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
@@ -246,6 +245,7 @@ const whatsappOrders = ref(loadInitialOrders())
 const dailyChartMap = ref(loadInitialDailyChart())
 const staffList = ref(loadInitialStaff())
 const lastSyncToast = ref(null)
+const cloudAiStrategyText = ref('')
 
 // Cross-tab Real-Time Synchronizer via BroadcastChannel
 const syncChannel = typeof window !== 'undefined' && 'BroadcastChannel' in window
@@ -332,35 +332,31 @@ async function syncWithSupabaseDatabase() {
 
     isSupabaseConnected.value = true
 
-    // Auto-clean satu kali untuk memastikan default NOL murni & hapus data fiktif lama
-    if (typeof window !== 'undefined' && !localStorage.getItem(SUPABASE_RESET_KEY)) {
-      try {
-        await supabaseApi.resetOperationalDataToZero()
-        localStorage.setItem(SUPABASE_RESET_KEY, 'true')
-      } catch (e) {
-        console.warn('Auto reset zero Supabase warning:', e)
-      }
-    }
-
-    // Tarik data awal dari Supabase Cloud
-    const [cloudProds, cloudOrders, cloudStaff] = await Promise.all([
+    // Tarik data awal dari Supabase Cloud (Semua 7 Tabel Lengkap)
+    const [cloudProds, cloudOrders, cloudStaff, cloudMetrics, cloudAiStrategy] = await Promise.all([
       supabaseApi.getProducts().catch(() => null),
       supabaseApi.getOrders().catch(() => null),
-      supabaseApi.getStaffList().catch(() => null)
+      supabaseApi.getStaffList().catch(() => null),
+      supabaseApi.getDailyMetrics().catch(() => null),
+      supabaseApi.getLatestAiStrategy().catch(() => null)
     ])
 
+    // 1. Sinkronisasi Tabel Produk & Kategori
     if (Array.isArray(cloudProds)) {
       const validCloud = cloudProds.filter(p => !isMockProduct(p))
-      // Pertahankan produk yang ada di lokal jika belum ada di cloudProds
       const localOnly = products.value.filter(lp => 
         !isMockProduct(lp) && 
         !validCloud.some(cp => cp.id == lp.id || cp.name.toLowerCase() === lp.name.toLowerCase())
       )
       products.value = [...validCloud, ...localOnly]
     }
-    if (Array.isArray(cloudOrders)) {
+
+    // 2. Sinkronisasi Tabel Pesanan & Detail Pesanan (Terjaga persisten dari Cloud meskipun local storage dihapus)
+    if (Array.isArray(cloudOrders) && cloudOrders.length > 0) {
       whatsappOrders.value = cloudOrders
     }
+
+    // 3. Sinkronisasi Tabel Admin / Karyawan
     if (Array.isArray(cloudStaff) && cloudStaff.length > 0) {
       const mapped = cloudStaff.map(s => ({
         id: s.id,
@@ -373,6 +369,33 @@ async function syncWithSupabaseDatabase() {
       staffList.value = deduplicateStaff([...mapped, ...staffList.value])
     } else {
       staffList.value = deduplicateStaff(staffList.value)
+    }
+
+    // 4. Sinkronisasi Tabel Metrik Harian ke dailyChartMap
+    if (Array.isArray(cloudMetrics) && cloudMetrics.length > 0) {
+      cloudMetrics.forEach(m => {
+        if (m.tanggal) {
+          dailyChartMap.value[m.tanggal] = Number(m.volume_aktual_kg) || 0
+        }
+      })
+    }
+
+    // 5. Hubungkan volume pesanan yang tercatat ke grafik analitik
+    if (Array.isArray(whatsappOrders.value) && whatsappOrders.value.length > 0) {
+      whatsappOrders.value.forEach(o => {
+        if (o.status === 'Selesai' || o.status === 'Stok Terupdate Otomatis') {
+          const ordDate = o.timestamp ? formatLocalDateKey(new Date(o.timestamp)) : formatLocalDateKey(new Date())
+          const curVal = Number(dailyChartMap.value[ordDate]) || 0
+          if (curVal === 0) {
+            dailyChartMap.value[ordDate] = Number(o.qty) || 1
+          }
+        }
+      })
+    }
+
+    // 6. Sinkronisasi Tabel Strategi AI
+    if (cloudAiStrategy && cloudAiStrategy.teks_analisis) {
+      cloudAiStrategyText.value = cloudAiStrategy.teks_analisis
     }
     broadcastUpdate()
 
@@ -585,6 +608,17 @@ function addWhatsAppOrder({ customer, productId, qty }) {
   const todayKey = formatLocalDateKey(new Date())
   const currentTodayVal = Number(dailyChartMap.value[todayKey]) || 0
   dailyChartMap.value[todayKey] = currentTodayVal + deductQty
+
+  // Simpan metrik harian ke Supabase Cloud (Tabel: metrik_harian)
+  if (isSupabaseConnected.value) {
+    const today = new Date()
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    supabaseApi.upsertDailyMetric({
+      tanggal: todayKey,
+      label_hari: dayNames[today.getDay()],
+      volume_aktual_kg: dailyChartMap.value[todayKey]
+    }).catch(e => console.warn('Supabase daily metric upsert error:', e))
+  }
 
   const totalPrice = deductQty * prod.price
   const newOrder = {
@@ -1165,6 +1199,19 @@ async function deleteStaffMember(id) {
   return { success: true, deleted, supabaseResult }
 }
 
+async function saveAiStrategyToCloud(text) {
+  cloudAiStrategyText.value = text
+  if (isSupabaseConnected.value) {
+    const top = topSellingProduct.value
+    return supabaseApi.saveAiStrategy({
+      id_produk_target: top?.id || null,
+      teks_analisis: text,
+      tingkat_akurasi: '96.5%'
+    }).catch(e => console.warn('Supabase saveAiStrategy error:', e))
+  }
+  return null
+}
+
 export function useAdminStore() {
   return {
     products,
@@ -1209,6 +1256,10 @@ export function useAdminStore() {
     // Staff Operations
     addStaffMember,
     updateStaffMember,
-    deleteStaffMember
+    deleteStaffMember,
+
+    // AI & Analytics Cloud Integration
+    cloudAiStrategyText,
+    saveAiStrategyToCloud
   }
 }

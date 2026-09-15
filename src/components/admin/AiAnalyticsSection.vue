@@ -116,7 +116,7 @@
           </div>
 
           <p class="text-xs sm:text-sm text-[#1b1c1a] dark:text-slate-200 leading-relaxed text-justify whitespace-pre-line">
-            {{ customAiText || defaultAiAnalysis }}
+            {{ customAiText || adminStore.cloudAiStrategyText.value || defaultAiAnalysis }}
           </p>
         </div>
 
@@ -393,6 +393,11 @@ const handleGenerateStrategy = async () => {
     customAiText.value = result.analysis
     aiIsLive.value = result.isLiveAi
     aiProviderBadge.value = result.isLiveAi ? `✦ ${result.provider.toUpperCase()} (LIVE)` : 'ALGORITMA PREDIKTIF'
+
+    // Persist ke Supabase Cloud (Tabel strategi_ai)
+    if (adminStore.saveAiStrategyToCloud) {
+      await adminStore.saveAiStrategyToCloud(result.analysis)
+    }
   } catch (err) {
     console.error('Failed to generate AI strategy:', err)
   } finally {

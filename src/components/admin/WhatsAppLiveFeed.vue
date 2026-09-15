@@ -198,13 +198,35 @@
           <!-- Product & Total Box -->
           <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
             <div class="flex flex-col gap-1">
-              <span class="text-[11px] uppercase font-bold text-slate-400 font-telemetry-code">Rincian Komoditas</span>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] uppercase font-bold text-slate-400 font-telemetry-code">Rincian Komoditas (Detail Pesanan)</span>
+                <span v-if="order.items && order.items.length" class="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-telemetry-code font-semibold">
+                  {{ order.items.length }} Item
+                </span>
+              </div>
               <span class="text-sm font-bold text-[#1b1c1a] dark:text-white">
                 {{ order.productName || 'Pakan Ternak Banong' }}
               </span>
               <span class="text-xs text-[#594136] dark:text-slate-300 font-telemetry-code">
-                Jumlah Beli: <strong>{{ (order.qty || 1).toLocaleString('id-ID') }} pcs</strong>
+                Total Jumlah: <strong>{{ (order.qty || 1).toLocaleString('id-ID') }} pcs</strong>
               </span>
+
+              <!-- Rincian baris item dari tabel detail_pesanan -->
+              <div v-if="order.items && order.items.length > 0" class="mt-1.5 pt-1.5 border-t border-dashed border-slate-200 dark:border-slate-800 flex flex-col gap-1">
+                <div 
+                  v-for="(it, idx) in order.items" 
+                  :key="idx" 
+                  class="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/50 px-2 py-1 rounded"
+                >
+                  <span class="truncate pr-2">
+                    <strong class="text-primary dark:text-secondary-container">{{ it.qty }}x</strong> 
+                    {{ it.name }}
+                  </span>
+                  <span class="font-telemetry-code font-semibold shrink-0">
+                    Rp {{ Number(it.subtotal || (it.price * it.qty) || 0).toLocaleString('id-ID') }}
+                  </span>
+                </div>
+              </div>
             </div>
 
             <div class="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">

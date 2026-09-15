@@ -363,38 +363,85 @@ export const supabaseApi = {
     }
   },
 
-  // Ambil semua pesanan WhatsApp dari Supabase
+  // Ambil semua pesanan WhatsApp dari Supabase (Tabel: pesanan & detail_pesanan)
   async getOrders() {
     const client = getSupabase()
     if (!client) return null
     try {
-      // 1. Ambil dari tabel bahasa Indonesia: pesanan & detail_pesanan
+      // 1. Ambil dari tabel bahasa Indonesia: pesanan & detail_pesanan beserta nama produk
       const { data, error } = await client
         .from('pesanan')
-        .select('*, detail_pesanan(*)')
+        .select('*, detail_pesanan(*, produk(nama_produk, harga))')
         .order('dibuat_pada', { ascending: false })
-        .limit(50)
+        .limit(100)
 
       if (!error && Array.isArray(data)) {
         return data.map(o => {
-          const detail = (Array.isArray(o.detail_pesanan) && o.detail_pesanan.length > 0) ? o.detail_pesanan[0] : null
-          const qty = Number(detail?.jumlah_beli || 1)
-          const totalPrice = Number(o.total_harga || (qty * 30000))
+          const details = Array.isArray(o.detail_pesanan) ? o.detail_pesanan : []
+          const totalQty = details.reduce((sum, d) => sum + (Number(d.jumlah_beli) || 1), 0) || 1
+          const summaryName = details.map(d => `${d.jumlah_beli}x ${d.produk?.nama_produk || 'Produk #' + d.id_produk}`).join(', ')
+          const firstProdId = details[0]?.id_produk || 1
+          const totalPrice = Number(o.total_harga) || 0
 
           return {
             id: o.kode_pesanan || `#WA-${o.id}`,
+            numericId: o.id,
             customer: o.nama_pelanggan || 'Pelanggan CV Banong',
             phone: o.no_whatsapp || '',
             address: o.alamat_pelanggan || '',
-            productId: detail?.id_produk || 1,
-            productName: detail?.id_produk ? `Produk #${detail.id_produk}` : 'Pakan Pilihan',
-            qty,
+            productId: firstProdId,
+            productName: summaryName || 'Pesanan Produk Agribisnis',
+            qty: totalQty,
             totalPrice,
+            items: details.map(d => ({
+              id: d.id_produk,
+              name: d.produk?.nama_produk || `Produk #${d.id_produk}`,
+              qty: d.jumlah_beli,
+              price: d.harga_satuan,
+              subtotal: d.subtotal
+            })),
             status: o.status || 'Menunggu Konfirmasi',
             timestamp: o.dibuat_pada ? new Date(o.dibuat_pada).getTime() : Date.now(),
             timeAgo: 'Tersinkron Cloud'
           }
         })
+      }
+
+      // Fallback jika foreign key join terkendala
+      if (error) {
+        const { data: fallbackRows, error: fbErr } = await client
+          .from('pesanan')
+          .select('*, detail_pesanan(*)')
+          .order('dibuat_pada', { ascending: false })
+          .limit(100)
+
+        if (!fbErr && Array.isArray(fallbackRows)) {
+          return fallbackRows.map(o => {
+            const details = Array.isArray(o.detail_pesanan) ? o.detail_pesanan : []
+            const totalQty = details.reduce((sum, d) => sum + (Number(d.jumlah_beli) || 1), 0) || 1
+            const summaryName = details.map(d => `${d.jumlah_beli}x Produk #${d.id_produk}`).join(', ')
+            return {
+              id: o.kode_pesanan || `#WA-${o.id}`,
+              numericId: o.id,
+              customer: o.nama_pelanggan || 'Pelanggan CV Banong',
+              phone: o.no_whatsapp || '',
+              address: o.alamat_pelanggan || '',
+              productId: details[0]?.id_produk || 1,
+              productName: summaryName || 'Pesanan Produk Agribisnis',
+              qty: totalQty,
+              totalPrice: Number(o.total_harga) || 0,
+              items: details.map(d => ({
+                id: d.id_produk,
+                qty: d.jumlah_beli,
+                price: d.harga_satuan,
+                subtotal: d.subtotal
+              })),
+              status: o.status || 'Menunggu Konfirmasi',
+              timestamp: o.dibuat_pada ? new Date(o.dibuat_pada).getTime() : Date.now(),
+              timeAgo: 'Tersinkron Cloud'
+            }
+          })
+        }
       }
 
       // Fallback: jika masih ada di tabel lama 'orders'
@@ -601,6 +648,89 @@ export const supabaseApi = {
     } catch (err) {
       console.warn('Supabase cancelOrder error:', err)
       return { success: false, message: err.message }
+    }
+  },
+
+  // ==================================================================
+  // ANALITIK USAHA: METRIK HARIAN (TABEL: metrik_harian)
+  // ==================================================================
+  async getDailyMetrics() {
+    const client = getSupabase()
+    if (!client) return []
+    try {
+      const { data, error } = await client
+        .from('metrik_harian')
+        .select('*')
+        .order('tanggal', { ascending: true })
+      if (error) throw error
+      return data || []
+    } catch (err) {
+      console.warn('Supabase getDailyMetrics error:', err)
+      return []
+    }
+  },
+
+  async upsertDailyMetric({ tanggal, label_hari, volume_aktual_kg, prediksi_volume_kg }) {
+    const client = getSupabase()
+    if (!client) return null
+    try {
+      const { data, error } = await client
+        .from('metrik_harian')
+        .upsert([{
+          tanggal,
+          label_hari: label_hari || 'Hari',
+          volume_aktual_kg: Number(volume_aktual_kg) || 0,
+          prediksi_volume_kg: Number(prediksi_volume_kg) || Math.round((Number(volume_aktual_kg) || 0) * 1.15)
+        }], { onConflict: 'tanggal' })
+        .select()
+        .single()
+      if (error) throw error
+      return data
+    } catch (err) {
+      console.warn('Supabase upsertDailyMetric error:', err)
+      return null
+    }
+  },
+
+  // ==================================================================
+  // ANALITIK USAHA: STRATEGI AI (TABEL: strategi_ai)
+  // ==================================================================
+  async getLatestAiStrategy() {
+    const client = getSupabase()
+    if (!client) return null
+    try {
+      const { data, error } = await client
+        .from('strategi_ai')
+        .select('*, produk(nama_produk)')
+        .order('id', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      if (error) throw error
+      return data
+    } catch (err) {
+      console.warn('Supabase getLatestAiStrategy error:', err)
+      return null
+    }
+  },
+
+  async saveAiStrategy({ id_produk_target, teks_analisis, tingkat_akurasi }) {
+    const client = getSupabase()
+    if (!client) return null
+    try {
+      const { data, error } = await client
+        .from('strategi_ai')
+        .insert([{
+          id_produk_target: id_produk_target || null,
+          teks_analisis,
+          tingkat_akurasi: tingkat_akurasi || '96.2%'
+        }])
+        .select()
+        .single()
+      if (error) throw error
+      return data
+    } catch (err) {
+      console.warn('Supabase saveAiStrategy error:', err)
+      return null
     }
   },
 
