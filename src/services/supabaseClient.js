@@ -704,6 +704,21 @@ export const supabaseApi = {
       const cleanName = nama_lengkap.trim()
       const cleanRole = peran || 'Administrator'
 
+      // Cek apakah email sudah terdaftar di tabel admin Supabase
+      const { data: existingStaff } = await client
+        .from('admin')
+        .select('id, nama_lengkap, email')
+        .eq('email', cleanEmail)
+        .maybeSingle()
+
+      if (existingStaff) {
+        return {
+          success: false,
+          isDuplicateEmail: true,
+          message: `Email "${cleanEmail}" sudah digunakan oleh karyawan lain (${existingStaff.nama_lengkap}). Pendaftaran akun baru ditolak.`
+        }
+      }
+
       const { data: authData, error: authError } = await ephemeralClient.auth.signUp({
         email: cleanEmail,
         password: password.trim(),

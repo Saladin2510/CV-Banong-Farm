@@ -1062,14 +1062,14 @@ async function addStaffMember({ nama_lengkap, email, password, peran, status }) 
   const cleanEmail = (email || '').trim().toLowerCase()
   const cleanName = (nama_lengkap || '').trim()
 
-  // Cek apakah akun dengan email ini sudah ada (mencegah double submit)
-  const existingIdx = staffList.value.findIndex(s => s.email && s.email.trim().toLowerCase() === cleanEmail)
-  if (existingIdx !== -1) {
-    return updateStaffMember(staffList.value[existingIdx].id, {
-      nama_lengkap: cleanName,
-      peran: peran || staffList.value[existingIdx].peran,
-      status: status || staffList.value[existingIdx].status
-    })
+  // 1. Cek apakah email sudah terdaftar di sistem (TIDAK BOLEH dioverwrite / didaftarkan ulang)
+  const existingStaff = staffList.value.find(s => s.email && s.email.trim().toLowerCase() === cleanEmail)
+  if (existingStaff) {
+    return {
+      success: false,
+      isDuplicateEmail: true,
+      message: `Email "${cleanEmail}" sudah digunakan oleh karyawan lain (${existingStaff.nama_lengkap}). Pendaftaran akun baru ditolak!`
+    }
   }
 
   const newId = 'usr-' + Date.now().toString().slice(-6)

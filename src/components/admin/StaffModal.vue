@@ -70,11 +70,17 @@
                 'h-11 px-3.5 rounded-lg border text-sm shadow-xs font-telemetry-code transition-colors',
                 isEditMode 
                   ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700 cursor-not-allowed' 
-                  : 'bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white border-slate-300 dark:border-slate-600 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
+                  : isEmailAlreadyTaken
+                    ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20'
+                    : 'bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white border-slate-300 dark:border-slate-600 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
               ]"
             />
             <span v-if="isEditMode" class="text-[11px] text-slate-400">
               * Email tidak dapat diubah setelah akun terdaftar di sistem.
+            </span>
+            <span v-else-if="isEmailAlreadyTaken" class="text-[11px] text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1 mt-0.5">
+              <span class="material-symbols-outlined text-[15px]">warning</span>
+              Email ini sudah digunakan oleh karyawan lain! Gunakan alamat email yang berbeda.
             </span>
           </div>
 
@@ -148,8 +154,8 @@
             </button>
             <button 
               type="submit" 
-              :disabled="isLoading"
-              class="h-11 px-6 rounded-xl font-bold text-xs bg-secondary-container hover:bg-accent-hover text-primary shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer disabled:opacity-50 border border-yellow-400/40"
+              :disabled="isLoading || (!isEditMode && isEmailAlreadyTaken)"
+              class="h-11 px-6 rounded-xl font-bold text-xs bg-secondary-container hover:bg-accent-hover text-primary shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-yellow-400/40"
             >
               <span v-if="isLoading" class="material-symbols-outlined text-[18px] animate-spin">
                 progress_activity
@@ -169,6 +175,7 @@
 
 <script setup>
 import { ref, watch, computed } from 'vue'
+import { useAdminStore } from '../../stores/useAdminStore'
 
 const props = defineProps({
   isOpen: Boolean,
@@ -180,8 +187,18 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'save'])
 
+const adminStore = useAdminStore()
 const isEditMode = computed(() => !!props.staffToEdit)
 const isLoading = ref(false)
+
+const isEmailAlreadyTaken = computed(() => {
+  if (isEditMode.value) return false
+  const inputEmail = (formData.value.email || '').trim().toLowerCase()
+  if (!inputEmail) return false
+  return (adminStore.staffList.value || []).some(
+    s => s.email && s.email.trim().toLowerCase() === inputEmail
+  )
+})
 
 const formData = ref({
   nama_lengkap: '',
@@ -227,6 +244,10 @@ const handleSubmit = () => {
   }
   if (!cleanEmail) {
     alert('Mohon isi alamat email karyawan.')
+    return
+  }
+  if (!isEditMode.value && isEmailAlreadyTaken.value) {
+    alert(`Email "${cleanEmail}" sudah digunakan oleh karyawan lain! Mohon gunakan email yang berbeda.`)
     return
   }
   if (!isEditMode.value && (!formData.value.password || formData.value.password.length < 6)) {

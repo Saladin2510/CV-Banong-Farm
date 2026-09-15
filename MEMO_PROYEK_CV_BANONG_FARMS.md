@@ -401,7 +401,15 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
      - `StaffModal.vue` kini hanya memancarkan satu event resmi: `emit('save', payload)`.
      - `CommandCenter.vue` kini hanya mendengarkan `@save="handleStaffSubmit"` dengan penambahan guard `isSubmittingStaff` untuk mencegah double click.
      - `useAdminStore.js` menambahkan fungsi `deduplicateStaff()` berbasis email unik yang otomatis membersihkan duplikat akun dan memprioritaskan UUID Supabase Cloud asli.
-     - `addStaffMember()` kini memeriksa apakah email sudah terdaftar; jika sudah ada, sistem akan mengalihkan ke pembaruan data (`updateStaffMember`) alih-alih membuat baris duplikat.
+9. **Penutupan Celah Penimpaan Akun (Anti-Overwrite Email Terdaftar)**:
+   - **Celah yang Ditemukan:** Jika pengguna mendaftarkan akun baru dengan email yang sudah ada namun nama/password/peran berbeda, data akun lama sebelumnya sempat tertimpa (overwrite).
+   - **Aturan Bisnis Tegas:** Email yang sudah digunakan TIDAK BISA didaftarkan ulang dan akun lama TIDAK BOLEH ditimpa.
+   - **Solusi 4 Lapis Perlindungan:**
+     1. *UI Real-time (`StaffModal.vue`):* Saat email diketik, sistem langsung mendeteksi kecocokan email. Jika email sudah ada, muncul kotak peringatan amber *"Email ini sudah digunakan oleh karyawan lain! Gunakan alamat email yang berbeda"* dan tombol simpan otomatis terkunci (`disabled` + cursor not-allowed).
+     2. *Validasi Form Submit (`StaffModal.vue`):* `handleSubmit()` memblokir eksekusi jika email sudah terpakai.
+     3. *Parent Controller Guard (`CommandCenter.vue`):* Memeriksa duplikasi sebelum memanggil store. Jika email kembar, modal tetap dibuka agar pengguna bisa merevisi email tanpa kehilangan input nama/password lainnya, dan muncul notifikasi toast merah `❌ Gagal: Email sudah digunakan oleh [Nama Karyawan]`.
+     4. *Store & Cloud Database Guard (`useAdminStore.js` & `supabaseClient.js`):* `addStaffMember()` dan `createStaffAccount()` menolak mutlak pendaftaran jika email sudah ada di memori maupun tabel `admin` Supabase Cloud (`isDuplicateEmail: true`), memastikan integritas data akun karyawan aman 100%.
+
 
 
 

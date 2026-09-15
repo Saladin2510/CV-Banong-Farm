@@ -538,19 +538,31 @@ const handleStaffSubmit = async (rawFormData) => {
       } else {
         showToast(`Data karyawan "${cleanName}" berhasil diperbarui!`)
       }
+      isStaffModalOpen.value = false
     } else {
+      // Cegah pendaftaran jika email sudah terdaftar
+      const emailLower = (formData.email || '').trim().toLowerCase()
+      const existing = (adminStore.staffList.value || []).find(s => s.email && s.email.trim().toLowerCase() === emailLower)
+      if (existing) {
+        showToast(`❌ Gagal: Email "${formData.email}" sudah digunakan oleh ${existing.nama_lengkap}!`)
+        return
+      }
+
       const res = await adminStore.addStaffMember(formData)
-      if (res?.supabaseError) {
+      if (!res.success && res.isDuplicateEmail) {
+        showToast(`❌ ${res.message}`)
+        return
+      } else if (res?.supabaseError) {
         showToast(`Akun tersimpan di Lokal, Supabase: ${res.supabaseError}`)
       } else {
         showToast(`Karyawan baru "${cleanName}" berhasil didaftarkan & tersimpan!`)
       }
+      isStaffModalOpen.value = false
     }
   } catch (err) {
     console.error('Error saat submit staff:', err)
     showToast(`Gagal memproses data karyawan: ${err.message || err}`)
   } finally {
-    isStaffModalOpen.value = false
     isSubmittingStaff.value = false
   }
 }
