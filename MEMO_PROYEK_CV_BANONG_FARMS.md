@@ -446,6 +446,15 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
    - **6. Tabel `metrik_harian`**: Data time-series analitik usaha (tanggal PK, label hari, volume aktual kg, prediksi volume kg) yang mendasari grafik Chart.js.
    - **7. Tabel `strategi_ai`**: Rekomendasi pemasaran AI terstruktur. Relasi FK `id_produk_target` ➔ `produk(id)`.
 
-5. **Verifikasi Build Produksi**:
-   - `npm run build` sukses 100% (6.14s) tanpa satupun error sintaks atau modul hilang.
-   - Seluruh data operasional kini aman dari penghapusan Local Storage dan berfungsi konsisten di semua profil peramban.
+5. **Pembersihan Akun Fiktif (Budi Santoso & Siti Rahmawati) & Penyelarasan Murni Tabel `admin`**:
+   - **Akar Masalah:** `DEFAULT_STAFF` di `useAdminStore.js` sempat memiliki data mock default (Budi Santoso & Siti Rahmawati), dan fungsi sinkronisasi awal menggabungkan data cloud dengan memori lokal (`[...mapped, ...staffList.value]`). Akibatnya, akun Budi dan Siti tetap muncul meskipun di tabel `admin` Supabase Cloud hanya ada 3 akun riil (`Admin Banong`, `hi`, dan `tes`).
+   - **Solusi Tuntas:**
+     - Menghapus akun Budi Santoso dan Siti Rahmawati dari `DEFAULT_STAFF`.
+     - Menambahkan filter `isMockStaff` untuk membersihkan akun email `gudang@banongfarms.com` dan `cs@banongfarms.com`.
+     - Memperbarui `syncWithSupabaseDatabase()` agar `staffList.value` diisi **murni 100% dari data tabel `admin` Supabase Cloud** tanpa menggabungkan akun mock lama.
+     - Memperbarui kunci penyimpanan lokal ke `cv_banong_farms_staff_pure_v2` dan menghapus `cv_banong_farms_staff_pure_v1` dari cache browser.
+     - Kini tampilan Manajemen Karyawan di web dashboard akurat 100% dengan Supabase: Total 3 karyawan (`Admin Banong`, `hi`, `tes`).
+
+6. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (5.95s) tanpa satupun error sintaks atau modul hilang.
+   - Seluruh data operasional dan akun staf kini murni tersinkronisasi dengan Supabase Cloud.

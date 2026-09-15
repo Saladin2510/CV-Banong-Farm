@@ -50,7 +50,7 @@
               v-model="formData.nama_lengkap" 
               type="text" 
               required
-              placeholder="Contoh: Budi Santoso"
+              placeholder="Contoh: Ahmad Fauzi"
               class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors text-sm shadow-xs"
             />
           </div>

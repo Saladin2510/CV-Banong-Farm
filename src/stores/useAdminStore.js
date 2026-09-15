@@ -5,7 +5,7 @@ import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
 const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
 const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v9'
-const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v1'
+const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v2'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
@@ -18,9 +18,26 @@ if (typeof window !== 'undefined' && window.localStorage) {
       'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6',
       'cv_banong_farms_products_pcs_v7', 'cv_banong_farms_orders_pcs_v7', 'cv_banong_farms_daily_chart_pcs_v7',
       'cv_banong_farms_products_pure_v8', 'cv_banong_farms_orders_pure_v8', 'cv_banong_farms_daily_chart_pure_v8',
+      'cv_banong_farms_staff_pure_v1',
       'cv_banong_reset_zero_synced_v8'
     ].forEach(k => localStorage.removeItem(k))
   } catch (_) {}
+}
+
+// Filter komprehensif untuk membuang semua sisa akun fiktif / mock bawaan (Budi Santoso & Siti Rahmawati)
+export function isMockStaff(s) {
+  if (!s) return true
+  const email = (s.email || '').toLowerCase().trim()
+  const name = (s.nama_lengkap || '').toLowerCase().trim()
+  const id = String(s.id || '')
+  return (
+    email === 'gudang@banongfarms.com' ||
+    email === 'cs@banongfarms.com' ||
+    name.includes('budi santoso') ||
+    name.includes('siti rahmawati') ||
+    id.includes('udang-02') ||
+    id.includes('sr-wa-03')
+  )
 }
 
 // Filter komprehensif untuk membuang semua sisa produk fiktif / mock
@@ -179,31 +196,15 @@ function loadInitialDailyChart() {
   return initialMap
 }
 
-// Data Awal Akun Karyawan / Admin Farm
+// Data Awal Akun Karyawan / Admin Farm (Murni akun nyata dari database, tanpa akun fiktif Budi & Siti)
 const DEFAULT_STAFF = [
   {
-    id: 'usr-admin-01',
-    nama_lengkap: 'H. Banong (Super Admin)',
+    id: '8e4973a9-e324-4f46-af83-3ff',
+    nama_lengkap: 'Admin Banong',
     email: 'admin@banongfarms.com',
     peran: 'Super Admin',
     status: 'Aktif',
     created_at: '2026-09-01T08:00:00Z'
-  },
-  {
-    id: 'usr-gudang-02',
-    nama_lengkap: 'Budi Santoso',
-    email: 'gudang@banongfarms.com',
-    peran: 'Admin Gudang & Stok',
-    status: 'Aktif',
-    created_at: '2026-09-05T09:30:00Z'
-  },
-  {
-    id: 'usr-wa-03',
-    nama_lengkap: 'Siti Rahmawati',
-    email: 'cs@banongfarms.com',
-    peran: 'Admin Pesanan WA',
-    status: 'Aktif',
-    created_at: '2026-09-10T10:15:00Z'
   }
 ]
 
@@ -211,7 +212,7 @@ function deduplicateStaff(list) {
   if (!Array.isArray(list)) return []
   const seenEmails = new Map()
   for (const s of list) {
-    if (!s || !s.email) continue
+    if (!s || !s.email || isMockStaff(s)) continue
     const emailLower = s.email.trim().toLowerCase()
     if (!seenEmails.has(emailLower)) {
       seenEmails.set(emailLower, s)
@@ -233,7 +234,9 @@ function loadInitialStaff() {
     const raw = localStorage.getItem(STORAGE_STAFF_KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
-      if (Array.isArray(parsed) && parsed.length > 0) return deduplicateStaff(parsed)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return deduplicateStaff(parsed.filter(s => !isMockStaff(s)))
+      }
     }
   } catch (e) {}
   return DEFAULT_STAFF
@@ -356,19 +359,21 @@ async function syncWithSupabaseDatabase() {
       whatsappOrders.value = cloudOrders
     }
 
-    // 3. Sinkronisasi Tabel Admin / Karyawan
+    // 3. Sinkronisasi Tabel Admin / Karyawan murni dari database Supabase Cloud (Tanpa akun fiktif Budi & Siti)
     if (Array.isArray(cloudStaff) && cloudStaff.length > 0) {
-      const mapped = cloudStaff.map(s => ({
-        id: s.id,
-        nama_lengkap: s.nama_lengkap || 'Staf Admin',
-        email: s.email,
-        peran: s.peran || 'Administrator',
-        status: s.status || 'Aktif',
-        created_at: s.dibuat_pada || s.created_at || new Date().toISOString()
-      }))
-      staffList.value = deduplicateStaff([...mapped, ...staffList.value])
+      const mapped = cloudStaff
+        .filter(s => !isMockStaff(s))
+        .map(s => ({
+          id: s.id,
+          nama_lengkap: s.nama_lengkap || 'Staf Admin',
+          email: s.email,
+          peran: s.peran || 'Administrator',
+          status: s.status || 'Aktif',
+          created_at: s.dibuat_pada || s.created_at || new Date().toISOString()
+        }))
+      staffList.value = deduplicateStaff(mapped)
     } else {
-      staffList.value = deduplicateStaff(staffList.value)
+      staffList.value = deduplicateStaff(staffList.value.filter(s => !isMockStaff(s)))
     }
 
     // 4. Sinkronisasi Tabel Metrik Harian ke dailyChartMap
