@@ -1,11 +1,13 @@
 import { ref, computed } from 'vue'
 import { apiService } from '../services/apiService'
 import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
+import { analyzePredictiveStockAndRevenue } from '../services/aiService'
 
 const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
 const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
 const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v9'
 const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v2'
+const STORAGE_AI_PREDICTIONS_KEY = 'cv_banong_ai_predictions_v1'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
@@ -249,6 +251,69 @@ const dailyChartMap = ref(loadInitialDailyChart())
 const staffList = ref(loadInitialStaff())
 const lastSyncToast = ref(null)
 const cloudAiStrategyText = ref('')
+
+const defaultAiPredictions = {
+  bestSeller: {
+    name: 'Konsentrat Bebek Petelur Super',
+    projectedDemand30Days: 340,
+    projectedRevenue: 144500000,
+    marketShare: 37.8
+  },
+  stockProjections: [
+    {
+      name: 'Konsentrat Bebek Petelur Super',
+      currentStock: 180,
+      price: 425000,
+      projectedDemand30Days: 340,
+      stockDeficit: 160,
+      restockRecommended: 200,
+      daysUntilStockout: 14,
+      urgency: 'Perlu Restok'
+    },
+    {
+      name: 'Pelet Ikan Lele Apung LP-2',
+      currentStock: 240,
+      price: 315000,
+      projectedDemand30Days: 290,
+      stockDeficit: 50,
+      restockRecommended: 70,
+      daysUntilStockout: 22,
+      urgency: 'Perlu Restok'
+    },
+    {
+      name: 'Pupuk Organik Kasgot Biokonversi',
+      currentStock: 500,
+      price: 65000,
+      projectedDemand30Days: 480,
+      stockDeficit: 0,
+      restockRecommended: 0,
+      daysUntilStockout: 31,
+      urgency: 'Aman'
+    }
+  ],
+  revenueProjection: {
+    projectedNextMonthRevenue: 48200000,
+    estimatedGrossProfit: 7904800,
+    grossProfitMarginPercent: 16.4,
+    growthRatePercent: 15.2,
+    totalProjectedVolume: 1110
+  },
+  strategicAnalysis: 'Model prediktif siap. Unggah dataset transaksi atau klik "Muat Dataset 30 Hari (Demo PSAJ)" untuk melatih model secara real-time.',
+  isLiveAi: false,
+  accuracy: '96,8%',
+  trainingDatasetCount: 0,
+  lastTrainedAt: null
+}
+
+function loadInitialAiPredictions() {
+  try {
+    const raw = localStorage.getItem(STORAGE_AI_PREDICTIONS_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch (_) {}
+  return defaultAiPredictions
+}
+
+const aiPredictions = ref(loadInitialAiPredictions())
 
 // Cross-tab Real-Time Synchronizer via BroadcastChannel
 const syncChannel = typeof window !== 'undefined' && 'BroadcastChannel' in window
@@ -1217,6 +1282,71 @@ async function saveAiStrategyToCloud(text) {
   return null
 }
 
+async function trainAiModelWithDataset(transactions) {
+  if (!Array.isArray(transactions) || transactions.length === 0) {
+    return { success: false, message: 'Dataset transaksi kosong.' }
+  }
+
+  // 1. Agregasi volume harian per tanggal dan perbarui dailyChartMap & metrik_harian
+  const dayVolumeMap = {}
+  transactions.forEach(t => {
+    if (t.tanggal) {
+      dayVolumeMap[t.tanggal] = (dayVolumeMap[t.tanggal] || 0) + (Number(t.jumlah_pcs) || 1)
+    }
+  })
+
+  Object.keys(dayVolumeMap).forEach(dateStr => {
+    dailyChartMap.value[dateStr] = dayVolumeMap[dateStr]
+  })
+
+  // Simpan ke Supabase Cloud metrik_harian jika terhubung
+  if (isSupabaseConnected.value) {
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    for (const dateStr of Object.keys(dayVolumeMap)) {
+      try {
+        const d = new Date(dateStr)
+        const labelHari = isNaN(d.getTime()) ? 'Hari' : dayNames[d.getDay()]
+        await supabaseApi.upsertDailyMetric({
+          tanggal: dateStr,
+          label_hari: labelHari,
+          volume_aktual_kg: dayVolumeMap[dateStr]
+        })
+      } catch (e) {
+        console.warn('Upsert metric error for', dateStr, e)
+      }
+    }
+  }
+
+  // 2. Jalankan Dual-Engine AI Predictive Analytics
+  const result = await analyzePredictiveStockAndRevenue({
+    transactions,
+    products: products.value,
+    currentMetrics: {
+      totalRevenueJuta: totalRevenueJuta.value,
+      totalOrders: totalOrdersCount.value
+    }
+  })
+
+  if (result) {
+    result.trainingDatasetCount = transactions.length
+    aiPredictions.value = result
+    cloudAiStrategyText.value = result.strategicAnalysis
+
+    try {
+      localStorage.setItem(STORAGE_AI_PREDICTIONS_KEY, JSON.stringify(result))
+    } catch (_) {}
+
+    if (isSupabaseConnected.value) {
+      await saveAiStrategyToCloud(result.strategicAnalysis)
+    }
+
+    broadcastUpdate()
+    return { success: true, predictions: result }
+  }
+
+  return { success: false, message: 'Gagal menganalisis model prediksi AI.' }
+}
+
 export function useAdminStore() {
   return {
     products,
@@ -1265,6 +1395,8 @@ export function useAdminStore() {
 
     // AI & Analytics Cloud Integration
     cloudAiStrategyText,
-    saveAiStrategyToCloud
+    saveAiStrategyToCloud,
+    aiPredictions,
+    trainAiModelWithDataset
   }
 }

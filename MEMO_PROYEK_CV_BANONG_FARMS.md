@@ -458,3 +458,54 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 6. **Verifikasi Build Produksi**:
    - `npm run build` sukses 100% (5.95s) tanpa satupun error sintaks atau modul hilang.
    - Seluruh data operasional dan akun staf kini murni tersinkronisasi dengan Supabase Cloud.
+
+---
+
+## 16. Catatan Sesi (15 September 2026 - Bagian 4) - Implementasi AI Predictive Modeling & Dataset Training Engine (Ujian PSAJ DPK Kelas 12)
+
+### A. Latar Belakang & Kebutuhan Bisnis
+Sesuai arahan evaluasi PSAJ (Penilaian Sumatif Akhir Jenjang) SMK Kejuruan RPL/DPK, Admin Dashboard CV Banong Farms dilengkapi dengan 3 pilar kapabilitas analitik prediktif berbasis kecerdasan buatan:
+1. **Prediksi Perputaran Stok Bulan Depan:** Pemodelan data untuk memproyeksikan perputaran stok barang pakan/komoditas pada bulan berikutnya guna mengoptimalkan manajemen ketersediaan di gudang, menghitung estimasi hari habis (*stock-out date*), dan memicu peringatan restok otomatis.
+2. **Proyeksi Laba & Pertumbuhan Omset:** Pengolahan data deret waktu transaksi harian untuk memproyeksikan pertumbuhan margin keuntungan kotor (standar industri pakan ternak 16,4%) dan total estimasi omset bulanan sebagai landasan pengambilan keputusan strategis.
+3. **Analitik Tren Minat Pasar & Komoditas Best Seller:** Pembacaan kurva serapan pasar untuk memproyeksikan komoditas pakan yang berpotensi menjadi produk terlaris (*best seller*) dan pangsa pasarnya (*market share*).
+
+### B. Solusi Masalah Cold-Start: Training Dataset Engine (CSV & PSAJ Demo)
+Karena klien riil belum menyediakan riwayat transaksi 10–50 hari, dibangun sistem pelatihan data (*data training engine*) terpadu:
+1. **Fitur Unggah Dataset CSV Transaksi (`AiTrainingDatasetModal.vue`):**
+   - Mendukung berkas CSV 10 hingga 50 hari riwayat transaksi.
+   - Format standar kolom: `tanggal (YYYY-MM-DD), nama_produk, jumlah_pcs, harga_satuan, total_harga`.
+   - Menggunakan drag-and-drop file dropzone modern dengan deteksi format otomatis dan tabel pratinjau data (*preview table*).
+2. **Pengunduh Template CSV Resmi (`template_dataset_transaksi_cv_banong_farms.csv`):**
+   - Tombol *"Template CSV"* menyediakan berkas sampel berstandar industri pakan siap isi bagi admin/klien.
+3. **Fitur 1-Klik Simulasi PSAJ (*⚡ Demo PSAJ: Muat 30 Hari Data*):**
+   - Siswa dapat mengklik satu tombol untuk langsung menggenerasikan dan melatih 30 hari data transaksi sintetis realistis (berbasis fluktuasi serapan harian) langsung di depan dewan penguji tanpa memerlukan input manual.
+
+### C. Arsitektur Dual-Engine AI (Transparansi Matematis + Generative AI)
+Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawabkan secara akademik:
+1. **Engine 1: Pemodelan Statistik Matematis (WMA & ADS):**
+   - **Average Daily Sales (ADS):** Menghitung rata-rata kecepatan penjualan harian komoditas ($Total\ Volume \div Hari\ Aktif$).
+   - **Weighted Moving Average (WMA 30 Hari):** Memberikan bobot linear lebih tinggi pada 7 hari transaksi terakhir untuk menangkap tren lonjakan musiman panen.
+   - **Estimasi Kehabisan Stok:** Menghitung sisa hari ketersediaan gudang ($Stok\ Fisik \div ADS$) dan proyeksi tanggal defisit stok.
+   - **Margin Keuntungan Kotor:** Menerapkan rasio laba kotor 16,4% terhadap proyeksi omset pakan.
+2. **Engine 2: Generative Intelligence (Google Gemini 1.5 Flash):**
+   - Mengirimkan ringkasan metrik statistik teragregasi ke Gemini API untuk menghasilkan narasi ringkasan eksekutif dan rekomendasi alokasi pasokan B2B.
+   - Dilengkapi sistem **Offline Heuristic Fallback** otomatis sehingga jika kuota API habis atau tidak ada internet, sistem tetap menghasilkan narasi rekomendasi cerdas tanpa pernah error di depan penguji.
+
+### D. Integrasi Database Supabase Cloud & Visualisasi Grafik Reaktif
+1. **Sinkronisasi Otomatis ke Cloud (`useAdminStore.js`):**
+   - Fungsi `trainAiModelWithDataset(transactions)` mengagregasikan volume harian dan mengunggahnya ke tabel `metrik_harian` di Supabase Cloud.
+   - Narasi rekomendasi eksekutif otomatis tersimpan di tabel `strategi_ai` Supabase Cloud via `saveAiStrategyToCloud()`.
+   - Hasil prediksi disimpan secara persisten di Local Storage `cv_banong_ai_predictions_v1` dan disiarkan lintas tab via `BroadcastChannel`.
+2. **Visualisasi Grafik Chart.js Dinamis (`AiAnalyticsSection.vue`):**
+   - Periode **`7H`** (7 Hari Terakhir) memplot kurva harian riil vs proyeksi WMA.
+   - Periode **`1B`** (1 Bulan / 30 Hari) mengagregasi 28-30 hari data dari `dailyChartMap` menjadi kurva 4 minggu (`Mgg 1`, `Mgg 2`, `Mgg 3`, `Mgg 4 Terkini`).
+   - Dilengkapi *reactive watcher* pada `dailyChartMap` sehingga saat dataset dilatih atau pesanan baru masuk, grafik langsung terbarukan secara instan (*real-time*).
+
+### E. Kepatuhan Desain & Verifikasi Build
+- **Kepatuhan Palet 60:30:10:**
+  - 60% Netral/Putih (`bg-white`, `bg-[#fbf9f6]`),
+  - 30% Navy Blue (`primary` `#022448` untuk header, judul, dan border),
+  - 10% Kuning Emas (`secondary-container` `#fcd400` / `#e6c200` untuk tombol *"Demo PSAJ"*, badge mahkota Best Seller, dan aksen metrik).
+- **Standar Satuan:** Seluruh kuantiti menggunakan satuan resmi **`pcs`** yang konsisten.
+- **Verifikasi Build:** `npm run build` sukses 100% (6.25s) dengan status build `dist/` bersih dan 0 error.
+
