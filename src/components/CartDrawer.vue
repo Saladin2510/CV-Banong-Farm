@@ -235,14 +235,30 @@
               <div 
                 v-for="item in cartStore.items.value" 
                 :key="item.id"
-                class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 flex items-center gap-3 relative group"
+                :class="[
+                  'p-3 rounded-xl border flex items-center gap-3 relative group transition-colors',
+                  getItemLiveStock(item) <= 0 
+                    ? 'bg-amber-50/40 dark:bg-amber-950/20 border-amber-300/80 dark:border-amber-700/80' 
+                    : 'bg-slate-50 dark:bg-slate-950/70 border-slate-200 dark:border-slate-800/80'
+                ]"
               >
                 <!-- Image -->
-                <img 
-                  :src="item.image" 
-                  :alt="item.title" 
-                  class="w-16 h-16 rounded-lg object-cover bg-white shrink-0 border border-slate-200 dark:border-slate-700"
-                />
+                <div class="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700 bg-white">
+                  <img 
+                    :src="item.image" 
+                    :alt="item.title" 
+                    class="w-full h-full object-cover"
+                  />
+                  <!-- Floating Zero Stock Overlay on Thumbnail -->
+                  <div 
+                    v-if="getItemLiveStock(item) <= 0" 
+                    class="absolute inset-0 bg-black/50 backdrop-blur-[1px] flex items-center justify-center text-white"
+                  >
+                    <span class="text-[9px] font-black uppercase tracking-wider font-telemetry-code bg-amber-600/90 px-1 py-0.5 rounded text-amber-100">
+                      HABIS
+                    </span>
+                  </div>
+                </div>
 
                 <!-- Info -->
                 <div class="flex flex-col flex-grow min-w-0">
@@ -255,6 +271,23 @@
                   <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 font-telemetry-code mt-0.5">
                     {{ formatPrice(item.price) }} / {{ item.unit }}
                   </span>
+
+                  <!-- Status Stok Real-time & Edukasi Item -->
+                  <div v-if="getItemLiveStock(item) <= 0" class="mt-1 flex flex-col gap-0.5">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700 font-telemetry-code w-fit">
+                      <span class="material-symbols-outlined text-[13px]">block</span>
+                      Stok Habis (0 {{ item.unit || 'pcs' }})
+                    </span>
+                    <span class="text-[10px] text-amber-700 dark:text-amber-400 leading-tight">
+                      Tersimpan di keranjang. Menunggu admin mengisi stok.
+                    </span>
+                  </div>
+                  <div v-else-if="item.qty > getItemLiveStock(item)" class="mt-1 flex flex-col gap-0.5">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700 font-telemetry-code w-fit">
+                      <span class="material-symbols-outlined text-[13px]">warning</span>
+                      Melebihi Stok (Sisa {{ getItemLiveStock(item) }} {{ item.unit || 'pcs' }})
+                    </span>
+                  </div>
 
                   <!-- Quantity Stepper -->
                   <div class="flex items-center justify-between mt-2">
@@ -302,6 +335,39 @@
               <span class="text-lg font-extrabold text-primary dark:text-secondary-container font-telemetry-code">
                 {{ formatPrice(cartStore.totalPrice.value) }}
               </span>
+            </div>
+
+            <!-- Notice Banner: Stok Habis (Tidak Bisa Dibeli Sebelum Diisi Admin) -->
+            <div 
+              v-if="hasBlockedItems" 
+              class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 flex flex-col gap-2.5 shadow-xs animate-fade-in"
+            >
+              <div class="flex items-start gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-[18px]">production_quantity_limits</span>
+                </div>
+                <div class="flex flex-col">
+                  <h5 class="text-xs font-bold text-amber-950 dark:text-amber-200 uppercase tracking-tight font-telemetry-code">
+                    Pembelian Belum Dapat Diproses
+                  </h5>
+                  <p class="text-[11px] text-amber-900 dark:text-amber-300 leading-relaxed mt-0.5">
+                    Terdapat komoditas di keranjang dengan stok kosong (0 pcs). Barang tetap tersimpan rapi di keranjang Anda, namun <strong>stok harus diisi terlebih dahulu oleh Admin Banong Farms</strong> sebelum transaksi dapat diproses.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2 border-t border-amber-200 dark:border-amber-800/80 text-[11px]">
+                <span class="text-slate-600 dark:text-slate-400">Ingin proses barang yang siap?</span>
+                <button 
+                  type="button" 
+                  @click="removeOutOfStockItems"
+                  class="text-primary dark:text-secondary-container font-bold hover:underline cursor-pointer flex items-center gap-1 transition-colors"
+                  title="Hapus produk yang stoknya 0 dari keranjang"
+                >
+                  <span class="material-symbols-outlined text-[15px]">delete_sweep</span>
+                  <span>Hapus Produk Kosong</span>
+                </button>
+              </div>
             </div>
 
             <!-- Formulir Pemesanan Pelanggan -->
@@ -353,16 +419,34 @@
                 ></textarea>
               </div>
 
-              <!-- Submit Button (Yellow Accent 10% CTA with Navy Text) -->
-              <button 
-                type="submit"
-                class="mt-2 w-full h-12 rounded-xl bg-secondary-container hover:bg-accent-hover active:scale-98 text-primary font-black text-xs sm:text-sm shadow-lg hover:shadow-yellow-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer border border-yellow-400/40"
-              >
-                <span class="material-symbols-outlined text-[20px]">
-                  chat
-                </span>
-                <span>Lanjut Buka WhatsApp ({{ formatPrice(cartStore.totalPrice.value) }})</span>
-              </button>
+              <!-- Submit Button with Out-of-Stock Protection Guard (Strict 60:30:10 Palette) -->
+              <div class="flex flex-col gap-1.5 mt-2">
+                <button 
+                  type="submit"
+                  :disabled="hasBlockedItems"
+                  :class="[
+                    'w-full h-12 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 border',
+                    hasBlockedItems
+                      ? 'bg-slate-100 dark:bg-slate-800/90 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 cursor-not-allowed shadow-none'
+                      : 'bg-secondary-container hover:bg-accent-hover active:scale-98 text-primary border-yellow-400/40 shadow-lg hover:shadow-yellow-500/25 cursor-pointer'
+                  ]"
+                >
+                  <span class="material-symbols-outlined text-[20px]">
+                    {{ hasBlockedItems ? 'lock' : 'chat' }}
+                  </span>
+                  <span>
+                    {{ 
+                      hasBlockedItems 
+                        ? 'Stok Habis — Belum Bisa Dibeli (Isi Stok via Admin)' 
+                        : `Lanjut Buka WhatsApp (${formatPrice(cartStore.totalPrice.value)})` 
+                    }}
+                  </span>
+                </button>
+
+                <p v-if="hasBlockedItems" class="text-[10px] text-center text-slate-400 dark:text-slate-500 italic">
+                  * Tombol pembelian otomatis aktif segera setelah Admin memperbarui stok di sistem.
+                </p>
+              </div>
             </form>
 
           </template>
@@ -374,7 +458,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useCartStore } from '../stores/useCartStore'
 import { useAdminStore } from '../stores/useAdminStore'
 
@@ -391,6 +475,35 @@ const checkoutStep = ref('form') // 'form' | 'confirm_wa' | 'success'
 const pendingOrder = ref(null)
 const lastCompletedOrderCode = ref('')
 
+// Sinkronisasi Stok Reaktif dengan useAdminStore
+const getItemLiveStock = (item) => {
+  const liveProduct = adminStore.products.value.find(p => p.id === item.id)
+  if (liveProduct && liveProduct.stock !== undefined) {
+    return Number(liveProduct.stock)
+  }
+  return Number(item.stock) || 0
+}
+
+const outOfStockItems = computed(() => {
+  return cartStore.items.value.filter(item => getItemLiveStock(item) <= 0)
+})
+
+const exceedingStockItems = computed(() => {
+  return cartStore.items.value.filter(item => {
+    const live = getItemLiveStock(item)
+    return live > 0 && item.qty > live
+  })
+})
+
+const hasBlockedItems = computed(() => {
+  return outOfStockItems.value.length > 0 || exceedingStockItems.value.length > 0
+})
+
+const removeOutOfStockItems = () => {
+  const outIds = outOfStockItems.value.map(it => it.id)
+  outIds.forEach(id => cartStore.removeFromCart(id))
+}
+
 const formatPrice = (val) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -402,6 +515,11 @@ const formatPrice = (val) => {
 // Langkah 1: Buka WhatsApp (BELUM disimpan ke database sama sekali)
 const handleOpenWhatsApp = () => {
   if (cartStore.items.value.length === 0) return
+
+  if (hasBlockedItems.value) {
+    alert('Pesanan belum dapat diproses karena ada produk dengan stok habis di keranjang. Silakan tunggu Admin mengisi stok kembali atau hapus produk kosong.')
+    return
+  }
 
   if (!customerName.value.trim() || !customerPhone.value.trim() || !customerAddress.value.trim()) {
     alert('Mohon lengkapi Nama, Nomor WhatsApp, dan Alamat Pengiriman.')

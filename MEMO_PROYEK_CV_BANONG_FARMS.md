@@ -322,3 +322,24 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
    - Build produksi stabil: `dist/` terverifikasi 0 error.
    - Agenda berikutnya yang siap dikerjakan saat pengguna kembali: Pembangunan fitur Smart Chatbot AI pengunjung atau Analitik AI Dashboard Admin.
 
+---
+
+## 13. Catatan Sesi (15 September 2026) - Validasi Stok Habis (Bisa Masuk Keranjang, Tidak Bisa Dibeli Sampai Diisi Admin)
+1. **Aturan Bisnis Stok Habis**:
+   - Produk berstok 0 pcs **tetap bisa dimasukkan ke dalam keranjang belanja** (`addToCart` diizinkan tanpa pembatasan kuantitas 0).
+   - Di dalam keranjang belanja (`CartDrawer.vue`), produk berstok 0 pcs diberi penanda khusus:
+     - Badge visual: `Stok Habis (0 pcs)` dengan keterangan *"Tersimpan di keranjang. Menunggu admin mengisi stok."*
+     - Overlay `HABIS` pada thumbnail produk.
+     - Kotak pemberitahuan (Notice Box): *"Pembelian Belum Dapat Diproses — Terdapat komoditas dengan stok kosong (0 pcs)..."* disertai tombol pembersih *"Hapus Produk Kosong"*.
+2. **Kunci Pembelian (Hard Guard)**:
+   - Tombol checkout *"Lanjut Buka WhatsApp"* dinonaktifkan (`disabled`) dan berganti teks menjadi:
+     `🔒 Stok Habis — Belum Bisa Dibeli (Isi Stok via Admin)`.
+   - Fungsi `handleOpenWhatsApp` dibentengi dengan validasi `hasBlockedItems` untuk mencegah checkout item kosong.
+3. **Pengisian Stok dari Admin Dashboard (`ProductCrudTable.vue`)**:
+   - Tabel inventaris admin mendeteksi stok 0 pcs secara visual (teks oranye/amber, bar 0%, dan badge `0 pcs`).
+   - Tombol aksi otomatis berubah menjadi tombol kuning emas **`+ Isi Stok`** pada item berstok 0 untuk mempercepat pengisian kuantitas.
+   - Tab filter cepat **`Perlu Diisi Stok (X)`** ditambahkan di atas tabel admin agar admin dapat langsung memfilter produk yang habis.
+   - Perubahan stok yang disimpan admin langsung terhubung reaktif (`useAdminStore.products`) sehingga keranjang pelanggan otomatis membuka kuncian pembelian begitu stok diisi.
+4. **Verifikasi Build**:
+   - `npm run build` sukses 100% (6.06s) dengan 0 error.
+

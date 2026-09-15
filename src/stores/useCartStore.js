@@ -47,9 +47,11 @@ export function useCartStore() {
     if (!product) return
     const existing = items.value.find(it => it.id === product.id)
     const addQty = Math.max(1, Number(quantity) || 1)
+    const currentStock = Number(product.stock ?? 0)
 
     if (existing) {
-      existing.qty = Math.min(product.stock || 9999, existing.qty + addQty)
+      existing.qty += addQty
+      existing.stock = currentStock
     } else {
       items.value.push({
         id: product.id,
@@ -59,7 +61,7 @@ export function useCartStore() {
         price: Number(product.price) || 0,
         unit: product.unit || 'pcs',
         image: product.image || '/assets/product-fertilizer.png',
-        stock: product.stock || 0,
+        stock: currentStock,
         qty: addQty
       })
     }
@@ -72,7 +74,7 @@ export function useCartStore() {
       if (q <= 0) {
         removeFromCart(productId)
       } else {
-        item.qty = Math.min(item.stock || 9999, q)
+        item.qty = q
       }
     }
   }

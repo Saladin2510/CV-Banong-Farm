@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <!-- Category Filter Bar -->
+    <!-- Category Filter Bar with Zero Stock Indicator -->
     <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs select-none">
       <button
         v-for="cat in categories"
@@ -40,6 +40,22 @@
         ]"
       >
         {{ cat }}
+      </button>
+
+      <!-- Quick Restock Filter Tab -->
+      <button
+        v-if="zeroStockCount > 0"
+        @click="selectedCategory = 'Stok Habis'"
+        :class="[
+          'px-3 py-1.5 rounded-xl font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ml-2 border',
+          selectedCategory === 'Stok Habis' 
+            ? 'bg-amber-600 text-white border-amber-600 shadow-xs' 
+            : 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 hover:bg-amber-100 border-amber-300 dark:border-amber-800'
+        ]"
+        title="Tampilkan hanya komoditas yang stoknya 0 pcs"
+      >
+        <span class="material-symbols-outlined text-[15px]">warning</span>
+        <span>Perlu Diisi Stok ({{ zeroStockCount }})</span>
       </button>
     </div>
 
@@ -69,7 +85,12 @@
           <tr 
             v-for="product in filteredProducts" 
             :key="product.id"
-            class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors"
+            :class="[
+              'transition-colors',
+              product.stock <= 0 
+                ? 'bg-amber-50/30 dark:bg-amber-950/15 hover:bg-amber-50/60 dark:hover:bg-amber-950/30' 
+                : 'hover:bg-slate-50/70 dark:hover:bg-slate-800/40'
+            ]"
           >
             <!-- Product Name & Thumbnail Image -->
             <td class="px-4 py-3">
@@ -88,8 +109,8 @@
                   <span class="font-bold text-primary dark:text-white leading-tight">
                     {{ product.name }}
                   </span>
-                  <span class="text-[11px] text-slate-500 dark:text-slate-400">
-                    ID: #PRD-{{ product.id }} • Terjual: {{ (product.soldCount || 0).toLocaleString('id-ID') }} {{ product.unit || 'kg' }}
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 font-telemetry-code">
+                    ID: #PRD-{{ product.id }} • Terjual: {{ (product.soldCount || 0).toLocaleString('id-ID') }} {{ product.unit || 'pcs' }}
                   </span>
                 </div>
               </div>
@@ -106,25 +127,38 @@
             <td class="px-4 py-3">
               <div class="flex flex-col gap-1 max-w-[140px]">
                 <div class="flex justify-between items-center text-xs">
-                  <span class="text-xs text-primary dark:text-white font-bold">
-                    {{ product.stock.toLocaleString('id-ID') }} {{ product.unit || 'kg' }}
+                  <span 
+                    :class="[
+                      'text-xs font-bold font-telemetry-code',
+                      product.stock <= 0 ? 'text-amber-700 dark:text-amber-400' : 'text-primary dark:text-white'
+                    ]"
+                  >
+                    {{ product.stock.toLocaleString('id-ID') }} {{ product.unit || 'pcs' }}
                   </span>
-                  <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {{ Math.round(getStockRatio(product) * 100) }}%
+                  <span 
+                    :class="[
+                      'text-[10px] font-bold px-1.5 py-0.2 rounded font-telemetry-code',
+                      product.stock <= 0 
+                        ? 'bg-amber-100 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700' 
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                    ]"
+                  >
+                    {{ product.stock <= 0 ? '0 pcs' : `${Math.round(getStockRatio(product) * 100)}%` }}
                   </span>
                 </div>
                 <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                   <div 
-                    class="h-full rounded-full transition-all duration-500 bg-secondary-container" 
-                    :style="{ width: `${Math.min(100, Math.round(getStockRatio(product) * 100))}%` }"
+                    class="h-full rounded-full transition-all duration-500" 
+                    :class="product.stock <= 0 ? 'bg-amber-500' : 'bg-secondary-container'"
+                    :style="{ width: `${product.stock <= 0 ? 0 : Math.min(100, Math.round(getStockRatio(product) * 100))}%` }"
                   ></div>
                 </div>
               </div>
             </td>
 
             <!-- Unit Price -->
-            <td class="px-4 py-3 text-xs text-primary dark:text-slate-200 font-bold">
-              Rp {{ product.price.toLocaleString('id-ID') }}/{{ product.unit || 'kg' }}
+            <td class="px-4 py-3 text-xs text-primary dark:text-slate-200 font-bold font-telemetry-code">
+              Rp {{ product.price.toLocaleString('id-ID') }}/{{ product.unit || 'pcs' }}
             </td>
 
             <!-- Action Buttons: Edit & Hapus -->
@@ -132,12 +166,17 @@
               <div class="flex items-center justify-end gap-1.5">
                 <button 
                   @click="$emit('openEditModal', product)"
-                  class="px-2.5 py-1 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary dark:text-white border border-primary/20 text-xs font-semibold flex items-center gap-1 transition-colors active:scale-95 cursor-pointer"
+                  :class="[
+                    'px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all active:scale-95 cursor-pointer',
+                    product.stock <= 0 
+                      ? 'bg-secondary-container hover:bg-accent-hover text-primary font-bold shadow-xs border border-yellow-400/40' 
+                      : 'bg-primary/10 hover:bg-primary/20 text-primary dark:text-white border border-primary/20'
+                  ]"
                   type="button"
-                  title="Ubah Data Produk"
+                  :title="product.stock <= 0 ? 'Isi Stok Produk Sekarang' : 'Ubah Data Produk'"
                 >
-                  <span class="material-symbols-outlined text-[15px]">edit</span>
-                  <span>Ubah</span>
+                  <span class="material-symbols-outlined text-[15px]">{{ product.stock <= 0 ? 'add_circle' : 'edit' }}</span>
+                  <span>{{ product.stock <= 0 ? 'Isi Stok' : 'Ubah' }}</span>
                 </button>
                 <button 
                   @click="$emit('openDeleteModal', product)"
@@ -194,9 +233,18 @@ const categories = [
   'Produk Organik'
 ]
 
+const zeroStockCount = computed(() => {
+  return adminStore.products.value.filter(p => (Number(p.stock) || 0) <= 0).length
+})
+
 const filteredProducts = computed(() => {
   return adminStore.products.value.filter(p => {
-    const matchesCategory = selectedCategory.value === 'Semua' || p.category === selectedCategory.value
+    let matchesCategory = true
+    if (selectedCategory.value === 'Stok Habis') {
+      matchesCategory = (Number(p.stock) || 0) <= 0
+    } else if (selectedCategory.value !== 'Semua') {
+      matchesCategory = p.category === selectedCategory.value
+    }
     const matchesSearch = !props.searchQuery || 
       p.name.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
       p.category.toLowerCase().includes(props.searchQuery.toLowerCase())

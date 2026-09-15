@@ -47,10 +47,10 @@
                 'px-3 py-1 rounded-full text-xs font-semibold shadow-md shrink-0 border font-telemetry-code',
                 (product.stock > 0) 
                   ? 'bg-primary/90 text-secondary-container border-blue-400/40' 
-                  : 'bg-slate-800 text-slate-400 border-slate-700'
+                  : 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-200 dark:border-amber-700'
               ]"
             >
-              Stok: {{ (product.stock || 0).toLocaleString('id-ID') }} {{ product.unit || 'kg' }}
+              {{ (product.stock > 0) ? `Stok: ${(product.stock || 0).toLocaleString('id-ID')} ${product.unit || 'pcs'}` : 'Stok Habis (0 pcs)' }}
             </span>
           </div>
         </div>
@@ -66,7 +66,7 @@
             <div>
               <div class="text-[11px] text-on-surface-variant dark:text-slate-400">Harga Satuan:</div>
               <div class="font-bold text-base text-primary dark:text-white font-telemetry-code">
-                {{ formatPrice(product.price) }} / {{ product.unit || 'kg' }}
+                {{ formatPrice(product.price) }} / {{ product.unit || 'pcs' }}
               </div>
             </div>
 
@@ -84,12 +84,12 @@
                 v-model.number="quantity" 
                 type="number" 
                 min="1" 
-                :max="product.stock || 9999"
+                :max="product.stock > 0 ? product.stock : 9999"
                 class="w-12 text-center font-bold text-sm bg-transparent text-primary dark:text-white focus:outline-none font-telemetry-code"
               />
               <button 
                 type="button"
-                @click="quantity < (product.stock || 9999) ? quantity++ : null"
+                @click="quantity < (product.stock > 0 ? product.stock : 9999) ? quantity++ : null"
                 class="w-7 h-7 rounded bg-surface-container-low dark:bg-slate-800 hover:bg-surface-container text-primary dark:text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
               >
                 +
@@ -105,6 +105,20 @@
             </span>
           </div>
 
+          <!-- Out-of-Stock Info Notice (60-30-10 palette compliant: neutral amber) -->
+          <div 
+            v-if="(product.stock || 0) <= 0" 
+            class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/80 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200"
+          >
+            <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-[18px] shrink-0 mt-0.5">info</span>
+            <div class="flex flex-col">
+              <span class="font-bold text-[11px] uppercase font-telemetry-code">Stok Sedang Kosong (0 {{ product.unit || 'pcs' }})</span>
+              <p class="text-[11px] text-amber-800 dark:text-amber-300 mt-0.5 leading-relaxed">
+                Produk tetap dapat dimasukkan ke keranjang belanja Anda. Namun transaksi baru dapat diproses setelah Admin mengisi stok kembali di sistem.
+              </p>
+            </div>
+          </div>
+
           <!-- Action Button: Tambah ke Keranjang -->
           <button 
             type="button"
@@ -112,7 +126,7 @@
             class="mt-2 w-full h-12 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-98 tracking-wide"
           >
             <span class="material-symbols-outlined text-[22px]">add_shopping_cart</span>
-            <span>+ Tambah ke Keranjang</span>
+            <span>{{ (product.stock || 0) <= 0 ? '+ Masukkan ke Keranjang (Stok Habis)' : '+ Tambah ke Keranjang' }}</span>
           </button>
         </div>
       </div>
