@@ -145,6 +145,12 @@ const navItems = computed(() => [
     badge: 'Aktif'
   },
   { 
+    id: 'staff', 
+    label: 'Manajemen Karyawan', 
+    icon: 'badge',
+    badge: adminStore.staffList.value?.length || 0
+  },
+  { 
     id: 'database', 
     label: 'Struktur Database', 
     icon: 'database',

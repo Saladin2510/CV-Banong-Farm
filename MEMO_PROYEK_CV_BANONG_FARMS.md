@@ -350,3 +350,54 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
 5. **Verifikasi Build**:
    - `npm run build` sukses 100% (6.22s) dengan 0 error.
 
+---
+
+## 14. Catatan Sesi (15 September 2026 - Bagian 2) - Manajemen Karyawan (Admin Accounts) Langsung dari Web Dashboard
+1. **Analisis Kebutuhan Tabel Database (Jawaban Pertanyaan Pengguna)**:
+   - **Pertanyaan:** *"NAH disini memerlukan database tabel baru tidak ya?"*
+   - **Jawaban Resmi Arsitektur:** **TIDAK PERLU TABEL BARU**.
+   - **Penjelasan Teknis:**
+     - Sejak perancangan awal (sesi 11 & 12), skema database PostgreSQL Supabase Cloud telah memiliki tabel ke-7 yang resmi terstandarisasi 3NF, yaitu tabel **`admin`**:
+       ```sql
+       CREATE TABLE public.admin (
+         id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+         email TEXT NOT NULL UNIQUE,
+         nama_lengkap TEXT NOT NULL,
+         peran TEXT NOT NULL DEFAULT 'Administrator',
+         created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+       );
+       ```
+     - Memanfaatkan tabel `admin` yang sudah ada mempertahankan integritas ERD laporan ujian PSAJ (7 tabel) tanpa menambah kompleksitas relasi atau merusak normalisasi 3NF.
+2. **Pencegahan Terlogoutnya Super Admin (Auth Ephemeral Client)**:
+   - Pada `src/services/supabaseClient.js`, fungsi pendaftaran karyawan baru `createStaffAccount` dirancang menggunakan instansiasi Supabase Client mandiri dengan konfigurasi `{ auth: { persistSession: false, autoRefreshToken: false } }`.
+   - Hal ini memastikan sesi otentikasi login Super Admin yang sedang aktif di browser tidak akan tertimpa atau ter-logout ketika mendaftarkan akun email karyawan baru ke `supabase.auth.signUp()`.
+3. **Komponen Antarmuka Web (UI/UX) Manajemen Karyawan**:
+   - **`StaffManagement.vue`**:
+     - Metric Summary Cards: Total Karyawan, Super Admin, dan Staf Operasional.
+     - Action Bar: Pencarian live berdasarkan nama/email/peran, filter badge peran (`Semua`, `Super Admin`, `Staf Operasional`, `Analis & Logistik`), dan tombol aksi utama emas (`+ Tambah Karyawan Baru`).
+     - Staff Table: Menampilkan avatar inisial, nama lengkap, email, badge peran terformat rapi, status akun, tanggal bergabung, serta tombol aksi `Ubah` dan `Hapus` (dengan proteksi akun Super Admin utama tidak dapat dihapus).
+   - **`StaffModal.vue`**:
+     - Modal form terpadu untuk penambahan dan pengeditan data karyawan.
+     - Field input: Nama Lengkap, Alamat Email, Password (minimal 6 karakter untuk akun baru; opsional jika hanya mengedit nama/peran), Pilihan Peran, dan Status Akun.
+   - **Kepatuhan Aturan Estetika 60:30:10**:
+     - 60% Permukaan netral/putih (`bg-white` / `bg-[#fbf9f6]`),
+     - 30% Aksen Navy Blue (`primary` `#022448` untuk header, sidebar, dan judul),
+     - 10% Kuning Emas (`secondary-container` `#fcd400` / `#e6c200`) khusus untuk tombol CTA aksi utama.
+4. **Manajemen State Reaktif & Sinkronisasi Multitask (`useAdminStore.js`)**:
+   - Data karyawan (`staffList`) terkelola secara reaktif dengan mekanisme fallback persisten di Local Storage (`cv_banong_farms_staff_pure_v1`) dan sinkronisasi otomatis ke cloud table `admin`.
+   - Terhubung dengan `BroadcastChannel('cv_banong_farms_admin_sync')` sehingga perubahan data karyawan di satu tab langsung ter-update di seluruh tab browser tanpa perlu reload.
+5. **Integrasi Sidebar & Command Center (`AdminSidebar.vue` & `CommandCenter.vue`)**:
+   - Menambahkan menu navigasi **`Manajemen Karyawan`** (ikon `badge`) dengan counter badge jumlah karyawan aktif pada sidebar admin.
+   - Mengintegrasikan view `StaffManagement` pada tab `staff` dan menyematkan dialog modal `StaffModal` dengan penanganan toast notifikasi interaktif.
+6. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (5.94s) dengan 0 error dan 0 warning.
+   - Server dev aktif melayani di `http://localhost:5173/` dengan respon HTTP 200 OK.
+7. **Perbaikan Masalah Event Click & Simpan Data Karyawan (Bugfix Sesi 15)**:
+   - **Akar Masalah:** `StaffModal.vue` memancarkan event `emit('submit', ...)` dengan objek tersarang (`data: { ... }`), sementara `CommandCenter.vue` mendengarkan event `@save="handleStaffSubmit"`. Hal ini menyebabkan fungsi penyimpanan tidak pernah terpicu saat tombol diklik, modal tidak tertutup, dan data karyawan tidak bertambah/terubah.
+   - **Solusi Komprehensif:**
+     - `StaffModal.vue` kini memancarkan kedua event `@save` dan `@submit` dengan payload datar siap pakai `{ id, nama_lengkap, email, password, peran, status }`.
+     - `CommandCenter.vue` kini mendengarkan kedua event `@save` dan `@submit`, serta menormalisasi payload dengan blok `try/catch/finally` agar modal selalu tertutup dan menampilkan toast status secara akurat.
+     - `useAdminStore.js` memperbarui fungsi `addStaffMember` dan `updateStaffMember` agar mendukung parameter `status` dan mengembalikan nilai status Supabase Cloud secara bersih.
+
+
+

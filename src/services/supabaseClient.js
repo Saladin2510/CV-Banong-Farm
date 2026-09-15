@@ -671,6 +671,127 @@ export const supabaseApi = {
     return client.auth.onAuthStateChange(callback)
   },
 
+  // ==================================================================
+  // MANAJEMEN KARYAWAN / ADMIN ACCOUNT (TABEL: admin)
+  // ==================================================================
+  async getStaffList() {
+    const client = getSupabase()
+    if (!client) return []
+    try {
+      const { data, error } = await client.from('admin').select('*').order('nama_lengkap', { ascending: true })
+      if (error) throw error
+      return data || []
+    } catch (err) {
+      console.warn('Supabase getStaffList error:', err)
+      return []
+    }
+  },
+
+  async createStaffAccount({ email, password, nama_lengkap, peran }) {
+    const client = getSupabase()
+    const creds = getStoredCredentials()
+    if (!client || !creds.url || !creds.key) {
+      return { success: false, message: 'Koneksi Supabase belum aktif.' }
+    }
+
+    try {
+      // Ephemeral client agar sesi login Super Admin yang sedang aktif TIDAK tertimpa/logout
+      const ephemeralClient = createClient(creds.url, creds.key, {
+        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+      })
+
+      const cleanEmail = email.trim()
+      const cleanName = nama_lengkap.trim()
+      const cleanRole = peran || 'Administrator'
+
+      const { data: authData, error: authError } = await ephemeralClient.auth.signUp({
+        email: cleanEmail,
+        password: password.trim(),
+        options: {
+          data: {
+            nama_lengkap: cleanName,
+            peran: cleanRole
+          }
+        }
+      })
+
+      if (authError) throw authError
+
+      const newUserId = authData?.user?.id
+      if (!newUserId) {
+        throw new Error('Gagal mendapatkan ID pengguna dari Supabase Auth.')
+      }
+
+      // Masukkan metadata profil ke tabel 'admin'
+      const { data: profileData, error: profileError } = await client
+        .from('admin')
+        .insert([{
+          id: newUserId,
+          email: cleanEmail,
+          nama_lengkap: cleanName,
+          peran: cleanRole
+        }])
+        .select()
+        .single()
+
+      if (profileError) {
+        console.warn('Catatan tabel admin:', profileError)
+      }
+
+      return {
+        success: true,
+        data: profileData || {
+          id: newUserId,
+          email: cleanEmail,
+          nama_lengkap: cleanName,
+          peran: cleanRole
+        },
+        message: `Akun karyawan ${cleanName} (${cleanEmail}) berhasil dibuat!`
+      }
+    } catch (err) {
+      console.warn('Supabase createStaffAccount error:', err)
+      return { success: false, message: err.message || 'Gagal membuat akun karyawan baru.' }
+    }
+  },
+
+  async updateStaffAccount(id, { nama_lengkap, peran }) {
+    const client = getSupabase()
+    if (!client) return { success: false, message: 'Koneksi Supabase belum aktif.' }
+
+    try {
+      const updates = {}
+      if (nama_lengkap) updates.nama_lengkap = nama_lengkap.trim()
+      if (peran) updates.peran = peran
+
+      const { data, error } = await client
+        .from('admin')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) throw error
+      return { success: true, data, message: 'Data karyawan berhasil diperbarui.' }
+    } catch (err) {
+      console.warn('Supabase updateStaffAccount error:', err)
+      return { success: false, message: err.message || 'Gagal memperbarui data karyawan.' }
+    }
+  },
+
+  async deleteStaffAccount(id) {
+    const client = getSupabase()
+    if (!client) return { success: false, message: 'Koneksi Supabase belum aktif.' }
+
+    try {
+      const { error } = await client.from('admin').delete().eq('id', id)
+      if (error) throw error
+      return { success: true, message: 'Akun karyawan berhasil dihapus dari sistem.' }
+    } catch (err) {
+      console.warn('Supabase deleteStaffAccount error:', err)
+      return { success: false, message: err.message || 'Gagal menghapus akun karyawan.' }
+    }
+  },
+
   // Berlangganan (Subscribe) ke Saluran Real-Time WebSocket Supabase
   subscribeRealtime(onProductChange, onOrderChange) {
     const client = getSupabase()

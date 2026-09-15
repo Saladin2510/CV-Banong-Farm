@@ -6,6 +6,7 @@ const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
 const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
 const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v9'
 const SUPABASE_RESET_KEY = 'cv_banong_reset_zero_synced_v9'
+const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v1'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
@@ -179,10 +180,50 @@ function loadInitialDailyChart() {
   return initialMap
 }
 
+// Data Awal Akun Karyawan / Admin Farm
+const DEFAULT_STAFF = [
+  {
+    id: 'usr-admin-01',
+    nama_lengkap: 'H. Banong (Super Admin)',
+    email: 'admin@banongfarms.com',
+    peran: 'Super Admin',
+    status: 'Aktif',
+    created_at: '2026-09-01T08:00:00Z'
+  },
+  {
+    id: 'usr-gudang-02',
+    nama_lengkap: 'Budi Santoso',
+    email: 'gudang@banongfarms.com',
+    peran: 'Admin Gudang & Stok',
+    status: 'Aktif',
+    created_at: '2026-09-05T09:30:00Z'
+  },
+  {
+    id: 'usr-wa-03',
+    nama_lengkap: 'Siti Rahmawati',
+    email: 'cs@banongfarms.com',
+    peran: 'Admin Pesanan WA',
+    status: 'Aktif',
+    created_at: '2026-09-10T10:15:00Z'
+  }
+]
+
+function loadInitialStaff() {
+  try {
+    const raw = localStorage.getItem(STORAGE_STAFF_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+    }
+  } catch (e) {}
+  return DEFAULT_STAFF
+}
+
 // Reactive State
 const products = ref(loadInitialProducts())
 const whatsappOrders = ref(loadInitialOrders())
 const dailyChartMap = ref(loadInitialDailyChart())
+const staffList = ref(loadInitialStaff())
 const lastSyncToast = ref(null)
 
 // Cross-tab Real-Time Synchronizer via BroadcastChannel
@@ -196,6 +237,7 @@ if (syncChannel) {
       if (event.data.products) products.value = event.data.products
       if (event.data.orders) whatsappOrders.value = event.data.orders
       if (event.data.chartMap) dailyChartMap.value = event.data.chartMap
+      if (event.data.staff) staffList.value = event.data.staff
       if (event.data.toast) lastSyncToast.value = event.data.toast
     }
   }
@@ -206,6 +248,7 @@ function broadcastUpdate(toastData = null) {
     localStorage.setItem(STORAGE_PRODUCTS_KEY, JSON.stringify(products.value))
     localStorage.setItem(STORAGE_ORDERS_KEY, JSON.stringify(whatsappOrders.value))
     localStorage.setItem(STORAGE_CHART_KEY, JSON.stringify(dailyChartMap.value))
+    localStorage.setItem(STORAGE_STAFF_KEY, JSON.stringify(staffList.value))
     
     if (syncChannel) {
       syncChannel.postMessage({
@@ -213,6 +256,7 @@ function broadcastUpdate(toastData = null) {
         products: products.value,
         orders: whatsappOrders.value,
         chartMap: dailyChartMap.value,
+        staff: staffList.value,
         toast: toastData
       })
     }
@@ -278,9 +322,10 @@ async function syncWithSupabaseDatabase() {
     }
 
     // Tarik data awal dari Supabase Cloud
-    const [cloudProds, cloudOrders] = await Promise.all([
+    const [cloudProds, cloudOrders, cloudStaff] = await Promise.all([
       supabaseApi.getProducts().catch(() => null),
-      supabaseApi.getOrders().catch(() => null)
+      supabaseApi.getOrders().catch(() => null),
+      supabaseApi.getStaffList().catch(() => null)
     ])
 
     if (Array.isArray(cloudProds)) {
@@ -294,6 +339,16 @@ async function syncWithSupabaseDatabase() {
     }
     if (Array.isArray(cloudOrders)) {
       whatsappOrders.value = cloudOrders
+    }
+    if (Array.isArray(cloudStaff) && cloudStaff.length > 0) {
+      staffList.value = cloudStaff.map(s => ({
+        id: s.id,
+        nama_lengkap: s.nama_lengkap || 'Staf Admin',
+        email: s.email,
+        peran: s.peran || 'Administrator',
+        status: s.status || 'Aktif',
+        created_at: s.dibuat_pada || s.created_at || new Date().toISOString()
+      }))
     }
     broadcastUpdate()
 
@@ -978,10 +1033,104 @@ function resetAllDataToZero() {
   }
 }
 
+// Staff / Admin Accounts Operations
+async function addStaffMember({ nama_lengkap, email, password, peran, status }) {
+  const newId = 'usr-' + Date.now().toString().slice(-6)
+  const newStaff = {
+    id: newId,
+    nama_lengkap: (nama_lengkap || '').trim(),
+    email: (email || '').trim().toLowerCase(),
+    peran: peran || 'Admin Gudang & Stok',
+    status: status || 'Aktif',
+    created_at: new Date().toISOString()
+  }
+
+  staffList.value.unshift(newStaff)
+  broadcastUpdate()
+
+  let supabaseResult = null
+  let supabaseError = null
+  if (isSupabaseConnected.value) {
+    try {
+      supabaseResult = await supabaseApi.createStaffAccount({
+        nama_lengkap: newStaff.nama_lengkap,
+        email: newStaff.email,
+        password,
+        peran: newStaff.peran
+      })
+      if (supabaseResult.success && supabaseResult.data?.id) {
+        newStaff.id = supabaseResult.data.id
+        broadcastUpdate()
+      } else if (!supabaseResult.success) {
+        supabaseError = supabaseResult.message
+      }
+    } catch (err) {
+      console.warn('Supabase create staff error:', err)
+      supabaseError = err.message || 'Gagal menyimpan ke Supabase'
+    }
+  }
+
+  return { success: true, staff: newStaff, supabaseResult, supabaseError }
+}
+
+async function updateStaffMember(id, { nama_lengkap, peran, status }) {
+  const index = staffList.value.findIndex(s => s.id === id)
+  if (index === -1) return { success: false, message: 'Karyawan tidak ditemukan.' }
+
+  const current = staffList.value[index]
+  staffList.value[index] = {
+    ...current,
+    nama_lengkap: nama_lengkap ? nama_lengkap.trim() : current.nama_lengkap,
+    peran: peran || current.peran,
+    status: status || current.status
+  }
+
+  broadcastUpdate()
+
+  let supabaseResult = null
+  let supabaseError = null
+  if (isSupabaseConnected.value) {
+    try {
+      supabaseResult = await supabaseApi.updateStaffAccount(id, {
+        nama_lengkap: staffList.value[index].nama_lengkap,
+        peran: staffList.value[index].peran
+      })
+      if (!supabaseResult.success) {
+        supabaseError = supabaseResult.message
+      }
+    } catch (err) {
+      console.warn('Supabase update staff error:', err)
+      supabaseError = err.message || 'Gagal memperbarui di Supabase'
+    }
+  }
+
+  return { success: true, staff: staffList.value[index], supabaseResult, supabaseError }
+}
+
+async function deleteStaffMember(id) {
+  const index = staffList.value.findIndex(s => s.id === id)
+  if (index === -1) return { success: false, message: 'Karyawan tidak ditemukan.' }
+
+  const deleted = staffList.value.splice(index, 1)[0]
+  broadcastUpdate()
+
+  let supabaseResult = null
+  if (isSupabaseConnected.value) {
+    try {
+      supabaseResult = await supabaseApi.deleteStaffAccount(id)
+    } catch (err) {
+      console.warn('Supabase delete staff error:', err)
+    }
+  }
+
+  return { success: true, deleted, supabaseResult }
+}
+
 export function useAdminStore() {
   return {
     products,
     whatsappOrders,
+    staffList,
     lastSyncToast,
     isServerDbConnected,
     isSupabaseConnected,
@@ -1016,6 +1165,11 @@ export function useAdminStore() {
     simulateIncomingOrder,
     addProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+
+    // Staff Operations
+    addStaffMember,
+    updateStaffMember,
+    deleteStaffMember
   }
 }

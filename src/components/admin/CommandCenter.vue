@@ -229,7 +229,19 @@
           </div>
 
           <!-- ============================================== -->
-          <!-- TAB 5: STRUKTUR DATABASE (ERD & SKEMA)        -->
+          <!-- TAB 5: MANAJEMEN KARYAWAN (ADMIN ACCOUNTS)     -->
+          <!-- ============================================== -->
+          <div v-else-if="currentTab === 'staff'" class="flex flex-col gap-6">
+            <!-- Full Width Staff Management Console -->
+            <StaffManagement 
+              @openAddModal="openAddStaffModal"
+              @openEditModal="openEditStaffModal"
+              @deleteStaff="handleDeleteStaff"
+            />
+          </div>
+
+          <!-- ============================================== -->
+          <!-- TAB 6: STRUKTUR DATABASE (ERD & SKEMA)        -->
           <!-- ============================================== -->
           <div v-else-if="currentTab === 'database'" class="flex flex-col gap-6">
             <!-- Full Width Interactive ERD & Database Schema Viewer -->
@@ -275,6 +287,14 @@
       @saved="handleAiSettingsSaved"
     />
 
+    <StaffModal 
+      :isOpen="isStaffModalOpen"
+      :staffToEdit="staffToEdit"
+      @close="isStaffModalOpen = false"
+      @save="handleStaffSubmit"
+      @submit="handleStaffSubmit"
+    />
+
     <!-- General Toast Feedback -->
     <transition
       enter-active-class="transition duration-300 ease-out"
@@ -309,6 +329,8 @@ import ProductModal from './ProductModal.vue'
 import DeleteConfirmModal from './DeleteConfirmModal.vue'
 import AiSettingsModal from './AiSettingsModal.vue'
 import DatabaseErdViewer from './DatabaseErdViewer.vue'
+import StaffManagement from './StaffManagement.vue'
+import StaffModal from './StaffModal.vue'
 
 defineEmits(['switchView'])
 
@@ -349,6 +371,12 @@ const currentHeaderInfo = computed(() => {
         badge: 'ANALITIK PENJUALAN',
         title: 'Tren Permintaan & Analitik Usaha',
         subtitle: 'Grafik kurva penjualan dan ringkasan komoditas panen harian Ajibarang'
+      }
+    case 'staff':
+      return {
+        badge: 'MANAJEMEN KARYAWAN',
+        title: 'Manajemen Akun Admin & Staf Operasional',
+        subtitle: 'Kelola otentikasi, hak akses, dan data karyawan langsung melalui sistem web CV Banong Farms'
       }
     case 'database':
       return {
@@ -473,5 +501,59 @@ const handleConfirmDelete = async (productId) => {
     }
   }
   isDeleteModalOpen.value = false
+}
+
+// Staff Management CRUD Handlers
+const isStaffModalOpen = ref(false)
+const staffToEdit = ref(null)
+
+const openAddStaffModal = () => {
+  staffToEdit.value = null
+  isStaffModalOpen.value = true
+}
+
+const openEditStaffModal = (staff) => {
+  staffToEdit.value = { ...staff }
+  isStaffModalOpen.value = true
+}
+
+const handleStaffSubmit = async (rawFormData) => {
+  if (!rawFormData) return
+  const formData = rawFormData.data ? { id: rawFormData.id, ...rawFormData.data } : rawFormData
+  const cleanName = formData.nama_lengkap || 'Karyawan'
+
+  try {
+    if (formData.id) {
+      const res = await adminStore.updateStaffMember(formData.id, formData)
+      if (res?.supabaseError) {
+        showToast(`Data staf diperbarui di Lokal, Supabase Cloud: ${res.supabaseError}`)
+      } else {
+        showToast(`Data karyawan "${cleanName}" berhasil diperbarui!`)
+      }
+    } else {
+      const res = await adminStore.addStaffMember(formData)
+      if (res?.supabaseError) {
+        showToast(`Akun tersimpan di Lokal, Supabase: ${res.supabaseError}`)
+      } else {
+        showToast(`Karyawan baru "${cleanName}" berhasil didaftarkan & tersimpan!`)
+      }
+    }
+  } catch (err) {
+    console.error('Error saat submit staff:', err)
+    showToast(`Gagal memproses data karyawan: ${err.message || err}`)
+  } finally {
+    isStaffModalOpen.value = false
+  }
+}
+
+const handleDeleteStaff = async (staffId) => {
+  const staff = adminStore.staffList.value.find(s => s.id === staffId)
+  const name = staff?.nama_lengkap || 'Karyawan'
+  const res = await adminStore.deleteStaffMember(staffId)
+  if (res?.supabaseError) {
+    showToast(`Staf dihapus di Lokal, Supabase Cloud: ${res.supabaseError}`)
+  } else {
+    showToast(`Akun staf "${name}" berhasil dihapus.`)
+  }
 }
 </script>
