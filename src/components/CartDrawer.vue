@@ -268,9 +268,19 @@
                   <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">
                     {{ item.title }}
                   </h4>
-                  <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 font-telemetry-code mt-0.5">
-                    {{ formatPrice(item.price) }} / {{ item.unit }}
-                  </span>
+                  <div class="flex items-center gap-1.5 flex-wrap mt-0.5">
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 font-telemetry-code">
+                      {{ formatPrice(getItemLivePrice(item)) }} / {{ item.unit }}
+                    </span>
+                    <!-- Badge info jika harga diperbarui oleh admin -->
+                    <span 
+                      v-if="item.oldPrice && Number(item.oldPrice) !== getItemLivePrice(item)"
+                      class="text-[9px] font-bold text-amber-900 dark:text-amber-200 bg-amber-100 dark:bg-amber-900/60 px-1.5 py-0.2 rounded border border-amber-300 dark:border-amber-700 font-telemetry-code"
+                      :title="`Harga otomatis diperbarui oleh Admin (sebelumnya ${formatPrice(item.oldPrice)})`"
+                    >
+                      Harga Diperbarui
+                    </span>
+                  </div>
 
                   <!-- Status Stok Real-time & Edukasi Item -->
                   <div v-if="getItemLiveStock(item) <= 0" class="mt-1 flex flex-col gap-0.5">
@@ -310,7 +320,7 @@
                     </div>
 
                     <span class="font-bold text-xs text-primary dark:text-secondary-container font-telemetry-code">
-                      {{ formatPrice(item.price * item.qty) }}
+                      {{ formatPrice(getItemLivePrice(item) * item.qty) }}
                     </span>
                   </div>
                 </div>
@@ -475,13 +485,21 @@ const checkoutStep = ref('form') // 'form' | 'confirm_wa' | 'success'
 const pendingOrder = ref(null)
 const lastCompletedOrderCode = ref('')
 
-// Sinkronisasi Stok Reaktif dengan useAdminStore
+// Sinkronisasi Stok & Harga Reaktif dengan useAdminStore
 const getItemLiveStock = (item) => {
   const liveProduct = adminStore.products.value.find(p => p.id === item.id)
   if (liveProduct && liveProduct.stock !== undefined) {
     return Number(liveProduct.stock)
   }
   return Number(item.stock) || 0
+}
+
+const getItemLivePrice = (item) => {
+  const liveProduct = adminStore.products.value.find(p => p.id === item.id)
+  if (liveProduct && liveProduct.price !== undefined) {
+    return Number(liveProduct.price)
+  }
+  return Number(item.price) || 0
 }
 
 const outOfStockItems = computed(() => {
@@ -527,8 +545,19 @@ const handleOpenWhatsApp = () => {
   }
 
   const orderCode = `BNG-${Date.now().toString().slice(-4)}`
-  const totalAmount = cartStore.totalPrice.value
-  const itemsSnapshot = [...cartStore.items.value]
+  
+  // Pastikan rincian harga selalu mengambil harga live terbaru (mencegah celah harga usang)
+  const itemsSnapshot = cartStore.items.value.map(it => {
+    const live = adminStore.products.value.find(p => p.id === it.id)
+    const effectivePrice = live && live.price !== undefined ? Number(live.price) : Number(it.price || 0)
+    const effectiveStock = live && live.stock !== undefined ? Number(live.stock) : Number(it.stock || 0)
+    return {
+      ...it,
+      price: effectivePrice,
+      stock: effectiveStock
+    }
+  })
+  const totalAmount = itemsSnapshot.reduce((sum, it) => sum + (it.price * it.qty), 0)
 
   // Susun format teks WhatsApp yang rapi
   let waText = `*PESANAN BARU - CV BANONG FARMS*\n`

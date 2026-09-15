@@ -340,6 +340,13 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
    - Tombol aksi otomatis berubah menjadi tombol kuning emas **`+ Isi Stok`** pada item berstok 0 untuk mempercepat pengisian kuantitas.
    - Tab filter cepat **`Perlu Diisi Stok (X)`** ditambahkan di atas tabel admin agar admin dapat langsung memfilter produk yang habis.
    - Perubahan stok yang disimpan admin langsung terhubung reaktif (`useAdminStore.products`) sehingga keranjang pelanggan otomatis membuka kuncian pembelian begitu stok diisi.
-4. **Verifikasi Build**:
-   - `npm run build` sukses 100% (6.06s) dengan 0 error.
+4. **Penutupan Celah Desinkronisasi Harga Keranjang (Price Sync Guard)**:
+   - Masalah Teridentifikasi: Jika user menambahkan produk (misal harga awal Rp 450.000), lalu admin mengubah harganya menjadi Rp 25.000 saat restok, keranjang user sebelumnya masih menyimpan harga usang Rp 450.000.
+   - Solusi Komprehensif:
+     - Ditambahkan watcher reaktif `syncCartWithLiveProducts` di `useCartStore.js` yang secara otomatis memperbarui harga (`item.price`), stok (`item.stock`), nama, dan atribut produk di keranjang setiap kali `adminStore.products` diperbarui (baik di tab yang sama, via BroadcastChannel multi-tab, maupun Supabase WebSocket).
+     - Perhitungan `totalPrice` di `useCartStore` memprioritaskan harga live terkini dari database/admin.
+     - Di `CartDrawer.vue`, tampilan harga satuan dan subtotal menggunakan `getItemLivePrice(item)` dan dilengkapi badge informatif `Harga Diperbarui` jika admin mengubah harga.
+     - Payload pesanan WhatsApp dan penyimpanan ke Supabase Cloud otomatis menggunakan snapshot harga terkini (Rp 25.000), menutup total celah eksploitasi harga lama.
+5. **Verifikasi Build**:
+   - `npm run build` sukses 100% (6.22s) dengan 0 error.
 
