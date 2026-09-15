@@ -178,7 +178,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['close', 'save', 'submit'])
+const emit = defineEmits(['close', 'save'])
 
 const isEditMode = computed(() => !!props.staffToEdit)
 const isLoading = ref(false)
@@ -246,7 +246,6 @@ const handleSubmit = () => {
 
   try {
     emit('save', payload)
-    emit('submit', payload)
   } finally {
     isLoading.value = false
   }

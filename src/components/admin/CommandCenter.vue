@@ -292,7 +292,6 @@
       :staffToEdit="staffToEdit"
       @close="isStaffModalOpen = false"
       @save="handleStaffSubmit"
-      @submit="handleStaffSubmit"
     />
 
     <!-- General Toast Feedback -->
@@ -517,8 +516,17 @@ const openEditStaffModal = (staff) => {
   isStaffModalOpen.value = true
 }
 
+const isSubmittingStaff = ref(false)
+
 const handleStaffSubmit = async (rawFormData) => {
-  if (!rawFormData) return
+  if (isSubmittingStaff.value) return
+  isSubmittingStaff.value = true
+
+  if (!rawFormData) {
+    isSubmittingStaff.value = false
+    return
+  }
+
   const formData = rawFormData.data ? { id: rawFormData.id, ...rawFormData.data } : rawFormData
   const cleanName = formData.nama_lengkap || 'Karyawan'
 
@@ -543,6 +551,7 @@ const handleStaffSubmit = async (rawFormData) => {
     showToast(`Gagal memproses data karyawan: ${err.message || err}`)
   } finally {
     isStaffModalOpen.value = false
+    isSubmittingStaff.value = false
   }
 }
 

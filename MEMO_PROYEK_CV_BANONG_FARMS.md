@@ -393,11 +393,16 @@ Saat pengguna membuka sesi berikutnya, asisten AI **wajib membaca checklist ini 
    - `npm run build` sukses 100% (5.94s) dengan 0 error dan 0 warning.
    - Server dev aktif melayani di `http://localhost:5173/` dengan respon HTTP 200 OK.
 7. **Perbaikan Masalah Event Click & Simpan Data Karyawan (Bugfix Sesi 15)**:
-   - **Akar Masalah:** `StaffModal.vue` memancarkan event `emit('submit', ...)` dengan objek tersarang (`data: { ... }`), sementara `CommandCenter.vue` mendengarkan event `@save="handleStaffSubmit"`. Hal ini menyebabkan fungsi penyimpanan tidak pernah terpicu saat tombol diklik, modal tidak tertutup, dan data karyawan tidak bertambah/terubah.
-   - **Solusi Komprehensif:**
-     - `StaffModal.vue` kini memancarkan kedua event `@save` dan `@submit` dengan payload datar siap pakai `{ id, nama_lengkap, email, password, peran, status }`.
-     - `CommandCenter.vue` kini mendengarkan kedua event `@save` dan `@submit`, serta menormalisasi payload dengan blok `try/catch/finally` agar modal selalu tertutup dan menampilkan toast status secara akurat.
-     - `useAdminStore.js` memperbarui fungsi `addStaffMember` dan `updateStaffMember` agar mendukung parameter `status` dan mengembalikan nilai status Supabase Cloud secara bersih.
+   - **Akar Masalah:** `StaffModal.vue` memancarkan event `emit('submit', ...)` dengan objek tersarang (`data: { ... }`), sementara `CommandCenter.vue` mendengarkan event `@save="handleStaffSubmit"`.
+   - **Solusi Komprehensif:** Menyelaraskan event dan struktur data payload datar `{ id, nama_lengkap, email, password, peran, status }`.
+8. **Pencegahan Duplikasi Akun Karyawan Ganda (Deduplikasi Email & Single Event)**:
+   - **Akar Masalah Akun Ganda:** Sempat terjadi pemancaran event ganda (`@save` dan `@submit` sekaligus) serta ketiadaan lock submit, sehingga satu klik memicu eksekusi penyimpanan dua kali (satu akun lokal temporer `#r-...` dan satu akun dengan UUID Supabase `#f9deb...`).
+   - **Solusi Terpadu:**
+     - `StaffModal.vue` kini hanya memancarkan satu event resmi: `emit('save', payload)`.
+     - `CommandCenter.vue` kini hanya mendengarkan `@save="handleStaffSubmit"` dengan penambahan guard `isSubmittingStaff` untuk mencegah double click.
+     - `useAdminStore.js` menambahkan fungsi `deduplicateStaff()` berbasis email unik yang otomatis membersihkan duplikat akun dan memprioritaskan UUID Supabase Cloud asli.
+     - `addStaffMember()` kini memeriksa apakah email sudah terdaftar; jika sudah ada, sistem akan mengalihkan ke pembaruan data (`updateStaffMember`) alih-alih membuat baris duplikat.
+
 
 
 

@@ -208,12 +208,33 @@ const DEFAULT_STAFF = [
   }
 ]
 
+function deduplicateStaff(list) {
+  if (!Array.isArray(list)) return []
+  const seenEmails = new Map()
+  for (const s of list) {
+    if (!s || !s.email) continue
+    const emailLower = s.email.trim().toLowerCase()
+    if (!seenEmails.has(emailLower)) {
+      seenEmails.set(emailLower, s)
+    } else {
+      // Jika salah satu memiliki ID UUID dari Supabase (bukan berawalan 'usr-'), prioritaskan yang UUID
+      const existing = seenEmails.get(emailLower)
+      const isCurrentUuid = typeof s.id === 'string' && !s.id.startsWith('usr-')
+      const isExistingTemp = typeof existing.id === 'string' && existing.id.startsWith('usr-')
+      if (isCurrentUuid && isExistingTemp) {
+        seenEmails.set(emailLower, s)
+      }
+    }
+  }
+  return Array.from(seenEmails.values())
+}
+
 function loadInitialStaff() {
   try {
     const raw = localStorage.getItem(STORAGE_STAFF_KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+      if (Array.isArray(parsed) && parsed.length > 0) return deduplicateStaff(parsed)
     }
   } catch (e) {}
   return DEFAULT_STAFF
@@ -341,7 +362,7 @@ async function syncWithSupabaseDatabase() {
       whatsappOrders.value = cloudOrders
     }
     if (Array.isArray(cloudStaff) && cloudStaff.length > 0) {
-      staffList.value = cloudStaff.map(s => ({
+      const mapped = cloudStaff.map(s => ({
         id: s.id,
         nama_lengkap: s.nama_lengkap || 'Staf Admin',
         email: s.email,
@@ -349,6 +370,9 @@ async function syncWithSupabaseDatabase() {
         status: s.status || 'Aktif',
         created_at: s.dibuat_pada || s.created_at || new Date().toISOString()
       }))
+      staffList.value = deduplicateStaff([...mapped, ...staffList.value])
+    } else {
+      staffList.value = deduplicateStaff(staffList.value)
     }
     broadcastUpdate()
 
@@ -1035,17 +1059,31 @@ function resetAllDataToZero() {
 
 // Staff / Admin Accounts Operations
 async function addStaffMember({ nama_lengkap, email, password, peran, status }) {
+  const cleanEmail = (email || '').trim().toLowerCase()
+  const cleanName = (nama_lengkap || '').trim()
+
+  // Cek apakah akun dengan email ini sudah ada (mencegah double submit)
+  const existingIdx = staffList.value.findIndex(s => s.email && s.email.trim().toLowerCase() === cleanEmail)
+  if (existingIdx !== -1) {
+    return updateStaffMember(staffList.value[existingIdx].id, {
+      nama_lengkap: cleanName,
+      peran: peran || staffList.value[existingIdx].peran,
+      status: status || staffList.value[existingIdx].status
+    })
+  }
+
   const newId = 'usr-' + Date.now().toString().slice(-6)
   const newStaff = {
     id: newId,
-    nama_lengkap: (nama_lengkap || '').trim(),
-    email: (email || '').trim().toLowerCase(),
+    nama_lengkap: cleanName,
+    email: cleanEmail,
     peran: peran || 'Admin Gudang & Stok',
     status: status || 'Aktif',
     created_at: new Date().toISOString()
   }
 
   staffList.value.unshift(newStaff)
+  staffList.value = deduplicateStaff(staffList.value)
   broadcastUpdate()
 
   let supabaseResult = null
@@ -1060,6 +1098,7 @@ async function addStaffMember({ nama_lengkap, email, password, peran, status }) 
       })
       if (supabaseResult.success && supabaseResult.data?.id) {
         newStaff.id = supabaseResult.data.id
+        staffList.value = deduplicateStaff(staffList.value)
         broadcastUpdate()
       } else if (!supabaseResult.success) {
         supabaseError = supabaseResult.message
