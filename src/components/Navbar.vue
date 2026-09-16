@@ -86,17 +86,6 @@
             Hubungi kami
           </a>
 
-          <!-- User Profile / CommandCenter Admin Trigger Button -->
-          <button
-            @click="$emit('openAdmin')"
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary hover:bg-primary-container text-white flex items-center justify-center shadow-md border border-white/20 active:scale-95 transition-all cursor-pointer shrink-0"
-            title="Masuk ke CommandCenter Admin"
-            aria-label="Admin Profile"
-            type="button"
-          >
-            <span class="material-symbols-outlined text-[19px] sm:text-[21px]">person</span>
-          </button>
-
           <!-- Dark Mode Toggle Button -->
           <button
             @click="toggleTheme"
@@ -126,17 +115,6 @@
             >
               {{ cartStore.totalItems.value }}
             </span>
-          </button>
-
-          <!-- Mobile User Admin Button -->
-          <button
-            @click="$emit('openAdmin')"
-            class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center border border-white/20 shadow-xs cursor-pointer"
-            title="Admin Login"
-            aria-label="Admin Profile"
-            type="button"
-          >
-            <span class="material-symbols-outlined text-[18px]">person</span>
           </button>
 
           <!-- Mobile Hamburger Toggle Button -->
@@ -217,7 +195,7 @@ defineEmits(['openAdmin'])
 
 const cartStore = useCartStore()
 
-const activeNav = ref('katalog')
+const activeNav = ref('tentang')
 const isMobileMenuOpen = ref(false)
 const isDark = ref(false)
 const isNavbarHidden = ref(false)
@@ -292,10 +270,9 @@ const toggleTheme = () => {
 }
 
 const navItems = [
-  { id: 'katalog', name: 'Katalog', href: '#katalog-produk' },
-  { id: 'lokasi', name: 'Lokasi', href: '#lokasi-farm' },
   { id: 'tentang', name: 'Tentang', href: '#tentang-kami' },
-  { id: 'kontak', name: 'Kontak', href: '#kontak' },
+  { id: 'katalog', name: 'Katalog', href: '#katalog-produk' },
+  { id: 'kontak', name: 'Kontak', href: '#contact' },
 ]
 </script>
 

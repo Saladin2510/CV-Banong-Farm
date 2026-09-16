@@ -1,6 +1,6 @@
 <template>
   <section 
-    id="cta-panen"
+    id="contact"
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80"
   >
     <!-- Soft Decorative Ambient Glows (Blue & Yellow) -->

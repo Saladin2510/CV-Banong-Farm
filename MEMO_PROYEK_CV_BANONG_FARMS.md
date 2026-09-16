@@ -41,12 +41,12 @@ Sesuai arahan mutlak proyek ini, seluruh UI/UX landing page wajib tunduk pada **
   - *Saat di-scroll melewati Hero:* Kaca semi-pekat tajam (`bg-white/85 dark:bg-[#022448]/90 backdrop-blur-2xl border border-slate-200/70 shadow-[0_12px_36px_rgba(2,36,72,0.15)]`) agar keterbacaan teks tetap sempurna di atas latar putih.
 - **Elemen Navigasi:**
   - *Brand Logo & Info:* Logo resmi CV Banong Farms bulat + judul tebal navy + subjudul lokasi `"Ajibarang, Jawa Tengah"`.
-  - *Tautan Tengah:* Katalog, Lokasi, Tentang, Kontak dengan soft pill indicator pada link aktif/hover.
+  - *Tautan Tengah:* **Tentang** (`#tentang-kami` / `#visi-misi`), **Katalog** (`#katalog-produk`), **Kontak** (`#contact`) dengan soft pill indicator pada link aktif/hover (urutan selaras dengan alur vertikal halaman).
   - *Aksi Kanan:*
     1. Tombol **"🛒 Keranjang"** semi-transparan dengan badge angka item jika ada belanjaan.
     2. Tombol **"Hubungi kami"** kapsul kuning emas (`#fcd400` / `#e6c200`) ke WhatsApp Admin `08999192861`.
-    3. Tombol **Profil Admin** bundar navy (`#022448`) dengan ikon siluet user untuk berpindah langsung ke CommandCenter Admin (`@openAdmin`).
-    4. Tombol **Mode Terang/Gelap** bundar kaca transparan.
+    3. Tombol **Mode Terang/Gelap** bundar kaca transparan.
+    4. *(Catatan: Tombol Profil Admin di navbar publik telah dihapus total demi estetika bersih dan keamanan operasional. Akses Admin dialihkan murni via rute URL `#/admin`).*
 - **Dukungan Mobile:** Dropdown drawer melayang yang serasi dengan estetika pill glassmorphism.
 
 ### B. 5-Baris Marquee Menu Interaktif (`src/components/InteractiveMarqueeMenu.vue`)
@@ -64,6 +64,7 @@ Sesuai arahan mutlak proyek ini, seluruh UI/UX landing page wajib tunduk pada **
   - **Arah Popup Foto:** Baris 1-2 membuka ke bawah, sedangkan baris 3, 4, dan 5 membuka **ke atas** (`bottom-[...]`) sehingga kartu foto tidak pernah terpotong oleh batas bawah section.
 
 ### C. Kluster Foto Polaroid & CTA Section (`src/components/PolaroidCtaSection.vue`)
+- **Nama/ID Section Baru:** Diubah menjadi `id="contact"` agar selaras dengan target tautan navigasi Navbar `Kontak`.
 - **Headline Rapi 1 Baris:** *"PANEN SEGAR, ALAMI!"* tanpa pemotongan kata canggung.
 - **Kluster Polaroid 3 Foto Asimetris:** Jarak lapang terhadap teks kanan, skala kartu seimbang.
 - **Tombol CTA Kuning Emas:** Tombol merah lama telah diganti dengan tombol Kuning Emas khas Banong Farm (`bg-secondary-container hover:bg-accent-hover text-primary font-black border border-yellow-400/40`).
@@ -508,4 +509,23 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
   - 10% Kuning Emas (`secondary-container` `#fcd400` / `#e6c200` untuk tombol *"Demo PSAJ"*, badge mahkota Best Seller, dan aksen metrik).
 - **Standar Satuan:** Seluruh kuantiti menggunakan satuan resmi **`pcs`** yang konsisten.
 - **Verifikasi Build:** `npm run build` sukses 100% (6.25s) dengan status build `dist/` bersih dan 0 error.
+
+---
+
+## 17. Catatan Sesi (16 September 2026) - Penyelarasan Navbar Publik, Section Kontak, & Penghapusan Tombol Admin Navbar
+1. **Penyelarasan Urutan Menu Navigasi Navbar (`Navbar.vue`)**:
+   - Menu navigasi disederhanakan dan diurutkan selaras dengan alur vertikal landing page:
+     1. **Tentang** (`#tentang-kami` / `#visi-misi`): Menuju ke seksi Visi & Misi Farm.
+     2. **Katalog** (`#katalog-produk`): Menuju ke seksi Katalog Segar Hari Ini & filter komoditas.
+     3. **Kontak** (`#contact`): Menuju ke seksi Polaroid CTA Panen Alami yang telah diganti namanya.
+   - Tautan *"Lokasi"* lama yang sebelumnya berdiri sendiri telah dihapus untuk mengoptimalkan ruang dan keterbacaan navigasi kapsul.
+2. **Pengubahan Nama/ID Seksi Polaroid CTA (`PolaroidCtaSection.vue`)**:
+   - ID elemen seksi diubah dari `id="cta-panen"` menjadi **`id="contact"`** sesuai arahan pengguna agar selaras dengan target tautan `Kontak` di Navbar.
+3. **Penghapusan Tombol Profil Admin di Navbar Publik (`Navbar.vue`)**:
+   - Tombol bulat Admin Profile (`<!-- User Profile / CommandCenter Admin Trigger Button -->`) di desktop dan mobile navbar telah **dihapus total**.
+   - Landing page publik kini tampil 100% bersih untuk pengunjung umum tanpa tombol admin mencolok.
+   - Hak akses login admin tetap aman dan dapat diakses langsung melalui URL route **`http://localhost:5173/#/admin`**.
+4. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (7.57s) dengan 104 modul ter-bundle sempurna dan 0 error.
+
 
