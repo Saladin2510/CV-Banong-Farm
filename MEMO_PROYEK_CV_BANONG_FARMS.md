@@ -735,6 +735,36 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (8.07s) dengan 103 modul ter-bundle sempurna dan 0 error.
    - Database Supabase Cloud dan memori lokal tersinkronisasi murni dan stabil.
 
+---
+
+## 24. Catatan Sesi (16 September 2026 - Bagian 8) - Pembuatan Gambar 2.7 Arsitektur Sistem Lengkap dengan Logo Resmi
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna membutuhkan diagram **Arsitektur Sistem (Gambar 2.7)** untuk laporan ujian/karya tulis ilmiah PSAJ.
+   - Diagram awal di PlantText dinilai terlalu lebar, kemudian diagram minimalis di PlantText mengalami kendala render font server Java (ikon emoji muncul sebagai kotak kosong `▯`) serta dinilai kurang menarik karena tidak ada logo resmi teknologi.
+   - Pengguna meminta agar tampilannya dibuat rapi dan proporsional persis seperti referensi *Gambar 2.5 (3-Tier Architecture)* namun dilengkapi logo resmi teknologi yang menarik.
+2. **Solusi yang Diterapkan:**
+   - **Pembuatan Gambar Diagram Vektor Beresolusi Tinggi (Ultra-HD / 300 DPI):**
+     - Dibuat script generator `generate_diagram.py` yang memproduksi file gambar:
+       - `public/assets/gambar_2_7_arsitektur_sistem.png` (resolusi 2040 x 1560 px, tajam untuk dicetak pada kertas A4 Word).
+       - `public/assets/diagram_arsitektur_sistem.html` (sumber kode HTML/SVG interaktif).
+     - **Dilengkapi Logo Vektor Resmi Berwarna:**
+       1. **Laptop & Smartphone:** Ikon perangkat modern biru.
+       2. **Tablet & PC Admin:** Ikon konsol manajemen hijau emerald.
+       3. **Vue.js 3:** Logo resmi hijau dan biru gelap (*Emerald & Navy*).
+       4. **WhatsApp:** Logo resmi hijau dengan gagang telepon putih.
+       5. **Google Gemini AI:** Logo bintang radian resmi (*gradient blue, purple, pink*).
+       6. **Supabase Cloud:** Logo petir resmi hijau emerald.
+       7. **PostgreSQL:** Logo resmi database biru.
+     - **Struktur 3-Tier Sempurna:**
+       - Tier 1: Tampilan Pengguna (*Presentation Layer*)
+       - Tier 2: Logika Aplikasi & Integrasi (*Application & Integration Layer*)
+       - Tier 3: Penyimpanan Data (*Data Layer*)
+     - **Garis Panah Terarah Presisi:** Dilengkapi badge keterangan protokol (`REST API / HTTPS`, `Click-to-Chat API`, `Analitik AI / HTTPS`, `Query Data & Realtime`, `Catat Pesanan Baru`, `Simpan Strategi AI`).
+   - **Pemutakhiran Kode PlantText Bersih:** Menghapus karakter emoji yang rentan gagal render di server PlantText dan menggantinya dengan tag teks formal.
+3. **Hasil:**
+   - Gambar siap pakai langsung disisipkan ke laporan Microsoft Word tanpa perlu mengunduh manual dari pihak ketiga.
+
+
 
 
 
