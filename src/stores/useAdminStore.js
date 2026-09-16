@@ -5,9 +5,9 @@ import { analyzePredictiveStockAndRevenue } from '../services/aiService'
 
 const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
 const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
-const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v9'
+const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v10'
 const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v2'
-const STORAGE_AI_PREDICTIONS_KEY = 'cv_banong_ai_predictions_v1'
+const STORAGE_AI_PREDICTIONS_KEY = 'cv_banong_ai_predictions_v2'
 
 // Clear legacy cached data from previous mock versions to start fresh in PCS unit
 if (typeof window !== 'undefined' && window.localStorage) {
@@ -20,6 +20,7 @@ if (typeof window !== 'undefined' && window.localStorage) {
       'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6',
       'cv_banong_farms_products_pcs_v7', 'cv_banong_farms_orders_pcs_v7', 'cv_banong_farms_daily_chart_pcs_v7',
       'cv_banong_farms_products_pure_v8', 'cv_banong_farms_orders_pure_v8', 'cv_banong_farms_daily_chart_pure_v8',
+      'cv_banong_farms_daily_chart_pure_v9', 'cv_banong_ai_predictions_v1',
       'cv_banong_farms_staff_pure_v1',
       'cv_banong_reset_zero_synced_v8'
     ].forEach(k => localStorage.removeItem(k))
@@ -1310,23 +1311,8 @@ async function trainAiModelWithDataset(transactions) {
     dailyChartMap.value[dateStr] = dayVolumeMap[dateStr]
   })
 
-  // Simpan ke Supabase Cloud metrik_harian jika terhubung
-  if (isSupabaseConnected.value) {
-    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
-    for (const dateStr of Object.keys(dayVolumeMap)) {
-      try {
-        const d = new Date(dateStr)
-        const labelHari = isNaN(d.getTime()) ? 'Hari' : dayNames[d.getDay()]
-        await supabaseApi.upsertDailyMetric({
-          tanggal: dateStr,
-          label_hari: labelHari,
-          volume_aktual_kg: dayVolumeMap[dateStr]
-        })
-      } catch (e) {
-        console.warn('Upsert metric error for', dateStr, e)
-      }
-    }
-  }
+  // CATATAN ARSITEKTUR: Data sintetis simulasi demo TIDAK di-upload ke Supabase Cloud metrik_harian
+  // agar database cloud tetap bersih dan grafik analitik dapat dipulihkan ke data asli dengan akurat.
 
   // 2. Jalankan Dual-Engine AI Predictive Analytics
   const result = await analyzePredictiveStockAndRevenue({
@@ -1433,37 +1419,90 @@ function buildLivePredictionsFromProducts() {
   }
 }
 
-// Reset dan Kembalikan ke Data Asli Supabase Cloud (Mengeliminasi data sintetis Demo PSAJ)
+// Reset dan Kembalikan ke Data Asli Supabase Cloud (Mengeliminasi data sintetis Demo PSAJ & membersihkan database)
 async function resetAiModelToSupabase() {
+  // 1. Hapus seluruh data sintetis dari tabel metrik_harian di Supabase Cloud jika terhubung
+  if (isSupabaseConnected.value) {
+    try {
+      await supabaseApi.clearDailyMetrics()
+    } catch (e) {
+      console.warn('Gagal membersihkan metrik harian Supabase:', e)
+    }
+  }
+
+  // 2. Bersihkan seluruh penyimpanan lokal chart & prediksi demo
   try {
     localStorage.removeItem(STORAGE_AI_PREDICTIONS_KEY)
+    localStorage.removeItem(STORAGE_CHART_KEY)
   } catch (_) {}
 
-  // Kosongkan dailyChartMap ke nol
+  // 3. Reset total dailyChartMap murni ke nol untuk seluruh 7 hari
   const freshChartMap = {}
   const days = getDynamicLast7Days()
   days.forEach(d => { freshChartMap[d.isoKey] = 0 })
   dailyChartMap.value = freshChartMap
 
-  // Sinkronisasi ulang dengan Supabase Cloud jika terhubung
-  if (isSupabaseConnected.value) {
-    await syncWithSupabaseDatabase()
-  } else {
+  // 4. Hitung HANYA transaksi pesanan WhatsApp yang nyata (jika ada)
+  if (Array.isArray(whatsappOrders.value) && whatsappOrders.value.length > 0) {
     whatsappOrders.value.forEach(o => {
       if (o.status === 'Selesai' || o.status === 'Stok Terupdate Otomatis') {
         const ordDate = o.timestamp ? formatLocalDateKey(new Date(o.timestamp)) : formatLocalDateKey(new Date())
-        dailyChartMap.value[ordDate] = (dailyChartMap.value[ordDate] || 0) + (Number(o.qty) || 1)
+        dailyChartMap.value[ordDate] = (dailyChartMap.value[ordDate] || 0) + (Number(o.qty) || 0)
       }
     })
   }
 
-  // Bangun ulang prediksi murni dari produk Supabase
+  // 5. Jika terhubung ke Supabase, sinkronisasi produk asli dan catat metrik riil (jika ada pesanan aktif)
+  if (isSupabaseConnected.value) {
+    try {
+      const cloudProducts = await supabaseApi.getProducts()
+      if (Array.isArray(cloudProducts) && cloudProducts.length > 0) {
+        const filtered = cloudProducts.filter(p => !isMockProduct(p))
+        if (filtered.length > 0) {
+          products.value = filtered.map(p => ({
+            id: Number(p.id),
+            name: p.nama_produk || p.name || 'Produk Pakan',
+            title: p.nama_produk || p.name || 'Produk Pakan',
+            category: p.category_name || 'Peternakan Unggas',
+            categoryId: getCategoryId(p.category_name || 'Peternakan Unggas'),
+            price: Number(p.harga ?? p.price) || 0,
+            stock: Number(p.stok ?? p.stock) || 0,
+            maxStock: Number(p.stok_maksimal ?? p.max_stock) || 5000,
+            unit: p.satuan || p.unit || 'pcs',
+            soldCount: Number(p.jumlah_terjual ?? p.sold_count) || 0,
+            icon: 'eco',
+            image: p.url_gambar || p.image_url || '/assets/product-fertilizer.png',
+            description: p.deskripsi || p.description || ''
+          }))
+        }
+      }
+
+      // Jika ada pesanan nyata yang memiliki volume > 0, upload hanya tanggal tersebut ke metrik_harian
+      const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+      for (const [tgl, vol] of Object.entries(dailyChartMap.value)) {
+        if (vol > 0) {
+          const d = new Date(tgl)
+          const labelHari = isNaN(d.getTime()) ? 'Hari' : dayNames[d.getDay()]
+          await supabaseApi.upsertDailyMetric({
+            tanggal: tgl,
+            label_hari: labelHari,
+            volume_aktual_kg: vol
+          })
+        }
+      }
+    } catch (e) {
+      console.warn('Sinkronisasi Supabase saat reset metrik error:', e)
+    }
+  }
+
+  // 6. Bangun ulang proyeksi AI murni dari produk Supabase riil
   const liveProjections = buildLivePredictionsFromProducts()
   aiPredictions.value = liveProjections
   cloudAiStrategyText.value = liveProjections.strategicAnalysis
 
   try {
     localStorage.setItem(STORAGE_AI_PREDICTIONS_KEY, JSON.stringify(liveProjections))
+    localStorage.setItem(STORAGE_CHART_KEY, JSON.stringify(dailyChartMap.value))
   } catch (_) {}
 
   broadcastUpdate()

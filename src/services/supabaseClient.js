@@ -234,7 +234,7 @@ export const supabaseApi = {
 
       // 4. Hapus riwayat metrik harian jika ada
       try {
-        await client.from('metrik_harian').delete().neq('volume_aktual_kg', -9999)
+        await client.from('metrik_harian').delete().neq('tanggal', '1970-01-01')
       } catch (_) {}
 
       return { success: true, message: 'Supabase Cloud berhasil di-reset ke default NOL murni.' }
@@ -689,6 +689,22 @@ export const supabaseApi = {
     } catch (err) {
       console.warn('Supabase upsertDailyMetric error:', err)
       return null
+    }
+  },
+
+  async clearDailyMetrics() {
+    const client = getSupabase()
+    if (!client) return { success: false, message: 'Supabase client tidak tersedia' }
+    try {
+      const { error } = await client
+        .from('metrik_harian')
+        .delete()
+        .neq('tanggal', '1970-01-01')
+      if (error) throw error
+      return { success: true }
+    } catch (err) {
+      console.warn('Supabase clearDailyMetrics error:', err)
+      return { success: false, message: err.message }
     }
   },
 

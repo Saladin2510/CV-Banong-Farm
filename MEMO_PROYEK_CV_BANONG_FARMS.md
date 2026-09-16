@@ -609,6 +609,38 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 5. **Verifikasi Build Produksi**:
    - `npm run build` sukses 100% (7.04s) dengan 103 modul ter-bundle sempurna dan 0 error.
 
+---
+
+## 20. Catatan Sesi (16 September 2026 - Bagian 4) - Pembersihan Total Data Sintetis Demo PSAJ di Supabase Cloud & Perbaikan Grafik Stuck
+1. **Investigasi Akar Masalah Grafik Macet (Stuck) pada Data Demo PSAJ**:
+   - **Gejala:** Setelah pengguna menekan tombol *"⚡ Demo PSAJ: Muat 30 Hari Data"* dan kemudian menekan tombol *"Kembalikan ke Data Asli (Supabase)"*, grafik perkiraan penjualan 7 hari tetap tertahan (stuck) menampilkan angka tinggi (puncak 171 pcs, 120-170 pcs).
+   - **Akar Penyebab (Root Cause):**
+     1. Fungsi `trainAiModelWithDataset` sebelumnya mengeksekusi `supabaseApi.upsertDailyMetric(...)` untuk seluruh 30 hari data transaksi sintetis demo. Hal ini menyebabkan 30 baris data fiktif terunggah langsung ke tabel produksi PostgreSQL Supabase Cloud (`metrik_harian`).
+     2. Saat tombol pemulihan ditekan, sistem memanggil `syncWithSupabaseDatabase()`. Karena Supabase Cloud masih menyimpan 30 baris data demo tersebut, fungsi sinkronisasi mengambil kembali data fiktif itu dan mengisi ulang `dailyChartMap.value` serta `localStorage` (`cv_banong_farms_daily_chart_pure_v9`).
+     3. Akibatnya, grafik tampak macet seolah tombol pemulihan tidak bekerja.
+2. **Tindakan Pembersihan & Solusi Arsitektur**:
+   - **Pertanyaan Pengguna:** *"apakah lebih baik hapus datanya sjaa???"*
+   - **Tindakan:** **Ya, data demo sintetis langsung dihapus total dari Supabase Cloud dan cache lokal!**
+   - **Langkah-langkah yang Diterapkan:**
+     1. **Penambahan Fungsi `clearDailyMetrics()` (`supabaseClient.js`):** Menghapus seluruh rekaman fiktif dari tabel `metrik_harian` via query Supabase `delete().neq('tanggal', '1970-01-01')`.
+     2. **Pembersihan Database Supabase Cloud Langsung:** 30 baris data demo fiktif di tabel `metrik_harian` telah berhasil dihapus hingga tersisa **0 baris** (kembali murni).
+     3. **Proteksi Isolasi Data Demo (`useAdminStore.js`):** Menghapus proses upload data sintetis ke Supabase Cloud pada `trainAiModelWithDataset`. Data simulasi demo kini hanya diolah di memori frontend/lokal dan tidak pernah mencemari database cloud operasional.
+     4. **Pembaruan Fungsi `resetAiModelToSupabase()` (`useAdminStore.js`):**
+        - Otomatis memanggil `supabaseApi.clearDailyMetrics()`.
+        - Menghapus kunci cache `localStorage` (`STORAGE_AI_PREDICTIONS_KEY` dan `STORAGE_CHART_KEY`).
+        - Me-reset `dailyChartMap.value` murni ke 0 untuk seluruh 7 hari.
+        - Hanya menghitung transaksi pesanan WhatsApp riil yang berstatus Selesai/Aktif (jika ada).
+        - Membangun kembali proyeksi AI berdasarkan produk riil Supabase.
+     5. **Eviction Cache Versi Browser (`STORAGE_CHART_KEY = 'v10'`):** Menambahkan `v9` ke daftar pembersihan otomatis saat startup aplikasi agar browser pengguna langsung terbebas dari sisa cache demo lama tanpa harus clear browser cache manual.
+3. **Penyempurnaan Tombol Aksi di Tampilan (`AiAnalyticsSection.vue`)**:
+   - Label tombol diperjelas: **`Hapus Data Demo & Kembali ke Data Asli`**.
+   - Dilengkapi animasi indikator proses (`progress_activity`) saat pembersihan berlangsung.
+   - Dilengkapi pesan konfirmasi keberhasilan berwarna hijau: **`Data Asli Berhasil Dipulihkan ✓`** dengan ikon `check_circle`.
+   - Kurva garis grafik langsung di-*force update* ke nilai aktual 0 pcs secara instan.
+4. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (7.80s) dengan 103 modul ter-bundle sempurna dan 0 error.
+   - Status baris tabel `metrik_harian` di Supabase Cloud terverifikasi: **0 baris** (bersih total).
+
 
 
 

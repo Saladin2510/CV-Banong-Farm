@@ -190,12 +190,12 @@
           @click="handleResetToSupabase"
           :disabled="isResettingToSupabase"
           class="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary-container text-white active:scale-95 font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer border border-white/20 disabled:opacity-60"
-          title="Kembalikan semua grafik dan kartu prediksi ke data produk asli Supabase Cloud"
+          title="Hapus data demo sintetis dan kembalikan grafik serta prediksi ke data asli Supabase Cloud"
         >
-          <span class="material-symbols-outlined text-[17px]" :class="{ 'animate-spin': isResettingToSupabase }">
-            {{ isResettingToSupabase ? 'progress_activity' : 'restart_alt' }}
+          <span class="material-symbols-outlined text-[17px]" :class="{ 'animate-spin': isResettingToSupabase, 'text-emerald-300': resetSuccess }">
+            {{ isResettingToSupabase ? 'progress_activity' : (resetSuccess ? 'check_circle' : 'restart_alt') }}
           </span>
-          <span>{{ isResettingToSupabase ? 'Memulihkan Data...' : 'Kembalikan ke Data Asli (Supabase)' }}</span>
+          <span>{{ isResettingToSupabase ? 'Menghapus Data Demo...' : (resetSuccess ? 'Data Asli Berhasil Dipulihkan ✓' : 'Hapus Data Demo &amp; Kembali ke Data Asli') }}</span>
         </button>
 
         <!-- Quick PSAJ Demo 30 Days -->
@@ -436,6 +436,7 @@ const handleDownloadTemplate = () => {
 }
 
 const isResettingToSupabase = ref(false)
+const resetSuccess = ref(false)
 
 const formattedFullToday = computed(() => {
   return adminStore.formatFullIndonesianDate ? adminStore.formatFullIndonesianDate() : 'Rabu, 16/09/2026'
@@ -446,13 +447,15 @@ const handleResetToSupabase = async () => {
   try {
     const res = await adminStore.resetAiModelToSupabase()
     if (res?.success) {
+      resetSuccess.value = true
+      setTimeout(() => { resetSuccess.value = false }, 3500)
       customAiText.value = res.predictions?.strategicAnalysis || ''
       const currentConfig = getCurrentConfig(activePeriod.value)
       peakInfo.value = currentConfig.peak
       if (chartInstance) {
         chartInstance.data.labels = currentConfig.labels
-        chartInstance.data.datasets[0].data = currentConfig.actual
-        chartInstance.data.datasets[1].data = currentConfig.predicted
+        chartInstance.data.datasets[0].data = [...currentConfig.actual]
+        chartInstance.data.datasets[1].data = [...currentConfig.predicted]
         chartInstance.update()
       }
     }
