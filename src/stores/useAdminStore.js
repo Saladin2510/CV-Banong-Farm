@@ -1442,13 +1442,50 @@ async function resetAiModelToSupabase() {
     localStorage.removeItem(STORAGE_CHART_KEY)
   } catch (_) {}
 
-  // 3. Reset total dailyChartMap murni ke nol untuk seluruh 7 hari
+  // 3. Tarik data riil terbaru langsung dari Supabase Cloud (Produk & Pesanan)
+  if (isSupabaseConnected.value) {
+    try {
+      const [cloudProds, cloudOrders] = await Promise.all([
+        supabaseApi.getProducts().catch(() => null),
+        supabaseApi.getOrders().catch(() => null)
+      ])
+
+      if (Array.isArray(cloudOrders) && cloudOrders.length > 0) {
+        whatsappOrders.value = cloudOrders
+      }
+
+      if (Array.isArray(cloudProds) && cloudProds.length > 0) {
+        const filtered = cloudProds.filter(p => !isMockProduct(p))
+        if (filtered.length > 0) {
+          products.value = filtered.map(p => ({
+            id: Number(p.id),
+            name: p.name || p.nama_produk || 'Produk Pakan',
+            title: p.title || p.name || p.nama_produk || 'Produk Pakan',
+            category: p.category || p.category_name || 'Peternakan Unggas',
+            categoryId: getCategoryId(p.category || p.category_name || 'Peternakan Unggas'),
+            price: Number(p.price ?? p.harga) || 0,
+            stock: Number(p.stock ?? p.stok) || 0,
+            maxStock: Number(p.maxStock ?? p.stok_maksimal ?? p.max_stock) || 5000,
+            unit: p.unit || p.satuan || 'pcs',
+            soldCount: Number(p.soldCount ?? p.jumlah_terjual ?? p.sold_count) || 0,
+            icon: p.icon || p.ikon || 'eco',
+            image: p.image || p.url_gambar || p.image_url || '/assets/product-fertilizer.png',
+            description: p.description || p.deskripsi || ''
+          }))
+        }
+      }
+    } catch (e) {
+      console.warn('Sinkronisasi Supabase saat reset metrik error:', e)
+    }
+  }
+
+  // 4. Reset total dailyChartMap murni ke nol untuk seluruh 7 hari
   const freshChartMap = {}
   const days = getDynamicLast7Days()
   days.forEach(d => { freshChartMap[d.isoKey] = 0 })
   dailyChartMap.value = freshChartMap
 
-  // 4. Hitung HANYA transaksi pesanan WhatsApp yang nyata (jika ada)
+  // 5. Hitung HANYA transaksi pesanan WhatsApp yang nyata dari database
   if (Array.isArray(whatsappOrders.value) && whatsappOrders.value.length > 0) {
     whatsappOrders.value.forEach(o => {
       if (o.status === 'Selesai' || o.status === 'Stok Terupdate Otomatis') {
@@ -1458,32 +1495,9 @@ async function resetAiModelToSupabase() {
     })
   }
 
-  // 5. Jika terhubung ke Supabase, sinkronisasi produk asli dan catat metrik riil (jika ada pesanan aktif)
+  // 6. Jika ada pesanan nyata yang memiliki volume > 0, upload hanya tanggal tersebut ke metrik_harian Supabase
   if (isSupabaseConnected.value) {
     try {
-      const cloudProducts = await supabaseApi.getProducts()
-      if (Array.isArray(cloudProducts) && cloudProducts.length > 0) {
-        const filtered = cloudProducts.filter(p => !isMockProduct(p))
-        if (filtered.length > 0) {
-          products.value = filtered.map(p => ({
-            id: Number(p.id),
-            name: p.nama_produk || p.name || 'Produk Pakan',
-            title: p.nama_produk || p.name || 'Produk Pakan',
-            category: p.category_name || 'Peternakan Unggas',
-            categoryId: getCategoryId(p.category_name || 'Peternakan Unggas'),
-            price: Number(p.harga ?? p.price) || 0,
-            stock: Number(p.stok ?? p.stock) || 0,
-            maxStock: Number(p.stok_maksimal ?? p.max_stock) || 5000,
-            unit: p.satuan || p.unit || 'pcs',
-            soldCount: Number(p.jumlah_terjual ?? p.sold_count) || 0,
-            icon: 'eco',
-            image: p.url_gambar || p.image_url || '/assets/product-fertilizer.png',
-            description: p.deskripsi || p.description || ''
-          }))
-        }
-      }
-
-      // Jika ada pesanan nyata yang memiliki volume > 0, upload hanya tanggal tersebut ke metrik_harian
       const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
       for (const [tgl, vol] of Object.entries(dailyChartMap.value)) {
         if (vol > 0) {
@@ -1497,11 +1511,11 @@ async function resetAiModelToSupabase() {
         }
       }
     } catch (e) {
-      console.warn('Sinkronisasi Supabase saat reset metrik error:', e)
+      console.warn('Upsert metrik harian riil error:', e)
     }
   }
 
-  // 6. Bangun ulang proyeksi AI murni dari produk Supabase riil
+  // 7. Bangun ulang proyeksi AI murni dari produk Supabase riil
   const liveProjections = buildLivePredictionsFromProducts()
   aiPredictions.value = liveProjections
   cloudAiStrategyText.value = liveProjections.strategicAnalysis
@@ -1509,6 +1523,8 @@ async function resetAiModelToSupabase() {
   try {
     localStorage.setItem(STORAGE_AI_PREDICTIONS_KEY, JSON.stringify(liveProjections))
     localStorage.setItem(STORAGE_CHART_KEY, JSON.stringify(dailyChartMap.value))
+    localStorage.setItem(STORAGE_PRODUCTS_KEY, JSON.stringify(products.value))
+    localStorage.setItem(STORAGE_ORDERS_KEY, JSON.stringify(whatsappOrders.value))
   } catch (_) {}
 
   broadcastUpdate()

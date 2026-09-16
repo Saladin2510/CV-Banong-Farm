@@ -104,7 +104,7 @@
           <div class="flex items-center justify-between gap-1.5 text-xs text-cc-orange-strong font-telemetry-code font-bold mb-2">
             <div class="flex items-center gap-1 truncate">
               <span class="material-symbols-outlined text-[16px]">stars</span>
-              <span class="truncate">TREN: {{ topProduct?.name || 'Produk Unggulan' }}</span>
+              <span class="truncate">TREN: {{ activeInsightProduct?.name || 'Produk Unggulan' }}</span>
             </div>
             <button 
               @click="handleGenerateStrategy"
@@ -137,14 +137,14 @@
           <div class="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-[#0d1117] border border-slate-100 dark:border-slate-800 text-xs">
             <span class="text-[#797067] dark:text-slate-400 font-medium">Status Stok Produk</span>
             <span class="font-telemetry-code font-bold text-amber-600 dark:text-amber-400">
-              {{ (topProduct?.stock || 0) < 10 ? 'Stok Menipis' : 'Stabilitas Aman' }}
+              {{ (activeInsightProduct?.stock || 0) < 10 ? 'Stok Menipis' : 'Stabilitas Aman' }}
             </span>
           </div>
 
           <div class="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-[#0d1117] border border-slate-100 dark:border-slate-800 text-xs">
             <span class="text-[#797067] dark:text-slate-400 font-medium">Rekomendasi Penjualan</span>
             <span class="font-telemetry-code font-bold text-blue-600 dark:text-blue-400">
-              {{ (topProduct?.stock || 0) < 10 ? 'Segera Restok' : 'Prioritas Promosi' }}
+              {{ (activeInsightProduct?.stock || 0) < 10 ? 'Segera Restok' : 'Prioritas Promosi' }}
             </span>
           </div>
         </div>
@@ -250,18 +250,18 @@
             </span>
             <span 
               class="px-2 py-0.5 rounded-full text-[10px] font-bold font-telemetry-code"
-              :class="(topProduct?.stock || 0) < 10 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'"
+              :class="(activeInsightProduct?.stock || 0) < 10 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'"
             >
-              {{ (topProduct?.stock || 0) === 0 ? 'Habis' : ((topProduct?.stock || 0) < 10 ? 'Perlu Restok' : 'Aman') }}
+              {{ (activeInsightProduct?.stock || 0) === 0 ? 'Habis' : ((activeInsightProduct?.stock || 0) < 10 ? 'Perlu Restok' : 'Aman') }}
             </span>
           </div>
 
           <div class="mt-2.5">
             <h4 class="text-sm font-extrabold text-[#1b1c1a] dark:text-white truncate">
-              {{ topProduct?.name || topStockProjected?.name || 'Produk Unggulan' }}
+              {{ activeInsightProduct?.name || 'Produk Unggulan' }}
             </h4>
             <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-              Perkiraan Kebutuhan: <strong class="text-primary dark:text-secondary-container font-telemetry-code font-bold">{{ (topStockProjected?.projectedDemand30Days || Math.max(1, Math.round((topProduct?.soldCount || 1) * 1.35))).toLocaleString('id-ID') }} pcs</strong>
+              Perkiraan Kebutuhan: <strong class="text-primary dark:text-secondary-container font-telemetry-code font-bold">{{ (isDemoActive && topStockProjected?.projectedDemand30Days ? topStockProjected.projectedDemand30Days : Math.max(1, Math.round((activeInsightProduct?.soldCount || 1) * 1.35))).toLocaleString('id-ID') }} pcs</strong>
             </p>
           </div>
 
@@ -269,19 +269,19 @@
             <div class="flex items-center justify-between">
               <span class="text-slate-500 dark:text-slate-400">Sisa Stok di Gudang:</span>
               <span class="font-telemetry-code font-bold text-slate-800 dark:text-slate-200">
-                {{ (topProduct?.stock !== undefined ? topProduct.stock : (topStockProjected?.currentStock || 0)).toLocaleString('id-ID') }} pcs
+                {{ (activeInsightProduct?.stock ?? 0).toLocaleString('id-ID') }} pcs
               </span>
             </div>
             <div class="flex items-center justify-between">
               <span class="text-slate-500 dark:text-slate-400">Perlu Tambah Stok:</span>
               <span class="font-telemetry-code font-extrabold text-cc-orange">
-                +{{ (topStockProjected?.restockRecommended || Math.max(0, 20 - (topProduct?.stock || 0))).toLocaleString('id-ID') }} pcs
+                +{{ (isDemoActive && topStockProjected?.restockRecommended ? topStockProjected.restockRecommended : Math.max(0, 20 - (activeInsightProduct?.stock || 0))).toLocaleString('id-ID') }} pcs
               </span>
             </div>
             <div class="flex items-center justify-between">
               <span class="text-slate-500 dark:text-slate-400">Status Ketersediaan:</span>
               <span class="font-telemetry-code font-semibold text-slate-700 dark:text-slate-300">
-                {{ (topProduct?.stock || 0) === 0 ? 'Habis (Segera Restok)' : ((topProduct?.stock || 0) < 10 ? 'Menipis' : 'Stok Cukup') }}
+                {{ (activeInsightProduct?.stock || 0) === 0 ? 'Habis (Segera Restok)' : ((activeInsightProduct?.stock || 0) < 10 ? 'Menipis' : 'Stok Cukup') }}
               </span>
             </div>
           </div>
@@ -294,17 +294,17 @@
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-bold uppercase text-slate-400 font-telemetry-code flex items-center gap-1">
               <span class="material-symbols-outlined text-[16px] text-emerald-600">payments</span>
-              Pendapatan Terverifikasi
+              {{ isDemoActive ? 'Pendapatan Simulasi 30 Hari' : 'Pendapatan Terverifikasi' }}
             </span>
             <span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 text-[10px] font-bold font-telemetry-code">
-              SUPABASE CLOUD
+              {{ isDemoActive ? 'SIMULASI PSAJ' : 'SUPABASE CLOUD' }}
             </span>
           </div>
 
           <div class="mt-2.5">
             <div class="text-[11px] text-slate-400 font-telemetry-code">Total Pendapatan yang Didapat:</div>
             <div class="text-xl font-black text-emerald-600 dark:text-emerald-400 font-telemetry-code mt-0.5">
-              Rp {{ (adminStore.totalRevenue.value || 0).toLocaleString('id-ID') }}
+              Rp {{ (isDemoActive && revenueProjections?.currentHistoricRevenue ? revenueProjections.currentHistoricRevenue : (adminStore.totalRevenue.value || 0)).toLocaleString('id-ID') }}
             </div>
           </div>
 
@@ -312,13 +312,13 @@
             <div class="flex items-center justify-between">
               <span class="text-slate-500 dark:text-slate-400">Pesanan Selesai:</span>
               <span class="font-telemetry-code font-bold text-emerald-700 dark:text-emerald-300">
-                {{ verifiedOrdersCount }} Pesanan
+                {{ isDemoActive ? ((adminStore.aiPredictions.value?.trainingDatasetCount || 30) + ' Transaksi') : (verifiedOrdersCount + ' Pesanan') }}
               </span>
             </div>
             <div class="flex items-center justify-between">
               <span class="text-slate-500 dark:text-slate-400">Total Produk Terjual:</span>
               <span class="font-telemetry-code font-bold text-slate-800 dark:text-slate-200">
-                {{ totalSoldVolume }} pcs
+                {{ (isDemoActive && revenueProjections?.totalProjectedVolume ? revenueProjections.totalProjectedVolume : totalSoldVolume) }} pcs
               </span>
             </div>
             <div class="flex items-center justify-between">
@@ -340,17 +340,17 @@
               Prediksi Produk Terlaris
             </span>
             <span class="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 text-[10px] font-bold font-telemetry-code">
-              PELUANG TERBESAR
+              {{ isDemoActive ? 'SIMULASI DEMO' : 'PELUANG TERBESAR' }}
             </span>
           </div>
 
           <div class="mt-2.5">
             <h4 class="text-sm font-extrabold text-primary dark:text-secondary-container truncate flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[18px] text-amber-500">stars</span>
-              <span>{{ topProduct?.name || bestSellerInfo?.name || 'Produk Unggulan' }}</span>
+              <span>{{ activeInsightProduct?.name || 'Produk Unggulan' }}</span>
             </h4>
             <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-              Pangsa Pasar: <strong class="text-[#1b1c1a] dark:text-white font-telemetry-code font-bold">{{ (totalSoldVolume > 0 && topProduct?.soldCount ? Math.round((topProduct.soldCount / totalSoldVolume) * 100) : (bestSellerInfo?.marketShare || 100)) }}%</strong> dari total penjualan
+              Pangsa Pasar: <strong class="text-[#1b1c1a] dark:text-white font-telemetry-code font-bold">{{ (isDemoActive && bestSellerInfo?.marketShare ? bestSellerInfo.marketShare : (totalSoldVolume > 0 && topProduct?.soldCount ? Math.round((topProduct.soldCount / totalSoldVolume) * 100) : 100)) }}%</strong> dari total penjualan
             </p>
           </div>
 
@@ -364,7 +364,7 @@
             <div class="flex items-center justify-between">
               <span class="text-slate-500 dark:text-slate-400">Data Transaksi Terpakai:</span>
               <span class="font-telemetry-code font-semibold text-slate-700 dark:text-slate-300">
-                {{ verifiedOrdersCount > 0 ? verifiedOrdersCount + ' Pesanan Riil' : 'Data Riil Supabase' }}
+                {{ isDemoActive ? '30 Hari Dataset Simulasi' : (verifiedOrdersCount > 0 ? verifiedOrdersCount + ' Pesanan Riil' : 'Data Riil Supabase') }}
               </span>
             </div>
             <div class="flex items-center justify-between">
@@ -419,6 +419,7 @@ const aiProviderBadge = ref('ALGORITMA PREDIKTIF')
 // Predictive Intelligence State & Modal
 const isDatasetModalOpen = ref(false)
 const isQuickTraining = ref(false)
+const isDemoActive = ref(false)
 
 const topStockProjected = computed(() => {
   return adminStore.aiPredictions.value?.stockProjections?.[0] || null
@@ -430,6 +431,17 @@ const revenueProjections = computed(() => {
 
 const bestSellerInfo = computed(() => {
   return adminStore.aiPredictions.value?.bestSeller || null
+})
+
+const activeInsightProduct = computed(() => {
+  if (isDemoActive.value && bestSellerInfo.value) {
+    return {
+      name: bestSellerInfo.value.name,
+      stock: bestSellerInfo.value.currentStock ?? 0,
+      soldCount: bestSellerInfo.value.projectedDemand30Days ?? 0
+    }
+  }
+  return topProduct.value || { name: 'Produk Unggulan', stock: 0, soldCount: 0 }
 })
 
 const handleDownloadTemplate = () => {
@@ -448,9 +460,10 @@ const handleResetToSupabase = async () => {
   try {
     const res = await adminStore.resetAiModelToSupabase()
     if (res?.success) {
+      isDemoActive.value = false
+      customAiText.value = ''
       resetSuccess.value = true
       setTimeout(() => { resetSuccess.value = false }, 3500)
-      customAiText.value = res.predictions?.strategicAnalysis || ''
       const currentConfig = getCurrentConfig(activePeriod.value)
       peakInfo.value = currentConfig.peak
       if (chartInstance) {
@@ -473,7 +486,16 @@ const handleQuick30DaysDemo = async () => {
     const simData = generateSample30DaysDataset(adminStore.products.value)
     const res = await adminStore.trainAiModelWithDataset(simData)
     if (res?.predictions?.strategicAnalysis) {
+      isDemoActive.value = true
       customAiText.value = res.predictions.strategicAnalysis
+      const currentConfig = getCurrentConfig(activePeriod.value)
+      peakInfo.value = currentConfig.peak
+      if (chartInstance) {
+        chartInstance.data.labels = currentConfig.labels
+        chartInstance.data.datasets[0].data = [...currentConfig.actual]
+        chartInstance.data.datasets[1].data = [...currentConfig.predicted]
+        chartInstance.update()
+      }
     }
   } catch (err) {
     console.warn('Quick 30 days training error:', err)
@@ -484,7 +506,16 @@ const handleQuick30DaysDemo = async () => {
 
 const handleModelTrained = (predictions) => {
   if (predictions?.strategicAnalysis) {
+    isDemoActive.value = true
     customAiText.value = predictions.strategicAnalysis
+    const currentConfig = getCurrentConfig(activePeriod.value)
+    peakInfo.value = currentConfig.peak
+    if (chartInstance) {
+      chartInstance.data.labels = currentConfig.labels
+      chartInstance.data.datasets[0].data = [...currentConfig.actual]
+      chartInstance.data.datasets[1].data = [...currentConfig.predicted]
+      chartInstance.update()
+    }
   }
 }
 
@@ -524,12 +555,23 @@ const defaultAiAnalysis = computed(() => {
 })
 
 const displayedAiStrategy = computed(() => {
-  const text = customAiText.value || adminStore.cloudAiStrategyText.value
-  // Jika teks masih mengandung sisa data demo fiktif (misal: 'mtk', '182', atau 'laba kotor'), pakai default analisis riil
-  if (text && (text.includes('182') || text.includes('laba kotor') || text.includes('mtk'))) {
-    return defaultAiAnalysis.value
+  if (isDemoActive.value && customAiText.value) {
+    return customAiText.value
   }
-  return text || defaultAiAnalysis.value
+  if (customAiText.value) {
+    if (customAiText.value.includes('182') || customAiText.value.includes('laba kotor')) {
+      return defaultAiAnalysis.value
+    }
+    return customAiText.value
+  }
+  if (adminStore.cloudAiStrategyText.value) {
+    const text = adminStore.cloudAiStrategyText.value
+    if (text.includes('182') || text.includes('laba kotor')) {
+      return defaultAiAnalysis.value
+    }
+    return text
+  }
+  return defaultAiAnalysis.value
 })
 
 const formattedAiStrategy = computed(() => {
@@ -542,16 +584,16 @@ const formattedAiStrategy = computed(() => {
   }
 
   // Fallback pengaman: jika teks belum ber-markdown, sorot beberapa entitas kata kunci penting secara otomatis
-  const top = topProduct.value
-  if (top?.name) {
-    const nameRegex = new RegExp(`\\b(${top.name})\\b`, 'gi')
+  const activeName = activeInsightProduct.value?.name
+  if (activeName) {
+    const nameRegex = new RegExp(`\\b(${activeName})\\b`, 'gi')
     text = text.replace(nameRegex, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
   }
 
   text = text.replace(/(\d+[\d.,]*\s*pcs)/gi, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
   text = text.replace(/(Rp\s*[\d.,]+)/gi, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
   text = text.replace(/(\b\d+\s*pesanan\b)/gi, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
-  text = text.replace(/(segera restok|perlu restok|stok aman|stok menipis)/gi, '<strong class="font-extrabold text-cc-orange-strong dark:text-amber-400">$1</strong>')
+  text = text.replace(/(segera restok|perlu restok|stok aman|stabilitas aman|stok menipis)/gi, '<strong class="font-extrabold text-cc-orange-strong dark:text-amber-400">$1</strong>')
 
   return text
 })

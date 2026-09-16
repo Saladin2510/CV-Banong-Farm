@@ -689,6 +689,53 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 4. **Verifikasi Build Produksi**:
    - `npm run build` sukses 100% (7.61s) dengan 103 modul ter-bundle sempurna dan 0 error.
 
+---
+
+## 23. Catatan Sesi (16 September 2026 - Bagian 7) - Perbaikan Menyeluruh Analitik Usaha (Demo PSAJ & Pemulihan Data Supabase)
+1. **Latar Belakang Masalah (Bug Report):**
+   - **Masalah 1:** Ketika tombol *⚡ Demo PSAJ: Muat 30 Hari Data* ditekan, narasi analisis AI tidak berubah mengikuti simulasi demo PSAJ.
+   - **Masalah 2:** Ketika tombol *Hapus Data Demo & Kembali ke Data Asli* ditekan, analisis AI justru berubah ke produk `tes ganti nama` dengan `0 pcs` terjual, bukannya kembali ke produk unggulan riil Supabase (`pisang` dengan `10 pcs` terjual, `Rp 280.000` dari `4 pesanan`).
+2. **Temuan Investigasi Mendalam (Root Cause Analysis):**
+   - **Penyebab Masalah 1 (Demo PSAJ Tidak Berubah):**
+     - Pada `AiAnalyticsSection.vue` di computed `displayedAiStrategy`, terdapat filter pengaman usang: `if (text && (text.includes('182') || text.includes('laba kotor') || text.includes('mtk'))) return defaultAiAnalysis.value`.
+     - Padahal, salah satu produk nyata di database Supabase pengguna bernama **`mtk`** (ID: 4).
+     - Saat simulasi 30 hari demo dijalankan, produk `mtk` ikut disimulasikan sehingga narasi yang dihasilkan menyebutkan produk `mtk`. Filter tersebut salah mengira kata `mtk` sebagai data fiktif lama, lalu membuang teks demo dan memaksa kembali ke teks default!
+     - Selain itu, badge `TREN: [Produk]` hanya membaca `adminStore.topSellingProduct` dan tidak reaktif terhadap status simulasi demo.
+   - **Penyebab Masalah 2 (Setelah Reset Muncul "tes ganti nama" 0 pcs):**
+     - Pada `useAdminStore.js` fungsi `resetAiModelToSupabase()`, produk di-fetch melalui `supabaseApi.getProducts()`.
+     - `supabaseApi.getProducts()` sudah mengembalikan objek bersih dengan camelCase `p.soldCount`.
+     - Namun fungsi reset me-remapping produk menggunakan: `soldCount: Number(p.jumlah_terjual ?? p.sold_count) || 0`. Karena `jumlah_terjual` dan `sold_count` adalah `undefined`, **seluruh nilai `soldCount` produk ter-reset menjadi 0 pcs**!
+     - Ketika kalkulasi `topSellingProduct` melakukan sorting `b.soldCount - a.soldCount`, karena semua bernilai 0, urutan array jatuh pada indeks pertama yaitu `tes ganti nama` (ID: 1) dengan 0 pcs.
+3. **Solusi & Perbaikan yang Diterapkan:**
+   - **Perbaikan Store (`useAdminStore.js`):**
+     - Memperbaiki `resetAiModelToSupabase()` agar secara akurat mempertahankan `soldCount: Number(p.soldCount ?? p.jumlah_terjual ?? p.sold_count) || 0`.
+     - Menyinkronkan ulang pesanan riil dari Supabase (`supabaseApi.getOrders()`), sehingga pesanan riil (`4 pesanan`, total `Rp 280.000`) dan produk riil (`pisang` 10 pcs terjual) terpulihkan 100% sempurna.
+     - Menyimpan state yang telah dibersihkan kembali ke `localStorage` dan membroadcast ke tab aktif.
+   - **Peningkatan Algoritma Demo PSAJ (`aiService.js`):**
+     - Memperbarui `generateSample30DaysDataset()` agar memberikan bobot simulasi proporsional berdasarkan produk aktif.
+     - Memperbarui generator narasi prediktif:
+       `Berdasarkan simulasi data penjualan 30 hari (Demo PSAJ), produk **[Nama Produk Best Seller]** mencatat serapan tertinggi dengan perkiraan permintaan sebesar **[Qty] pcs** dan total pendapatan transaksi mencapai **Rp [Total]**...`
+     - Mengeliminasi kalkulasi fiktif spekulatif dan menerapkan penekanan **BOLD text** (`**`) pada entitas penting.
+   - **Reaktivitas Antarmuka (`AiAnalyticsSection.vue`):**
+     - Menambahkan state reaktif `isDemoActive = ref(false)` dan computed `activeInsightProduct`.
+     - Menghapus filter keliru `text.includes('mtk')`.
+     - Ketika tombol *⚡ Demo PSAJ: Muat 30 Hari Data* ditekan:
+       - `isDemoActive` aktif (`true`).
+       - Badge Tren otomatis berubah menjadi produk terlaris simulasi demo.
+       - Teks analisis AI langsung berganti ke narasi simulasi 30 hari dengan highlight tebal.
+       - Grafik 7 hari langsung diperbarui dengan volume transaksi simulasi.
+       - 3 Kartu Telemetri di bawahnya otomatis menampilkan metrik simulasi demo (dengan label badge `SIMULASI PSAJ`).
+     - Ketika tombol *Hapus Data Demo & Kembali ke Data Asli* ditekan:
+       - `isDemoActive` kembali ke `false`.
+       - Menghapus data demo dan mengembalikan data asli Supabase Cloud.
+       - Badge Tren kembali ke `TREN: pisang`.
+       - Teks analisis AI kembali ke data riil Supabase: `produk **pisang** mencatat penjualan terbaik sebesar **10 pcs** dengan total pendapatan yang didapat sebesar **Rp 280.000** dari **4 pesanan**. Sisa cadangan stok di gudang saat ini **0 pcs**. Disarankan untuk **segera restok**...`
+       - Grafik 7 hari dan 3 kartu telemetri kembali menampilkan pesanan nyata Supabase.
+4. **Validasi & Hasil:**
+   - `npm run build` sukses 100% (8.07s) dengan 103 modul ter-bundle sempurna dan 0 error.
+   - Database Supabase Cloud dan memori lokal tersinkronisasi murni dan stabil.
+
+
 
 
 

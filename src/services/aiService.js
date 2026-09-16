@@ -290,19 +290,23 @@ export function parseCsvDataset(csvText) {
 // 3. Generate Realistic 30-Day Simulated Dataset for PSAJ Demo Presentation
 export function generateSample30DaysDataset(availableProducts = []) {
   const defaultProdList = [
-    { id: 1, name: 'Konsentrat Bebek Petelur Super', price: 425000, baseQty: 18 },
-    { id: 2, name: 'Pelet Ikan Lele Apung LP-2', price: 315000, baseQty: 22 },
-    { id: 3, name: 'Silase Pakan Fermentasi Sapi & Kambing', price: 185000, baseQty: 10 },
-    { id: 4, name: 'Pupuk Organik Kasgot Biokonversi', price: 65000, baseQty: 28 }
+    { id: 1, name: 'Konsentrat Bebek Petelur Super', price: 425000, baseQty: 25 },
+    { id: 2, name: 'Pelet Ikan Lele Apung LP-2', price: 315000, baseQty: 20 },
+    { id: 3, name: 'Silase Pakan Fermentasi Sapi & Kambing', price: 185000, baseQty: 15 },
+    { id: 4, name: 'Pupuk Organik Kasgot Biokonversi', price: 65000, baseQty: 30 }
   ]
 
   const prodSource = (availableProducts && availableProducts.length > 0)
-    ? availableProducts.map((p, idx) => ({
-        id: p.id || idx + 1,
-        name: p.name || p.title || `Produk Pakan #${idx + 1}`,
-        price: Number(p.price) || 250000,
-        baseQty: [20, 24, 12, 30][idx % 4] || 15
-      }))
+    ? availableProducts.map((p, idx) => {
+        const soldBonus = (Number(p.soldCount) || 0) > 0 ? 12 : 0
+        const basePattern = [22, 18, 14, 26, 32][idx % 5] || 20
+        return {
+          id: p.id || idx + 1,
+          name: p.name || p.title || `Produk #${idx + 1}`,
+          price: Number(p.price) || 20000,
+          baseQty: basePattern + soldBonus
+        }
+      })
     : defaultProdList
 
   const now = new Date()
@@ -467,10 +471,10 @@ Berikut adalah data telemetri transaksi:
 2. Total Pendapatan yang Didapat: Rp ${totalHistoricRevenue.toLocaleString('id-ID')}
 3. Status Kebutuhan Stok: ${stockProjections.filter(s => s.stockDeficit > 0).map(s => `${s.name} (Defisit: ${s.stockDeficit} pcs, Perlu pesan: ${s.restockRecommended} pcs)`).join('; ') || 'Semua stok dalam batas aman'}
 
-Buatlah ringkasan 3 poin padat dan mudah dipahami orang awam dalam Bahasa Indonesia:
-• Poin 1 (Ketersediaan Stok & Gudang): Perkiraan stok dan peringatan restok tepat waktu.
-• Poin 2 (Pendapatan & Penjualan): Ulasan pendapatan yang didapat dari transaksi riil dan arus kas.
-• Poin 3 (Peluang Pasar): Saran melayani pesanan pelanggan WhatsApp untuk produk ${bestSeller.name}.`
+Buatlah ringkasan analisis strategi 1 paragraf padat (maksimal 4 kalimat) yang mudah dipahami orang awam dalam Bahasa Indonesia.
+Awali dengan: "Berdasarkan simulasi data penjualan ${daysCount} hari (Demo PSAJ), produk **${bestSeller.name}**..."
+Gunakan format markdown tebal (bold **) untuk nama produk, angka pcs, nilai rupiah, dan rekomendasi tindakan (contoh: **${bestSeller.name}**, **${bestSeller.projectedDemand30Days} pcs**, **Rp ${totalHistoricRevenue.toLocaleString('id-ID')}**, **segera restok**).
+Fokuskan pada pendapatan yang didapat, stok barang di gudang, dan tindak lanjut pesanan WhatsApp.`
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
@@ -499,11 +503,11 @@ Buatlah ringkasan 3 poin padat dan mudah dipahami orang awam dalam Bahasa Indone
 
   // Fallback Heuristik Cerdas jika offline / tanpa API key
   if (!strategicAnalysis) {
-    strategicAnalysis = `• KETERSEDIAAN STOK & GUDANG: Berdasarkan laju rata-rata penjualan dataset ${daysCount} hari, produk ${bestSeller.name} mencatat serapan terbesar sebanyak ${bestSeller.projectedDemand30Days.toLocaleString('id-ID')} pcs. ${bestSeller.stockDeficit > 0 ? `Terdapat potensi defisit ${bestSeller.stockDeficit} pcs dalam ${bestSeller.daysUntilStockout} hari ke depan. Disarankan memesan restok ${bestSeller.restockRecommended} pcs.` : 'Ketersediaan stok gudang terpantau berada pada level aman terkendali.'}
+    const stockMsg = bestSeller.stockDeficit > 0
+      ? `Disarankan untuk **segera restok ${bestSeller.restockRecommended.toLocaleString('id-ID')} pcs** guna mencegah kehabisan stok dalam **${bestSeller.daysUntilStockout} hari** ke depan.`
+      : `Ketersediaan cadangan stok gudang terpantau berada pada level **stabilitas aman**.`
 
-• PENDAPATAN & PENJUALAN: Total pendapatan yang didapat dari transaksi riil tercatat sebesar Rp ${totalHistoricRevenue.toLocaleString('id-ID')}. Perputaran stok fisik berjalan lancar seiring dengan pesanan yang masuk melalui WhatsApp.
-
-• PELUANG PASAR: Produk ${bestSeller.name} menjadi produk terlaris dengan menguasai ${bestSeller.marketShare}% serapan pasar. Disarankan mempertahankan komunikasi rutin dengan mitra pembeli WhatsApp untuk menjamin kelancaran transaksi berkelanjutan.`
+    strategicAnalysis = `Berdasarkan simulasi data penjualan ${daysCount} hari (Demo PSAJ), produk **${bestSeller.name}** mencatat serapan tertinggi dengan perkiraan permintaan sebesar **${bestSeller.projectedDemand30Days.toLocaleString('id-ID')} pcs** dan total pendapatan transaksi mencapai **Rp ${totalHistoricRevenue.toLocaleString('id-ID')}**. Sisa cadangan stok di gudang saat ini **${bestSeller.currentStock.toLocaleString('id-ID')} pcs**. ${stockMsg} Disarankan memprioritaskan promosi dan memantau pesanan WhatsApp secara berkala.`
   }
 
   return {
