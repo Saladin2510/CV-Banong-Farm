@@ -119,9 +119,10 @@
             </button>
           </div>
 
-          <p class="text-xs sm:text-sm text-[#1b1c1a] dark:text-slate-200 leading-relaxed text-justify whitespace-pre-line">
-            {{ displayedAiStrategy }}
-          </p>
+          <p 
+            class="text-xs sm:text-sm text-[#4a4642] dark:text-slate-300 leading-relaxed text-justify whitespace-pre-line"
+            v-html="formattedAiStrategy"
+          ></p>
         </div>
 
         <!-- Quick AI Telemetry Metric Chips -->
@@ -511,10 +512,15 @@ const defaultAiAnalysis = computed(() => {
   const formattedRev = rev > 0 ? `Rp ${rev.toLocaleString('id-ID')}` : 'Rp 0'
 
   if (!top || (top.soldCount === 0 && rev === 0)) {
-    return 'Belum ada transaksi pesanan yang diselesaikan di Supabase Cloud. Lakukan transaksi melalui pesanan WhatsApp untuk memunculkan analisis dan strategi penjualan produk secara otomatis.'
+    return 'Belum ada transaksi pesanan yang diselesaikan di **Supabase Cloud**. Lakukan transaksi melalui **pesanan WhatsApp** untuk memunculkan analisis dan strategi penjualan produk secara otomatis.'
   }
 
-  return `Berdasarkan data transaksi riil dari Supabase, produk ${top.name} mencatat penjualan terbaik sebesar ${(top.soldCount || 0).toLocaleString('id-ID')} pcs dengan total pendapatan yang didapat sebesar ${formattedRev} dari ${orders} pesanan. Sisa cadangan stok di gudang saat ini ${(top.stock || 0).toLocaleString('id-ID')} pcs. Pantau pesanan WhatsApp secara berkala untuk menjaga ketersediaan barang dan melayani kebutuhan pembeli.`
+  const topName = top.name || 'Produk Unggulan'
+  const sold = (top.soldCount || 0).toLocaleString('id-ID')
+  const stock = (top.stock || 0).toLocaleString('id-ID')
+  const stockAction = (top.stock || 0) === 0 ? '**segera restok**' : ((top.stock || 0) < 10 ? '**perlu restok**' : '**stok aman**')
+
+  return `Berdasarkan data transaksi riil dari Supabase, produk **${topName}** mencatat penjualan terbaik sebesar **${sold} pcs** dengan total pendapatan yang didapat sebesar **${formattedRev}** dari **${orders} pesanan**. Sisa cadangan stok di gudang saat ini **${stock} pcs**. Disarankan untuk ${stockAction} dan memantau pesanan WhatsApp secara berkala guna menjaga ketersediaan barang.`
 })
 
 const displayedAiStrategy = computed(() => {
@@ -524,6 +530,30 @@ const displayedAiStrategy = computed(() => {
     return defaultAiAnalysis.value
   }
   return text || defaultAiAnalysis.value
+})
+
+const formattedAiStrategy = computed(() => {
+  let text = displayedAiStrategy.value || ''
+  if (!text) return ''
+
+  // Jika teks sudah memiliki format markdown **, ganti dengan tag <strong> bergaya bold tegas
+  if (text.includes('**')) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
+  }
+
+  // Fallback pengaman: jika teks belum ber-markdown, sorot beberapa entitas kata kunci penting secara otomatis
+  const top = topProduct.value
+  if (top?.name) {
+    const nameRegex = new RegExp(`\\b(${top.name})\\b`, 'gi')
+    text = text.replace(nameRegex, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
+  }
+
+  text = text.replace(/(\d+[\d.,]*\s*pcs)/gi, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
+  text = text.replace(/(Rp\s*[\d.,]+)/gi, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
+  text = text.replace(/(\b\d+\s*pesanan\b)/gi, '<strong class="font-extrabold text-[#1b1c1a] dark:text-white">$1</strong>')
+  text = text.replace(/(segera restok|perlu restok|stok aman|stok menipis)/gi, '<strong class="font-extrabold text-cc-orange-strong dark:text-amber-400">$1</strong>')
+
+  return text
 })
 
 // Period Data Sets for other timeframes (Clean Zero-State for Pure Real Testing)

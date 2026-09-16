@@ -669,6 +669,26 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (7.77s) dengan 103 modul ter-bundle sempurna dan 0 error.
    - Status tabel `strategi_ai` dan `metrik_harian` di Supabase Cloud: **0 baris demo fiktif** (steril dan siap operasional).
 
+---
+
+## 22. Catatan Sesi (16 September 2026 - Bagian 6) - Penekanan Kata Kunci Penting (Bold Text) pada Analisis AI
+1. **Permintaan Pengguna:**
+   - Menambahkan penekanan kata dengan **BOLD text** (`<strong>`) pada teks narasi analisis AI agar lebih mudah dipindai oleh mata (scannable), namun dibatasi hanya pada beberapa kata penting saja agar tidak berlebihan.
+2. **Identifikasi Kata Kunci Utama yang Diberi Penekanan Bold:**
+   - **Nama Produk Terlaris:** misal **pisang**
+   - **Volume Terjual:** misal **13 pcs** atau **10 pcs**
+   - **Total Pendapatan Terverifikasi:** misal **Rp 416.000**
+   - **Jumlah Pesanan Berhasil:** misal **1 pesanan**
+   - **Sisa Cadangan Stok di Gudang:** misal **0 pcs**
+   - **Tindakan Rekomendasi Penting:** misal **segera restok** / **perlu restok**
+3. **Penerapan Teknis (`AiAnalyticsSection.vue` & `useAdminStore.js`):**
+   - **Render HTML Dinamis (`v-html`):** Paragraf narasi AI diubah dari interpolasi kurung kurawal biasa menjadi `<p ... v-html="formattedAiStrategy"></p>` sehingga tag penekanan tebal dapat dirender secara visual di browser.
+   - **Format Markdown ke HTML:** Computed property `formattedAiStrategy` secara otomatis mengonversi penanda markdown `**kata**` menjadi `<strong class="font-extrabold text-[#1b1c1a] dark:text-white">kata</strong>`.
+   - **Fallback Regex Cerdas:** Jika teks berasal dari API luar yang belum berformat markdown, regex otomatis mendeteksi dan menebalkan nama produk, angka berakhiran `pcs`, nominal `Rp ...`, jumlah `pesanan`, dan kata rekomendasi `segera restok`.
+   - **Kontras Tipografi:** Teks isi biasa menggunakan warna `#4a4642` / `dark:text-slate-300`, sehingga kata-kata yang di-bold dengan `font-extrabold text-[#1b1c1a] dark:text-white` terlihat kontras, elegan, dan langsung menarik perhatian dewan juri/pembaca.
+4. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (7.61s) dengan 103 modul ter-bundle sempurna dan 0 error.
+
 
 
 
