@@ -163,18 +163,22 @@ export async function generateAiMarketingStrategy(metrics, topProduct, inventory
 
   if (provider === 'gemini' && apiKey && topProduct) {
     try {
-      const prompt = `Anda adalah Chief Agricultural Strategist AI untuk CV Banong Farms di Ajibarang, Banyumas.
-Berikut adalah data telemetri terkini:
-- Komoditas Terlaris: ${topProduct.name}
-- Volume Terjual: ${topProduct.soldCount} pcs
-- Sisa Stok Gudang: ${topProduct.stock} pcs (Maks: ${topProduct.maxStock || 5000} pcs)
-- Harga Satuan: Rp ${topProduct.price}/pcs
-- Total Omset Berjalan: Rp ${metrics.totalRevenueJuta} Juta
-- Total Pesanan WA: ${metrics.totalOrders} tiket
+      const formattedRev = (metrics.totalRevenue || 0) > 0 
+        ? `Rp ${Number(metrics.totalRevenue).toLocaleString('id-ID')}`
+        : (metrics.totalRevenueJuta ? `Rp ${(Number(metrics.totalRevenueJuta) * 1000000).toLocaleString('id-ID')}` : 'Rp 0')
 
-Buatlah analisis strategi pasar dan rekomendasi operasional 2 paragraf padat dalam Bahasa Indonesia:
-1. Paragraf 1: Analisis kecepatan serapan pasar dan proyeksi defisit/surplus 72 jam ke depan.
-2. Paragraf 2: Rekomendasi taktis (alokasi kanal WhatsApp B2B, strategi harga spot %, dan prioritas distribusi panen).`
+      const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
+Berikut adalah data penjualan riil:
+- Produk Terlaris: ${topProduct.name}
+- Jumlah Terjual: ${topProduct.soldCount} pcs
+- Sisa Stok Gudang: ${topProduct.stock} pcs
+- Harga Satuan: Rp ${Number(topProduct.price).toLocaleString('id-ID')}/pcs
+- Total Pendapatan yang Didapat: ${formattedRev}
+- Total Pesanan Berhasil: ${metrics.totalOrders || 0} pesanan
+
+Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 paragraf ramah orang awam):
+1. Paragraf 1: Analisis penjualan produk ${topProduct.name} dan ketersediaan stok di gudang.
+2. Paragraf 2: Rekomendasi menjaga pasokan dan melayani pesanan WhatsApp dari pembeli agar pemasukan tetap lancar.`
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
@@ -205,8 +209,12 @@ Buatlah analisis strategi pasar dan rekomendasi operasional 2 paragraf padat dal
   }
 
   // Smart Algorithmic fallback
+  const formattedRev = (metrics.totalRevenue || 0) > 0 
+    ? `Rp ${Number(metrics.totalRevenue).toLocaleString('id-ID')}`
+    : (metrics.totalRevenueJuta ? `Rp ${(Number(metrics.totalRevenueJuta) * 1000000).toLocaleString('id-ID')}` : 'Rp 0')
+
   return {
-    analysis: `Berdasarkan serapan nyata, permintaan komoditas ${topProduct?.name || 'Hasil Panen'} mencatat volume serapan sebesar ${topProduct?.soldCount?.toLocaleString('id-ID') || 0} pcs dengan cadangan stok tersisa ${topProduct?.stock?.toLocaleString('id-ID') || 0} pcs. Diproyeksikan terjadi peningkatan pesanan terarah dalam 72 jam ke depan. Disarankan memprioritaskan alokasi stok ke mitra WhatsApp B2B terverifikasi guna memaksimalkan margin keuntungan operasional.`,
+    analysis: `Berdasarkan data transaksi riil dari Supabase, produk ${topProduct?.name || 'Hasil Panen'} mencatat penjualan sebesar ${topProduct?.soldCount?.toLocaleString('id-ID') || 0} pcs dengan total pendapatan yang didapat sebesar ${formattedRev}. Sisa cadangan stok di gudang saat ini ${topProduct?.stock?.toLocaleString('id-ID') || 0} pcs. Pantau pesanan WhatsApp secara berkala untuk menjaga ketersediaan barang dan melayani kebutuhan pembeli.`,
     isLiveAi: false,
     provider: 'Algoritma Prediktif Internal'
   }
@@ -453,18 +461,16 @@ export async function analyzePredictiveStockAndRevenue({ transactions = [], prod
 
   if (provider === 'gemini' && apiKey) {
     try {
-      const prompt = `Anda adalah Chief Financial & Agritech AI Advisor untuk CV Banong Farms (Ajibarang, Banyumas).
-Model statistik prediktif telah menganalisis dataset training transaksi historis selama ${daysCount} hari.
-Hasil komputasi data:
-1. Komoditas Prediksi Best Seller: ${bestSeller.name} (Proyeksi serapan: ${bestSeller.projectedDemand30Days} pcs, Pangsa pasar: ${bestSeller.marketShare}%)
-2. Proyeksi Omset Bulan Depan: Rp ${(nextMonthProjectedRevenue / 1000000).toFixed(1)} Juta (Pertumbuhan: +${revenueProjection.growthRatePercent}%)
-3. Estimasi Margin Laba Kotor: Rp ${(estimatedGrossProfit / 1000000).toFixed(1)} Juta (${grossProfitMarginPercent}%)
-4. Status Kebutuhan Restok: ${stockProjections.filter(s => s.stockDeficit > 0).map(s => `${s.name} (Defisit: ${s.stockDeficit} pcs, Rekomendasi pesan: ${s.restockRecommended} pcs)`).join('; ') || 'Semua stok dalam ambang aman'}
+      const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
+Berikut adalah data telemetri transaksi:
+1. Produk Terlaris: ${bestSeller.name} (Perkiraan serapan: ${bestSeller.projectedDemand30Days} pcs, Pangsa pasar: ${bestSeller.marketShare}%)
+2. Total Pendapatan yang Didapat: Rp ${totalHistoricRevenue.toLocaleString('id-ID')}
+3. Status Kebutuhan Stok: ${stockProjections.filter(s => s.stockDeficit > 0).map(s => `${s.name} (Defisit: ${s.stockDeficit} pcs, Perlu pesan: ${s.restockRecommended} pcs)`).join('; ') || 'Semua stok dalam batas aman'}
 
-Buatlah ringkasan eksekutif 3 poin tegas dalam Bahasa Indonesia:
-• Point 1 (Prediksi Stok & Gudang): Analisis perputaran stok bulan depan dan peringatan restok tepat waktu sebelum kehabisan.
-• Point 2 (Proyeksi Finansial & Margin): Analisis pertumbuhan omset dan langkah memaksimalkan margin laba bersih.
-• Point 3 (Tren Pasar & Best Seller): Rekomendasi promosi WhatsApp B2B untuk komoditas ${bestSeller.name} sebagai produk terlaris.`
+Buatlah ringkasan 3 poin padat dan mudah dipahami orang awam dalam Bahasa Indonesia:
+• Poin 1 (Ketersediaan Stok & Gudang): Perkiraan stok dan peringatan restok tepat waktu.
+• Poin 2 (Pendapatan & Penjualan): Ulasan pendapatan yang didapat dari transaksi riil dan arus kas.
+• Poin 3 (Peluang Pasar): Saran melayani pesanan pelanggan WhatsApp untuk produk ${bestSeller.name}.`
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
@@ -493,11 +499,11 @@ Buatlah ringkasan eksekutif 3 poin tegas dalam Bahasa Indonesia:
 
   // Fallback Heuristik Cerdas jika offline / tanpa API key
   if (!strategicAnalysis) {
-    strategicAnalysis = `• PREDIKSI STOK & GUDANG: Berdasarkan laju rata-rata harian dataset ${daysCount} hari, komoditas ${bestSeller.name} diproyeksikan mencatat serapan terbesar sebanyak ${bestSeller.projectedDemand30Days.toLocaleString('id-ID')} pcs. ${bestSeller.stockDeficit > 0 ? `Terdapat potensi defisit ${bestSeller.stockDeficit} pcs dalam ${bestSeller.daysUntilStockout} hari ke depan. Disarankan memesan restok ${bestSeller.restockRecommended} pcs sebelum tanggal 10 bulan depan.` : 'Ketersediaan stok gudang terpantau berada pada level aman terkendali.'}
+    strategicAnalysis = `• KETERSEDIAAN STOK & GUDANG: Berdasarkan laju rata-rata penjualan dataset ${daysCount} hari, produk ${bestSeller.name} mencatat serapan terbesar sebanyak ${bestSeller.projectedDemand30Days.toLocaleString('id-ID')} pcs. ${bestSeller.stockDeficit > 0 ? `Terdapat potensi defisit ${bestSeller.stockDeficit} pcs dalam ${bestSeller.daysUntilStockout} hari ke depan. Disarankan memesan restok ${bestSeller.restockRecommended} pcs.` : 'Ketersediaan stok gudang terpantau berada pada level aman terkendali.'}
 
-• PROYEKSI FINANSIAL & LABA: Proyeksi total pendapatan bulan berikutnya diestimasi mencapai Rp ${(nextMonthProjectedRevenue / 1000000).toFixed(1)} Juta dengan estimasi margin laba kotor sebesar Rp ${(estimatedGrossProfit / 1000000).toFixed(1)} Juta (+${revenueProjection.growthRatePercent}% pertumbuhan). Efisiensi rantai pasok pakan dapat menaikkan margin hingga +2,5%.
+• PENDAPATAN & PENJUALAN: Total pendapatan yang didapat dari transaksi riil tercatat sebesar Rp ${totalHistoricRevenue.toLocaleString('id-ID')}. Perputaran stok fisik berjalan lancar seiring dengan pesanan yang masuk melalui WhatsApp.
 
-• TREN PASAR & BEST SELLER: Komoditas ${bestSeller.name} diproyeksikan menjadi Best Seller utama dengan menguasai ${bestSeller.marketShare}% total serapan pasar Ajibarang. Disarankan mengunci kontrak suplai rutin dengan mitra peternak WhatsApp B2B untuk menjamin perputaran modal cepat.`
+• PELUANG PASAR: Produk ${bestSeller.name} menjadi produk terlaris dengan menguasai ${bestSeller.marketShare}% serapan pasar. Disarankan mempertahankan komunikasi rutin dengan mitra pembeli WhatsApp untuk menjamin kelancaran transaksi berkelanjutan.`
   }
 
   return {

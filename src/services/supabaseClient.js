@@ -232,9 +232,12 @@ export const supabaseApi = {
         await client.from('products').update({ stock: 0, sold_count: 0, unit: 'pcs' }).neq('id', 0)
       } catch (_) {}
 
-      // 4. Hapus riwayat metrik harian jika ada
+      // 4. Hapus riwayat metrik harian dan strategi AI jika ada
       try {
         await client.from('metrik_harian').delete().neq('tanggal', '1970-01-01')
+      } catch (_) {}
+      try {
+        await client.from('strategi_ai').delete().neq('id', 0)
       } catch (_) {}
 
       return { success: true, message: 'Supabase Cloud berhasil di-reset ke default NOL murni.' }
@@ -747,6 +750,22 @@ export const supabaseApi = {
     } catch (err) {
       console.warn('Supabase saveAiStrategy error:', err)
       return null
+    }
+  },
+
+  async clearAiStrategy() {
+    const client = getSupabase()
+    if (!client) return { success: false }
+    try {
+      const { error } = await client
+        .from('strategi_ai')
+        .delete()
+        .neq('id', 0)
+      if (error) throw error
+      return { success: true }
+    } catch (err) {
+      console.warn('Supabase clearAiStrategy error:', err)
+      return { success: false, message: err.message }
     }
   },
 

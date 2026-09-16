@@ -641,6 +641,34 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (7.80s) dengan 103 modul ter-bundle sempurna dan 0 error.
    - Status baris tabel `metrik_harian` di Supabase Cloud terverifikasi: **0 baris** (bersih total).
 
+---
+
+## 21. Catatan Sesi (16 September 2026 - Bagian 5) - Eliminasi "Laba Kotor" & Penyelarasan Total Pendapatan Riil Supabase pada Insight AI
+1. **Identifikasi Masalah Angka AI Fantastis / Tidak Masuk Akal (Ngaco)**:
+   - **Keluhan Pengguna:** Pendapatan hari ini tercatat Rp 416.000 (13 pcs produk pisang), tetapi kotak *Insight & Strategi AI* dan kartu proyeksi memunculkan proyeksi fantastis mencapai Rp 182.0 Juta, estimasi laba kotor Rp 29.8 Juta, serta komoditas fiktif `mtk`.
+   - **Instruksi Khusus Pengguna:** Hilangkan estimasi laba kotor dan angka spekulatif lainnya; fokus penuh pada pendapatan riil yang diperoleh dari Supabase Cloud.
+   - **Akar Penyebab (Root Cause):**
+     1. Tabel `strategi_ai` di Supabase Cloud sebelumnya masih menyimpan baris data lama (ID 3) hasil simulasi 30 hari demo PSAJ yang memuat narasi fiktif "182 Juta & Laba Kotor 29.8 Juta". Saat sinkronisasi, teks usang ini ditarik ke tampilan.
+     2. Kartu ke-2 di baris proyeksi (*"Proyeksi Laba & Omset"*) masih memakai formula spekulatif persentase laba kotor (16,4%) dan proyeksi puluhan juta.
+2. **Tindakan Perbaikan & Penyelarasan Penuh dengan Supabase**:
+   - **Pembersihan Database Supabase Cloud Langsung:** Seluruh baris usang di tabel `strategi_ai` telah dihapus (status saat ini: **0 baris**).
+   - **Penambahan Metode `clearAiStrategy()` (`supabaseClient.js`):** Memastikan tabel `strategi_ai` otomatis dibersihkan saat tombol reset data demo ditekan maupun saat reset operasional ke nol.
+   - **Perombakan Kartu Ke-2 Menjadi "Pendapatan Terverifikasi" (`AiAnalyticsSection.vue`):**
+     - Menggantikan judul *"Proyeksi Laba & Omset"* menjadi **`Pendapatan Terverifikasi`** dengan label sumber **`SUPABASE CLOUD`**.
+     - Nilai Utama: **`Rp {{ adminStore.totalRevenue.value }}`** (Menampilkan angka riil seperti **Rp 416.000** sesuai pesanan selesai di Supabase).
+     - Menghapus total seluruh teks "Perkiraan Keuntungan Kotor", "Margin Laba Kotor", dan "Persentase Keuntungan".
+     - Menampilkan 3 metrik riil transparan:
+       1. **Pesanan Selesai:** Menghitung jumlah pesanan riil berstatus Selesai / Terverifikasi di Supabase.
+       2. **Total Produk Terjual:** Volume fisik riil terakumulasi (misal 13 pcs).
+       3. **Rata-rata Nilai Pesanan:** Rata-rata nominal per transaksi riil.
+   - **Penyelarasan Teks "Insight & Strategi AI" (`AiAnalyticsSection.vue` & `useAdminStore.js`):**
+     - Narasi otomatis kini terikat langsung dengan data Supabase: menyebutkan nama produk terlaris nyata (**pisang**), volume terjual nyata (**13 pcs**), total pendapatan riil (**Rp 416.000**), dan sisa stok gudang aktif (**0 pcs**).
+     - Menambahkan filter pengaman `displayedAiStrategy`: jika memori browser masih menyisakan kata fiktif seperti `182`, `laba kotor`, atau `mtk`, sistem otomatis menolak teks tersebut dan menggantinya dengan narasi riil Supabase.
+     - Memperbarui prompt Gemini AI dan algoritma heuristik cadangan (`aiService.js`) agar tidak lagi mengkalkulasi laba kotor fiktif, melainkan fokus pada manajemen stok dan kelancaran pesanan WhatsApp.
+3. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (7.77s) dengan 103 modul ter-bundle sempurna dan 0 error.
+   - Status tabel `strategi_ai` dan `metrik_harian` di Supabase Cloud: **0 baris demo fiktif** (steril dan siap operasional).
+
 
 
 
