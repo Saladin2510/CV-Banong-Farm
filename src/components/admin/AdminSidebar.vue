@@ -123,7 +123,7 @@ const adminStore = useAdminStore()
 const navItems = computed(() => [
   { 
     id: 'overview', 
-    label: 'Beranda (Overview)', 
+    label: 'Beranda Utama', 
     icon: 'grid_view' 
   },
   { 

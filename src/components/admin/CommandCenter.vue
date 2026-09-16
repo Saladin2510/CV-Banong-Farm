@@ -30,12 +30,6 @@
                   <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
                   {{ currentHeaderInfo.badge }}
                 </span>
-                <span 
-                  class="text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                >
-                  <span v-if="adminStore.isSupabaseConnected.value" class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
-                  <span>Database: {{ adminStore.isSupabaseConnected.value ? 'Supabase Cloud (Online)' : 'Lokal Persisten' }}</span>
-                </span>
               </div>
 
               <h1 class="text-2xl sm:text-3xl text-primary dark:text-white font-extrabold tracking-tight mt-1 leading-snug">
@@ -64,16 +58,16 @@
                     <div class="flex items-center gap-2.5">
                       <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[22px]">insights</span>
                       <h3 class="text-base font-bold text-primary dark:text-white tracking-tight">
-                        Ringkasan Tren Permintaan Panen
+                        Ringkasan Penjualan
                       </h3>
                     </div>
                     <span class="px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-primary dark:text-secondary-container text-xs font-bold">
-                      HARI INI: {{ todayLabel }}
+                      Hari ini : {{ formattedFullToday }}
                     </span>
                   </div>
 
                   <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
-                    Aliran kurva permintaan produk sinkron secara otomatis terhadap pesanan WhatsApp yang masuk dan volume panen harian peternakan Ajibarang.
+                    Grafik pergerakan penjualan otomatis diperbarui mengikuti pesanan yang masuk setiap hari.
                   </p>
 
                   <!-- Quick Highlight Card -->
@@ -90,21 +84,21 @@
                       </div>
                     </div>
                     <span class="text-xs font-semibold text-primary dark:text-secondary-container">
-                      Puncak Permintaan
+                      Penjualan Terbanyak
                     </span>
                   </div>
                 </div>
 
                 <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                   <span class="text-xs text-slate-500 dark:text-slate-400">
-                    Grafik 7 hari &amp; proyeksi serapan pasar
+                    Grafik penjualan 7 hari terakhir
                   </span>
                   <button 
                     @click="currentTab = 'analytics'"
                     class="h-8 px-3.5 rounded-lg bg-primary/10 hover:bg-primary/20 dark:bg-white/10 dark:hover:bg-white/20 text-primary dark:text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
                     type="button"
                   >
-                    <span>Lihat Analitik Penuh</span>
+                    <span>Lihat Laporan Penjualan</span>
                     <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                   </button>
                 </div>
@@ -117,7 +111,7 @@
                     <div class="flex items-center gap-2">
                       <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[22px]">chat</span>
                       <h3 class="text-base font-bold text-primary dark:text-white tracking-tight">
-                        Pesanan WA Terkini
+                        Pesanan WhatsApp Terbaru
                       </h3>
                     </div>
                     <span class="text-xs text-primary font-bold bg-secondary-container px-2.5 py-0.5 rounded-full">
@@ -133,7 +127,7 @@
                       <span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-[32px]">inbox</span>
                       <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Belum Ada Pesanan Masuk</p>
                       <p class="text-[11px] text-slate-500 dark:text-slate-400 max-w-[260px]">
-                        Pesanan baru dari landing page web atau formulir WhatsApp akan muncul di sini secara real-time.
+                        Pesanan baru dari pembeli lewat WhatsApp akan otomatis muncul di sini.
                       </p>
                     </div>
                     <div 
@@ -144,7 +138,7 @@
                     >
                       <div class="flex flex-col min-w-0 pr-2">
                         <span class="font-bold text-primary dark:text-white truncate">{{ order.customer || 'Pelanggan WhatsApp' }}</span>
-                        <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty || 0 }} {{ order.productName || 'Komoditas' }}</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">{{ order.qty || 0 }} {{ order.productName || 'Produk' }}</span>
                       </div>
                       <div class="flex flex-col items-end shrink-0">
                         <span class="font-bold text-primary dark:text-white">Rp {{ (order.totalPrice || 0).toLocaleString('id-ID') }}</span>
@@ -175,14 +169,14 @@
                 </div>
                 <div>
                   <h4 class="text-sm font-bold text-primary dark:text-white">
-                    Total {{ adminStore.products.value.length }} Komoditas Aktif di Gudang
+                    Total {{ adminStore.products.value.length }} Jenis Produk di Gudang
                   </h4>
                   <p class="text-xs text-slate-600 dark:text-slate-400">
                     <span v-if="adminStore.topSellingProduct.value && adminStore.topSellingProduct.value.soldCount > 0">
-                      Komoditas serapan tertinggi: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} pcs terjual)
+                      Produk paling laris: <strong>{{ adminStore.topSellingProduct.value?.name }}</strong> ({{ adminStore.topSellingProduct.value?.soldCount?.toLocaleString('id-ID') }} pcs terjual)
                     </span>
                     <span v-else>
-                      Mulai dari nol: Semua komoditas memiliki stok awal 0 pcs. Anda dapat menambah stok di tab Kelola Produk.
+                      Semua produk memiliki stok awal 0 pcs. Anda dapat menambah stok di menu Kelola Produk.
                     </span>
                   </p>
                 </div>
@@ -254,7 +248,7 @@
       <!-- Footer Info Strip -->
       <footer class="w-full py-4 px-8 border-t border-cc-outline dark:border-slate-800 bg-white/60 dark:bg-[#161b22] text-xs text-[#797067] dark:text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2 transition-colors">
         <span class="font-telemetry-code">
-          © 2026 CV Banong Farms Ajibarang • Command Console Telemetri Agribisnis Modern
+          © 2026 CV Banong Farms Ajibarang • Sistem Pengelolaan Peternakan &amp; Penjualan
         </span>
         <div class="flex items-center gap-4 font-telemetry-code text-[11px]">
           <span class="flex items-center gap-1 text-emerald-700 font-semibold">
@@ -351,44 +345,48 @@ const todayLabel = computed(() => {
   return today ? today.label : 'Hari Ini'
 })
 
+const formattedFullToday = computed(() => {
+  return adminStore.formatFullIndonesianDate ? adminStore.formatFullIndonesianDate() : 'Rabu, 16/09/2026'
+})
+
 const currentHeaderInfo = computed(() => {
   switch (currentTab.value) {
     case 'products':
       return {
-        badge: 'KATALOG PRODUK PANEN',
-        title: 'Manajemen Komoditas & Inventaris Gudang',
-        subtitle: 'Kelola stok fisik, harga per satuan, dan katalog komoditas peternakan CV Banong Farms'
+        badge: 'DAFTAR PRODUK',
+        title: 'Manajemen Produk & Stok Gudang',
+        subtitle: 'Atur jumlah stok barang, harga satuan, dan katalog produk peternakan CV Banong Farms'
       }
     case 'orders':
       return {
-        badge: 'PESANAN MASUK // LIVE',
-        title: 'Manajemen Pesanan WhatsApp',
-        subtitle: 'Validasi pesanan masuk dan otomatisasi pemotongan stok fisik gudang'
+        badge: 'PESANAN MASUK',
+        title: 'Daftar Pesanan WhatsApp',
+        subtitle: 'Cek pesanan pembeli dari WhatsApp dan konfirmasi pesanan secara mudah'
       }
     case 'analytics':
       return {
-        badge: 'ANALITIK PENJUALAN',
-        title: 'Tren Permintaan & Analitik Usaha',
-        subtitle: 'Grafik kurva penjualan dan ringkasan komoditas panen harian Ajibarang'
+        badge: 'LAPORAN PENJUALAN',
+        title: 'Laporan Penjualan & Perkiraan Stok',
+        subtitle: 'Grafik penjualan harian, produk terlaris, dan perkiraan kebutuhan stok gudang'
       }
     case 'staff':
       return {
-        badge: 'MANAJEMEN KARYAWAN',
-        title: 'Manajemen Akun Admin & Staf Operasional',
-        subtitle: 'Kelola otentikasi, hak akses, dan data karyawan langsung melalui sistem web CV Banong Farms'
+        badge: 'DAFTAR KARYAWAN',
+        title: 'Manajemen Akun Admin & Karyawan',
+        subtitle: 'Kelola akun dan hak akses karyawan yang dapat membuka halaman dashboard ini'
       }
     case 'database':
       return {
-        badge: 'SKEMA DATABASE',
-        title: 'Arsitektur Relasi Database (ERD) & Skema Tabel',
-        subtitle: 'Peta relasi tabel database Supabase Cloud dan sinkronisasi data'
+        badge: 'DATA SISTEM',
+        title: 'Bagan & Susunan Tabel Data',
+        subtitle: 'Susunan tabel data cloud Supabase yang terhubung ke aplikasi'
       }
     case 'overview':
     default:
       return {
-        badge: 'OPERASIONAL FARM // AKTIF',
+        badge: 'Database Cloud Aktif',
         title: 'Dashboard Operasional Farm',
-        subtitle: 'Ringkasan inventaris produk panen, pesanan WhatsApp masuk, dan analitik usaha'
+        subtitle: 'Ringkasan stok barang, pesanan masuk dari pembeli, dan hasil penjualan'
       }
   }
 })
@@ -496,7 +494,7 @@ const handleConfirmDelete = async (productId) => {
     if (res?.supabaseError) {
       showToast(`Produk dihapus dari Lokal, namun gagal di Supabase: ${res.supabaseError}`)
     } else {
-      showToast(`Komoditas "${res?.deleted?.name || 'Produk'}" berhasil dihapus.`)
+      showToast(`Produk "${res?.deleted?.name || 'Produk'}" berhasil dihapus.`)
     }
   }
   isDeleteModalOpen.value = false

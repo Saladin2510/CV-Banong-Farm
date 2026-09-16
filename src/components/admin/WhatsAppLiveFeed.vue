@@ -57,7 +57,7 @@
         @click="adminStore.simulateIncomingOrder()"
         class="h-8 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-telemetry-code text-xs font-semibold shadow-xs transition-all flex items-center gap-1 active:scale-95 shrink-0 cursor-pointer self-start sm:self-auto"
         type="button"
-        title="Simulasikan tiket pesanan baru dari website"
+        title="Simulasikan pesanan baru dari website"
       >
         <span class="material-symbols-outlined text-[16px]">add_circle</span>
         <span>+ Simulasi Pesanan Baru</span>
@@ -97,7 +97,7 @@
               Stok dipotong <strong>{{ adminStore.lastSyncToast.value.qty }} pcs</strong>. Sisa stok: <strong>{{ (adminStore.lastSyncToast.value.remainingStock || 0).toLocaleString('id-ID') }} pcs</strong>. Laporan harian terupdate!
             </span>
             <span v-else-if="adminStore.lastSyncToast.value.isCancelled">
-              Pesanan ditolak tanpa mengurangi sisa stok komoditas.
+              Pesanan dibatalkan tanpa mengurangi sisa stok produk.
             </span>
             <span v-else>
               Memerlukan validasi admin untuk memotong stok.
@@ -199,7 +199,7 @@
           <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
             <div class="flex flex-col gap-1">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] uppercase font-bold text-slate-400 font-telemetry-code">Rincian Komoditas (Detail Pesanan)</span>
+                <span class="text-[11px] uppercase font-bold text-slate-400 font-telemetry-code">Rincian Produk yang Dipesan</span>
                 <span v-if="order.items && order.items.length" class="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-telemetry-code font-semibold">
                   {{ order.items.length }} Item
                 </span>

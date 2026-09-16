@@ -1,5 +1,5 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 15 September 2026 (Sesi Pembaruan: AI Predictive Modeling 3 Pilar, Cold-Start Dataset Engine CSV & 1-Klik Simulasi PSAJ 30 Hari, Dual-Engine WMA & Gemini 1.5 Flash, Manajemen Karyawan Cloud Supabase, dan Persistensi 7 Tabel)  
+**Tanggal Pembaruan Terakhir:** 16 September 2026 (Sesi Pembaruan: Penyederhanaan Copywriting & UI Admin Dashboard untuk Orang Awam / Non-IT, Penghapusan Foto Profil Admin, Eliminasi Tag Redundan Supabase, Standardisasi Istilah Produk Siap Jual)  
 **Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Satuan Konsisten 'pcs')  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
@@ -527,5 +527,88 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - Hak akses login admin tetap aman dan dapat diakses langsung melalui URL route **`http://localhost:5173/#/admin`**.
 4. **Verifikasi Build Produksi**:
    - `npm run build` sukses 100% (7.57s) dengan 104 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 18. Catatan Sesi (16 September 2026 - Bagian 2) - Penyederhanaan Copywriting & UI Admin Dashboard untuk Orang Awam (Non-IT)
+1. **Penyederhanaan Header Atas Admin (`AdminHeader.vue`)**:
+   - **Breadcrumb Bersih:** Teks berjenjang *"Admin Dashboard / Pusat Operasional Farm"* dipersingkat menjadi satu judul bersih dan tegas: **`Admin Dashboard`**.
+   - **Penghapusan Foto Profil Admin:** Tag `<img>` avatar foto profil di sudut kanan atas header telah **dihapus total**, menyisakan teks nama dan email admin yang rapi serta tombol Keluar (*Logout*).
+   - **Pembaruan Notifikasi:** Mengganti kata teknis *"Tiket"* menjadi *"Pesanan"* (`X Pesanan`).
+2. **Perbaikan Status Badge Header (`CommandCenter.vue`)**:
+   - Badge status `"OPERASIONAL FARM // AKTIF"` diubah menjadi **`Database Cloud Aktif`**.
+   - Badge redundan di sebelahnya (`Database: Supabase Cloud (Online)`) telah **dihapus total** untuk tampilan yang lebih bersih dan tidak berulang.
+3. **Penyederhanaan Copywriting 4 Kartu Metrik Utama (`AdminMetricCards.vue`)**:
+   - **Card 1 (Pesanan WA Masuk):**
+     - Mengganti badge `+1 Tiket` menjadi **`+X Pesanan Baru`** / `Belum Ada Pesanan`.
+     - Mengganti sub-teks *"Status pesanan masuk"* menjadi **"Perlu diproses"**.
+     - Mengganti deskripsi bawah menjadi **"Pesanan masuk dari WhatsApp pembeli"**.
+   - **Card 2 (Total Stok Produk):**
+     - Mengganti istilah teknis *"Akumulasi inventaris satuan produk"* menjadi **"Total seluruh stok produk di gudang"** dan *"Stok produk masih kosong (0 Pcs)"*.
+   - **Card 3 (Total Pendapatan):**
+     - Mengganti istilah kaku *"Transaksi Riil"* menjadi **`Pesanan Selesai`** / `Belum Ada Penjualan`.
+     - Mengganti label *"Akumulasi pendapatan"* menjadi **"Total uang masuk"**.
+     - Mengganti sub-teks *"Tervalidasi dari pesanan selesai"* menjadi **"Dihitung dari pesanan yang sudah selesai"**.
+   - **Card 4 (Produk Siap Jual - Eliminasi Istilah "Komoditas"):**
+     - Mengganti judul *"KOMODITAS AKTIF"* menjadi **`PRODUK SIAP JUAL`** yang langsung dimengerti semua kalangan.
+     - Satuan diubah menjadi `X Pilihan Produk`.
+     - Mengganti badge *"Katalog Publik Siap"* menjadi **`Tampil di Website`**.
+     - Mengganti deskripsi bawah menjadi **"Bisa langsung dipesan oleh pembeli"**.
+4. **Penyelarasan Bahasa Non-IT di Seluruh Ruang Kerja Admin (`CommandCenter.vue`, `ProductCrudTable.vue`, `WhatsAppLiveFeed.vue`, `DeleteConfirmModal.vue`, `AiAnalyticsSection.vue`, `AiTrainingDatasetModal.vue`, `AdminSidebar.vue`)**:
+   - **Eliminasi Total Kata "Komoditas":**
+     - Mengganti seluruh kemunculan kata "komoditas" menjadi istilah akrab: **"produk"** atau **"barang"**.
+     - `Total X Komoditas Aktif` ➔ `Total X Jenis Produk di Gudang`.
+     - `Komoditas serapan tertinggi` ➔ `Produk paling laris`.
+     - `Rincian Komoditas (Detail Pesanan)` ➔ `Rincian Produk yang Dipesan`.
+     - `Konfirmasi Hapus Komoditas` ➔ `Konfirmasi Hapus Produk`.
+     - `Komoditas Produk` ➔ `Nama Produk`.
+     - `Komoditas Unggulan` ➔ `Produk Unggulan`.
+   - **Penyederhanaan Narasi Overview & Footer:**
+     - Narasi kurva permintaan disederhanakan menjadi: *"Grafik pergerakan penjualan otomatis diperbarui mengikuti pesanan yang masuk setiap hari."*
+     - Judul *"Puncak Permintaan"* diganti menjadi **"Penjualan Terbanyak"**.
+     - Subtitle kartu analitik diganti menjadi **"Grafik penjualan 7 hari terakhir"**.
+     - Teks footer *"Command Console Telemetri Agribisnis Modern"* diubah menjadi **"Sistem Pengelolaan Peternakan & Penjualan"**.
+   - **Navigasi Sidebar (`AdminSidebar.vue`):**
+     - Mengganti label *"Beranda (Overview)"* menjadi **`Beranda Utama`**.
+5. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (6.42s) dengan 103 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 19. Catatan Sesi (16 September 2026 - Bagian 3) - Avatar Netral Admin, Format Tanggal "Hari ini : [Hari, DD/MM/YYYY]", dan Tombol Pemulihan Data Asli Supabase
+1. **Foto Profil Avatar Netral Abu-abu (`AdminHeader.vue`)**:
+   - Menambahkan avatar bulat netral abu-abu dengan ikon siluet user (`person`) di samping nama dan email admin.
+   - Sesuai arahan pengguna: murni ikon avatar profesional tanpa foto manusia asli.
+2. **Standardisasi Format Tanggal Bebas Pengulangan (`useAdminStore.js`, `CommandCenter.vue`, `AiAnalyticsSection.vue`)**:
+   - Menghilangkan format teks berulang *"HARI INI: Rab (Hari Ini)"*.
+   - Mengimplementasikan helper `formatFullIndonesianDate()` yang menghasilkan format rapi: **`Hari ini : Rabu, 16/09/2026`**.
+   - Diterapkan secara seragam pada:
+     - Badge Ringkasan Penjualan di `CommandCenter.vue`.
+     - Badge Grafik Perkiraan Penjualan di `AiAnalyticsSection.vue`.
+   - Memperbarui sumbu X kurva 7 hari menjadi format tanggal bersih `Hari (DD/MM)` seperti `Kam (10/09)`, `Jum (11/09)`, ..., `Rab (16/09)` dan tooltip bebas duplikasi kata hari.
+3. **Tombol "Kembalikan ke Data Asli (Supabase)" pada Pemodelan AI (`AiAnalyticsSection.vue` & `useAdminStore.js`)**:
+   - **Latar Belakang Masalah:** Saat tombol *"Demo PSAJ"* ditekan, dataset 30 hari sintetis melatih model AI dan mengubah angka proyeksi (muncul produk dummy `mtk`), sehingga pengguna tidak bisa mengembalikan ke data awal.
+   - **Fitur Baru Ditambahkan:** Tombol **`Kembalikan ke Data Asli (Supabase)`** dengan ikon `restart_alt` berwarna Navy 60:30:10.
+   - **Mekanisme Kerja Fungsi `resetAiModelToSupabase()`:**
+     1. Menghapus data training sintetis dari `localStorage`.
+     2. Mengosongkan kurva grafik transaksi demo kembali ke nol.
+     3. Menarik kembali data produk, pesanan, dan metrik riil dari Supabase Cloud (PostgreSQL 24/7).
+     4. Menghitung ulang 3 kartu proyeksi (`Perputaran Stok`, `Proyeksi Laba & Omset`, `Prediksi Produk Terlaris`) murni dari produk riil yang ada di database Supabase.
+     5. Memancarkan siaran pembaruan (`broadcastUpdate`) ke seluruh tab aktif secara instan.
+4. **Penyempurnaan Lanjutan Copywriting Ramah Orang Awam (`AiAnalyticsSection.vue`)**:
+   - Mengganti judul *"Prediksi Tren Produk AI"* menjadi **"Grafik Perkiraan Penjualan"**.
+   - Mengganti *"Aliran kurva spline prediktif..."* menjadi **"Grafik penjualan harian otomatis terhubung dengan pesanan WhatsApp dari pembeli."**
+   - Mengganti teks floating *"PUNCAK PERMINTAAN"* menjadi **"PENJUALAN TERTINGGI"**.
+   - Mengganti *"Alur Permintaan Aktual"* menjadi **"Penjualan Sebenarnya"**.
+   - Mengganti *"Model Prediksi AI"* menjadi **"Perkiraan Penjualan (+19,4%)"**.
+   - Mengganti *"Korelasi Tren: 0,984 (Sangat Kuat)"* menjadi **"Akurasi Perkiraan: 98,4% (Sangat Baik)"**.
+   - Pada 3 Kartu Proyeksi:
+     - `Perkiraan Kebutuhan`, `Sisa Stok di Gudang`, `Perlu Tambah Stok`, `Stok Aman Hingga`.
+     - `Perkiraan Pendapatan Bulan Depan`, `Perkiraan Keuntungan Kotor`, `Persentase Keuntungan`, `Target Total Penjualan`.
+     - `Prediksi Produk Terlaris`, `Pangsa Pasar: X% dari total penjualan`, `Tingkat Akurasi Perkiraan`, `Data Transaksi Terpakai`, `Saran Penjualan`.
+5. **Verifikasi Build Produksi**:
+   - `npm run build` sukses 100% (7.04s) dengan 103 modul ter-bundle sempurna dan 0 error.
+
+
 
 

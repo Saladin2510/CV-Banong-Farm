@@ -155,7 +155,7 @@
                   <thead class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 sticky top-0 font-telemetry-code font-bold">
                     <tr>
                       <th class="p-2">Tanggal</th>
-                      <th class="p-2">Komoditas Produk</th>
+                      <th class="p-2">Nama Produk</th>
                       <th class="p-2 text-right">Jumlah</th>
                       <th class="p-2 text-right">Total Tagihan</th>
                     </tr>
@@ -195,7 +195,7 @@
               </div>
 
               <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0d131f] border border-slate-200/80 dark:border-slate-800 flex flex-col">
-                <span class="text-slate-400 font-telemetry-code text-[10px] uppercase">Komoditas Dianalisis</span>
+                <span class="text-slate-400 font-telemetry-code text-[10px] uppercase">Produk Dianalisis</span>
                 <span class="font-bold text-sm text-slate-800 dark:text-white mt-0.5 font-telemetry-code">4 Produk Pakan</span>
                 <span class="text-[10px] text-slate-400">Unggas, Ikan, Sapi, Kasgot</span>
               </div>

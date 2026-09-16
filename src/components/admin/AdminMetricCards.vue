@@ -23,12 +23,12 @@
             class="px-2 py-0.5 rounded-full font-bold text-xs"
             :class="adminStore.totalOrdersCount.value > 0 ? 'bg-secondary-container text-primary' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'"
           >
-            {{ adminStore.totalOrdersCount.value > 0 ? `+${adminStore.totalOrdersCount.value} Tiket` : '0 Pesanan' }}
+            {{ adminStore.totalOrdersCount.value > 0 ? `+${adminStore.totalOrdersCount.value} Pesanan Baru` : 'Belum Ada Pesanan' }}
           </span>
-          <span class="text-xs text-slate-500 dark:text-slate-400">Status pesanan masuk</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Perlu diproses</span>
         </div>
         <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium pt-0.5">
-          Terhubung langsung ke WhatsApp Admin
+          Pesanan masuk dari WhatsApp pembeli
         </span>
       </div>
     </div>
@@ -63,7 +63,7 @@
           ></div>
         </div>
         <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-          {{ (adminStore.totalStockPcs?.value ?? adminStore.totalStockKg.value) === 0 ? 'Stok produk kosong (Mulai dari 0 Pcs)' : 'Akumulasi inventaris satuan produk' }}
+          {{ (adminStore.totalStockPcs?.value ?? adminStore.totalStockKg.value) === 0 ? 'Stok produk masih kosong (0 Pcs)' : 'Total seluruh stok produk di gudang' }}
         </span>
       </div>
     </div>
@@ -90,25 +90,25 @@
             class="px-2 py-0.5 rounded-full font-bold text-xs"
             :class="adminStore.totalRevenue.value > 0 ? 'bg-secondary-container text-primary' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'"
           >
-            {{ adminStore.totalRevenue.value > 0 ? 'Transaksi Riil' : 'Mulai dari Rp 0' }}
+            {{ adminStore.totalRevenue.value > 0 ? 'Pesanan Selesai' : 'Belum Ada Penjualan' }}
           </span>
-          <span class="text-xs text-slate-500 dark:text-slate-400">Akumulasi pendapatan</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Total uang masuk</span>
         </div>
         <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate pt-0.5">
-          {{ adminStore.totalRevenue.value > 0 ? 'Tervalidasi dari pesanan selesai' : 'Belum ada transaksi tervalidasi' }}
+          {{ adminStore.totalRevenue.value > 0 ? 'Dihitung dari pesanan yang sudah selesai' : 'Belum ada pesanan yang selesai' }}
         </span>
       </div>
     </div>
 
-    <!-- Card 4: Komoditas Aktif (Real Metric - No Fake AI Neural) -->
+    <!-- Card 4: Produk Siap Jual (Bukan Komoditas) -->
     <div class="bg-white dark:bg-[#0E1726] rounded-2xl p-5 shadow-xs hover:shadow-md flex flex-col justify-between border border-slate-200/80 dark:border-slate-800 hover:border-primary/40 transition-all">
       <div class="flex items-start justify-between gap-2">
         <div class="flex flex-col">
           <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
-            Komoditas Aktif
+            Produk Siap Jual
           </span>
           <span class="text-3xl text-primary dark:text-white tracking-tight mt-1.5 font-extrabold">
-            {{ adminStore.products.value.length }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Produk</span>
+            {{ adminStore.products.value.length }} <span class="text-base font-normal text-slate-500 dark:text-slate-400">Pilihan Produk</span>
           </span>
         </div>
         <div class="w-11 h-11 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center text-primary dark:text-white shrink-0 border border-primary/20">
@@ -119,12 +119,12 @@
       <div class="mt-4 pt-3 flex flex-col gap-1 border-t border-slate-100 dark:border-slate-800">
         <div class="flex items-center justify-between gap-1">
           <span class="px-2 py-0.5 rounded-full bg-primary/10 dark:bg-white/15 text-primary dark:text-white text-xs font-bold leading-tight">
-            Katalog Publik Siap
+            Tampil di Website
           </span>
           <span class="w-2 h-2 rounded-full bg-secondary-container shrink-0"></span>
         </div>
         <span class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight pt-0.5 truncate">
-          Tersedia &amp; terhubung form pemesanan
+          Bisa langsung dipesan oleh pembeli
         </span>
       </div>
     </div>

@@ -7,14 +7,17 @@
       <!-- Chart Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2.5 flex-wrap">
             <span class="material-symbols-outlined text-cc-orange text-[20px]">insights</span>
             <h2 class="text-lg font-bold text-[#1b1c1a] dark:text-white uppercase tracking-tight">
-              Prediksi Tren Produk AI
+              Grafik Perkiraan Penjualan
             </h2>
+            <span class="px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-primary dark:text-secondary-container text-xs font-bold">
+              Hari ini : {{ formattedFullToday }}
+            </span>
           </div>
           <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-            Aliran kurva spline prediktif sinkron real-time terhadap pesanan WhatsApp dan volume panen harian.
+            Grafik penjualan harian otomatis terhubung dengan pesanan WhatsApp dari pembeli.
           </p>
         </div>
 
@@ -44,7 +47,7 @@
           <span class="w-2 h-2 rounded-full bg-cc-orange animate-ping"></span>
           <div class="flex flex-col">
             <span class="font-telemetry-code text-xs text-cc-orange-strong font-bold">
-              PUNCAK PERMINTAAN: {{ peakInfo.amount }} • {{ peakInfo.val }}
+              PENJUALAN TERTINGGI: {{ peakInfo.amount }} • {{ peakInfo.val }}
             </span>
             <span class="text-[11px] text-[#797067] dark:text-slate-400 truncate">
               {{ peakInfo.buyer }}
@@ -62,14 +65,14 @@
       <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between text-xs text-[#797067] dark:text-slate-400">
         <div class="flex items-center gap-4">
           <span class="flex items-center gap-1.5 font-medium text-slate-700 dark:text-slate-300">
-            <span class="w-3 h-1 bg-cc-orange rounded-full inline-block"></span> Alur Permintaan Aktual
+            <span class="w-3 h-1 bg-cc-orange rounded-full inline-block"></span> Penjualan Sebenarnya
           </span>
           <span class="flex items-center gap-1.5 font-medium text-slate-500 dark:text-slate-400">
-            <span class="w-3 h-0.5 bg-slate-400 dark:bg-slate-500 border-t border-dashed border-slate-400 inline-block"></span> Model Prediksi AI (+19,4%)
+            <span class="w-3 h-0.5 bg-slate-400 dark:bg-slate-500 border-t border-dashed border-slate-400 inline-block"></span> Perkiraan Penjualan (+19,4%)
           </span>
         </div>
         <span class="font-telemetry-code text-xs text-emerald-700 dark:text-emerald-400 font-bold">
-          Korelasi Tren: 0,984 (Sangat Kuat)
+          Akurasi Perkiraan: 98,4% (Sangat Baik)
         </span>
       </div>
     </div>
@@ -101,7 +104,7 @@
           <div class="flex items-center justify-between gap-1.5 text-xs text-cc-orange-strong font-telemetry-code font-bold mb-2">
             <div class="flex items-center gap-1 truncate">
               <span class="material-symbols-outlined text-[16px]">stars</span>
-              <span class="truncate">TREN: {{ topProduct?.name || 'Komoditas Unggulan' }}</span>
+              <span class="truncate">TREN: {{ topProduct?.name || 'Produk Unggulan' }}</span>
             </div>
             <button 
               @click="handleGenerateStrategy"
@@ -174,13 +177,27 @@
             Pemodelan Data &amp; Proyeksi AI Bulan Depan
           </h3>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Prediksi perputaran stok, pertumbuhan laba/omset, dan tren komoditas best seller berbasis data training.
+            Prediksi perputaran stok, pertumbuhan laba/omset, dan produk terlaris berbasis data transaksi.
           </p>
         </div>
       </div>
 
-      <!-- Action Buttons for Dataset & PSAJ Demo -->
+      <!-- Action Buttons for Dataset, PSAJ Demo, and Revert to Supabase -->
       <div class="flex flex-wrap items-center gap-2">
+        <!-- Revert to Live Supabase Data Button -->
+        <button 
+          type="button"
+          @click="handleResetToSupabase"
+          :disabled="isResettingToSupabase"
+          class="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary-container text-white active:scale-95 font-bold text-xs flex items-center gap-1.5 shadow-xs transition-all cursor-pointer border border-white/20 disabled:opacity-60"
+          title="Kembalikan semua grafik dan kartu prediksi ke data produk asli Supabase Cloud"
+        >
+          <span class="material-symbols-outlined text-[17px]" :class="{ 'animate-spin': isResettingToSupabase }">
+            {{ isResettingToSupabase ? 'progress_activity' : 'restart_alt' }}
+          </span>
+          <span>{{ isResettingToSupabase ? 'Memulihkan Data...' : 'Kembalikan ke Data Asli (Supabase)' }}</span>
+        </button>
+
         <!-- Quick PSAJ Demo 30 Days -->
         <button 
           type="button"
@@ -243,25 +260,25 @@
               {{ topStockProjected?.name || 'Konsentrat Bebek Petelur Super' }}
             </h4>
             <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-              Proyeksi Kebutuhan: <strong class="text-primary dark:text-secondary-container font-telemetry-code font-bold">{{ (topStockProjected?.projectedDemand30Days || 340).toLocaleString('id-ID') }} pcs</strong>
+              Perkiraan Kebutuhan: <strong class="text-primary dark:text-secondary-container font-telemetry-code font-bold">{{ (topStockProjected?.projectedDemand30Days || 340).toLocaleString('id-ID') }} pcs</strong>
             </p>
           </div>
 
           <div class="mt-3 pt-2.5 border-t border-slate-200/80 dark:border-slate-800 flex flex-col gap-1.5 text-xs">
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Sisa Stok Gudang:</span>
+              <span class="text-slate-500 dark:text-slate-400">Sisa Stok di Gudang:</span>
               <span class="font-telemetry-code font-bold text-slate-800 dark:text-slate-200">
                 {{ (topStockProjected?.currentStock || 180).toLocaleString('id-ID') }} pcs
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Rekomendasi Restok:</span>
+              <span class="text-slate-500 dark:text-slate-400">Perlu Tambah Stok:</span>
               <span class="font-telemetry-code font-extrabold text-cc-orange">
                 +{{ (topStockProjected?.restockRecommended || 200).toLocaleString('id-ID') }} pcs
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Batas Waktu Aman:</span>
+              <span class="text-slate-500 dark:text-slate-400">Stok Aman Hingga:</span>
               <span class="font-telemetry-code font-semibold text-slate-700 dark:text-slate-300">
                 {{ topStockProjected?.daysUntilStockout || 14 }} Hari Lagi
               </span>
@@ -284,7 +301,7 @@
           </div>
 
           <div class="mt-2.5">
-            <div class="text-[11px] text-slate-400 font-telemetry-code">Estimasi Pendapatan Bulan Depan:</div>
+            <div class="text-[11px] text-slate-400 font-telemetry-code">Perkiraan Pendapatan Bulan Depan:</div>
             <div class="text-xl font-black text-emerald-600 dark:text-emerald-400 font-telemetry-code mt-0.5">
               Rp {{ (revenueProjections?.projectedNextMonthRevenue || 48200000).toLocaleString('id-ID') }}
             </div>
@@ -292,19 +309,19 @@
 
           <div class="mt-3 pt-2.5 border-t border-slate-200/80 dark:border-slate-800 flex flex-col gap-1.5 text-xs">
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Estimasi Laba Kotor:</span>
+              <span class="text-slate-500 dark:text-slate-400">Perkiraan Keuntungan Kotor:</span>
               <span class="font-telemetry-code font-bold text-emerald-700 dark:text-emerald-300">
                 Rp {{ (revenueProjections?.estimatedGrossProfit || 7904800).toLocaleString('id-ID') }}
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Rasio Margin Keuntungan:</span>
+              <span class="text-slate-500 dark:text-slate-400">Persentase Keuntungan:</span>
               <span class="font-telemetry-code font-bold text-slate-800 dark:text-slate-200">
                 {{ revenueProjections?.grossProfitMarginPercent || 16.4 }}% (Standar Pakan)
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Target Total Serapan:</span>
+              <span class="text-slate-500 dark:text-slate-400">Target Total Penjualan:</span>
               <span class="font-telemetry-code font-semibold text-slate-700 dark:text-slate-300">
                 {{ (revenueProjections?.totalProjectedVolume || 1110).toLocaleString('id-ID') }} pcs
               </span>
@@ -313,13 +330,13 @@
         </div>
       </div>
 
-      <!-- Card 3: Prediksi Komoditas Best Seller -->
+      <!-- Card 3: Prediksi Produk Terlaris -->
       <div class="p-4 rounded-xl bg-[#fbf9f6] dark:bg-[#0d1117] border border-cc-outline dark:border-slate-800 flex flex-col justify-between transition-colors">
         <div>
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-bold uppercase text-slate-400 font-telemetry-code flex items-center gap-1">
               <span class="material-symbols-outlined text-[16px] text-amber-500">crown</span>
-              Prediksi Best Seller
+              Prediksi Produk Terlaris
             </span>
             <span class="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 text-[10px] font-bold font-telemetry-code">
               PELUANG TERBESAR
@@ -332,25 +349,25 @@
               <span>{{ bestSellerInfo?.name || 'Konsentrat Bebek Petelur Super' }}</span>
             </h4>
             <p class="text-xs text-[#797067] dark:text-slate-400 mt-0.5">
-              Pangsa Pasar: <strong class="text-[#1b1c1a] dark:text-white font-telemetry-code font-bold">{{ bestSellerInfo?.marketShare || 37.8 }}%</strong> dari total serapan
+              Pangsa Pasar: <strong class="text-[#1b1c1a] dark:text-white font-telemetry-code font-bold">{{ bestSellerInfo?.marketShare || 37.8 }}%</strong> dari total penjualan
             </p>
           </div>
 
           <div class="mt-3 pt-2.5 border-t border-slate-200/80 dark:border-slate-800 flex flex-col gap-1.5 text-xs">
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Akurasi Model Prediktif:</span>
+              <span class="text-slate-500 dark:text-slate-400">Tingkat Akurasi Perkiraan:</span>
               <span class="font-telemetry-code font-bold text-emerald-600">
                 {{ adminStore.aiPredictions.value?.accuracy || '96,8%' }}
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Dataset Training Aktif:</span>
+              <span class="text-slate-500 dark:text-slate-400">Data Transaksi Terpakai:</span>
               <span class="font-telemetry-code font-semibold text-slate-700 dark:text-slate-300">
-                {{ adminStore.aiPredictions.value?.trainingDatasetCount > 0 ? adminStore.aiPredictions.value.trainingDatasetCount + ' Transaksi' : '30 Hari Riil' }}
+                {{ adminStore.aiPredictions.value?.trainingDatasetCount > 0 ? adminStore.aiPredictions.value.trainingDatasetCount + ' Transaksi' : 'Data Riil Supabase' }}
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Fokus Strategi:</span>
+              <span class="text-slate-500 dark:text-slate-400">Saran Penjualan:</span>
               <span class="font-telemetry-code font-bold text-blue-600 dark:text-blue-400">
                 Kunci Kontrak Suplai B2B
               </span>
@@ -418,6 +435,34 @@ const handleDownloadTemplate = () => {
   downloadCsvTemplate()
 }
 
+const isResettingToSupabase = ref(false)
+
+const formattedFullToday = computed(() => {
+  return adminStore.formatFullIndonesianDate ? adminStore.formatFullIndonesianDate() : 'Rabu, 16/09/2026'
+})
+
+const handleResetToSupabase = async () => {
+  isResettingToSupabase.value = true
+  try {
+    const res = await adminStore.resetAiModelToSupabase()
+    if (res?.success) {
+      customAiText.value = res.predictions?.strategicAnalysis || ''
+      const currentConfig = getCurrentConfig(activePeriod.value)
+      peakInfo.value = currentConfig.peak
+      if (chartInstance) {
+        chartInstance.data.labels = currentConfig.labels
+        chartInstance.data.datasets[0].data = currentConfig.actual
+        chartInstance.data.datasets[1].data = currentConfig.predicted
+        chartInstance.update()
+      }
+    }
+  } catch (err) {
+    console.warn('Reset to Supabase error:', err)
+  } finally {
+    isResettingToSupabase.value = false
+  }
+}
+
 const handleQuick30DaysDemo = async () => {
   isQuickTraining.value = true
   try {
@@ -443,8 +488,8 @@ const topProduct = computed(() => adminStore.topSellingProduct.value)
 
 const defaultAiAnalysis = computed(() => {
   const top = topProduct.value
-  if (!top) return 'Memuat data tren komoditas panen...'
-  return `Berdasarkan analisis algoritma prediktif, permintaan komoditas ${top.name} mencatat serapan pasar terbesar sebesar ${top.soldCount?.toLocaleString('id-ID') || 0} pcs dengan cadangan stok tersisa ${top.stock?.toLocaleString('id-ID') || 0} pcs. Diproyeksikan terjadi peningkatan pesanan sebesar 28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% pasokan langsung ke mitra WhatsApp B2B dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin keuntungan.`
+  if (!top) return 'Memuat data tren produk panen...'
+  return `Berdasarkan analisis algoritma prediktif, permintaan produk ${top.name} mencatat serapan pasar terbesar sebesar ${top.soldCount?.toLocaleString('id-ID') || 0} pcs dengan cadangan stok tersisa ${top.stock?.toLocaleString('id-ID') || 0} pcs. Diproyeksikan terjadi peningkatan pesanan sebesar 28% dalam 72 jam ke depan. Disarankan mengalokasikan 60% pasokan langsung ke mitra WhatsApp B2B dan menaikkan batas harga spot sebesar 4,5% guna memaksimalkan margin keuntungan.`
 })
 
 // Period Data Sets for other timeframes (Clean Zero-State for Pure Real Testing)

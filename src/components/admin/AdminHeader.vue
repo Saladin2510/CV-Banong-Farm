@@ -5,10 +5,8 @@
       <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-secondary-container border border-white/15">
         <span class="material-symbols-outlined text-[20px]">dashboard</span>
       </div>
-      <div class="flex items-center gap-2 text-sm">
-        <span class="text-white/60 font-medium hidden sm:inline">Admin Dashboard</span>
-        <span class="text-white/40 hidden sm:inline">/</span>
-        <span class="text-white font-bold tracking-tight">Pusat Operasional Farm</span>
+      <div class="flex items-center text-sm">
+        <span class="text-white font-bold tracking-tight text-base">Admin Dashboard</span>
       </div>
     </div>
 
@@ -48,7 +46,7 @@
         >
           <div class="flex items-center justify-between pb-2 border-b border-white/10">
             <span class="text-xs text-white font-bold uppercase tracking-wider">Pesanan Masuk</span>
-            <span class="text-[11px] text-secondary-container font-semibold">{{ adminStore.whatsappOrders.value.length }} Tiket</span>
+            <span class="text-[11px] text-secondary-container font-semibold">{{ adminStore.whatsappOrders.value.length }} Pesanan</span>
           </div>
           <div class="flex flex-col gap-1.5 max-h-60 overflow-y-auto pr-1">
             <div 
@@ -79,12 +77,13 @@
             {{ adminStore.adminUser.value?.email || 'admin@banongfarms.com' }}
           </span>
         </div>
-        <img 
-          alt="Avatar Admin CV Banong Farms" 
-          class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover ring-2 ring-white/20 shadow-sm" 
-          src="/assets/admin-avatar.png"
-          onerror="this.src='/assets/logo.png'"
-        />
+        <!-- Neutral Gray Avatar Icon (Bukan Foto Manusia Asli) -->
+        <div 
+          class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-400/30 border border-white/25 flex items-center justify-center text-white shadow-xs shrink-0 select-none"
+          title="Akun Admin"
+        >
+          <span class="material-symbols-outlined text-[20px]">person</span>
+        </div>
       </div>
 
       <!-- Logout Button -->

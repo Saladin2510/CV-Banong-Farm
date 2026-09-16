@@ -10,7 +10,7 @@
           </h2>
         </div>
         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Kelola komoditas panen aktif: Tambah Produk, Ubah Stok/Harga, dan Pantau Ketersediaan Gudang.
+          Kelola daftar produk panen: Tambah Produk, Ubah Stok/Harga, dan Pantau Ketersediaan Gudang.
         </p>
       </div>
 
@@ -52,7 +52,7 @@
             ? 'bg-amber-600 text-white border-amber-600 shadow-xs' 
             : 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 hover:bg-amber-100 border-amber-300 dark:border-amber-800'
         ]"
-        title="Tampilkan hanya komoditas yang stoknya 0 pcs"
+        title="Tampilkan hanya produk yang stoknya 0 pcs"
       >
         <span class="material-symbols-outlined text-[15px]">warning</span>
         <span>Perlu Diisi Stok ({{ zeroStockCount }})</span>
