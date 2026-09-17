@@ -207,17 +207,132 @@
 
       </div>
 
-      <!-- Bagian Bawah: JUDUL BESAR RAKSASA (1 BARIS UTUH DIPERBESAR SEDIKIT LAGI) -->
-      <div class="py-8 sm:py-10 lg:py-14 flex items-center justify-center w-full overflow-hidden select-none">
-        <h2 
-          class="font-black text-center tracking-tighter text-secondary-container text-4xl sm:text-5xl md:text-7xl lg:text-[86px] xl:text-[112px] 2xl:text-[136px] leading-none uppercase whitespace-nowrap transition-transform duration-300 hover:scale-[1.01]"
-          style="text-shadow: 2px 2px 0 #051426, 4px 4px 0 #051426, 6px 6px 0 #051426, 8px 8px 0 #051426, 11px 11px 0 #051426;"
-        >
-          CV BANONG FARMS
-        </h2>
+      <!-- Bagian Bawah: WOBLO-STYLE MODULAR BLOCK TYPOGRAPHY -->
+      <div class="py-8 sm:py-12 lg:py-14 w-full select-none">
+        
+        <!-- Showcase Canvas (Frame Elegan Mirip Referensi Desain Woblo) -->
+        <div class="w-full rounded-3xl bg-slate-900/75 dark:bg-slate-950/80 border border-white/15 p-5 sm:p-8 lg:p-12 shadow-2xl backdrop-blur-xl relative overflow-hidden flex flex-col items-center justify-center">
+          
+          <!-- Ambient Glow Halus di Belakang Huruf -->
+          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <!-- Top Header Strip Showcase (Mirip Header Minimalis di Atas Logo Woblo pada Gambar) -->
+          <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-white/10 text-xs text-slate-300 relative z-10">
+            
+            <!-- Left: Identitas Brand & Status Operasional -->
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#00e676] animate-pulse"></span>
+              <span class="font-bold tracking-wide text-white font-outfit uppercase text-[11px] sm:text-xs">
+                CV BANONG FARMS • AGRIBISNIS BERKELANJUTAN
+              </span>
+            </div>
+
+            <!-- Right: Interactive Style Controls (Beralih Huruf Kecil/Kapital & FARM/FARMS) -->
+            <div class="flex items-center gap-2 sm:gap-3">
+              <button 
+                type="button"
+                @click="isUppercase = !isUppercase"
+                class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold transition-all backdrop-blur-md border border-white/15 flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-xs"
+                title="Klik untuk beralih antara huruf kecil (gaya 100% seperti gambar) atau huruf kapital"
+              >
+                <span class="material-symbols-outlined text-[15px]">text_fields</span>
+                <span>{{ isUppercase ? 'Gaya: Huruf Kapital' : 'Gaya: Huruf Kecil (Seperti Gambar)' }}</span>
+              </button>
+
+              <button 
+                type="button"
+                @click="includeS = !includeS"
+                class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold transition-all backdrop-blur-md border border-white/15 flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-xs"
+                title="Beralih antara CV Banong Farm atau CV Banong Farms"
+              >
+                <span class="material-symbols-outlined text-[15px]">tune</span>
+                <span>{{ includeS ? 'Teks: FARMS' : 'Teks: FARM' }}</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- THE GIANT COLORFUL CONTIGUOUS BLOCK LETTERS (WOBLO STYLE) -->
+          <div 
+            @click="isUppercase = !isUppercase"
+            class="flex items-end justify-center flex-wrap gap-2.5 sm:gap-4 md:gap-5 lg:gap-6 cursor-pointer group relative z-10 py-2"
+            title="Klik pada huruf untuk beralih antara gaya huruf kecil (seperti gambar) atau kapital"
+          >
+            <!-- Cluster 1: CV -->
+            <div class="flex items-end shadow-2xl rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
+              <div 
+                v-for="(item, idx) in cvLetters" 
+                :key="'cv-' + idx"
+                :class="[
+                  item.bg,
+                  item.text,
+                  item.rounded,
+                  item.isTall 
+                    ? 'h-16 sm:h-24 md:h-36 lg:h-44 xl:h-52 2xl:h-56' 
+                    : 'h-13 sm:h-18 md:h-28 lg:h-36 xl:h-40 2xl:h-44',
+                  item.hoverShadow,
+                  'w-8 sm:w-12 md:w-18 lg:w-22 xl:w-26 2xl:w-28 flex items-center justify-center font-black font-outfit leading-none text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.03] select-none'
+                ]"
+              >
+                <span>{{ isUppercase ? item.upper : item.lower }}</span>
+              </div>
+            </div>
+
+            <!-- Cluster 2: BANONG -->
+            <div class="flex items-end shadow-2xl">
+              <div 
+                v-for="(item, idx) in banongLetters" 
+                :key="'banong-' + idx"
+                :class="[
+                  item.bg,
+                  item.text,
+                  item.rounded,
+                  item.isTall 
+                    ? 'h-16 sm:h-24 md:h-36 lg:h-44 xl:h-52 2xl:h-56' 
+                    : 'h-13 sm:h-18 md:h-28 lg:h-36 xl:h-40 2xl:h-44',
+                  item.hoverShadow,
+                  'w-8 sm:w-12 md:w-18 lg:w-22 xl:w-26 2xl:w-28 flex items-center justify-center font-black font-outfit leading-none text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.03] select-none'
+                ]"
+              >
+                <span>{{ isUppercase ? item.upper : item.lower }}</span>
+              </div>
+            </div>
+
+            <!-- Cluster 3: FARM (or FARMS) -->
+            <div class="flex items-end shadow-2xl">
+              <div 
+                v-for="(item, idx) in farmLetters" 
+                :key="'farm-' + idx"
+                :class="[
+                  item.bg,
+                  item.text,
+                  item.rounded,
+                  item.isTall 
+                    ? 'h-16 sm:h-24 md:h-36 lg:h-44 xl:h-52 2xl:h-56' 
+                    : 'h-13 sm:h-18 md:h-28 lg:h-36 xl:h-40 2xl:h-44',
+                  item.hoverShadow,
+                  'w-8 sm:w-12 md:w-18 lg:w-22 xl:w-26 2xl:w-28 flex items-center justify-center font-black font-outfit leading-none text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.03] select-none'
+                ]"
+              >
+                <span>{{ isUppercase ? item.upper : item.lower }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Caption Tip (Bantuan Interaksi) -->
+          <div class="pt-6 sm:pt-8 mt-4 sm:mt-6 border-t border-white/10 w-full flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 relative z-10">
+            <span class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px] text-secondary-container">touch_app</span>
+              <span>Tip: Klik blok huruf untuk beralih antara gaya huruf kecil (seperti referensi gambar) dan huruf kapital.</span>
+            </span>
+            <span class="text-slate-400 font-medium">Ajibarang, Banyumas, Jawa Tengah</span>
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- Baris Paling Bawah: Hak Cipta & Kebijakan Bersih (Search & Ajibarang ID Dihapus) -->
+      <!-- Baris Paling Bawah: Hak Cipta & Kebijakan Bersih -->
       <div class="pt-5 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
         <div>
           © 2026 CV Banong Farms. Hak Cipta Dilindungi Undang-Undang.
@@ -233,4 +348,126 @@
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+
+const isUppercase = ref(false) // Default huruf kecil seperti gambar referensi Woblo
+const includeS = ref(false) // Default 'farm' sesuai permintaan user ("CV BANONG FARM")
+
+const cvLetters = computed(() => [
+  { 
+    lower: 'c', upper: 'C', 
+    bg: 'bg-[#18181b]', 
+    text: 'text-white', 
+    isTall: false, 
+    rounded: 'rounded-l-xl sm:rounded-l-2xl md:rounded-l-3xl',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(24,24,27,0.5)]'
+  },
+  { 
+    lower: 'v', upper: 'V', 
+    bg: 'bg-[#ff6600]', 
+    text: 'text-[#0f172a]', 
+    isTall: false, 
+    rounded: 'rounded-r-xl sm:rounded-r-2xl md:rounded-r-3xl',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(255,102,0,0.5)]'
+  }
+])
+
+const banongLetters = computed(() => [
+  { 
+    lower: 'b', upper: 'B', 
+    bg: 'bg-[#00e676]', 
+    text: 'text-[#0f172a]', 
+    isTall: true, 
+    rounded: 'rounded-l-xl sm:rounded-l-2xl md:rounded-l-3xl rounded-tl-xl sm:rounded-tl-2xl md:rounded-tl-3xl',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(0,230,118,0.5)]'
+  },
+  { 
+    lower: 'a', upper: 'A', 
+    bg: 'bg-[#ff1361]', 
+    text: 'text-[#0f172a]', 
+    isTall: false, 
+    rounded: '',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(255,19,97,0.5)]'
+  },
+  { 
+    lower: 'n', upper: 'N', 
+    bg: 'bg-[#7c3aed]', 
+    text: 'text-white', 
+    isTall: false, 
+    rounded: '',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(124,58,237,0.5)]'
+  },
+  { 
+    lower: 'o', upper: 'O', 
+    bg: 'bg-[#ff6600]', 
+    text: 'text-[#0f172a]', 
+    isTall: false, 
+    rounded: '',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(255,102,0,0.5)]'
+  },
+  { 
+    lower: 'n', upper: 'N', 
+    bg: 'bg-[#00e676]', 
+    text: 'text-[#0f172a]', 
+    isTall: false, 
+    rounded: '',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(0,230,118,0.5)]'
+  },
+  { 
+    lower: 'g', upper: 'G', 
+    bg: 'bg-[#ff1361]', 
+    text: 'text-[#0f172a]', 
+    isTall: false, 
+    rounded: 'rounded-r-xl sm:rounded-r-2xl md:rounded-r-3xl',
+    hoverShadow: 'hover:shadow-[0_12px_24px_rgba(255,19,97,0.5)]'
+  }
+])
+
+const farmLetters = computed(() => {
+  const base = [
+    { 
+      lower: 'f', upper: 'F', 
+      bg: 'bg-[#00e676]', 
+      text: 'text-[#0f172a]', 
+      isTall: true, 
+      rounded: 'rounded-l-xl sm:rounded-l-2xl md:rounded-l-3xl rounded-tl-xl sm:rounded-tl-2xl md:rounded-tl-3xl',
+      hoverShadow: 'hover:shadow-[0_12px_24px_rgba(0,230,118,0.5)]'
+    },
+    { 
+      lower: 'a', upper: 'A', 
+      bg: 'bg-[#ff6600]', 
+      text: 'text-[#0f172a]', 
+      isTall: false, 
+      rounded: '',
+      hoverShadow: 'hover:shadow-[0_12px_24px_rgba(255,102,0,0.5)]'
+    },
+    { 
+      lower: 'r', upper: 'R', 
+      bg: 'bg-[#ff1361]', 
+      text: 'text-[#0f172a]', 
+      isTall: false, 
+      rounded: '',
+      hoverShadow: 'hover:shadow-[0_12px_24px_rgba(255,19,97,0.5)]'
+    },
+    { 
+      lower: 'm', upper: 'M', 
+      bg: 'bg-[#7c3aed]', 
+      text: 'text-white', 
+      isTall: false, 
+      rounded: includeS.value ? '' : 'rounded-r-xl sm:rounded-r-2xl md:rounded-r-3xl',
+      hoverShadow: 'hover:shadow-[0_12px_24px_rgba(124,58,237,0.5)]'
+    }
+  ]
+  if (includeS.value) {
+    base.push({ 
+      lower: 's', upper: 'S', 
+      bg: 'bg-[#fcd400]', 
+      text: 'text-[#0f172a]', 
+      isTall: false, 
+      rounded: 'rounded-r-xl sm:rounded-r-2xl md:rounded-r-3xl',
+      hoverShadow: 'hover:shadow-[0_12px_24px_rgba(252,212,0,0.5)]'
+    })
+  }
+  return base
+})
 </script>

@@ -813,8 +813,42 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - Tidak ada logika bisnis, store Pinia/Vue, query Supabase, routing hash, atau alur WhatsApp yang diubah.
    - `npm run build` sukses 100% (6.97s) dengan 0 error dan 0 lint warning.
 
+---
 
-
-
-
-
+## 26. Catatan Sesi (17 September 2026 - Bagian 2) - Redesain Tipografi Footer "CV BANONG FARM" Modular Block Typography (Gaya Referensi Woblo)
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna mengunggah gambar referensi tipografi modular brand *Woblo* dengan instruksi: *"COBA BUATKAN DESIGN FOOTER YANG TULISAN CV BANONG FARM DIJADIKAN SEPERTI GAMBAR INI!"*.
+   - Karakteristik utama referensi *Woblo*:
+     1. Teks tersusun dari blok-blok warna kontras solid yang menempel rapat tanpa celah (*contiguous blocks*, `gap-0`).
+     2. Sudut luar klaster melengkung halus (*rounded outer corners*).
+     3. Garis bawah semua huruf sejajar rata horizontal sempurna (*bottom-aligned*, `items-end`).
+     4. Huruf-huruf tertentu dengan anatomi *ascender* (seperti `b` dan `l` pada contoh Woblo) memiliki blok yang menjulang tinggi ke atas (*staggered tall blocks*).
+     5. Tipografi geometris ultra-tebal (*bold sans-serif*).
+2. **Penerapan pada CV BANONG FARM (`FooterSection.vue`):**
+   - **Font Geometris Modern:** Memuat Google Font **Outfit** (weight 900) dan **Inter 900** via `index.html` dan `tailwind.config.js` (`font-outfit font-black`).
+   - **Pemetaan Palet Warna Modular Identik Woblo:**
+     - **Klaster 1 (`cv`):**
+       - `c`: Hitam Pekat (`#18181b`), teks putih tebal, sudut kiri melengkung (`rounded-l-2xl sm:rounded-l-3xl`).
+       - `v`: Oranye Terang (`#ff6600`), teks gelap, sudut kanan melengkung (`rounded-r-2xl sm:rounded-r-3xl`).
+     - **Klaster 2 (`banong`):**
+       - `b`: Hijau Mint Neon (`#00e676`), teks gelap, **MENJULANG TINGGI / TALL** (`rounded-tl-2xl sm:rounded-tl-3xl`).
+       - `a`: Hot Pink / Magenta (`#ff1361`), teks gelap, ketinggian normal.
+       - `n`: Ungu Elektrik (`#7c3aed`), teks putih, ketinggian normal.
+       - `o`: Oranye Terang (`#ff6600`), teks gelap, ketinggian normal.
+       - `n`: Hijau Mint Neon (`#00e676`), teks gelap, ketinggian normal.
+       - `g`: Hot Pink / Magenta (`#ff1361`), teks gelap, sudut kanan melengkung (`rounded-r-2xl sm:rounded-r-3xl`).
+     - **Klaster 3 (`farm` / opsi `farms`):**
+       - `f`: Hijau Mint Neon (`#00e676`), teks gelap, **MENJULANG TINGGI / TALL** (`rounded-tl-2xl sm:rounded-tl-3xl`).
+       - `a`: Oranye Terang (`#ff6600`), teks gelap, ketinggian normal.
+       - `r`: Hot Pink / Magenta (`#ff1361`), teks gelap, ketinggian normal.
+       - `m`: Ungu Elektrik (`#7c3aed`), teks putih, berakhiran ungu persis seperti huruf `o` pada referensi Woblo!
+       - `s` (opsional via toggle): Kuning Emas (`#fcd400`), teks gelap.
+   - **Showcase Frame & Kontrol Interaktif Minimalis:**
+     - Huruf dibungkus dalam *canvas showcase* elegan berlatar kaca gelap (`bg-slate-900/75 border border-white/15 backdrop-blur-xl shadow-2xl rounded-3xl`).
+     - Dilengkapi tombol kendali interaktif:
+       - **Gaya Huruf:** Beralih antara *Huruf Kecil (persis gambar referensi)* vs *Huruf Kapital*.
+       - **Teks:** Beralih antara *FARM* (sesuai prompt) vs *FARMS* (nama resmi perusahaan).
+     - Seluruh balok huruf memiliki efek interaksi hover mikro (*lift up* `-translate-y-2` dan *subtle scale*).
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (7.90s, 0 error).
+   - Seluruh fungsionalitas aplikasi, Supabase Cloud, dan alur checkout WhatsApp tetap aman tanpa gangguan.

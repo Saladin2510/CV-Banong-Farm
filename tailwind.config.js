@@ -110,6 +110,7 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
+        outfit: ["Outfit", "Inter", "sans-serif"],
         "headline-lg": ["Inter", "sans-serif"],
         "headline-xl": ["Inter", "sans-serif"],
         "headline-xl-mobile": ["Inter", "sans-serif"],
