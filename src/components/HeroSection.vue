@@ -1,5 +1,6 @@
 <template>
   <section 
+    id="hero"
     class="relative w-full h-[100dvh] min-h-[100dvh] overflow-hidden bg-primary text-on-primary select-none flex flex-col justify-between cursor-grab active:cursor-grabbing"
     @touchstart="handleTouchStart"
     @touchend="handleTouchEnd"

@@ -2,7 +2,7 @@
   <section 
     id="komoditas-marquee"
     @mouseleave="activeRow = null"
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 select-none"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 select-none"
   >
     <!-- Background Ambient Glow (Blue & Yellow) -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[360px] bg-primary/4 dark:bg-blue-500/5 blur-[160px] rounded-full pointer-events-none"></div>

@@ -1,7 +1,7 @@
 <template>
   <section 
     id="contact"
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80"
   >
     <!-- Soft Decorative Ambient Glows (Blue & Yellow) -->
     <div class="absolute -top-12 left-1/4 w-80 h-80 bg-primary/5 dark:bg-primary/10 blur-[140px] rounded-full pointer-events-none"></div>

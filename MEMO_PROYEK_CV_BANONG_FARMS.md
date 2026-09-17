@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Standardisasi Penamaan Judul & Navigasi Menjadi "Tentang", "Reputasi", "Katalog", "Kontak", Eliminasi Breadcrumb & Paragraf Deskripsi Redundan, Penghapusan Blok Trust Bar Sesuai Arahan Pengguna)  
-**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Teks Ringkas & Elegan)  
+**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Standardisasi Padding Jarak Antar-Section yang Proporsional py-16 sm:py-20 lg:py-24, Perbaikan Error Navbar State Reset Saat Kembali ke Hero Section, Implementasi Scroll Spy Dinamis & Logo Scroll to Hero)  
+**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Jarak Section Konsisten & Navbar Presisi)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -989,4 +989,30 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 3. **Verifikasi & Status Sistem:**
    - `npm run build` sukses 100% (5.95s) tanpa ada error maupun peringatan sintaksis.
    - Dev server lokal aktif dan menyajikan landing page dengan antarmuka yang jauh lebih bersih, modern, dan navigasi yang responsif.
+
+---
+
+## 33. Catatan Sesi (17 September 2026 - Bagian 9) - Standardisasi Proporsional Jarak Antar-Section & Resolusi Error Navbar Background / Scroll Spy
+1. **Latar Belakang & Masalah yang Dilaporkan Pengguna:**
+   - **Keluhan Jarak Section:** Jarak antar section sebelumnya ada yang terlalu jauh dan renggang secara ekstrem (seperti `py-80` = 320px padding di `VisiMisiSection`, `InteractiveMarqueeMenu`, dan `PolaroidCtaSection` serta `pt-48` di `ProductGrid`), membuat halaman terasa seperti jurang hampa. Pengguna meminta: *"perbaiki jarak antar section tapi jangan terlalu dekat dan jangan terlalu jauh!"*.
+   - **Keluhan Bug Navbar:** Ketika pengguna mengklik *"Kontak"* (atau menu lain) lalu kembali ke Hero Section, teks *"Kontak"* masih memiliki kapsul background putih/abu-abu aktif di belakangnya (sebagaimana terlihat pada screenshot). Hal ini terjadi karena `activeNav` diinisialisasi `'tentang'`, tidak pernah di-reset saat posisi viewport berada di Hero Section, dan tidak memiliki pendeteksi scroll spy dinamis.
+2. **Solusi & Implementasi Teknis:**
+   - **Standardisasi Proporsional Jarak Antar-Section (`py-16 sm:py-20 lg:py-24`):**
+     - `src/components/VisiMisiSection.vue`: Dari `py-36 sm:py-52 lg:py-72 xl:py-80` diubah menjadi `py-16 sm:py-20 lg:py-24`.
+     - `src/components/CredibilitySection.vue`: Dari `py-20 sm:py-28 lg:py-32` diubah menjadi `py-16 sm:py-20 lg:py-24`.
+     - `src/components/ProductGrid.vue`: Dari `pt-24 sm:pt-36 lg:pt-48 pb-12 sm:pb-16 lg:pb-20` diubah menjadi `py-16 sm:py-20 lg:py-24`.
+     - `src/components/InteractiveMarqueeMenu.vue`: Dari `py-36 sm:py-52 lg:py-72 xl:py-80` diubah menjadi `py-16 sm:py-20 lg:py-24`.
+     - `src/components/PolaroidCtaSection.vue`: Dari `py-36 sm:py-52 lg:py-72 xl:py-80` diubah menjadi `py-16 sm:py-20 lg:py-24`.
+     - Seluruh section kini memiliki jeda vertikal yang seragam, rapi, bernapas lapang, dan tidak lagi terasa terlalu jauh maupun terlalu rapat.
+   - **Perbaikan Menyeluruh Navbar & Scroll Spy (`src/components/Navbar.vue`):**
+     - Mengubah state awal `activeNav` menjadi `''` (string kosong) sehingga saat membuka web di puncak Hero Section, tidak ada satupun item nav yang mendapat highlight kapsul.
+     - Menambahkan fungsi `updateActiveNavOnScroll`:
+       1. Jika `window.scrollY < heroThreshold`, otomatis mengatur `activeNav.value = ''`. Background kapsul dijamin hilang 100% setiap kali user berada atau kembali ke Hero Section.
+       2. Jika user scroll ke bawah, navbar secara otomatis menyorot section yang sedang aktif (`tentang`, `reputasi`, `katalog`, atau `kontak`).
+       3. Menangani penekanan klik logo brand CV Banong Farms di kiri (`scrollToHero`) untuk scroll halus ke atas dan mengosongkan status highlight navbar.
+       4. Menambahkan debounce `isManualClick` agar klik langsung mulus ke target tanpa tabrakan dengan event listener scroll.
+   - Menambahkan `id="hero"` pada [HeroSection.vue](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/HeroSection.vue) sebagai anchor target resmi puncak halaman.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.08s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
 

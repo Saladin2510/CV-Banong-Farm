@@ -17,7 +17,7 @@
       <div class="h-16 sm:h-[68px] px-3.5 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
         
         <!-- Left: Brand Logo & Title -->
-        <a href="#" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+        <a href="#hero" @click="scrollToHero" class="flex items-center gap-2.5 sm:gap-3 group shrink-0 cursor-pointer">
           <div class="relative flex items-center justify-center">
             <img 
               alt="CV Banong Farms Logo" 
@@ -45,7 +45,7 @@
             v-for="item in navItems" 
             :key="item.id"
             :href="item.href"
-            @click="activeNav = item.id"
+            @click="handleNavClick(item.id, item.href, $event)"
             class="px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200"
             :class="[
               activeNav === item.id 
@@ -150,7 +150,7 @@
             v-for="item in navItems" 
             :key="item.id"
             :href="item.href"
-            @click="activeNav = item.id; isMobileMenuOpen = false"
+            @click="handleNavClick(item.id, item.href, $event)"
             class="py-2.5 px-4 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between"
             :class="[
               activeNav === item.id 
@@ -195,7 +195,8 @@ defineEmits(['openAdmin'])
 
 const cartStore = useCartStore()
 
-const activeNav = ref('tentang')
+// State active nav: default KOSONG agar tidak ada background aktif saat berada di Hero Section
+const activeNav = ref('')
 const isMobileMenuOpen = ref(false)
 const isDark = ref(false)
 const isNavbarHidden = ref(false)
@@ -203,15 +204,103 @@ const isHeroSection = ref(true)
 
 let lastScrollY = 0
 let ticking = false
+let isManualClick = false
+let clickTimeout = null
+
+const navItems = [
+  { id: 'tentang', name: 'Tentang', href: '#tentang-kami' },
+  { id: 'reputasi', name: 'Reputasi', href: '#reputasi' },
+  { id: 'katalog', name: 'Katalog', href: '#katalog-produk' },
+  { id: 'kontak', name: 'Kontak', href: '#kontak' },
+]
+
+// Kembali ke puncak Hero Section dan kosongkan pill aktif
+const scrollToHero = (e) => {
+  if (e) e.preventDefault()
+  activeNav.value = ''
+  isMobileMenuOpen.value = false
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// Handler klik tautan navigasi
+const handleNavClick = (id, href, event) => {
+  if (event) event.preventDefault()
+  activeNav.value = id
+  isMobileMenuOpen.value = false
+
+  // Kunci scroll spy sesaat agar transisi scroll selesai
+  isManualClick = true
+  if (clickTimeout) clearTimeout(clickTimeout)
+  clickTimeout = setTimeout(() => {
+    isManualClick = false
+  }, 900)
+
+  if (href && href.startsWith('#')) {
+    const targetEl = document.querySelector(href)
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
+
+// Scroll Spy: Deteksi posisi viewport secara dinamis
+const updateActiveNavOnScroll = () => {
+  const currentScrollY = window.scrollY
+  const heroThreshold = window.innerHeight - 150
+
+  // 1. Jika posisi scroll berada di dalam Hero Section (puncak layar):
+  // Hilangkan background/highlight pada semua menu navigasi!
+  if (currentScrollY < heroThreshold) {
+    isHeroSection.value = true
+    activeNav.value = ''
+    return
+  }
+
+  isHeroSection.value = false
+
+  // Jika sedang dalam scroll animasi hasil klik menu, pertahankan target yang diklik
+  if (isManualClick) return
+
+  // 2. Cek apakah sudah berada di bagian paling bawah halaman (Kontak / Footer)
+  const scrollPosition = window.innerHeight + currentScrollY
+  const documentHeight = document.documentElement.scrollHeight
+  if (scrollPosition >= documentHeight - 250) {
+    activeNav.value = 'kontak'
+    return
+  }
+
+  // 3. Deteksi section yang sedang aktif di viewport
+  const navOffset = 220
+  const sections = [
+    { id: 'tentang', el: document.getElementById('tentang-kami') || document.getElementById('tentang') },
+    { id: 'reputasi', el: document.getElementById('reputasi') || document.getElementById('kelayakan') },
+    { id: 'katalog', el: document.getElementById('katalog-produk') || document.getElementById('katalog') },
+    { id: 'kontak', el: document.getElementById('kontak') || document.getElementById('contact') }
+  ]
+
+  let matchedId = ''
+  for (const sec of sections) {
+    if (sec.el) {
+      const rect = sec.el.getBoundingClientRect()
+      if (rect.top <= navOffset && rect.bottom > navOffset) {
+        matchedId = sec.id
+        break
+      }
+    }
+  }
+
+  if (matchedId) {
+    activeNav.value = matchedId
+  }
+}
 
 const handleScroll = () => {
   if (!ticking) {
     window.requestAnimationFrame(() => {
       const currentScrollY = window.scrollY
-      const heroThreshold = window.innerHeight - 140
 
-      // Cek apakah posisi scroll masih berada di dalam Hero Section
-      isHeroSection.value = currentScrollY < heroThreshold
+      // Periksa section aktif dan status hero section
+      updateActiveNavOnScroll()
 
       // Selalu munculkan navbar jika berada di puncak halaman (<= 60px)
       if (currentScrollY <= 60) {
@@ -250,12 +339,14 @@ const handleScroll = () => {
 onMounted(() => {
   isDark.value = document.documentElement.classList.contains('dark')
   lastScrollY = window.scrollY
-  isHeroSection.value = window.scrollY < (window.innerHeight - 140)
+  isHeroSection.value = window.scrollY < (window.innerHeight - 150)
+  updateActiveNavOnScroll()
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  if (clickTimeout) clearTimeout(clickTimeout)
 })
 
 const toggleTheme = () => {
@@ -268,12 +359,5 @@ const toggleTheme = () => {
     localStorage.setItem('theme', 'light')
   }
 }
-
-const navItems = [
-  { id: 'tentang', name: 'Tentang', href: '#tentang-kami' },
-  { id: 'reputasi', name: 'Reputasi', href: '#reputasi' },
-  { id: 'katalog', name: 'Katalog', href: '#katalog-produk' },
-  { id: 'kontak', name: 'Kontak', href: '#kontak' },
-]
 </script>
 

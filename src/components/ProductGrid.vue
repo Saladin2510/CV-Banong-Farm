@@ -1,5 +1,5 @@
 <template>
-  <section class="relative w-full bg-surface-pure dark:bg-[#070D1E] pt-24 sm:pt-36 lg:pt-48 pb-12 sm:pb-16 lg:pb-20 transition-colors duration-300" id="katalog-produk">
+  <section class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 border-b border-slate-100 dark:border-slate-800/80" id="katalog-produk">
     <!-- Anchor identifier for #katalog -->
     <span id="katalog" class="absolute -top-32 pointer-events-none opacity-0"></span>
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">

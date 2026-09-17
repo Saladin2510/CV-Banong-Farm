@@ -1,7 +1,7 @@
 <template>
   <section 
     id="tentang-kami" 
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
     <!-- Anchor identifier for #visi-misi and #tentang -->
     <span id="visi-misi" class="absolute -top-32 pointer-events-none opacity-0"></span>

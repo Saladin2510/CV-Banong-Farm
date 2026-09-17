@@ -1,7 +1,7 @@
 <template>
   <section 
     id="reputasi" 
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-20 sm:py-28 lg:py-32 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
     <!-- Anchor identifier for backwards compatibility #kelayakan -->
     <span id="kelayakan" class="absolute -top-32 pointer-events-none opacity-0"></span>
