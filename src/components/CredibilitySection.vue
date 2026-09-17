@@ -2,7 +2,7 @@
   <section 
     ref="credSectionRef"
     id="reputasi" 
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-0 lg:min-h-screen lg:h-screen lg:flex lg:items-center transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
     <!-- Anchor identifier for backwards compatibility #kelayakan -->
     <span id="kelayakan" class="absolute -top-32 pointer-events-none opacity-0"></span>
@@ -12,7 +12,7 @@
     <div class="absolute bottom-10 right-10 w-80 h-80 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
 
     <!-- Kontainer Lebar Maksimal SAMA PERSIS dengan VisiMisiSection dan ProductGrid (1280px) -->
-    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
+    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10 w-full">
       
       <!-- 1. Baris Atas: Headline & Metrik 14rb+ (Layout Persis Sesuai Gambar Referensi) -->
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-12">
@@ -240,64 +240,105 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // 1. Dynamic Rolling Counter Ticker (0 -> 14rb+) saat masuk viewport
-    const counterObj = { val: 0 }
-    gsap.to(counterObj, {
-      val: 14,
-      duration: 2.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: credSectionRef.value,
-        start: 'top 80%',
-        toggleActions: 'play none none none'
+    ScrollTrigger.matchMedia({
+      // Desktop & Laptop: Full Pinned Storytelling Sequence (~2 kali putaran scroll)
+      "(min-width: 1024px)": () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: credSectionRef.value,
+            start: "top top",
+            end: "+=160%", // Membutuhkan ~2 kali scroll wheel/swipe
+            pin: true,
+            scrub: 1.1,
+            anticipatePin: 1
+          }
+        })
+
+        // Awal: Tirai tertutup, inner image sedikit membesar, kartu fitur tersembunyi
+        tl.set('.cert-curtain-mask', { clipPath: 'inset(100% 0% 0% 0%)' })
+        tl.set('.cert-inner-img', { scale: 1.25 })
+        tl.set('.cred-feature-card', { y: 55, opacity: 0 })
+
+        const counterObj = { val: 0 }
+
+        // FASE 1 (Scroll putaran 1: Tirai piagam terbuka penuh + zoom-out halus + Counter berputar proporsional)
+        tl.to('.cert-curtain-mask', {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 0.45,
+          ease: 'power2.inOut'
+        })
+        tl.to('.cert-inner-img', {
+          scale: 1,
+          duration: 0.45,
+          ease: 'power2.out'
+        }, "<")
+        tl.to(counterObj, {
+          val: 14,
+          duration: 0.45,
+          ease: 'power2.out',
+          onUpdate: () => {
+            counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
+          }
+        }, "<")
+
+        // FASE 2 (Scroll putaran 2: 2 Kartu fitur pendukung meluncur naik dan mengunci ke posisi ideal)
+        tl.to('.cred-feature-card', {
+          y: 0,
+          opacity: 1,
+          stagger: 0.12,
+          duration: 0.35,
+          ease: 'power2.out'
+        })
+
+        // FASE 3: Tahan sejenak tampilan sempurna sebelum unpin
+        tl.to({}, { duration: 0.25 })
       },
-      onUpdate: () => {
-        counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
+
+      // Mobile / Tablet (< 1024px): Scroll trigger reveal alami tanpa pin
+      "(max-width: 1023px)": () => {
+        const counterObj = { val: 0 }
+        gsap.to(counterObj, {
+          val: 14,
+          duration: 2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: credSectionRef.value,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          },
+          onUpdate: () => {
+            counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
+          }
+        })
+
+        gsap.fromTo('.cert-curtain-mask',
+          { clipPath: 'inset(100% 0% 0% 0%)' },
+          {
+            clipPath: 'inset(0% 0% 0% 0%)',
+            duration: 1.2,
+            ease: 'power3.inOut',
+            scrollTrigger: {
+              trigger: credSectionRef.value,
+              start: 'top 78%',
+              toggleActions: 'play none none none'
+            }
+          }
+        )
+
+        gsap.from('.cred-feature-card', {
+          scrollTrigger: {
+            trigger: credSectionRef.value,
+            start: 'top 75%',
+            toggleActions: 'play none none none'
+          },
+          y: 35,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.18,
+          ease: 'power2.out'
+        })
       }
     })
-
-    // 2. Stagger slide-up untuk 2 kartu fitur pendukung
-    gsap.from('.cred-feature-card', {
-      scrollTrigger: {
-        trigger: credSectionRef.value,
-        start: 'top 75%',
-        toggleActions: 'play none none none'
-      },
-      y: 35,
-      opacity: 0,
-      duration: 0.85,
-      stagger: 0.18,
-      ease: 'power2.out'
-    })
-
-    // 3. Cinematic Curtain Mask Reveal pada Piagam Sertifikat NIB
-    gsap.fromTo('.cert-curtain-mask',
-      { clipPath: 'inset(100% 0% 0% 0%)' },
-      {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 1.3,
-        ease: 'power3.inOut',
-        scrollTrigger: {
-          trigger: credSectionRef.value,
-          start: 'top 78%',
-          toggleActions: 'play none none none'
-        }
-      }
-    )
-
-    gsap.fromTo('.cert-inner-img',
-      { scale: 1.18 },
-      {
-        scale: 1,
-        duration: 1.4,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: credSectionRef.value,
-          start: 'top 78%',
-          toggleActions: 'play none none none'
-        }
-      }
-    )
   }, credSectionRef.value)
 })
 

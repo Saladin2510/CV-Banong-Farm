@@ -1137,6 +1137,36 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (7.38s) dengan **113 modul ter-bundle sempurna dan 0 error**.
    - Pengalaman scroll terasa sangat mulus (*buttery smooth*), responsif, dan efek reveal menyatu alami dengan kecepatan scroll pengguna.
 
+---
+
+## 39. Catatan Sesi (17 September 2026 - Bagian 15) - Implementasi Pinned Scroll-Driven Storytelling Sequence (Durasi Diperpanjang 2-3 Kali Putaran Scroll ala Apple & Awwwards)
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna sangat menyukai animasi GSAP yang ada, namun menginginkan efek yang berdurasi lebih panjang dan berbobot: *"ini saya SUKA TETAPI, ketika saya scroll itu effectnya sangat sedikit, dan apakah bisa diperpanjang seperti scroll dari section 1 ke 2 itu perlu scroll 2-3 kali swipe atas? atau semacam itu lah paham kan apa yang aku maksud"*.
+   - **Analisis Kebutuhan:**
+     - Pengguna menginginkan teknik **Pinned Scroll Sequence / Sticky Scroll-Driven Storytelling** (seperti halaman peluncuran produk Apple).
+     - Layar harus tertahan/terkunci (*pinned*) di viewport 100vh selama 2–3 kali putaran roda mouse/swipe jari.
+     - Selama durasi pinning tersebut, animasi di dalam section berjalan bertahap (*multi-stage storytelling*) mengikuti jarak perputaran jari scroll pengguna (*bidirectional scrubbing*).
+2. **Solusi & Arsitektur Implementasi:**
+   - **Pinned Sequence pada Section "Tentang Kami" (`src/components/VisiMisiSection.vue`):**
+     - Mengatur layout desktop ke `lg:min-h-screen lg:h-screen lg:flex lg:items-center` agar mengisi 1 layar penuh dengan proporsi ideal.
+     - Mengunci section di viewport dengan `pin: true`, `anticipatePin: 1`, dan `end: '+=180%'` (setara 2–3 kali putaran scroll).
+     - **Fase 1 (Scroll Putaran 1):** Kartu Visi Utama terangkat dari bawah (`y: 45` $\rightarrow$ `0`) dan membesar ke bentuk penuh.
+     - **Fase 2 (Scroll Putaran 2):** 4 checklist Misi terungkap bergantian (*stagger: 0.08*), bersamaan dengan 3 strip foto triptych peternakan yang meluncur masuk secara bersilangan (kolom 1 & 3 dari bawah `y: 160` $\rightarrow$ `0`, kolom 2 dari atas `y: -160` $\rightarrow$ `0`) dan ambient glow menyala terang.
+     - **Fase 3 (Scroll Putaran 3):** Seluruh elemen tertahan stabil sejenak, lalu unpin secara anggun mengalir ke section Reputasi.
+   - **Pinned Sequence pada Section "Reputasi" (`src/components/CredibilitySection.vue`):**
+     - Mengatur layout desktop ke `lg:min-h-screen lg:h-screen lg:flex lg:items-center`.
+     - Mengunci section dengan `pin: true`, `end: '+=160%'` (~2 kali scroll).
+     - **Fase 1 (Scroll Putaran 1):** Tirai piagam sertifikat NIB membuka penuh dari bawah ke atas (`clip-path: inset(...)`) disertai zoom-out gambar, sementara counter `0` $\rightarrow$ `14rb+` berputar proporsional mengikuti putaran scroll mouse pengguna.
+     - **Fase 2 (Scroll Putaran 2):** Dua kartu fitur keunggulan (*Pakan Alami Bebas Hormon* & *Sanitasi Veteriner*) meluncur naik dan mengunci ke posisi presisi.
+     - **Fase 3 (Scroll Putaran 3):** Tahan sejenak tampilan sempurna sebelum unpin menuju Katalog Produk.
+   - **Adaptasi Mobile Cerdas via `ScrollTrigger.matchMedia`:**
+     - Desktop ($\ge$ 1024px): Pengalaman Pinned Storytelling 2–3 kali scroll aktif penuh.
+     - Mobile (< 1024px): Scroll trigger reveal alami tanpa pin agar konten tidak terpotong pada layar vertikal smartphone yang pendek.
+3. **Validasi & Hasil:**
+   - `npm run build` sukses 100% (6.86s) dengan **113 modul ter-bundle sempurna dan 0 error**.
+   - Navigasi scroll kini memiliki kedalaman narasi, terasa sangat berbobot (*Apple-grade interactive journey*), dan transisi antar section tidak lagi terlewat sekilas.
+
+
 
 
 

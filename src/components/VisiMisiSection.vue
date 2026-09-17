@@ -1,7 +1,8 @@
 <template>
   <section 
+    ref="visiSectionRef"
     id="tentang-kami" 
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-0 lg:min-h-screen lg:h-screen lg:flex lg:items-center transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
     <!-- Anchor identifier for #visi-misi and #tentang -->
     <span id="visi-misi" class="absolute -top-32 pointer-events-none opacity-0"></span>
@@ -10,7 +11,7 @@
     <div class="absolute top-1/4 left-10 w-96 h-96 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
     <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
+    <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10 w-full">
       
       <!-- Main Split Layout (Grid 12 cols: 7 cols Left, 5 cols Right) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-center">
@@ -37,7 +38,7 @@
           <div class="mt-5 pt-5 sm:mt-6 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3.5 sm:space-y-4">
             
             <!-- Visi Card (Compact & Sleek) -->
-            <div class="p-3.5 sm:p-4 rounded-xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40">
+            <div class="visi-card p-3.5 sm:p-4 rounded-xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40 will-change-transform">
               <div class="flex items-center gap-2 mb-1.5">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">visibility</span>
                 <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-white font-telemetry-code">
@@ -51,19 +52,19 @@
 
             <!-- Misi 4 Bullet Grid (Yellow Checkmark Accents) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
-              <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
+              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Pangan segar alami berkualitas tanpa bahan pengawet sintetis.</span>
               </div>
-              <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
+              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Pengelolaan peternakan ramah lingkungan dan bebas limbah.</span>
               </div>
-              <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
+              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Kemitraan berdaya bersama kelompok peternak lokal Banyumas.</span>
               </div>
-              <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
+              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
                 <span>Jaminan distribusi cepat panen tiba dalam waktu kurang dari 12 jam.</span>
               </div>
@@ -77,7 +78,7 @@
         <div class="lg:col-span-5 relative">
           
           <!-- Background accent halo -->
-          <div class="absolute -inset-4 bg-gradient-to-tr from-primary/10 via-secondary-container/10 to-primary/5 rounded-3xl blur-2xl pointer-events-none"></div>
+          <div class="triptych-glow absolute -inset-4 bg-gradient-to-tr from-primary/10 via-secondary-container/10 to-primary/5 rounded-3xl blur-2xl pointer-events-none will-change-transform"></div>
 
           <div class="grid grid-cols-3 gap-3 sm:gap-4 items-center relative z-10">
             
@@ -139,40 +140,85 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // 1. Multi-Plane Parallax Scroll pada Galeri Triptych 3 Strip
-    gsap.to('.triptych-col-1, .triptych-col-3', {
-      y: -45,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#tentang-kami',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.2
-      }
-    })
+    ScrollTrigger.matchMedia({
+      // Desktop & Laptop: Full Pinned Storytelling Sequence (memerlukan 2-3 kali putaran scroll)
+      "(min-width: 1024px)": () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: visiSectionRef.value,
+            start: "top top",
+            end: "+=180%", // Setara 2-3 kali scroll wheel/swipe
+            pin: true,
+            scrub: 1.1,
+            anticipatePin: 1
+          }
+        })
 
-    gsap.to('.triptych-col-2', {
-      y: 45,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#tentang-kami',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.2
-      }
-    })
+        // Posisi awal elemen tersembunyi halus
+        tl.set('.visi-card', { opacity: 0, y: 45, scale: 0.96 })
+        tl.set('.misi-item', { opacity: 0, x: -25 })
+        tl.set('.triptych-col-1', { y: 160, opacity: 0.15 })
+        tl.set('.triptych-col-2', { y: -160, opacity: 0.15 })
+        tl.set('.triptych-col-3', { y: 160, opacity: 0.15 })
+        tl.set('.triptych-glow', { scale: 0.5, opacity: 0.2 })
 
-    // 2. Staggered Entrance untuk Narasi dan Kartu Visi Misi
-    gsap.from('#tentang-kami .lg\\:col-span-7 > *', {
-      y: 40,
-      opacity: 0,
-      duration: 0.9,
-      stagger: 0.15,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#tentang-kami',
-        start: 'top 78%',
-        toggleActions: 'play none none none'
+        // FASE 1: Scroll putaran 1 -> Kartu Visi Utama terbuka naik dan membesar
+        tl.to('.visi-card', {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.35,
+          ease: 'power2.out'
+        })
+
+        // FASE 2: Scroll putaran 2 -> Checklist 4 Misi ter-reveal dan 3 strip triptych foto meluncur bersilangan
+        tl.to('.misi-item', {
+          opacity: 1,
+          x: 0,
+          stagger: 0.08,
+          duration: 0.4,
+          ease: 'power2.out'
+        }, "-=0.1")
+
+        tl.to('.triptych-col-1, .triptych-col-3', {
+          y: 0,
+          opacity: 1,
+          duration: 0.55,
+          ease: 'power2.out'
+        }, "<")
+
+        tl.to('.triptych-col-2', {
+          y: 0,
+          opacity: 1,
+          duration: 0.55,
+          ease: 'power2.out'
+        }, "<")
+
+        tl.to('.triptych-glow', {
+          scale: 1.1,
+          opacity: 0.85,
+          duration: 0.55,
+          ease: 'power2.out'
+        }, "<")
+
+        // FASE 3: Scroll putaran 3 -> Tahan sejenak tampilan sempurna sebelum unpin
+        tl.to({}, { duration: 0.3 })
+      },
+
+      // Mobile / Tablet (< 1024px): Reveal responsif alami tanpa pin agar nyaman di layar kecil
+      "(max-width: 1023px)": () => {
+        gsap.from('#tentang-kami .lg\\:col-span-7 > *', {
+          y: 35,
+          opacity: 0,
+          duration: 0.85,
+          stagger: 0.12,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#tentang-kami',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        })
       }
     })
   }, visiSectionRef.value)
