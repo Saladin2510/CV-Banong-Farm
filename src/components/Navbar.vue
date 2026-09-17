@@ -271,8 +271,9 @@ const toggleTheme = () => {
 
 const navItems = [
   { id: 'tentang', name: 'Tentang Kami', href: '#tentang-kami' },
+  { id: 'kelayakan', name: 'Mutu & Legalitas', href: '#kelayakan' },
   { id: 'katalog', name: 'Katalog Produk', href: '#katalog-produk' },
-  { id: 'kontak', name: 'Kontak Kami', href: '#contact' },
+  { id: 'kontak', name: 'Kontak Kami', href: '#kontak' },
 ]
 </script>
 

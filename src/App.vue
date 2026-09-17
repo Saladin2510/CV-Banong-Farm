@@ -29,6 +29,9 @@
         <!-- 2. Visi & Misi Section (Bagus, Simple, Modern) -->
         <VisiMisiSection />
 
+        <!-- 2.5 Credibility & Kelayakan Resmi CV Banong Farms (Sesuai Desain Referensi) -->
+        <CredibilitySection />
+
         <!-- 3. Interactive Product Catalog & Trust Bar -->
         <ProductGrid @openModal="handleOpenModal" />
 
@@ -94,6 +97,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import Navbar from './components/Navbar.vue'
 import HeroSection from './components/HeroSection.vue'
 import VisiMisiSection from './components/VisiMisiSection.vue'
+import CredibilitySection from './components/CredibilitySection.vue'
 import ProductGrid from './components/ProductGrid.vue'
 import PolaroidCtaSection from './components/PolaroidCtaSection.vue'
 import InteractiveMarqueeMenu from './components/InteractiveMarqueeMenu.vue'

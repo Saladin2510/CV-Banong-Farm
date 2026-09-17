@@ -920,5 +920,24 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - Seluruh ruang horizontal (100% lebar kontainer) terisi secara seimbang, tidak ada elemen yang tertekan, dan peta tampil jernih.
    - `npm run build` sukses 100% (5.77s, 0 error).
 
+---
 
-
+## 30. Catatan Sesi (17 September 2026 - Bagian 6) - Pembuatan Seksi Kredibilitas & Kelayakan Resmi CV Banong Farms (Gaya Desain Referensi Presisi)
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna meminta pembuatan seksi baru bertema **Kredibilitas / Kelayakan Usaha (*Credibility Section*)** yang ditempatkan persis **setelah seksi Visi & Misi dan sebelum seksi Katalog Produk**.
+   - Seksi ini memuat data bukti kelayakan: jumlah pelanggan yang telah membeli, sertifikasi resmi, izin edar NIB, dan komitmen mutu higienis peternakan.
+   - **Ketentuan Khusus:** Layout dan tata letak harus mengikuti 100% referensi gambar yang diunggah, dengan foto dokter diganti menjadi sertifikat resmi dan elemen pendukung peternakan yang prestisius.
+2. **Penerapan Komponen Baru (`CredibilitySection.vue`):**
+   - **Penempatan Komponen:** Diintegrasikan ke `src/App.vue` di antara `<VisiMisiSection />` dan `<ProductGrid />`, serta ditambahkan tautan navigasi `Mutu & Legalitas` (`#kelayakan`) di `Navbar.vue`.
+   - **Header Atas (Baris Metrik):**
+     - Sisi Kiri: Judul besar tebal *"Standar Mutu & Legalitas Resmi untuk Pangan Anda"* dan subjudul 1 baris *"Berizin resmi NIB, higienis, dan teruji laboratorium untuk menjamin pangan sehat keluarga setiap hari."*
+     - Sisi Kanan: Metrik besar **`14rb+`** dipadukan dengan 4 lingkaran foto bertumpuk (*overlapping avatars*: telur segar, ayam kampung, bebek/itik, dan ikan air tawar) serta sub-teks *"Dipercaya 1.400+ Pelanggan & Mitra"*.
+   - **Kartu Utama Bersih & Elegan (`rounded-3xl shadow-xl`):**
+     - **Sisi Kiri (Showcase Sertifikat & Piala Keunggulan):** Menampilkan aset gambar resmi `sertifikat_kelayakan_cv_banong.jpg` berupa piagam berbingkai kayu mewah *"SERTIFIKAT KELAYAKAN MUTU & HIGIENIS - CV BANONG FARMS"* lengkap dengan lambang Garuda, cap stempel resmi BPOM/Agri, dan piala keunggulan emas bertengger di sampingnya. Di bagian bawah terdapat kartu overlay putih elegan berisi judul sertifikasi, NIB: 018/KMF/BPOM-AGRI/2023, rating kepuasan ★ 4.9 (1.428 ulasan pembeli), serta tautan resmi WhatsApp, Instagram, dan lencana 100% Halal.
+     - **Sisi Kanan (Narasi Komitmen & 2 Kartu Fitur):**
+       - Narasi komitmen agribisnis sirkular bebas antibiotik berbahaya dan bebas hormon sintetis.
+       - Dua kartu fitur pendukung di bagian bawah:
+         1. *Pakan Alami Bebas Hormon* (ikon daun hijau) mengulas pakan dedak alami dan larva maggot BSF.
+         2. *Sanitasi & Uji Veteriner* (ikon tameng kesehatan teal) mengulas pemeriksaan berkala kesehatan hewan dan biosekuriti kandang.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (5.66s) dengan 108 modul ter-bundle sempurna dan 0 error.
