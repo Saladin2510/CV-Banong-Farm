@@ -1,105 +1,105 @@
 <template>
   <footer 
-    class="w-full bg-[#F8FAFC] dark:bg-[#070D1E] text-slate-800 dark:text-slate-100 pt-16 sm:pt-24 lg:pt-28 pb-8 border-t border-slate-200/80 dark:border-slate-800 transition-colors duration-300 relative overflow-hidden flex flex-col justify-between" 
+    class="w-full bg-[#F8FAFC] dark:bg-[#070D1E] text-slate-800 dark:text-slate-100 pt-16 sm:pt-20 lg:pt-20 xl:pt-24 pb-4 sm:pb-6 border-t border-slate-200/80 dark:border-slate-800 transition-colors duration-300 relative overflow-hidden flex flex-col justify-between lg:h-screen lg:min-h-[100dvh] lg:max-h-screen" 
     id="kontak"
     :style="dotGridStyle"
   >
-    <!-- Kontainer Konten Utama -->
-    <div class="max-w-[1440px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col justify-between relative z-10">
+    <!-- Kontainer Konten Utama (100% tinggi di desktop) -->
+    <div class="max-w-[1440px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col justify-between relative z-10 lg:h-full">
       
       <!-- Bagian Atas: Brand Besar CV Banong Farms, Navigasi Cepat, & Peta Google Maps Interaktif -->
-      <div class="flex flex-col lg:flex-row items-start justify-between gap-10 xl:gap-14 pb-12 sm:pb-16 border-b border-slate-200/80 dark:border-slate-800/80 w-full">
+      <div class="flex flex-col lg:flex-row items-start justify-between gap-6 xl:gap-10 pb-4 lg:pb-6 border-b border-slate-200/80 dark:border-slate-800/80 w-full shrink-0">
         
         <!-- Kolom 1: Brand Raksasa "CV Banong Farms" & Informasi Peternakan (Lebar dan Leluasa) -->
         <div class="w-full lg:flex-1 lg:max-w-xl">
           <!-- Logo Resmi & Status Badge -->
-          <div class="flex items-center gap-3 mb-4">
+          <div class="flex items-center gap-2.5 mb-2.5">
             <a href="#" class="shrink-0 transition-transform duration-200 hover:scale-105" aria-label="Kembali ke atas">
               <img 
                 alt="Logo Resmi CV Banong Farms" 
-                class="w-12 h-12 sm:w-14 sm:h-14 object-contain drop-shadow-sm" 
+                class="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-sm" 
                 src="/assets/logo.png" 
               />
             </a>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Peternakan &amp; Agribisnis Modern</span>
             </span>
           </div>
 
           <!-- NAMA CV BANONG FARMS BESAR & LEGA -->
-          <h2 class="text-4xl sm:text-5xl lg:text-[54px] font-black font-outfit text-slate-900 dark:text-white tracking-tight leading-tight">
+          <h2 class="text-3xl sm:text-4xl lg:text-4xl xl:text-[44px] font-black font-outfit text-slate-900 dark:text-white tracking-tight leading-tight">
             CV Banong Farms
           </h2>
 
-          <p class="mt-3.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed">
+          <p class="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed">
             Pusat peternakan unggas, domba, kambing, budidaya perikanan air tawar, dan pupuk organik kasgot berkualitas unggul dari Ajibarang, Banyumas.
           </p>
 
           <!-- WhatsApp & Jam Operasional -->
-          <div class="mt-6 flex flex-wrap items-center gap-3 text-xs">
+          <div class="mt-3.5 flex flex-wrap items-center gap-2.5 text-xs">
             <a 
               href="https://wa.me/628999192861" 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+              class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
             >
-              <span class="material-symbols-outlined text-[17px]">chat</span>
+              <span class="material-symbols-outlined text-[16px]">chat</span>
               <span>WhatsApp: 0899-9192-861</span>
             </a>
-            <div class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-medium">
-              <span class="material-symbols-outlined text-[16px] text-slate-500">schedule</span>
+            <div class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-medium">
+              <span class="material-symbols-outlined text-[15px] text-slate-500">schedule</span>
               <span>07.00 - 17.00 WIB</span>
             </div>
           </div>
         </div>
 
         <!-- Kolom 2: Navigasi Cepat (2 Kolom Rapi Berpanah "→") -->
-        <div class="w-full sm:w-auto shrink-0 pt-2 lg:pt-4">
-          <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4 font-outfit">
+        <div class="w-full sm:w-auto shrink-0 pt-1 lg:pt-2">
+          <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2.5 font-outfit">
             Navigasi Cepat
           </h4>
-          <div class="grid grid-cols-2 gap-x-8 sm:gap-x-12 gap-y-3.5 text-sm">
-            <div class="flex flex-col space-y-3.5">
+          <div class="grid grid-cols-2 gap-x-6 sm:gap-x-10 gap-y-2.5 text-xs sm:text-sm">
+            <div class="flex flex-col space-y-2.5">
               <a 
                 href="#tentang-kami" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Tentang Kami</span>
               </a>
               
               <a 
-                href="#katalog-produk" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+                href="#reputasi" 
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
-                <span>Katalog Panen</span>
-              </a>
-
-              <a 
-                href="#visi-misi" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
-              >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
-                <span>Visi &amp; Misi</span>
+                <span>Reputasi Mutu</span>
               </a>
 
               <a 
                 href="#katalog-produk" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
-                <span>Kasgot BSF</span>
+                <span>Katalog Produk</span>
+              </a>
+
+              <a 
+                href="#komoditas-marquee" 
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+              >
+                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span>Komoditas Panen</span>
               </a>
             </div>
 
-            <div class="flex flex-col space-y-3.5">
+            <div class="flex flex-col space-y-2.5">
               <a 
                 href="https://wa.me/628999192861" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Pesan via WA</span>
@@ -108,7 +108,7 @@
               <a 
                 href="#kontak" 
                 @click.prevent="openWhatsAppConsultation"
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors cursor-pointer"
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors cursor-pointer"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Konsultasi</span>
@@ -118,7 +118,7 @@
                 href="https://maps.app.goo.gl/AXAGnr9V4D15MyUz9" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Lokasi Maps</span>
@@ -126,7 +126,7 @@
 
               <a 
                 href="mailto:halo@banongfarms.id" 
-                class="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
+                class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Kirim Email</span>
@@ -136,10 +136,10 @@
         </div>
 
         <!-- Kolom 3: PETA GOOGLE MAPS INTERAKTIF (Ukuran Nyaman & Proporsional) -->
-        <div class="w-full lg:w-80 xl:w-96 shrink-0 pt-2 lg:pt-4">
-          <div class="relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#0c1e34] shadow-xl border border-slate-200/90 dark:border-slate-700/80 flex flex-col">
+        <div class="w-full lg:w-72 xl:w-80 shrink-0 pt-1 lg:pt-2">
+          <div class="relative w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-[#0c1e34] shadow-md border border-slate-200/90 dark:border-slate-700/80 flex flex-col">
             <!-- Iframe Google Maps Asli Banong Farms (Live, Bisa Digeser / Zoom) -->
-            <div class="w-full h-44 relative bg-slate-200 dark:bg-[#061527]">
+            <div class="w-full h-32 lg:h-36 relative bg-slate-200 dark:bg-[#061527]">
               <iframe
                 title="Peta Interaktif CV Banong Farms Ajibarang"
                 class="w-full h-full border-0"
@@ -151,8 +151,8 @@
             </div>
 
             <!-- Strip Bawah Peta -->
-            <div class="p-3 bg-white dark:bg-[#0c1e34] flex items-center justify-between gap-2 border-t border-slate-200/80 dark:border-white/10">
-              <span class="text-xs text-slate-700 dark:text-slate-200 font-semibold truncate flex items-center gap-1.5">
+            <div class="p-2.5 bg-white dark:bg-[#0c1e34] flex items-center justify-between gap-2 border-t border-slate-200/80 dark:border-white/10">
+              <span class="text-[11px] text-slate-700 dark:text-slate-200 font-semibold truncate flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>Banong Farms Ajibarang</span>
               </span>
@@ -160,10 +160,10 @@
                 href="https://maps.app.goo.gl/AXAGnr9V4D15MyUz9" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg bg-secondary-container hover:bg-accent-hover text-primary text-xs font-bold transition-all shadow-xs shrink-0 active:scale-95 cursor-pointer"
+                class="inline-flex items-center justify-center gap-1 py-1 px-2.5 rounded-lg bg-secondary-container hover:bg-accent-hover text-primary text-[11px] font-bold transition-all shadow-xs shrink-0 active:scale-95 cursor-pointer"
               >
                 <span>Buka di Maps</span>
-                <span class="material-symbols-outlined text-[13px]">open_in_new</span>
+                <span class="material-symbols-outlined text-[12px]">open_in_new</span>
               </a>
             </div>
           </div>
@@ -171,14 +171,14 @@
 
       </div>
 
-      <!-- Bagian Tengah: THE FLOATING 3D SQUIRCLE TILES DENGAN IKON HEWAN-HEWAN CV BANONG -->
-      <div class="w-full py-10 sm:py-16 lg:py-20 relative select-none">
+      <!-- Bagian Tengah: THE FLOATING 3D SQUIRCLE TILES DENGAN IKON HEWAN-HEWAN CV BANONG (Besar, Bold, dan Ikonik Sesuai Referensi) -->
+      <div class="w-full py-1 lg:py-2 relative select-none flex-1 flex items-center justify-center min-h-[280px] lg:min-h-0">
         
         <!-- Background Ambient Glow Lembut -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-72 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-64 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- Tampilan Desktop & Tablet: Floating Organic Scattered Layout (Persis Referensi Gambar) -->
-        <div class="hidden md:block relative min-h-[380px] lg:min-h-[440px] w-full">
+        <!-- Tampilan Desktop & Tablet: Floating Organic Scattered Layout (Ukuran Besar dan Bold Sesuai Referensi Gambar) -->
+        <div class="hidden md:block relative w-full h-full min-h-[280px] lg:min-h-[340px] xl:min-h-[380px]">
           <div 
             v-for="(tile, index) in animalTiles" 
             :key="tile.id"
@@ -191,19 +191,19 @@
             class="absolute transform transition-all duration-300 ease-out hover:z-30 hover:scale-115 hover:-translate-y-4 hover:rotate-0 cursor-pointer group animate-gentle-float"
             @click="handleTileClick(tile)"
           >
-            <!-- 3D Squircle Card Tile -->
+            <!-- 3D Squircle Card Tile (Besar & Mantap) -->
             <div 
               :class="[
                 tile.rotationClass,
-                'w-24 h-24 lg:w-28 lg:h-28 rounded-[26px] lg:rounded-[30px] p-3.5 flex flex-col items-center justify-center transition-all duration-300',
+                'w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40 rounded-[26px] sm:rounded-[30px] lg:rounded-[36px] xl:rounded-[40px] p-3.5 sm:p-4 lg:p-5 xl:p-6 flex flex-col items-center justify-center transition-all duration-300',
                 'bg-white dark:bg-[#111C35] border border-slate-200/80 dark:border-slate-700/80',
-                'shadow-[0_20px_40px_-15px_rgba(0,0,0,0.10),0_10px_20px_-8px_rgba(0,0,0,0.06),inset_0_1.5px_0_rgba(255,255,255,0.9)]',
-                'dark:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.65),0_10px_20px_-8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.12)]',
-                'group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.22),0_15px_25px_-5px_rgba(0,0,0,0.12)] dark:group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]'
+                'shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14),0_10px_20px_-8px_rgba(0,0,0,0.08),inset_0_2px_0_rgba(255,255,255,0.95)]',
+                'dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.75),0_12px_24px_-8px_rgba(0,0,0,0.5),inset_0_1.5px_0_rgba(255,255,255,0.15)]',
+                'group-hover:shadow-[0_35px_70px_-15px_rgba(0,0,0,0.25)] dark:group-hover:shadow-[0_35px_70px_-15px_rgba(0,0,0,0.9)]'
               ]"
             >
-              <!-- Ikon Hewan / Komoditas -->
-              <div class="w-13 h-13 lg:w-15 lg:h-15 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              <!-- Ikon Hewan / Komoditas (Besar Mengisi Kartu) -->
+              <div class="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 xl:w-24 xl:h-24 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <component :is="tile.iconComponent" />
               </div>
             </div>
@@ -219,7 +219,7 @@
 
         <!-- Tampilan Mobile: Carousel / Staggered Flow Responsive yang Rapi -->
         <div class="block md:hidden">
-          <div class="flex items-center justify-between mb-3 px-1 text-xs text-slate-500 dark:text-slate-400">
+          <div class="flex items-center justify-between mb-2.5 px-1 text-xs text-slate-500 dark:text-slate-400">
             <span class="flex items-center gap-1.5 font-medium">
               <span class="material-symbols-outlined text-[15px] text-emerald-500">pets</span>
               <span>Representasi Hewan &amp; Ternak CV Banong</span>
@@ -227,26 +227,26 @@
             <span class="text-[11px] text-slate-400">Ketuk untuk rincian</span>
           </div>
 
-          <div class="grid grid-cols-4 gap-3 py-2">
+          <div class="grid grid-cols-4 gap-2.5 py-1">
             <div 
               v-for="tile in animalTiles.slice(0, 8)" 
               :key="'m-' + tile.id"
               @click="handleTileClick(tile)"
-              class="flex flex-col items-center gap-1.5 cursor-pointer active:scale-95 transition-transform"
+              class="flex flex-col items-center gap-1 cursor-pointer active:scale-95 transition-transform"
             >
               <div 
                 :class="[
                   tile.rotationClass,
-                  'w-16 h-16 rounded-[20px] p-2 flex items-center justify-center',
+                  'w-14 h-14 rounded-[18px] p-1.5 flex items-center justify-center',
                   'bg-white dark:bg-[#111C35] border border-slate-200/80 dark:border-slate-700/80',
-                  'shadow-[0_12px_24px_-8px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.9)] dark:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.5)]'
+                  'shadow-[0_10px_20px_-8px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.9)] dark:shadow-[0_10px_20px_-8px_rgba(0,0,0,0.5)]'
                 ]"
               >
-                <div class="w-10 h-10 flex items-center justify-center">
+                <div class="w-9 h-9 flex items-center justify-center">
                   <component :is="tile.iconComponent" />
                 </div>
               </div>
-              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 text-center truncate max-w-[70px]">
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 text-center truncate max-w-[65px]">
                 {{ tile.shortName }}
               </span>
             </div>
@@ -256,12 +256,12 @@
       </div>
 
       <!-- Bagian Bawah: Baris Hak Cipta & Kebijakan (Persis Referensi) -->
-      <div class="pt-6 sm:pt-8 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+      <div class="pt-3 lg:pt-4 pb-1 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 shrink-0">
         <div>
           © 2026 CV Banong Farms. Seluruh hak cipta dilindungi undang-undang.
         </div>
         
-        <div class="flex flex-wrap items-center gap-6 text-xs">
+        <div class="flex flex-wrap items-center gap-5 text-xs">
           <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors">Kebijakan Privasi</a>
           <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors">Syarat &amp; Ketentuan</a>
           <a 
@@ -422,15 +422,15 @@ const IconKasgotOrganik = () => h('svg', { viewBox: '0 0 64 64', fill: 'none', c
   h('circle', { cx: '28', cy: '26', r: '4', fill: '#F59E0B' })
 ])
 
-// Konfigurasi Posisi Organik & Rotasi Kartu Tile (Persis Menyebar Seperti Gambar ChronoTask)
+// Konfigurasi Posisi Organik & Rotasi Kartu Tile (Menyebar Dinamis Seperti Gambar ChronoTask)
 const animalTiles = [
   {
     id: 'ayam',
     name: 'Ayam Kampung Segar',
     shortName: 'Ayam',
     iconComponent: IconAyam,
-    left: '4%',
-    top: '42%',
+    left: '2%',
+    top: '34%',
     rotationClass: '-rotate-12',
     delay: '0s',
     duration: '5.2s'
@@ -440,8 +440,8 @@ const animalTiles = [
     name: 'Telur Ayam & Bebek',
     shortName: 'Telur',
     iconComponent: IconTelur,
-    left: '13%',
-    top: '10%',
+    left: '11%',
+    top: '6%',
     rotationClass: 'rotate-8',
     delay: '0.8s',
     duration: '4.8s'
@@ -451,8 +451,8 @@ const animalTiles = [
     name: 'Bebek & Entok',
     shortName: 'Bebek',
     iconComponent: IconBebek,
-    left: '17%',
-    top: '55%',
+    left: '16%',
+    top: '46%',
     rotationClass: '-rotate-6',
     delay: '1.4s',
     duration: '5.6s'
@@ -462,8 +462,8 @@ const animalTiles = [
     name: 'Domba Garut Pilihan',
     shortName: 'Domba',
     iconComponent: IconDomba,
-    left: '32%',
-    top: '48%',
+    left: '28%',
+    top: '38%',
     rotationClass: 'rotate-12',
     delay: '0.4s',
     duration: '5.0s'
@@ -473,8 +473,8 @@ const animalTiles = [
     name: 'Sapi Ternak Sehat',
     shortName: 'Sapi',
     iconComponent: IconSapi,
-    left: '44%',
-    top: '16%',
+    left: '39%',
+    top: '8%',
     rotationClass: '-rotate-3',
     delay: '1.1s',
     duration: '6.0s'
@@ -484,8 +484,8 @@ const animalTiles = [
     name: 'Ikan Air Tawar Nila',
     shortName: 'Ikan Nila',
     iconComponent: IconIkan,
-    left: '52%',
-    top: '58%',
+    left: '49%',
+    top: '48%',
     rotationClass: 'rotate-10',
     delay: '1.8s',
     duration: '5.4s'
@@ -495,8 +495,8 @@ const animalTiles = [
     name: 'Kambing Etawa & Jawa',
     shortName: 'Kambing',
     iconComponent: IconKambing,
-    left: '63%',
-    top: '14%',
+    left: '59%',
+    top: '6%',
     rotationClass: '-rotate-8',
     delay: '0.6s',
     duration: '4.9s'
@@ -506,8 +506,8 @@ const animalTiles = [
     name: 'Kelinci Pedaging & Hias',
     shortName: 'Kelinci',
     iconComponent: IconKelinci,
-    left: '73%',
-    top: '52%',
+    left: '69%',
+    top: '42%',
     rotationClass: 'rotate-6',
     delay: '1.5s',
     duration: '5.7s'
@@ -517,8 +517,8 @@ const animalTiles = [
     name: 'Lebah Madu Peternakan',
     shortName: 'Lebah',
     iconComponent: IconLebah,
-    left: '85%',
-    top: '18%',
+    left: '79%',
+    top: '8%',
     rotationClass: 'rotate-12',
     delay: '0.2s',
     duration: '5.1s'
@@ -528,8 +528,8 @@ const animalTiles = [
     name: 'Kasgot & Pupuk Organik',
     shortName: 'Kasgot BSF',
     iconComponent: IconKasgotOrganik,
-    left: '89%',
-    top: '54%',
+    left: '84%',
+    top: '44%',
     rotationClass: '-rotate-10',
     delay: '1.9s',
     duration: '5.5s'

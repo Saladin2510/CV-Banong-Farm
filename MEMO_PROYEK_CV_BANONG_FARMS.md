@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Standardisasi Padding Jarak Antar-Section yang Proporsional py-16 sm:py-20 lg:py-24, Perbaikan Error Navbar State Reset Saat Kembali ke Hero Section, Implementasi Scroll Spy Dinamis & Logo Scroll to Hero)  
-**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Jarak Section Konsisten & Navbar Presisi)  
+**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Peningkatan Skala Ukuran Ubin 3D Squircle & Ikon Hewan Footer di Desktop Menjadi Besar, Bold & Proporsional Sesuai Desain Referensi ChronoTask, Optimasi Penyebaran Koordinat Wave Pattern)  
+**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Ubin Hewan Footer Besar, Jelas & Ikonik)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -1014,5 +1014,49 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - Menambahkan `id="hero"` pada [HeroSection.vue](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/HeroSection.vue) sebagai anchor target resmi puncak halaman.
 3. **Verifikasi Build:**
    - `npm run build` sukses 100% (6.08s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 34. Catatan Sesi (17 September 2026 - Bagian 10) - Konfigurasi Footer 100vh Penuh di Layar Desktop Tanpa Terpotong
+1. **Latar Belakang & Masalah yang Dilaporkan Pengguna:**
+   - Pengguna melaporkan bahwa ketika menekan tombol *"Kontak"* di navbar, tampilan footer masih terpotong di atas maupun di bawah dan tidak pas 1 layar penuh: *"nah sekarang footernya itu masih terpotong diatas maupun dibawah tidak bisa 1 full layar jadi saya ingin footernya itu 100vh di desktop"*.
+   - **Penyebab Teknis:** Tinggi konten footer sebelumnya mencapai ~1.100px (kombinasi `pt-28`, `min-h-[440px]` animal tiles, dan padding vertikal berlebih) sehingga melebihi viewport standar desktop (~800px-950px), menyebabkan bagian atas terpotong di balik navbar atau bagian bawah tersembunyi.
+2. **Solusi & Implementasi Teknis (`src/components/FooterSection.vue`):**
+   - **Penerapan Kelas 100vh Khusus Desktop:**
+     - Menetapkan `lg:h-screen lg:min-h-[100dvh] lg:max-h-screen` serta `overflow-hidden` pada tag `<footer>`.
+     - Menetapkan `lg:h-full` pada kontainer konten utama dengan `flex flex-col justify-between`.
+   - **Skala Proporsional Antar-Blok di Desktop:**
+     - **Header & Maps (Atas):** Padding atas `lg:pt-20 xl:pt-24`, margin bawah `pb-4 lg:pb-6 border-b`, judul `text-3xl sm:text-4xl lg:text-4xl xl:text-[44px]`, serta tinggi iframe Google Maps `h-32 lg:h-36` yang proporsional.
+     - **Ubin Hewan Tiga Dimensi (Tengah):** Diberi `flex-1 flex items-center justify-center min-h-0 py-2 lg:py-4` dengan ukuran kartu squircle hewan `w-20 h-20 lg:w-22 lg:h-22 rounded-[22px] lg:rounded-[26px]` yang tersebar secara harmonis di tengah kontainer tanpa meluap.
+     - **Baris Hak Cipta & Kebijakan (Bawah):** Padding `pt-3 lg:pt-4 pb-1 border-t` ringkas dan bersih.
+   - **Pengalaman Interaksi Klik Menu Kontak:**
+     - Ketika pengguna menekan tombol *"Kontak"* di navbar, viewport menggulir halus tepat ke `#kontak`. Karena footer tepat 100vh di desktop, seluruh informasi footer tampil utuh 1 layar penuh tanpa terpotong di atas maupun di bawah.
+     - Di perangkat mobile/tablet (`< lg`), footer tetap mengalir alami (`min-h-auto`) untuk kenyamanan sentuhan jari.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.95s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 35. Catatan Sesi (17 September 2026 - Bagian 11) - Peningkatan Skala Ukuran Ubin 3D Squircle & Ikon Hewan Footer di Desktop (Besar, Bold, dan Ikonik)
+1. **Latar Belakang & Masukan Pengguna:**
+   - Pengguna memberikan masukan visual disertai screenshot bahwa bentuk ubin ikon hewan pada footer ketika desktop terlalu kecil: *"bentuk icon pada footer ketika desktop terlalu kecil!"*.
+   - **Penyebab:** Pada sesi sebelumnya, ubin squircle diatur ke `w-20 h-20` (80px) dan ikon di dalamnya hanya `w-11 h-11` (44px), sehingga di layar desktop yang luas ubin-ubin tampak seperti pinhead/titik kecil yang tenggelam di atas latar dot-grid.
+   - **Bandingkan dengan Desain Referensi ChronoTask (`media_1789615697501.png`):** Kartu ubin squircle pada referensi asli memiliki ukuran yang dominan, tebal, dengan ikon di dalamnya mengisi 70-75% luas kartu.
+2. **Solusi & Implementasi Teknis (`src/components/FooterSection.vue`):**
+   - **Peningkatan Skala Ubin Squircle (Hampir 2x Lipat Lebih Besar):**
+     - Mengubah ukuran kartu dari `w-20 h-20 lg:w-22 lg:h-22` menjadi **`w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40`** (128px s.d. 160px di desktop).
+     - Sudut kelengkungan squircle diperhalus menjadi `rounded-[26px] sm:rounded-[30px] lg:rounded-[36px] xl:rounded-[40px]`.
+     - Padding dalam diperbesar menjadi `p-3.5 sm:p-4 lg:p-5 xl:p-6`.
+   - **Peningkatan Ukuran Ikon SVG di Dalam Kartu:**
+     - Mengubah pembungkus ikon dari `w-11 h-11 lg:w-13 lg:h-13` menjadi **`w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 xl:w-24 xl:h-24`** (64px s.d. 96px).
+     - Gambar ayam, bebek, sapi, domba, kambing, kelinci, lebah, ikan, telur, dan kasgot kini tampil tegas, penuh warna, dan jelas terlihat dari kejauhan.
+   - **Penyempurnaan Posisi Koordinat Wave Pattern:**
+     - Menata ulang koordinat persentase `left` dan `top` 10 ubin hewan agar membentuk pola gelombang alami yang seimbang: baris atas (`top: 6% - 8%`) dan baris bawah (`top: 34% - 48%`) dengan rentang horizontal `left: 2%` hingga `84%`, sehingga tidak ada kartu yang terpotong tepi layar atau saling bertabrakan.
+   - **Efek Bayangan 3D Lembut & Megah:**
+     - Menggunakan shadow 3D bertingkat `shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14),0_10px_20px_-8px_rgba(0,0,0,0.08),inset_0_2px_0_rgba(255,255,255,0.95)]` yang semakin dramatis saat kursor di-hover.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.88s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
+
 
 
