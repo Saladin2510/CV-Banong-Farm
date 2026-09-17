@@ -82,7 +82,7 @@
           <div class="grid grid-cols-3 gap-3 sm:gap-4 items-center relative z-10">
             
             <!-- Column 1: Pak Peternak dengan Keranjang Telur Organik -->
-            <div class="flex flex-col gap-3 transform translate-y-3 sm:translate-y-5">
+            <div class="triptych-col-1 flex flex-col gap-3 transform translate-y-3 sm:translate-y-5 will-change-transform">
               <div class="h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group">
                 <img 
                   src="/assets/visi-farmer-eggs.jpg" 
@@ -94,7 +94,7 @@
             </div>
 
             <!-- Column 2: Ahli Agribisnis Memeriksa Peternakan (Slightly shifted / taller) -->
-            <div class="flex flex-col gap-3 transform -translate-y-3 sm:-translate-y-5">
+            <div class="triptych-col-2 flex flex-col gap-3 transform -translate-y-3 sm:-translate-y-5 will-change-transform">
               <div class="h-[310px] sm:h-[410px] lg:h-[470px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group">
                 <img 
                   src="/assets/visi-farmer-check.jpg" 
@@ -106,7 +106,7 @@
             </div>
 
             <!-- Column 3: Lanskap Peternakan & Gunung Slamet Ajibarang -->
-            <div class="flex flex-col gap-3 transform translate-y-1 sm:translate-y-2">
+            <div class="triptych-col-3 flex flex-col gap-3 transform translate-y-1 sm:translate-y-2 will-change-transform">
               <div class="h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group">
                 <img 
                   src="/assets/hero-bg.png" 
@@ -128,5 +128,57 @@
 </template>
 
 <script setup>
-// Pure presentation component with zero external dependencies
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const visiSectionRef = ref(null)
+let ctx = null
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    // 1. Multi-Plane Parallax Scroll pada Galeri Triptych 3 Strip
+    gsap.to('.triptych-col-1, .triptych-col-3', {
+      y: -45,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#tentang-kami',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    })
+
+    gsap.to('.triptych-col-2', {
+      y: 45,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#tentang-kami',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    })
+
+    // 2. Staggered Entrance untuk Narasi dan Kartu Visi Misi
+    gsap.from('#tentang-kami .lg\\:col-span-7 > *', {
+      y: 40,
+      opacity: 0,
+      duration: 0.9,
+      stagger: 0.15,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#tentang-kami',
+        start: 'top 78%',
+        toggleActions: 'play none none none'
+      }
+    })
+  }, visiSectionRef.value)
+})
+
+onUnmounted(() => {
+  if (ctx) ctx.revert()
+})
 </script>

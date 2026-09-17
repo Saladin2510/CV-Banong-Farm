@@ -222,7 +222,11 @@ const goToPage = (page) => {
   currentPage.value = page
   const el = document.getElementById('katalog-produk')
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
+    if (window.__lenis) {
+      window.__lenis.scrollTo(el, { offset: -30, duration: 1.1 })
+    } else {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 }
 
@@ -236,9 +240,23 @@ watch([selectedCategory, currentPage], () => {
 
 onMounted(() => {
   ctx = gsap.context(() => {
+    // 1. Reveal untuk Section Header Katalog
+    gsap.from('#katalog-produk .max-w-container-max > .mb-10', {
+      y: 35,
+      opacity: 0,
+      duration: 0.85,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#katalog-produk',
+        start: 'top 82%',
+        toggleActions: 'play none none none'
+      }
+    })
+
+    // 2. Cascading reveal kartu produk saat pertama kali masuk viewport
     ScrollTrigger.create({
       trigger: '#katalog-produk',
-      start: 'top 80%',
+      start: 'top 78%',
       once: true,
       onEnter: () => animateCards()
     })

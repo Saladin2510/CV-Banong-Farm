@@ -20,19 +20,22 @@
       <div class="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-black/60 backdrop-brightness-90 z-[1]"></div>
     </div>
 
-    <!-- Hero Content Container (100vh Responsive Layout) -->
-    <div class="relative z-10 w-full max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop pt-28 sm:pt-32 md:pt-36 pb-28 sm:pb-32 md:pb-40 flex flex-col items-start justify-center my-auto pointer-events-auto">
+    <!-- Hero Content Container (100vh Responsive Layout with Parallax Scrub) -->
+    <div 
+      ref="heroContentRef"
+      class="relative z-10 w-full max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop pt-28 sm:pt-32 md:pt-36 pb-28 sm:pb-32 md:pb-40 flex flex-col items-start justify-center my-auto pointer-events-auto will-change-transform"
+    >
       
       <!-- Text Slider Container: CSS Grid Stack for Zero Layout Shift & Pure Simultaneous Crossfade (No Jump / Naik-Turun) -->
       <div class="w-full max-w-3xl grid grid-cols-1 grid-rows-1 items-start">
         <div 
-          v-for="(slide, idx) in slides"
+          v-for="(slide, idx) in slides" 
           :key="idx"
           class="col-start-1 row-start-1 flex flex-col items-start transition-opacity duration-700 ease-in-out select-none will-change-[opacity]"
           :class="currentSlide === idx ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0'"
         >
           <!-- Live Status Pill -->
-          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-surface-pure/15 backdrop-blur-md mb-3 md:mb-space-16 border border-white/15 shadow-md">
+          <div class="hero-reveal-item inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-surface-pure/15 backdrop-blur-md mb-3 md:mb-space-16 border border-white/15 shadow-md">
             <span class="relative flex h-2.5 w-2.5">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary-container"></span>
@@ -43,7 +46,7 @@
           </div>
 
           <!-- Dynamic Slide Typography -->
-          <h1 class="font-display-hero text-[32px] sm:text-[42px] md:text-display-hero text-on-primary font-extrabold tracking-tight leading-tight md:leading-none drop-shadow-lg">
+          <h1 class="hero-reveal-item font-display-hero text-[32px] sm:text-[42px] md:text-display-hero text-on-primary font-extrabold tracking-tight leading-tight md:leading-none drop-shadow-lg">
             <span class="text-secondary-container">
               {{ slide.titleHighlight }}
             </span><br/>
@@ -52,14 +55,14 @@
             </span>
           </h1>
 
-          <p class="mt-3 md:mt-4 font-body-lg text-sm sm:text-base md:text-body-lg text-primary-fixed max-w-xl leading-relaxed text-slate-100 drop-shadow">
+          <p class="hero-reveal-item mt-3 md:mt-4 font-body-lg text-sm sm:text-base md:text-body-lg text-primary-fixed max-w-xl leading-relaxed text-slate-100 drop-shadow">
             {{ slide.description }}
           </p>
         </div>
       </div>
 
       <!-- Stable CTA Buttons (Stationary & Always Accessible - No Bouncing on Slide Changes) -->
-      <div class="mt-6 md:mt-8 flex items-center gap-3 sm:gap-space-16 flex-wrap">
+      <div class="hero-reveal-item mt-6 md:mt-8 flex items-center gap-3 sm:gap-space-16 flex-wrap">
         <a 
           href="#katalog-produk" 
           class="inline-flex items-center justify-center gap-space-8 px-6 md:px-space-32 py-3.5 md:py-4 rounded-full bg-secondary-container text-primary font-label-lg text-sm md:text-label-lg font-bold shadow-2xl hover:bg-accent-hover transition-all transform hover:-translate-y-1 active:translate-y-0"
@@ -78,7 +81,7 @@
       </div>
 
       <!-- Metric Counter Strip -->
-      <div class="mt-5 md:mt-8 pt-4 md:pt-5 flex items-center gap-4 sm:gap-space-32 flex-wrap border-t border-surface-pure/20 w-full max-w-3xl">
+      <div class="hero-reveal-item mt-5 md:mt-8 pt-4 md:pt-5 flex items-center gap-4 sm:gap-space-32 flex-wrap border-t border-surface-pure/20 w-full max-w-3xl">
         <div>
           <div class="font-headline-lg text-lg sm:text-headline-lg font-bold text-secondary-container">100%</div>
           <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Alami &amp; Bebas Kimia</div>
@@ -146,9 +149,15 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+gsap.registerPlugin(ScrollTrigger)
+
+const heroContentRef = ref(null)
 const currentSlide = ref(0)
 let timer = null
+let ctx = null
 
 const slides = [
   {
@@ -232,9 +241,38 @@ const checkSwipe = (start, end) => {
 
 onMounted(() => {
   resetTimer()
+
+  ctx = gsap.context(() => {
+    // 1. Kinetic Staggered Reveal saat halaman pertama dimuat
+    gsap.from('.hero-reveal-item', {
+      y: 45,
+      opacity: 0,
+      duration: 1.15,
+      stagger: 0.1,
+      ease: 'power3.out',
+      delay: 0.15
+    })
+
+    // 2. Parallax Scroll Scrub saat pengguna scroll keluar dari Hero
+    if (heroContentRef.value) {
+      gsap.to(heroContentRef.value, {
+        y: -110,
+        opacity: 0.15,
+        scale: 0.96,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      })
+    }
+  })
 })
 
 onUnmounted(() => {
   if (timer) clearInterval(timer)
+  if (ctx) ctx.revert()
 })
 </script>

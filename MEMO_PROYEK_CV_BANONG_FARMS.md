@@ -1106,6 +1106,38 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (6.79s) dengan 112 modul ter-bundle sempurna dan 0 error.
    - Seluruh fungsionalitas inti (keranjang belanja, checkout WhatsApp, Supabase cloud store) tetap berfungsi 100% stabil tanpa interferensi.
 
+---
+
+## 38. Catatan Sesi (17 September 2026 - Bagian 14) - Implementasi Sistem Animasi Scroll Reveal Super Seamless Berstandar Awwwards (Lenis Smooth Scroll Engine + Curtain Mask Reveals)
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna menginginkan efek scroll yang memiliki animasi **"REVEAL" dan "SANGAT SEAMLESS"** seperti yang sering dilihat pada situs-situs showcase GSAP dan pemenang penghargaan: *"saya melihat orang-orang yang menggunakan gsap itu memakai animasi scroll effect yang bisa REAVEAL gitu dan SANGAT SEAMLESS apakah kamu bisa buatkan animasi scrooll se seamless itu??"*.
+   - **Analisis Rahasia Industri Web Awwwards:**
+     - Efek scroll standar browser Windows memiliki pergerakan roda mouse yang terputus-putus (*steppy/notched*), menyebabkan animasi scroll terasa kaku atau bergetar (*jitter*).
+     - Diperlukan **Lenis Smooth Scroll Engine** yang menginterpolasi input scroll menjadi gerakan inersia fisik selembut mentega (*buttery smooth damping*) yang disinkronkan 1:1 dengan `gsap.ticker`.
+     - Animasi reveal tidak sekadar fade-in biasa, melainkan menggunakan teknik **Curtain Mask Wipe Reveal (`clip-path: inset(...)`)** dan **Multi-Plane Parallax Scrub**.
+2. **Solusi & Arsitektur Implementasi:**
+   - **Instalasi Paket:** Menambahkan dependensi `lenis` via npm.
+   - **Fondasi Smooth Scroll Global (`src/App.vue` & `src/style.css`):**
+     - Menginisialisasi `Lenis` dengan durasi 1.15s, kurva easing eksponensial halus, dan pengikatan langsung ke event `ScrollTrigger.update()`.
+     - Mengikat frame loop Lenis ke `gsap.ticker.add((time) => lenis.raf(time * 1000))` dan mengatur `gsap.ticker.lagSmoothing(0)` untuk menjamin 120 FPS tanpa latency.
+     - Menghapus CSS `scroll-behavior: smooth` native saat Lenis aktif agar tidak terjadi interferensi/lag ganda.
+     - Manajemen view cerdas: menonaktifkan Lenis saat masuk ke halaman admin Supabase dan mengaktifkannya kembali saat berada di landing page.
+   - **Navigasi Meluncur Halus (`src/components/Navbar.vue`):**
+     - Tombol logo dan seluruh tautan anchor (`#tentang-kami`, `#reputasi`, `#katalog-produk`, `#kontak`) dihubungkan dengan `window.__lenis.scrollTo(targetEl, { offset: -20, duration: 1.25 })`. Halaman meluncur anggun dan presisi ke posisi target.
+   - **Curtain Mask Wipe Reveal pada Piagam Sertifikat (`src/components/CredibilitySection.vue`):**
+     - Menggunakan `clipPath: 'inset(100% 0% 0% 0%)'` $\rightarrow$ `inset(0% 0% 0% 0%)` berdurasi 1.3s dengan kurva `power3.inOut`.
+     - Dipadukan dengan pergerakan *inner image scale-down* (`scale: 1.18` $\rightarrow$ `1.0`), menciptakan efek visual megah layaknya membuka tirai pameran seni mewah.
+   - **Multi-Plane Parallax Vertical Scrub pada Galeri Triptych (`src/components/VisiMisiSection.vue`):**
+     - Strip galeri kiri dan kanan meluncur naik (`y: -45px`), sementara strip tengah meluncur turun (`y: +45px`) secara tersinkronisasi dengan roda scroll (`scrub: 1.2`), menghadirkan sensasi kedalaman ruang (*depth layering*).
+   - **Kinetic Staggered Reveal & Exit Parallax (`src/components/HeroSection.vue`):**
+     - Elemen display hero ter-reveal beruntun saat pertama dimuat dan bergerak parallax memudar halus saat pengguna menggulir halaman ke bawah.
+   - **Cascading Waterfall Reveal (`src/components/ProductGrid.vue`):**
+     - Header dan kartu katalog terungkap terkoordinasi dengan progress scroll dan paginasi Lenis.
+3. **Validasi & Hasil:**
+   - `npm run build` sukses 100% (7.38s) dengan **113 modul ter-bundle sempurna dan 0 error**.
+   - Pengalaman scroll terasa sangat mulus (*buttery smooth*), responsif, dan efek reveal menyatu alami dengan kecepatan scroll pengguna.
+
+
 
 
 

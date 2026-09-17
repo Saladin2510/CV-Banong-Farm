@@ -88,17 +88,17 @@
           <!-- SISI KIRI: Showcase Sertifikat Resmi & Piala Keunggulan (Pengganti Foto Dokter Sesuai Permintaan) -->
           <div class="lg:col-span-5 relative w-full flex flex-col items-center">
             
-            <!-- Bingkai Foto Sertifikat & Piala Keunggulan (Interactive 3D Depth Tilt) -->
+            <!-- Bingkai Foto Sertifikat & Piala Keunggulan (Interactive 3D Depth Tilt & Curtain Mask Reveal) -->
             <div 
               ref="certCardRef"
               @pointermove="handleCertPointerMove"
               @pointerleave="handleCertPointerLeave"
-              class="relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
+              class="cert-curtain-mask relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-[clip-path,transform]"
             >
               <img 
                 src="/assets/sertifikat_kelayakan_cv_banong.jpg" 
                 alt="Sertifikat Kelayakan Mutu dan Higienis CV Banong Farms" 
-                class="w-full h-[360px] sm:h-[420px] lg:h-[460px] object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+                class="cert-inner-img w-full h-[360px] sm:h-[420px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
               <!-- Gradient Vignette Lembut di Bagian Bawah Gambar -->
@@ -269,6 +269,35 @@ onMounted(() => {
       stagger: 0.18,
       ease: 'power2.out'
     })
+
+    // 3. Cinematic Curtain Mask Reveal pada Piagam Sertifikat NIB
+    gsap.fromTo('.cert-curtain-mask',
+      { clipPath: 'inset(100% 0% 0% 0%)' },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        duration: 1.3,
+        ease: 'power3.inOut',
+        scrollTrigger: {
+          trigger: credSectionRef.value,
+          start: 'top 78%',
+          toggleActions: 'play none none none'
+        }
+      }
+    )
+
+    gsap.fromTo('.cert-inner-img',
+      { scale: 1.18 },
+      {
+        scale: 1,
+        duration: 1.4,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: credSectionRef.value,
+          start: 'top 78%',
+          toggleActions: 'play none none none'
+        }
+      }
+    )
   }, credSectionRef.value)
 })
 

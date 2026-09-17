@@ -219,7 +219,11 @@ const scrollToHero = (e) => {
   if (e) e.preventDefault()
   activeNav.value = ''
   isMobileMenuOpen.value = false
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (window.__lenis) {
+    window.__lenis.scrollTo(0, { duration: 1.2 })
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 
 // Handler klik tautan navigasi
@@ -233,19 +237,23 @@ const handleNavClick = (id, href, event) => {
   if (clickTimeout) clearTimeout(clickTimeout)
   clickTimeout = setTimeout(() => {
     isManualClick = false
-  }, 900)
+  }, 1200)
 
   if (href && href.startsWith('#')) {
     const targetEl = document.querySelector(href)
     if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth' })
+      if (window.__lenis) {
+        window.__lenis.scrollTo(targetEl, { offset: -20, duration: 1.25 })
+      } else {
+        targetEl.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 }
 
 // Scroll Spy: Deteksi posisi viewport secara dinamis
 const updateActiveNavOnScroll = () => {
-  const currentScrollY = window.scrollY
+  const currentScrollY = window.__lenis ? window.__lenis.scroll : window.scrollY
   const heroThreshold = window.innerHeight - 150
 
   // 1. Jika posisi scroll berada di dalam Hero Section (puncak layar):

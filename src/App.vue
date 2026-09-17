@@ -93,7 +93,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import Lenis from 'lenis'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from './components/Navbar.vue'
 import HeroSection from './components/HeroSection.vue'
 import VisiMisiSection from './components/VisiMisiSection.vue'
@@ -110,6 +113,8 @@ import AdminLoginView from './components/admin/AdminLoginView.vue'
 import { useAdminStore } from './stores/useAdminStore'
 import { useCartStore } from './stores/useCartStore'
 
+gsap.registerPlugin(ScrollTrigger)
+
 const adminStore = useAdminStore()
 const cartStore = useCartStore()
 
@@ -124,6 +129,48 @@ const currentView = ref('landing')
 const isModalOpen = ref(false)
 const selectedProduct = ref(null)
 
+let lenis = null
+let tickerCallback = null
+
+const initLenis = () => {
+  if (lenis) return
+  lenis = new Lenis({
+    duration: 1.15,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 0.95
+  })
+
+  window.__lenis = lenis
+
+  // Sinkronisasi scroll Lenis dengan GSAP ScrollTrigger
+  lenis.on('scroll', () => {
+    ScrollTrigger.update()
+    handleScroll()
+  })
+
+  // Hubungkan render frame Lenis ke GSAP Ticker untuk animasi 120 FPS tanpa lag
+  tickerCallback = (time) => {
+    lenis.raf(time * 1000)
+  }
+  gsap.ticker.add(tickerCallback)
+  gsap.ticker.lagSmoothing(0)
+}
+
+const destroyLenis = () => {
+  if (tickerCallback) {
+    gsap.ticker.remove(tickerCallback)
+    tickerCallback = null
+  }
+  if (lenis) {
+    lenis.destroy()
+    lenis = null
+    window.__lenis = null
+  }
+}
+
 const handleOpenModal = (product) => {
   selectedProduct.value = product
   isModalOpen.value = true
@@ -132,9 +179,11 @@ const handleOpenModal = (product) => {
 const switchView = (view) => {
   currentView.value = view
   if (view === 'admin') {
+    destroyLenis()
     window.location.hash = '#/admin'
   } else {
     window.location.hash = '#/'
+    nextTick(() => initLenis())
   }
 }
 
@@ -146,8 +195,10 @@ const handleAdminLogout = async () => {
 const checkHash = () => {
   if (window.location.hash.toLowerCase().includes('admin')) {
     currentView.value = 'admin'
+    destroyLenis()
   } else {
     currentView.value = 'landing'
+    nextTick(() => initLenis())
   }
 }
 
@@ -155,7 +206,8 @@ const isCartVisible = ref(false)
 
 const handleScroll = () => {
   // Sembunyikan saat posisi hero section (<= 420px)
-  const isPastHero = window.scrollY > 420
+  const currentY = window.__lenis ? window.__lenis.scroll : window.scrollY
+  const isPastHero = currentY > 420
 
   // Sembunyikan saat posisi footer section
   let isNearFooter = false
@@ -164,7 +216,7 @@ const handleScroll = () => {
     const rect = footer.getBoundingClientRect()
     isNearFooter = rect.top <= window.innerHeight
   } else {
-    const scrollBottom = window.innerHeight + window.scrollY
+    const scrollBottom = window.innerHeight + currentY
     const docHeight = document.documentElement.scrollHeight
     isNearFooter = scrollBottom >= docHeight - 300
   }
@@ -172,15 +224,29 @@ const handleScroll = () => {
   isCartVisible.value = isPastHero && !isNearFooter
 }
 
+watch(isModalOpen, (isOpen) => {
+  if (lenis) {
+    if (isOpen) {
+      lenis.stop()
+    } else {
+      lenis.start()
+    }
+  }
+})
+
 onMounted(async () => {
   checkHash()
   window.addEventListener('hashchange', checkHash)
   window.addEventListener('scroll', handleScroll, { passive: true })
   handleScroll()
   await adminStore.checkAuthSession()
+  if (currentView.value === 'landing') {
+    initLenis()
+  }
 })
 
 onUnmounted(() => {
+  destroyLenis()
   window.removeEventListener('hashchange', checkHash)
   window.removeEventListener('scroll', handleScroll)
 })
