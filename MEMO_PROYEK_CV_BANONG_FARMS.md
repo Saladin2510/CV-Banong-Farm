@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Peningkatan Skala Ukuran Ubin 3D Squircle & Ikon Hewan Footer di Desktop Menjadi Besar, Bold & Proporsional Sesuai Desain Referensi ChronoTask, Optimasi Penyebaran Koordinat Wave Pattern)  
-**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Ubin Hewan Footer Besar, Jelas & Ikonik)  
+**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Kalibrasi Ulang Ukuran Proporsional Golden Ratio Ubin Squircle ~112px & Ikon Hewan ~64px di Footer Desktop, Resolusi Masalah Terlalu Besar vs Terlalu Kecil)  
+**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Ubin Hewan Footer Proporsional & Presisi)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -1056,6 +1056,29 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
      - Menggunakan shadow 3D bertingkat `shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14),0_10px_20px_-8px_rgba(0,0,0,0.08),inset_0_2px_0_rgba(255,255,255,0.95)]` yang semakin dramatis saat kursor di-hover.
 3. **Verifikasi Build:**
    - `npm run build` sukses 100% (6.88s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 36. Catatan Sesi (17 September 2026 - Bagian 12) - Kalibrasi Ulang Ukuran Proporsional Golden Ratio Ubin Squircle & Ikon Hewan Footer di Desktop
+1. **Latar Belakang & Keluhan Pengguna:**
+   - Setelah peningkatan skala sebelumnya (`128px - 160px` untuk kartu dan `80px - 96px` untuk ikon), pengguna melaporkan bahwa ukuran tersebut menjadi terlalu besar di layar desktop: *"waduh sekarang iconnya terlalu besar! tolong perbaiki lagi yang benar!"*.
+   - **Analisis Keseimbangan:**
+     - Versi awal (`80px` kartu, `44px` ikon) dinilai **terlalu kecil**.
+     - Versi pembesaran (`144px` kartu, `96px` ikon) dinilai **terlalu besar**.
+     - Dibutuhkan **titik tengah ideal (*golden ratio sweet spot*)** yang proporsional, rapi, dan elegan.
+2. **Solusi & Implementasi Kalibrasi (`src/components/FooterSection.vue`):**
+   - **Ukuran Kartu Ubin Squircle Ideal (~112px):**
+     - Dikalibrasi menjadi **`w-24 h-24 sm:w-26 sm:h-26 lg:w-28 lg:h-28 xl:w-[116px] xl:h-[116px]`** (sekitar 104px s.d. 116px).
+     - Radius sudut squircle: `rounded-[24px] sm:rounded-[26px] lg:rounded-[28px] xl:rounded-[30px]`.
+     - Padding dalam: `p-3 sm:p-3.5 lg:p-4`.
+   - **Ukuran Ikon Hewan di Dalam Kartu Ideal (~64px):**
+     - Dikalibrasi menjadi **`w-13 h-13 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-[68px] xl:h-[68px]`** (sekitar 56px s.d. 68px).
+     - Rasio pengisian ikon terhadap kartu mencapai ~55–60%: tidak kekecilan, tidak raksasa/kedodoran, sangat harmonis dan detail gambar tampak tajam.
+   - **Ruang Udara & Ketinggian:**
+     - Area tengah ubin hewan diset `min-h-[260px] lg:min-h-[300px] xl:min-h-[320px]`, memberikan ruang bernapas yang lega, tidak berhimpitan, dan footer 100vh di desktop tetap pas satu layar penuh tanpa terpotong di atas atau bawah.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.19s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
 
 
 

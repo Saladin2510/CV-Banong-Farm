@@ -171,14 +171,14 @@
 
       </div>
 
-      <!-- Bagian Tengah: THE FLOATING 3D SQUIRCLE TILES DENGAN IKON HEWAN-HEWAN CV BANONG (Besar, Bold, dan Ikonik Sesuai Referensi) -->
-      <div class="w-full py-1 lg:py-2 relative select-none flex-1 flex items-center justify-center min-h-[280px] lg:min-h-0">
+      <!-- Bagian Tengah: THE FLOATING 3D SQUIRCLE TILES DENGAN IKON HEWAN-HEWAN CV BANONG (Ukuran Pas & Proporsional) -->
+      <div class="w-full py-1 lg:py-2 relative select-none flex-1 flex items-center justify-center min-h-[260px] lg:min-h-0">
         
         <!-- Background Ambient Glow Lembut -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-64 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-56 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- Tampilan Desktop & Tablet: Floating Organic Scattered Layout (Ukuran Besar dan Bold Sesuai Referensi Gambar) -->
-        <div class="hidden md:block relative w-full h-full min-h-[280px] lg:min-h-[340px] xl:min-h-[380px]">
+        <!-- Tampilan Desktop & Tablet: Floating Organic Scattered Layout (Ukuran Proporsional & Elegan) -->
+        <div class="hidden md:block relative w-full h-full min-h-[260px] lg:min-h-[300px] xl:min-h-[320px]">
           <div 
             v-for="(tile, index) in animalTiles" 
             :key="tile.id"
@@ -188,28 +188,28 @@
               animationDelay: tile.delay,
               animationDuration: tile.duration
             }"
-            class="absolute transform transition-all duration-300 ease-out hover:z-30 hover:scale-115 hover:-translate-y-4 hover:rotate-0 cursor-pointer group animate-gentle-float"
+            class="absolute transform transition-all duration-300 ease-out hover:z-30 hover:scale-115 hover:-translate-y-3 hover:rotate-0 cursor-pointer group animate-gentle-float"
             @click="handleTileClick(tile)"
           >
-            <!-- 3D Squircle Card Tile (Besar & Mantap) -->
+            <!-- 3D Squircle Card Tile (Proporsional: ~112px) -->
             <div 
               :class="[
                 tile.rotationClass,
-                'w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40 rounded-[26px] sm:rounded-[30px] lg:rounded-[36px] xl:rounded-[40px] p-3.5 sm:p-4 lg:p-5 xl:p-6 flex flex-col items-center justify-center transition-all duration-300',
+                'w-24 h-24 sm:w-26 sm:h-26 lg:w-28 lg:h-28 xl:w-[116px] xl:h-[116px] rounded-[24px] sm:rounded-[26px] lg:rounded-[28px] xl:rounded-[30px] p-3 sm:p-3.5 lg:p-4 flex flex-col items-center justify-center transition-all duration-300',
                 'bg-white dark:bg-[#111C35] border border-slate-200/80 dark:border-slate-700/80',
-                'shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14),0_10px_20px_-8px_rgba(0,0,0,0.08),inset_0_2px_0_rgba(255,255,255,0.95)]',
-                'dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.75),0_12px_24px_-8px_rgba(0,0,0,0.5),inset_0_1.5px_0_rgba(255,255,255,0.15)]',
-                'group-hover:shadow-[0_35px_70px_-15px_rgba(0,0,0,0.25)] dark:group-hover:shadow-[0_35px_70px_-15px_rgba(0,0,0,0.9)]'
+                'shadow-[0_18px_36px_-10px_rgba(0,0,0,0.12),0_8px_16px_-6px_rgba(0,0,0,0.06),inset_0_1.5px_0_rgba(255,255,255,0.95)]',
+                'dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),0_10px_20px_-6px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.15)]',
+                'group-hover:shadow-[0_28px_56px_-12px_rgba(0,0,0,0.22)] dark:group-hover:shadow-[0_28px_56px_-12px_rgba(0,0,0,0.85)]'
               ]"
             >
-              <!-- Ikon Hewan / Komoditas (Besar Mengisi Kartu) -->
-              <div class="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 xl:w-24 xl:h-24 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              <!-- Ikon Hewan / Komoditas (Proporsional: ~64px) -->
+              <div class="w-13 h-13 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-[68px] xl:h-[68px] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <component :is="tile.iconComponent" />
               </div>
             </div>
 
             <!-- Floating Label Tooltip on Hover -->
-            <div class="absolute -bottom-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-40 transform translate-y-1 group-hover:translate-y-0">
+            <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-40 transform translate-y-1 group-hover:translate-y-0">
               <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md border border-white/10">
                 {{ tile.name }}
               </span>
