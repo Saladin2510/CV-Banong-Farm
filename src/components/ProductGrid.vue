@@ -10,11 +10,11 @@
             <span>Langsung dari Peternakan Ajibarang</span>
           </div>
           <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight">
-            Katalog Segar Hari Ini
+            Katalog Panen Segar
           </h2>
         </div>
         <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 max-w-md">
-          Produk hasil panen harian peternakan ramah lingkungan. Dikelola higienis tanpa hormon &amp; bahan aditif sintetis.
+          Pilihan hasil peternakan dan hasil tani berkualitas tinggi, dipanen harian dengan standar kebersihan terjaga tanpa bahan kimia sintetis.
         </p>
       </div>
 
@@ -44,10 +44,10 @@
           <span class="material-symbols-outlined text-[32px]">inventory_2</span>
         </div>
         <h3 class="font-headline-sm text-headline-sm text-primary dark:text-white font-bold mb-1">
-          Belum Ada Komoditas Tersedia
+          Belum Ada Produk Tersedia
         </h3>
         <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 max-w-sm">
-          Semua data disinkronkan langsung dari database. Produk panen baru akan segera tampil di sini.
+          Produk panen baru akan segera diperbarui secara langsung oleh pengelola di sistem.
         </p>
       </div>
 
@@ -113,7 +113,7 @@
         </div>
       </div>
 
-      <!-- Trust Bar / Farm-to-Table Highlights (Dibuat Lebih Dekat dengan Katalog) -->
+      <!-- Trust Bar / Farm-to-Table Highlights -->
       <div 
         class="mt-8 sm:mt-10 lg:mt-12 p-6 sm:p-8 lg:p-10 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-12 shadow-xs border border-surface-container-high/70 dark:border-slate-800 animate-fade-in-up" 
         id="standar-etika"
@@ -124,10 +124,10 @@
           </div>
           <div>
             <div class="font-headline-md text-headline-md sm:text-headline-lg text-primary dark:text-white font-bold">
-              Peternakan Beretika di Ajibarang
+              Standar Mutu Peternakan Ajibarang
             </div>
             <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-1 max-w-xl leading-relaxed">
-              Pakan alami, sanitasi berstandar veteriner, dan pengiriman rantai dingin langsung ke rumah tangga maupun mitra kuliner.
+              Pakan alami bernutrisi, tata kelola kandang bersih higienis, serta pengiriman cepat langsung ke rumah tangga dan mitra usaha kuliner.
             </p>
           </div>
         </div>
@@ -135,7 +135,7 @@
         <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0 flex-wrap sm:flex-nowrap">
           <span class="inline-flex items-center gap-2 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-4 py-2.5 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
             <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
-            Tanpa Pengawet
+            100% Bebas Pengawet
           </span>
           <span class="inline-flex items-center gap-2 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-4 py-2.5 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
             <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>

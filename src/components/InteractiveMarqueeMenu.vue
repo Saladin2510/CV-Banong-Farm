@@ -107,13 +107,13 @@
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Unggas Organik Ajibarang
+              Unggas Sehat Alami
             </div>
           </div>
         </div>
       </transition>
 
-      <!-- Row 3: DAGING ORGANIK HIGIENIS (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
+      <!-- Row 3: DAGING SEGAR & HIGIENIS (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 2"
@@ -149,13 +149,13 @@
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Ikan Air Deras Segar
+              Ikan Air Tawar Segar
             </div>
           </div>
         </div>
       </transition>
 
-      <!-- Row 5: PUPUK KASGOT ORGANIK (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
+      <!-- Row 5: PUPUK ORGANIK KASGOT (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 4"
@@ -170,7 +170,7 @@
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Pupuk Hayati Organik
+              Pupuk Organik Kasgot
             </div>
           </div>
         </div>
@@ -188,9 +188,9 @@ import { ref } from 'vue'
 const rows = [
   { id: 0, text: 'TELUR AYAM & BEBEK SEGAR', direction: 'left' },
   { id: 1, text: 'PETERNAKAN UNGGAS ALAMI', direction: 'right' },
-  { id: 2, text: 'DAGING ORGANIK HIGIENIS', direction: 'left' },
+  { id: 2, text: 'DAGING SEGAR & HIGIENIS', direction: 'left' },
   { id: 3, text: 'PERIKANAN AIR DERAS', direction: 'right' },
-  { id: 4, text: 'PUPUK KASGOT ORGANIK', direction: 'left' }
+  { id: 4, text: 'PUPUK ORGANIK KASGOT', direction: 'left' }
 ]
 
 // When null, ALL rows run continuously at unified fast speed and NO image is shown.

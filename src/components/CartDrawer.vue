@@ -37,10 +37,10 @@
             </span>
             <div class="flex flex-col">
               <span class="text-base font-bold text-slate-900 dark:text-white leading-tight">
-                Keranjang Pakan
+                Keranjang Belanja
               </span>
               <span class="text-[11px] text-slate-500 font-telemetry-code">
-                {{ cartStore.totalItems.value }} Barang Terpilih
+                {{ cartStore.totalItems.value }} Produk Dipilih
               </span>
             </div>
           </div>
@@ -73,21 +73,21 @@
                 Pesanan Berhasil Dicatat!
               </h3>
               <p class="text-xs text-slate-600 dark:text-slate-300 max-w-xs leading-relaxed">
-                Tiket <strong class="text-primary dark:text-secondary-container font-mono font-bold">#{{ lastCompletedOrderCode }}</strong> telah resmi tersimpan ke sistem database &amp; Dashboard Admin CV Banong Farms.
+                Nomor pesanan <strong class="text-primary dark:text-secondary-container font-mono font-bold">#{{ lastCompletedOrderCode }}</strong> telah resmi tersimpan ke sistem basis data CV Banong Farms.
               </p>
             </div>
 
             <div class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-1 text-slate-500 text-left">
               <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
                 <span class="material-symbols-outlined text-[16px]">check</span>
-                <span>Tercatat di Supabase Database</span>
+                <span>Tercatat di Basis Data Cloud</span>
               </div>
               <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
                 <span class="material-symbols-outlined text-[16px]">notifications_active</span>
-                <span>Notifikasi Real-time Admin Aktif</span>
+                <span>Notifikasi Real-time Pengelola Aktif</span>
               </div>
               <p class="text-[11px] text-slate-400 mt-1">
-                Admin kami akan segera memvalidasi pesanan dan menyiapkan panen segar Anda.
+                Pengelola kami akan segera memvalidasi pesanan dan menyiapkan panen segar Anda.
               </p>
             </div>
 
@@ -108,16 +108,16 @@
               <span class="material-symbols-outlined text-[36px]">remove_shopping_cart</span>
             </div>
             <h3 class="text-base font-bold text-slate-900 dark:text-white">
-              Keranjang Masih Kosong
+              Keranjang Belanja Masih Kosong
             </h3>
             <p class="text-xs text-slate-500 max-w-xs">
-              Pilih produk pakan ternak unggulan dari katalog panen untuk memesan via WhatsApp.
+              Pilih produk segar unggulan dari katalog panen untuk memesan langsung via WhatsApp.
             </p>
             <button 
               @click="cartStore.closeCart()"
               class="mt-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-white font-bold text-xs shadow transition-all cursor-pointer"
             >
-              Jelajahi Katalog Pakan
+              Jelajahi Katalog Produk
             </button>
           </div>
 
@@ -144,7 +144,7 @@
                   WhatsApp Telah Dibuka
                 </h3>
                 <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-xs">
-                  Pastikan Anda telah menekan tombol <strong class="text-emerald-700 dark:text-emerald-400 font-bold">Kirim (Send)</strong> di chat WhatsApp Admin untuk menyelesaikan pemesanan.
+                  Pastikan Anda telah menekan tombol <strong class="text-emerald-700 dark:text-emerald-400 font-bold">Kirim (Send)</strong> di obrolan WhatsApp Pengelola untuk menyelesaikan pemesanan.
                 </p>
               </div>
             </div>
@@ -152,14 +152,14 @@
             <!-- Ringkasan Tiket Pesanan -->
             <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-2.5">
               <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
-                <span class="text-slate-500 dark:text-slate-400">Kode Tiket:</span>
+                <span class="text-slate-500 dark:text-slate-400">Kode Pesanan:</span>
                 <span class="font-bold text-primary dark:text-secondary-container font-telemetry-code">
                   #{{ pendingOrder.orderCode }}
                 </span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-slate-500 dark:text-slate-400">Tujuan:</span>
-                <span class="font-semibold text-slate-800 dark:text-slate-200">WA Admin (08999192861)</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200">WA Pengelola (08999192861)</span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-slate-500 dark:text-slate-400">Pemesan:</span>
@@ -167,10 +167,10 @@
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-slate-500 dark:text-slate-400">Jumlah Barang:</span>
-                <span class="font-semibold text-slate-800 dark:text-slate-200">{{ pendingOrder.items.length }} Komoditas</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200">{{ pendingOrder.items.length }} Jenis Produk</span>
               </div>
               <div class="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800 font-bold">
-                <span class="text-slate-700 dark:text-slate-300">Total Pembayaran:</span>
+                <span class="text-slate-700 dark:text-slate-300">Total Tagihan:</span>
                 <span class="text-sm text-primary dark:text-secondary-container font-telemetry-code">
                   {{ formatPrice(pendingOrder.totalPrice) }}
                 </span>
@@ -358,16 +358,16 @@
                 </div>
                 <div class="flex flex-col">
                   <h5 class="text-xs font-bold text-amber-950 dark:text-amber-200 uppercase tracking-tight font-telemetry-code">
-                    Pembelian Belum Dapat Diproses
+                    Pemesanan Belum Dapat Diproses
                   </h5>
                   <p class="text-[11px] text-amber-900 dark:text-amber-300 leading-relaxed mt-0.5">
-                    Terdapat komoditas di keranjang dengan stok kosong (0 pcs). Barang tetap tersimpan rapi di keranjang Anda, namun <strong>stok harus diisi terlebih dahulu oleh Admin Banong Farms</strong> sebelum transaksi dapat diproses.
+                    Terdapat produk di keranjang dengan stok kosong (0 pcs). Barang tetap tersimpan di keranjang Anda, namun <strong>stok perlu diperbarui terlebih dahulu oleh pengelola</strong> sebelum pemesanan dapat diproses.
                   </p>
                 </div>
               </div>
 
               <div class="flex items-center justify-between pt-2 border-t border-amber-200 dark:border-amber-800/80 text-[11px]">
-                <span class="text-slate-600 dark:text-slate-400">Ingin proses barang yang siap?</span>
+                <span class="text-slate-600 dark:text-slate-400">Ingin memproses produk yang tersedia?</span>
                 <button 
                   type="button" 
                   @click="removeOutOfStockItems"
@@ -383,8 +383,8 @@
             <!-- Formulir Pemesanan Pelanggan -->
             <form @submit.prevent="handleOpenWhatsApp" class="flex flex-col gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white uppercase font-telemetry-code">
-                <span>Formulir Pengiriman</span>
-                <span class="text-primary dark:text-secondary-container font-medium">WA Admin: 08999192861</span>
+                <span>Formulir Pemesanan</span>
+                <span class="text-primary dark:text-secondary-container font-medium">WhatsApp Pengelola: 08999192861</span>
               </div>
 
               <!-- Nama -->
@@ -447,14 +447,14 @@
                   <span>
                     {{ 
                       hasBlockedItems 
-                        ? 'Stok Habis — Belum Bisa Dibeli (Isi Stok via Admin)' 
-                        : `Lanjut Buka WhatsApp (${formatPrice(cartStore.totalPrice.value)})` 
+                        ? 'Stok Habis — Belum Dapat Diproses (Menunggu Restok)' 
+                        : `Lanjut ke WhatsApp (${formatPrice(cartStore.totalPrice.value)})` 
                     }}
                   </span>
                 </button>
 
                 <p v-if="hasBlockedItems" class="text-[10px] text-center text-slate-400 dark:text-slate-500 italic">
-                  * Tombol pembelian otomatis aktif segera setelah Admin memperbarui stok di sistem.
+                  * Tombol pemesanan otomatis aktif segera setelah pengelola memperbarui stok di sistem.
                 </p>
               </div>
             </form>

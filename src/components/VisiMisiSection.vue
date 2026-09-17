@@ -11,35 +11,35 @@
 
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
       
-      <!-- Top Breadcrumb / Category Tracker (Style like Whello reference) -->
+      <!-- Top Breadcrumb / Category Tracker -->
       <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-3 sm:mb-4 font-telemetry-code">
         <span>Sentra Agribisnis Ajibarang</span>
         <span class="text-slate-300 dark:text-slate-600">/</span>
         <span class="text-primary dark:text-secondary-container font-bold">Tentang CV Banong Farms</span>
       </div>
 
-      <!-- Main Split Layout (Grid 12 cols: 6 or 7 cols Left, 5 or 6 cols Right) -->
+      <!-- Main Split Layout (Grid 12 cols: 7 cols Left, 5 cols Right) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-center">
         
         <!-- LEFT COLUMN: Content & Vision / Mission Narrative -->
         <div class="lg:col-span-7 flex flex-col justify-center">
           
-          <!-- Big Section Title (Style like "Discover our DNA") -->
+          <!-- Big Section Title (100% Clean Bahasa Indonesia) -->
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-2 sm:mb-2.5">
-            Discover our DNA
+            Dedikasi &amp; Komitmen Kami
           </h2>
 
           <!-- Bold Lead Statement -->
           <h3 class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5">
-            CV Banong Farms hadir untuk ketahanan &amp; kemandirian pangan sejati.
+            Mewujudkan kemandirian pangan sehat dan berkelanjutan dari bumi Ajibarang.
           </h3>
 
-          <!-- Narrative Paragraph (Cukup 1 Paragraf Saja Sesuai Arahan) -->
+          <!-- Narrative Paragraph -->
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            CV Banong Farms menghadirkan agribisnis berkelanjutan di tanah Ajibarang, Banyumas dengan memadukan kearifan peternak lokal, sanitasi veteriner modern, dan biokonversi sirkular ramah lingkungan untuk menghasilkan pangan hewani murni, sehat, halal, dan beretika langsung ke meja Anda.
+            CV Banong Farms menghadirkan ekosistem peternakan dan agribisnis terpadu di Ajibarang, Banyumas. Kami memadukan dedikasi peternak lokal, tata kelola kebersihan modern, dan pemanfaatan sumber daya ramah lingkungan untuk menghasilkan produk pangan hewani yang murni, bergizi, halal, dan terpercaya bagi masyarakat.
           </p>
 
-          <!-- Visi & Misi Key Highlights (Lebih Rapat & Padat) -->
+          <!-- Visi & Misi Key Highlights -->
           <div class="mt-5 pt-5 sm:mt-6 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3.5 sm:space-y-4">
             
             <!-- Visi Card (Compact & Sleek) -->
@@ -51,7 +51,7 @@
                 </span>
               </div>
               <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 italic font-medium leading-relaxed">
-                "Menjadi sentra agribisnis dan peternakan terintegrasi terkemuka di Jawa Tengah yang berdaya saing tinggi, berkelanjutan, serta menghadirkan produk pangan bergizi murni yang aman, halal, dan terjangkau bagi masyarakat."
+                "Menjadi sentra agribisnis dan peternakan terpadu terpercaya di Jawa Tengah yang berdaya saing tinggi, berkelanjutan, serta konsisten menghadirkan produk pangan sehat, halal, dan terjangkau bagi seluruh lapisan masyarakat."
               </p>
             </div>
 
@@ -59,11 +59,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
-                <span>Pangan segar &amp; pakan bernutrisi bebas hormon sintetis.</span>
+                <span>Pangan segar alami berkualitas tanpa bahan pengawet sintetis.</span>
               </div>
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
-                <span>Pertanian zero-waste berbasis biokonversi maggot BSF &amp; kasgot.</span>
+                <span>Pengelolaan peternakan ramah lingkungan dan bebas limbah.</span>
               </div>
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
@@ -71,7 +71,7 @@
               </div>
               <div class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5">check_circle</span>
-                <span>Distribusi rantai dingin harian &amp; panen sampai &lt; 12 jam.</span>
+                <span>Jaminan distribusi cepat panen tiba dalam waktu kurang dari 12 jam.</span>
               </div>
             </div>
 

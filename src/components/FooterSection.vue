@@ -32,19 +32,19 @@
               <li>
                 <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                  <span>Karkas Ayam Kampung Organik</span>
+                  <span>Daging Ayam Kampung Segar</span>
                 </a>
               </li>
               <li>
                 <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                  <span>Domba Bakalan &amp; Aqiqah</span>
+                  <span>Domba &amp; Kambing Sehat</span>
                 </a>
               </li>
               <li>
                 <a href="#katalog-produk" class="hover:text-white hover:underline transition-colors flex items-center gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-secondary-container shrink-0"></span>
-                  <span>Perikanan Air Deras Nila</span>
+                  <span>Ikan Air Tawar Segar</span>
                 </a>
               </li>
               <li>
@@ -75,7 +75,7 @@
             </li>
             <li>
               <a href="#visi-misi" class="hover:text-white hover:underline transition-colors">
-                Visi &amp; Misi Farm
+                Visi &amp; Misi Peternakan
               </a>
             </li>
             <li>
@@ -95,7 +95,7 @@
                 rel="noopener noreferrer" 
                 class="hover:text-white hover:underline transition-colors"
               >
-                Hubungi Tim Admin
+                Layanan WhatsApp
               </a>
             </li>
           </ul>
@@ -110,7 +110,7 @@
             <div class="flex items-start gap-2.5">
               <span class="material-symbols-outlined text-secondary-container text-[18px] mt-0.5">call</span>
               <div>
-                <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">WhatsApp Hotline</div>
+                <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">WhatsApp Layanan</div>
                 <a href="https://wa.me/628999192861" target="_blank" rel="noopener noreferrer" class="hover:underline text-white font-medium">
                   +62 899-9192-861
                 </a>
@@ -120,7 +120,7 @@
             <div class="flex items-start gap-2.5">
               <span class="material-symbols-outlined text-secondary-container text-[18px] mt-0.5">mail</span>
               <div>
-                <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Email Resmi</div>
+                <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Surat Elektronik</div>
                 <a href="mailto:halo@banongfarms.id" class="hover:underline text-white font-medium">
                   halo@banongfarms.id
                 </a>
@@ -130,7 +130,7 @@
             <div class="flex items-start gap-2.5">
               <span class="material-symbols-outlined text-secondary-container text-[18px] mt-0.5">schedule</span>
               <div>
-                <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Jam Operasional Farm</div>
+                <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Jam Operasional Peternakan</div>
                 <div class="text-slate-200">07.00 - 17.00 WIB (Setiap Hari)</div>
               </div>
             </div>
@@ -166,7 +166,7 @@
                 rel="noopener noreferrer"
                 class="inline-flex items-center justify-center gap-1 py-1.5 px-3.5 rounded-lg bg-secondary-container hover:bg-accent-hover text-primary text-xs font-bold transition-all shadow-xs shrink-0 active:scale-95 cursor-pointer"
               >
-                <span>Buka di Maps</span>
+                <span>Buka di Google Maps</span>
                 <span class="material-symbols-outlined text-[13px]">open_in_new</span>
               </a>
             </div>
@@ -220,11 +220,11 @@
       <!-- Baris Paling Bawah: Hak Cipta & Kebijakan Bersih (Search & Ajibarang ID Dihapus) -->
       <div class="pt-5 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
         <div>
-          © 2026 CV Banong Farms. Seluruh Hak Cipta Dilindungi.
+          © 2026 CV Banong Farms. Hak Cipta Dilindungi Undang-Undang.
         </div>
         <div class="flex flex-wrap items-center gap-5 sm:gap-6 text-slate-300 text-xs">
           <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
-          <a href="#" class="hover:text-white transition-colors">Syarat &amp; Ketentuan</a>
+          <a href="#" class="hover:text-white transition-colors">Syarat &amp; Ketentuan Layanan</a>
         </div>
       </div>
 

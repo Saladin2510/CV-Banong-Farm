@@ -29,11 +29,11 @@
                 />
               </div>
               <div class="mt-2 text-center text-[10px] sm:text-[11px] text-slate-600 font-semibold tracking-wide">
-                Dapur &amp; Kuliner Segar
+                Kreasi Dapur Segar
               </div>
             </div>
 
-            <!-- Polaroid 3 (Right - Posisi Lebih Terbuka & Renggang ke Kanan, Proporsi Pas & Tidak Terlalu Panjang ke Atas, Tilted +12deg) -->
+            <!-- Polaroid 3 (Right) -->
             <div 
               class="absolute top-3 sm:top-4 lg:top-4 right-0 sm:-right-1 lg:-right-2 w-42 sm:w-50 lg:w-56 bg-white p-2 sm:p-2.5 pb-7 sm:pb-9 rounded-xs shadow-[0_15px_35px_rgba(0,0,0,0.18)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.65)] transform rotate-[12deg] hover:rotate-[6deg] hover:scale-105 hover:z-30 transition-all duration-500 ease-out cursor-pointer z-10 border border-slate-200/90 group"
               title="Momen Santap Bersama"
@@ -47,11 +47,11 @@
                 />
               </div>
               <div class="mt-2 text-center text-[10px] sm:text-[11px] text-slate-600 font-semibold tracking-wide">
-                Santap Bahagia Bersama
+                Kebersamaan Keluarga
               </div>
             </div>
 
-            <!-- Polaroid 2 (Center - Di Bagian Bawah Depan z-20, Digeser Merapat ke Foto Kiri (Jarak Rapat ke Kiri, Jarak Lebih Renggang ke Kanan), Tilted -4deg) -->
+            <!-- Polaroid 2 (Center) -->
             <div 
               class="absolute bottom-0 sm:bottom-1 lg:bottom-2 left-[24%] sm:left-[23%] lg:left-[22%] w-48 sm:w-64 lg:w-70 bg-white p-2.5 sm:p-3 pb-8 sm:pb-10 rounded-xs shadow-[0_25px_50px_rgba(0,0,0,0.28)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[4deg] hover:rotate-0 hover:scale-105 hover:z-30 transition-all duration-500 ease-out cursor-pointer z-20 border border-slate-200/90 group"
               title="Santapan Sehat Keluarga"
@@ -65,24 +65,24 @@
                 />
               </div>
               <div class="mt-2.5 text-center text-[11px] sm:text-xs text-slate-900 font-extrabold tracking-wide">
-                Keluarga Sehat &amp; Alami
+                Pangan Sehat Alami
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- RIGHT COLUMN: CTA Content (Teks 1 Baris Sangat Rapi & Nyaman, Berjarak Luas) -->
+        <!-- RIGHT COLUMN: CTA Content -->
         <div class="lg:col-span-6 flex flex-col justify-center text-left">
           
-          <!-- Headline 1 Baris Penuh (Sangat Nyaman Dilihat, Bebas Terpotong) -->
+          <!-- Headline 1 Baris Penuh -->
           <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] xl:text-[42px] font-black text-slate-900 dark:text-white tracking-tight uppercase leading-tight font-sans whitespace-normal sm:whitespace-nowrap">
             Panen Segar, <span class="text-primary dark:text-secondary-container">Alami!</span>
           </h2>
 
           <!-- Descriptive Subtitle Singkat & Mengalir -->
           <p class="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mt-6 sm:mt-8">
-            Lengkapi kehangatan meja makan keluarga dan kebutuhan dapur usaha Anda dengan pasokan telur, ayam, bebek, dan ikan segar harian langsung dari peternakan Ajibarang.
+            Lengkapi kehangatan hidangan keluarga dan pasokan dapur usaha Anda dengan telur, ayam, bebek, dan ikan segar harian langsung dari perbukitan Ajibarang.
           </p>
 
           <!-- Action Buttons Group (Yellow 10% Accent CTA, White/Navy Secondary) -->
@@ -94,7 +94,7 @@
               rel="noopener noreferrer"
               class="px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:shadow-yellow-500/25 active:scale-95 transition-all duration-300 inline-flex items-center gap-2.5 cursor-pointer font-telemetry-code border border-yellow-400/40"
             >
-              <span>PESAN SEKARANG</span>
+              <span>PESAN SEKARANG VIA WA</span>
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
             </a>
 
@@ -103,7 +103,7 @@
               href="#katalog-produk"
               class="px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-primary dark:text-slate-200 font-bold text-xs sm:text-sm border border-primary/20 dark:border-slate-700 shadow-xs active:scale-95 transition-all duration-300 cursor-pointer font-telemetry-code"
             >
-              LIHAT KATALOG
+              LIHAT KATALOG PRODUK
             </a>
           </div>
 
@@ -111,15 +111,15 @@
           <div class="mt-14 pt-8 sm:mt-18 sm:pt-10 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center gap-5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-telemetry-code">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[20px]">verified</span>
-              <span>100% Halal</span>
+              <span>100% Halal &amp; Bersih</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[20px]">schedule</span>
-              <span>Kirim &lt; 12 Jam</span>
+              <span>Pengiriman &lt; 12 Jam</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[20px]">pin_drop</span>
-              <span>Ajibarang</span>
+              <span>Peternakan Ajibarang</span>
             </div>
           </div>
 

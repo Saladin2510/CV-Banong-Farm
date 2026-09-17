@@ -164,11 +164,11 @@
 
           <div class="pt-2 border-t border-slate-200/70 dark:border-white/15 flex items-center justify-between gap-3">
             <a 
-              href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms" 
+              href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20bertanya%20mengenai%20produk%20dan%20layanan" 
               target="_blank" 
               class="flex-1 text-center py-2.5 rounded-full bg-secondary-container text-primary font-bold text-xs shadow-md hover:bg-accent-hover"
             >
-              Hubungi Kami via WA
+              Hubungi Kami via WhatsApp
             </a>
 
             <button
@@ -270,9 +270,9 @@ const toggleTheme = () => {
 }
 
 const navItems = [
-  { id: 'tentang', name: 'Tentang', href: '#tentang-kami' },
-  { id: 'katalog', name: 'Katalog', href: '#katalog-produk' },
-  { id: 'kontak', name: 'Kontak', href: '#contact' },
+  { id: 'tentang', name: 'Tentang Kami', href: '#tentang-kami' },
+  { id: 'katalog', name: 'Katalog Produk', href: '#katalog-produk' },
+  { id: 'kontak', name: 'Kontak Kami', href: '#contact' },
 ]
 </script>
 

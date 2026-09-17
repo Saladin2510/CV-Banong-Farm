@@ -764,6 +764,55 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 3. **Hasil:**
    - Gambar siap pakai langsung disisipkan ke laporan Microsoft Word tanpa perlu mengunduh manual dari pihak ketiga.
 
+---
+
+## 25. Catatan Sesi (17 September 2026) - Elevasi Desain Premium & Standardisasi Copywriting 100% Bahasa Indonesia pada Landing Page Pengunjung
+1. **Latar Belakang & Arahan Pengguna:**
+   - Fokus pengembangan diarahkan penuh pada antarmuka publik (*Landing Page / User Facing*) agar terlihat seperti website agribisnis modern kelas premium (*editorial luxury agritech*).
+   - Seluruh teks dan *copywriting* distandardisasi menjadi **100% Bahasa Indonesia yang bersih, elegan, dan profesional**, tanpa mengubah logika, alur state, maupun fungsi web aplikasi.
+2. **Pembaruan Menyeluruh Antarmuka Publik:**
+   - **Hero Section (`HeroSection.vue`):**
+     - Memperbarui narasi 3 slide menjadi bahasa Indonesia yang mengalir dan berkelas (*"Panen Segar Alami - Kualitas Unggul Terpercaya"*, *"Hasil Ternak Pilihan - Higienis & Halal Murni"*, *"Pangan Sehat Berkualitas - Langsung dari Peternak"*).
+     - Tombol CTA diselaraskan: *"Jelajahi Produk Panen"* dan *"Jaminan Mutu & Halal"*.
+     - Strip metrik diselaraskan: *"Alami & Bebas Kimia"*, *"Panen Langsung Dikirim"*, *"Banyumas, Jawa Tengah"*.
+   - **Floating Navbar Capsule (`Navbar.vue`):**
+     - Menstandarkan label tautan navigasi: *"Tentang Kami"*, *"Katalog Produk"*, *"Kontak Kami"*.
+     - Menghilangkan singkatan bahasa asing: *"Hubungi Kami via WhatsApp"*.
+   - **Seksi Visi & Misi (`VisiMisiSection.vue`):**
+     - Mengganti judul bahasa Inggris (*"Discover our DNA"*) menjadi judul editorial bahasa Indonesia yang kuat: **`Dedikasi & Komitmen Kami`**.
+     - Subjudul: *"Mewujudkan kemandirian pangan sehat dan berkelanjutan dari bumi Ajibarang."*
+     - Menyelaraskan kartu visi dan 4 poin misi menjadi bahasa Indonesia murni yang rapi dan padat.
+   - **Katalog Panen & Trust Bar (`ProductGrid.vue` & `ProductCard.vue`):**
+     - Mengubah judul menjadi **`Katalog Panen Segar`**.
+     - Mengeliminasi kata teknis *"komoditas"* menjadi *"produk"* pada empty state (*"Belum Ada Produk Tersedia"*).
+     - Memperbarui trust bar: *"Standar Mutu Peternakan Ajibarang"*, *"100% Bebas Pengawet"*, *"Halal & Higienis"*.
+     - Kartu produk dilengkapi badge stok rapi (*"Tersedia"*, *"Sisa X pcs"*, *"Stok Habis"*).
+   - **5-Baris Marquee Menu Interaktif (`InteractiveMarqueeMenu.vue`):**
+     - Menyelaraskan teks marquee komoditas: *"TELUR AYAM & BEBEK SEGAR"*, *"PETERNAKAN UNGGAS ALAMI"*, *"DAGING SEGAR & HIGIENIS"*, *"PERIKANAN AIR DERAS"*, *"PUPUK ORGANIK KASGOT"*.
+     - Menyelaraskan label popup foto: *"Telur Segar Harian"*, *"Unggas Sehat Alami"*, *"Daging Segar Pilihan"*, *"Ikan Air Tawar Segar"*, *"Pupuk Organik Kasgot"*.
+   - **Kluster Polaroid & Seksi CTA (`PolaroidCtaSection.vue`):**
+     - Menyempurnakan teks foto: *"Kreasi Dapur Segar"*, *"Pangan Sehat Alami"*, *"Kebersamaan Keluarga"*.
+     - Tombol CTA: *"PESAN SEKARANG VIA WA"* (kuning emas `#fcd400`) dan *"LIHAT KATALOG PRODUK"*.
+     - Badges kepercayaan: *"100% Halal & Bersih"*, *"Pengiriman < 12 Jam"*, *"Peternakan Ajibarang"*.
+   - **Footer Editorial 100vh (`FooterSection.vue`):**
+     - Menyelaraskan daftar produk, tautan navigasi (*"Visi & Misi Peternakan"*, *"Layanan WhatsApp"*), kontak (*"WhatsApp Layanan"*, *"Surat Elektronik"*, *"Jam Operasional Peternakan"*).
+     - Tombol peta: *"Buka di Google Maps"*.
+     - Teks hak cipta: *"© 2026 CV Banong Farms. Hak Cipta Dilindungi Undang-Undang."* serta *"Kebijakan Privasi"* & *"Syarat & Ketentuan Layanan"*.
+   - **Keranjang Belanja Drawer (`CartDrawer.vue`):**
+     - Mengganti *"Keranjang Pakan"* menjadi **`Keranjang Belanja`** (`X Produk Dipilih`).
+     - Empty state: *"Keranjang Belanja Masih Kosong"*, tombol *"Jelajahi Katalog Produk"*.
+     - Form: *"Formulir Pemesanan"*, *"WhatsApp Pengelola: 08999192861"*, tombol checkout *"Lanjut ke WhatsApp (Rp ...)"*.
+     - Konfirmasi 2-langkah: *"WhatsApp Telah Dibuka"*, ringkasan kode pesanan, tombol *"Ya, Saya Sudah Kirim ke WhatsApp"*, *"Buka Ulang Chat WhatsApp"*, *"Belum Jadi Kirim / Batalkan"*.
+     - Notifikasi stok habis: *"Pemesanan Belum Dapat Diproses"*, *"Hapus Produk Kosong"*.
+   - **Asisten AI Si Banong (`ChatbotMascot.vue`):**
+     - Header: **`Asisten AI Si Banong`**, status: `Aktif · Ajibarang`, badge: `✦ AI Pintar`.
+     - Pertanyaan cepat 100% bahasa Indonesia (*Stok Telur Ayam Kampung, Area Pengiriman Ajibarang, Jaminan Mutu & Halal, Cara Pemesanan Produk*).
+   - **Modal Rincian Produk (`ProductModal.vue`):**
+     - Subtitle kategori: *"Produk Panen"*, tombol aksi: *"+ Tambah ke Keranjang"* / *"+ Simpan ke Keranjang (Stok Habis)"*.
+3. **Integritas Sistem & Verifikasi Build:**
+   - Tidak ada logika bisnis, store Pinia/Vue, query Supabase, routing hash, atau alur WhatsApp yang diubah.
+   - `npm run build` sukses 100% (6.97s) dengan 0 error dan 0 lint warning.
+
 
 
 

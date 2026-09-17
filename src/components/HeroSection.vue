@@ -63,7 +63,7 @@
           href="#katalog-produk" 
           class="inline-flex items-center justify-center gap-space-8 px-6 md:px-space-32 py-3.5 md:py-4 rounded-full bg-secondary-container text-primary font-label-lg text-sm md:text-label-lg font-bold shadow-2xl hover:bg-accent-hover transition-all transform hover:-translate-y-1 active:translate-y-0"
         >
-          <span>Jelajahi Produk</span>
+          <span>Jelajahi Produk Panen</span>
           <span class="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
         </a>
 
@@ -72,7 +72,7 @@
           class="inline-flex items-center justify-center gap-space-8 px-5 md:px-space-24 py-3.5 md:py-4 rounded-full bg-surface-pure/15 hover:bg-surface-pure/25 text-surface-pure font-label-md text-xs md:text-label-md backdrop-blur-md transition-all transform hover:-translate-y-0.5 border border-white/20 shadow-md"
         >
           <span class="material-symbols-outlined text-[16px] md:text-[18px]">verified</span>
-          <span>Garansi Mutu Organik</span>
+          <span>Jaminan Mutu &amp; Halal</span>
         </a>
       </div>
 
@@ -80,12 +80,12 @@
       <div class="mt-5 md:mt-8 pt-4 md:pt-5 flex items-center gap-4 sm:gap-space-32 flex-wrap border-t border-surface-pure/20 w-full max-w-3xl">
         <div>
           <div class="font-headline-lg text-lg sm:text-headline-lg font-bold text-secondary-container">100%</div>
-          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Alami &amp; Non-Kimia</div>
+          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Alami &amp; Bebas Kimia</div>
         </div>
         <div class="w-px h-6 sm:h-8 bg-surface-pure/20"></div>
         <div>
           <div class="font-headline-lg text-lg sm:text-headline-lg font-bold text-surface-pure">&lt; 12 Jam</div>
-          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Panen ke Meja Anda</div>
+          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Panen Langsung Dikirim</div>
         </div>
         <div class="w-px h-6 sm:h-8 bg-surface-pure/20"></div>
         <div>
@@ -153,23 +153,23 @@ const slides = [
   {
     image: '/assets/hero-bg.png',
     badge: 'Peternakan Modern · Ajibarang',
-    titleHighlight: 'CV Banong Farms',
-    titleRest: 'Pilihan Pakan Berkualitas',
-    description: 'Peternakan & Agribisnis Berkelanjutan Ajibarang. Menghasilkan produk pangan segar, bebas bahan aditif, dan dikelola secara ramah lingkungan.'
+    titleHighlight: 'Panen Segar Alami',
+    titleRest: 'Kualitas Unggul Terpercaya',
+    description: 'Peternakan dan agribisnis terpadu di Ajibarang. Menghadirkan produk pangan sehat, bebas bahan kimia sintetis, dan dikelola secara ramah lingkungan untuk keluarga Anda.'
   },
   {
     image: '/assets/hero-bg2.jpg',
-    badge: 'Panen Segar Harian · Kualitas Unggul',
-    titleHighlight: 'Produk Ternak Organik',
-    titleRest: 'Kualitas Alami Terjamin',
-    description: 'Dikelola secara etis dengan pakan nutrisi alami, bebas pestisida dan bahan kimia sintetis untuk kesehatan keluarga Anda.'
+    badge: 'Panen Harian · Mutu Terjamin',
+    titleHighlight: 'Hasil Ternak Pilihan',
+    titleRest: 'Higienis & Halal Murni',
+    description: 'Dikelola dengan pakan bernutrisi murni dan pengawasan ketat, menjamin mutu telur, unggas, daging, dan ikan segar berkualitas tinggi.'
   },
   {
     image: '/assets/hero-bg3.jpg',
-    badge: 'Inovasi Agribisnis · Banyumas',
-    titleHighlight: 'Pangan Sehat Keluarga',
-    titleRest: 'Langsung dari Sumbernya',
-    description: 'Pengiriman cepat rantai dingin dari peternakan Ajibarang langsung ke meja makan dan mitra usaha kuliner Anda.'
+    badge: 'Distribusi Cepat · Banyumas',
+    titleHighlight: 'Pangan Sehat Berkualitas',
+    titleRest: 'Langsung dari Peternak',
+    description: 'Layanan distribusi cepat menjaga kesegaran panen dari perbukitan Ajibarang langsung tiba di meja makan rumah tangga dan mitra usaha Anda.'
   }
 ]
 

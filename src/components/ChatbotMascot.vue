@@ -49,16 +49,16 @@
                   <img src="/assets/mascot.png" alt="Mascot" class="w-full h-full object-cover rounded-full" />
                 </div>
                 <div>
-                  <div class="font-bold text-sm text-secondary-container">Si Banong AI Assistant</div>
+                  <div class="font-bold text-sm text-secondary-container">Asisten AI Si Banong</div>
                   <div class="text-xs text-primary-fixed dark:text-slate-400 flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-secondary-container inline-block shadow-xs"></span> Online · Ajibarang
+                    <span class="w-2 h-2 rounded-full bg-secondary-container inline-block shadow-xs"></span> Aktif · Ajibarang
                   </div>
                 </div>
               </div>
               <button 
                 @click="isChatOpen = false" 
                 class="text-surface-pure/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors"
-                aria-label="Tutup Chat"
+                aria-label="Tutup Obrolan"
               >
                 <span class="material-symbols-outlined text-[20px]">close</span>
               </button>
@@ -92,7 +92,7 @@
                     v-if="msg.isLiveAi" 
                     class="text-[9px] px-1.5 py-0.2 rounded-full bg-secondary-container/20 text-primary dark:text-secondary-container font-semibold border border-secondary-container/30"
                   >
-                    ✦ Live AI
+                    ✦ AI Pintar
                   </span>
                 </div>
               </div>
@@ -239,16 +239,16 @@ const getTime = () => {
 const messages = ref([
   {
     sender: 'bot',
-    text: 'Halo! Saya Si Banong, asisten AI CV Banong Farms Ajibarang. Ada yang bisa saya bantu hari ini?',
+    text: 'Halo! Saya Si Banong, asisten virtual resmi CV Banong Farms Ajibarang. Ada yang bisa saya bantu terkait produk peternakan hari ini?',
     time: getTime()
   }
 ])
 
 const quickTopics = [
-  { title: '🥚 Stok Telur Ayam Kampung', answer: 'Stok Telur Ayam Kampung Premium segar dipanen tiap pagi. Tersedia sisa 8 pack hari ini. Siap kirim via WA hotline!' },
-  { title: '🚚 Area Pengiriman Ajibarang', answer: 'Kami melayani pengiriman langsung daerah Ajibarang, Banyumas, Purwokerto, dan sekitarnya menggunakan armada pendingin harian.' },
-  { title: '🌿 Sertifikat Organik & Halal', answer: 'Seluruh peternakan kami menerapkan pakan non-kimia tanpa hormon sintetis dan telah memiliki sertifikasi Halal & Higienis.' },
-  { title: '📲 Cara Pesan via WA', answer: 'Anda cukup memilih produk di katalog lalu tekan button "Pesan via WA". Tim kami akan langsung memproses pesanan Anda!' }
+  { title: '🥚 Stok Telur Ayam Kampung', answer: 'Stok Telur Ayam Kampung Segar dipanen setiap pagi. Siap kirim langsung melalui kontak layanan WhatsApp kami!' },
+  { title: '🚚 Area Pengiriman Ajibarang', answer: 'Kami melayani pengiriman harian untuk wilayah Ajibarang, Banyumas, Purwokerto, dan sekitarnya menggunakan armada berpendingin.' },
+  { title: '🌿 Jaminan Mutu & Halal', answer: 'Seluruh peternakan kami menerapkan pakan bernutrisi alami tanpa hormon sintetis, berstandar higienis, dan bersertifikasi Halal.' },
+  { title: '📲 Cara Pemesanan Produk', answer: 'Pilih produk di katalog, masukkan ke keranjang belanja, lalu klik lanjutkan ke WhatsApp untuk konfirmasi pesanan dengan pengelola!' }
 ]
 
 const toggleChat = () => {

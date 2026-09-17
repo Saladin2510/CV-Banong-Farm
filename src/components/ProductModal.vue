@@ -35,7 +35,7 @@
           <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
             <div class="flex flex-col">
               <span class="text-xs uppercase tracking-wider text-secondary-container font-bold font-telemetry-code">
-                {{ product.category || 'Pakan Ternak' }}
+                {{ product.category || 'Produk Panen' }}
               </span>
               <h3 class="text-xl font-bold text-white leading-snug">
                 {{ product.title || product.name }}
@@ -58,7 +58,7 @@
         <!-- Product Details & Add to Cart -->
         <div class="p-6 flex flex-col gap-4">
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            {{ product.description || 'Komoditas dan pakan ternak berkualitas tinggi diproduksi dengan standar higienis dan nutrisi teruji dari CV Banong Farms Ajibarang.' }}
+            {{ product.description || 'Produk hasil panen peternakan berkualitas unggul, diproduksi dengan standar higienis dan bebas bahan kimia sintetis dari CV Banong Farms Ajibarang.' }}
           </p>
 
           <!-- Quantity Controls & Price Summary -->
@@ -105,7 +105,7 @@
             </span>
           </div>
 
-          <!-- Out-of-Stock Info Notice (60-30-10 palette compliant: neutral amber) -->
+          <!-- Out-of-Stock Info Notice -->
           <div 
             v-if="(product.stock || 0) <= 0" 
             class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/80 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200"
@@ -114,7 +114,7 @@
             <div class="flex flex-col">
               <span class="font-bold text-[11px] uppercase font-telemetry-code">Stok Sedang Kosong (0 {{ product.unit || 'pcs' }})</span>
               <p class="text-[11px] text-amber-800 dark:text-amber-300 mt-0.5 leading-relaxed">
-                Produk tetap dapat dimasukkan ke keranjang belanja Anda. Namun transaksi baru dapat diproses setelah Admin mengisi stok kembali di sistem.
+                Produk tetap dapat disimpan di keranjang belanja Anda. Namun pemesanan baru dapat diproses setelah pengelola mengisi kembali stok di sistem.
               </p>
             </div>
           </div>
@@ -126,7 +126,7 @@
             class="mt-2 w-full h-12 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-98 tracking-wide"
           >
             <span class="material-symbols-outlined text-[22px]">add_shopping_cart</span>
-            <span>{{ (product.stock || 0) <= 0 ? '+ Masukkan ke Keranjang (Stok Habis)' : '+ Tambah ke Keranjang' }}</span>
+            <span>{{ (product.stock || 0) <= 0 ? '+ Simpan ke Keranjang (Stok Habis)' : '+ Tambah ke Keranjang' }}</span>
           </button>
         </div>
       </div>
