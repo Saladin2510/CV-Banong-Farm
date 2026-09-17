@@ -1,5 +1,6 @@
 <template>
   <section 
+    ref="credSectionRef"
     id="reputasi" 
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
@@ -38,9 +39,9 @@
         <!-- Sisi Kanan: Metrik Besar + 4 Avatar Tumpuk + Keterangan (Persis Gambar Referensi "115k") -->
         <div class="flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0">
           <div class="flex items-center gap-3 sm:gap-4">
-            <!-- Angka Metrik Besar -->
-            <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-secondary-container leading-none">
-              14rb+
+            <!-- Angka Metrik Besar Dinamis dengan Counter Rolling Animasi GSAP -->
+            <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-secondary-container leading-none font-telemetry-code tabular-nums">
+              {{ counterDisplay }}
             </span>
 
             <!-- 4 Lingkaran Foto Panen Bertumpuk -->
@@ -48,25 +49,25 @@
               <img 
                 src="/assets/product-eggs.png" 
                 alt="Panen Telur Segar" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs"
+                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs transition-transform hover:scale-110 duration-200"
                 title="Panen Telur Ayam &amp; Bebek Segar Harian"
               />
               <img 
                 src="/assets/product-chicken.png" 
                 alt="Unggas Sehat Alami" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs"
+                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs transition-transform hover:scale-110 duration-200"
                 title="Ayam Kampung Bebas Hormon Sintetis"
               />
               <img 
                 src="/assets/product-duck.png" 
                 alt="Bebek &amp; Itik Pilihan" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs"
+                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs transition-transform hover:scale-110 duration-200"
                 title="Bebek &amp; Entok Sehat Alami"
               />
               <img 
                 src="/assets/product-fish.png" 
                 alt="Ikan Air Tawar Segar" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs"
+                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs transition-transform hover:scale-110 duration-200"
                 title="Ikan Nila Air Deras Ajibarang"
               />
             </div>
@@ -87,8 +88,13 @@
           <!-- SISI KIRI: Showcase Sertifikat Resmi & Piala Keunggulan (Pengganti Foto Dokter Sesuai Permintaan) -->
           <div class="lg:col-span-5 relative w-full flex flex-col items-center">
             
-            <!-- Bingkai Foto Sertifikat & Piala Keunggulan -->
-            <div class="relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-xs">
+            <!-- Bingkai Foto Sertifikat & Piala Keunggulan (Interactive 3D Depth Tilt) -->
+            <div 
+              ref="certCardRef"
+              @pointermove="handleCertPointerMove"
+              @pointerleave="handleCertPointerLeave"
+              class="relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
+            >
               <img 
                 src="/assets/sertifikat_kelayakan_cv_banong.jpg" 
                 alt="Sertifikat Kelayakan Mutu dan Higienis CV Banong Farms" 
@@ -177,7 +183,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1">
               
               <!-- Kartu 1: Pakan Alami & Bebas Kimia (Sesuai Kartu Kiri Bawah di Gambar) -->
-              <div class="bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group">
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                   <span class="material-symbols-outlined text-[22px]">eco</span>
@@ -193,7 +199,7 @@
               </div>
 
               <!-- Kartu 2: Pengawasan Veteriner & Sanitasi (Sesuai Kartu Kanan Bawah di Gambar) -->
-              <div class="bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group">
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-secondary-container/20 dark:bg-secondary-container/15 text-primary dark:text-secondary-container flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                   <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
@@ -220,5 +226,81 @@
 </template>
 
 <script setup>
-// Credibility & Trust Section untuk CV Banong Farms
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const credSectionRef = ref(null)
+const certCardRef = ref(null)
+const counterDisplay = ref('0')
+
+let ctx = null
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    // 1. Dynamic Rolling Counter Ticker (0 -> 14rb+) saat masuk viewport
+    const counterObj = { val: 0 }
+    gsap.to(counterObj, {
+      val: 14,
+      duration: 2.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: credSectionRef.value,
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      },
+      onUpdate: () => {
+        counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
+      }
+    })
+
+    // 2. Stagger slide-up untuk 2 kartu fitur pendukung
+    gsap.from('.cred-feature-card', {
+      scrollTrigger: {
+        trigger: credSectionRef.value,
+        start: 'top 75%',
+        toggleActions: 'play none none none'
+      },
+      y: 35,
+      opacity: 0,
+      duration: 0.85,
+      stagger: 0.18,
+      ease: 'power2.out'
+    })
+  }, credSectionRef.value)
+})
+
+onUnmounted(() => {
+  if (ctx) ctx.revert()
+})
+
+// 3. 3D Gyroscopic & Magnetic Depth Tilt pada Piagam Sertifikat
+const handleCertPointerMove = (e) => {
+  if (!certCardRef.value || window.matchMedia('(pointer: coarse)').matches) return
+  const rect = certCardRef.value.getBoundingClientRect()
+  const x = e.clientX - rect.left - rect.width / 2
+  const y = e.clientY - rect.top - rect.height / 2
+  
+  gsap.to(certCardRef.value, {
+    rotateY: (x / rect.width) * 10,
+    rotateX: -(y / rect.height) * 10,
+    transformPerspective: 1000,
+    duration: 0.35,
+    ease: 'power2.out',
+    overwrite: 'auto'
+  })
+}
+
+const handleCertPointerLeave = () => {
+  if (!certCardRef.value) return
+  gsap.to(certCardRef.value, {
+    rotateX: 0,
+    rotateY: 0,
+    duration: 0.7,
+    ease: 'power2.out',
+    overwrite: 'auto'
+  })
+}
 </script>

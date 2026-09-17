@@ -1,5 +1,6 @@
 <template>
   <footer 
+    ref="footerRef"
     class="w-full bg-[#F8FAFC] dark:bg-[#070D1E] text-slate-800 dark:text-slate-100 pt-16 sm:pt-20 lg:pt-20 xl:pt-24 pb-4 sm:pb-6 border-t border-slate-200/80 dark:border-slate-800 transition-colors duration-300 relative overflow-hidden flex flex-col justify-between lg:h-screen lg:min-h-[100dvh] lg:max-h-screen" 
     id="kontak"
     :style="dotGridStyle"
@@ -172,7 +173,12 @@
       </div>
 
       <!-- Bagian Tengah: THE FLOATING 3D SQUIRCLE TILES DENGAN IKON HEWAN-HEWAN CV BANONG (Ukuran Pas & Proporsional) -->
-      <div class="w-full py-1 lg:py-2 relative select-none flex-1 flex items-center justify-center min-h-[260px] lg:min-h-0">
+      <div 
+        ref="tilesContainerRef"
+        @pointermove="handleTilesPointerMove"
+        @pointerleave="handleTilesPointerLeave"
+        class="w-full py-1 lg:py-2 relative select-none flex-1 flex items-center justify-center min-h-[260px] lg:min-h-0"
+      >
         
         <!-- Background Ambient Glow Lembut -->
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-56 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -182,13 +188,12 @@
           <div 
             v-for="(tile, index) in animalTiles" 
             :key="tile.id"
+            :ref="el => setTileRef(el, index)"
             :style="{
               left: tile.left,
-              top: tile.top,
-              animationDelay: tile.delay,
-              animationDuration: tile.duration
+              top: tile.top
             }"
-            class="absolute transform transition-all duration-300 ease-out hover:z-30 hover:scale-115 hover:-translate-y-3 hover:rotate-0 cursor-pointer group animate-gentle-float"
+            class="animal-tile-item absolute transform cursor-pointer group will-change-transform"
             @click="handleTileClick(tile)"
           >
             <!-- 3D Squircle Card Tile (Proporsional: ~112px) -->
@@ -281,7 +286,19 @@
 </template>
 
 <script setup>
-import { computed, h } from 'vue'
+import { ref, computed, h, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const footerRef = ref(null)
+const tilesContainerRef = ref(null)
+const tileRefs = ref([])
+
+const setTileRef = (el, index) => {
+  if (el) tileRefs.value[index] = el
+}
 
 // Style Dot-Grid Halus seperti pada Gambar Referensi
 const dotGridStyle = computed(() => {
@@ -547,21 +564,119 @@ const handleTileClick = (tile) => {
 const openWhatsAppConsultation = () => {
   window.open('https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20berkonsultasi%20mengenai%20produk%20peternakan%20dan%20hasil%20panen.', '_blank')
 }
+
+let ctx = null
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    // 1. Entrance Pop-In Elastis Bergelombang saat Footer Masuk Layar
+    gsap.from(tileRefs.value, {
+      scrollTrigger: {
+        trigger: footerRef.value,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      },
+      scale: 0,
+      opacity: 0,
+      y: 70,
+      rotation: () => gsap.utils.random(-30, 30),
+      duration: 1.2,
+      ease: 'elastic.out(1.1, 0.55)',
+      stagger: {
+        amount: 0.5,
+        from: 'random'
+      }
+    })
+
+    // 2. Continuous Organic Buoyancy (Mengambang Alami Bebas Jank)
+    tileRefs.value.forEach((tileEl, idx) => {
+      if (!tileEl) return
+      gsap.to(tileEl, {
+        y: '+=8',
+        rotation: '+=' + (idx % 2 === 0 ? 2 : -2),
+        duration: 3 + (idx * 0.35) % 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: idx * 0.12
+      })
+    })
+  }, footerRef.value)
+})
+
+onUnmounted(() => {
+  if (ctx) ctx.revert()
+})
+
+// 3. Interactive 3D Magnetic & Tilt Physics saat Kursor Mouse Bergerak di Desktop
+const handleTilesPointerMove = (e) => {
+  if (!tilesContainerRef.value || window.matchMedia('(pointer: coarse)').matches) return
+
+  const mouseX = e.clientX
+  const mouseY = e.clientY
+
+  tileRefs.value.forEach((tile) => {
+    if (!tile) return
+    const rect = tile.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+
+    const dx = mouseX - centerX
+    const dy = mouseY - centerY
+    const dist = Math.sqrt(dx * dx + dy * dy)
+    const maxDist = 260
+
+    if (dist < maxDist) {
+      const force = (1 - dist / maxDist)
+      const moveX = -(dx / dist) * force * 24
+      const moveY = -(dy / dist) * force * 24
+      const tiltX = (dy / maxDist) * 18
+      const tiltY = -(dx / maxDist) * 18
+
+      gsap.to(tile, {
+        x: moveX,
+        y: moveY,
+        rotateX: tiltX,
+        rotateY: tiltY,
+        scale: 1.08,
+        transformPerspective: 800,
+        duration: 0.35,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      })
+    } else {
+      gsap.to(tile, {
+        x: 0,
+        rotateX: 0,
+        rotateY: 0,
+        scale: 1,
+        duration: 0.7,
+        ease: 'elastic.out(1, 0.4)',
+        overwrite: 'auto'
+      })
+    }
+  })
+}
+
+const handleTilesPointerLeave = () => {
+  if (!tileRefs.value.length) return
+  gsap.to(tileRefs.value, {
+    x: 0,
+    rotateX: 0,
+    rotateY: 0,
+    scale: 1,
+    duration: 0.8,
+    ease: 'elastic.out(1, 0.4)',
+    stagger: 0.02,
+    overwrite: 'auto'
+  })
+}
 </script>
 
 <style scoped>
-@keyframes gentleFloat {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-9px);
-  }
-}
-
-.animate-gentle-float {
-  animation-name: gentleFloat;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+/* Transisi kartu hover halus */
+.animal-tile-item {
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 </style>

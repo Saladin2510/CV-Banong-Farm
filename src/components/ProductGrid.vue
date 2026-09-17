@@ -48,20 +48,24 @@
         </p>
       </div>
 
-      <!-- 4-Column Product Grid (Max 8 products per page view) -->
-      <transition-group
+      <!-- 4-Column Product Grid (Staggered GSAP Reveal) -->
+      <div
         v-else
-        tag="div"
-        name="product-grid"
+        ref="productGridRef"
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-9"
       >
-        <ProductCard
+        <div
           v-for="product in paginatedProducts"
           :key="product.id"
-          :product="product"
-          @select="handleProductSelect"
-        />
-      </transition-group>
+          class="product-card-item h-full flex flex-col will-change-transform"
+        >
+          <ProductCard
+            :product="product"
+            @select="handleProductSelect"
+            class="h-full"
+          />
+        </div>
+      </div>
 
       <!-- 8/8 Section Switcher / Pagination Navigation (Dekat & Rapi) -->
       <div v-if="totalPages > 1" class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 border border-surface-container-high/80 dark:border-slate-800 animate-fade-in">
@@ -115,9 +119,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ProductCard from './ProductCard.vue'
 import { useAdminStore } from '../stores/useAdminStore'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const emit = defineEmits(['openModal'])
 
@@ -125,6 +133,9 @@ const adminStore = useAdminStore()
 const selectedCategory = ref('all')
 const currentPage = ref(1)
 const ITEMS_PER_PAGE = 12
+const productGridRef = ref(null)
+
+let ctx = null
 
 const categories = [
   { id: 'all', name: 'Semua Produk' },
@@ -179,6 +190,28 @@ const paginatedProducts = computed(() => {
   return filteredProducts.value.slice(start, start + ITEMS_PER_PAGE)
 })
 
+const animateCards = () => {
+  nextTick(() => {
+    if (!productGridRef.value) return
+    const cards = productGridRef.value.querySelectorAll('.product-card-item')
+    if (!cards || cards.length === 0) return
+
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 28, scale: 0.96 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.45,
+        stagger: 0.05,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      }
+    )
+  })
+}
+
 const setCategory = (catId) => {
   selectedCategory.value = catId
   currentPage.value = 1
@@ -196,19 +229,23 @@ const goToPage = (page) => {
 const handleProductSelect = (product) => {
   emit('openModal', product)
 }
-</script>
 
-<style scoped>
-.product-grid-enter-active,
-.product-grid-leave-active {
-  transition: all 0.4s ease;
-}
-.product-grid-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-.product-grid-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-</style>
+watch([selectedCategory, currentPage], () => {
+  animateCards()
+})
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    ScrollTrigger.create({
+      trigger: '#katalog-produk',
+      start: 'top 80%',
+      once: true,
+      onEnter: () => animateCards()
+    })
+  })
+})
+
+onUnmounted(() => {
+  if (ctx) ctx.revert()
+})
+</script>

@@ -1,5 +1,6 @@
 <template>
   <section 
+    ref="marqueeSectionRef"
     id="komoditas-marquee"
     @mouseleave="activeRow = null"
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 transition-colors duration-300 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 select-none"
@@ -182,7 +183,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const marqueeSectionRef = ref(null)
 
 // Row definition strictly for CV Banong Farms with alternating zigzag directions
 const rows = [
@@ -196,6 +203,59 @@ const rows = [
 // When null, ALL rows run continuously at unified fast speed and NO image is shown.
 // Only when hovered, activeRow is set to idx, which pauses that row, turns it red, and pops up its photo!
 const activeRow = ref(null)
+
+let ctx = null
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    const speedObj = { rate: 1 }
+
+    const updatePlaybackRate = (rate) => {
+      if (!marqueeSectionRef.value) return
+      const tracks = marqueeSectionRef.value.querySelectorAll('.marquee-left, .marquee-right')
+      tracks.forEach(track => {
+        if (typeof track.getAnimations === 'function') {
+          track.getAnimations().forEach(anim => {
+            anim.playbackRate = rate
+          })
+        }
+      })
+    }
+
+    // Velocity-based scroll scrubbing: Akselerasi marquee saat pengguna scroll cepat
+    ScrollTrigger.create({
+      trigger: marqueeSectionRef.value,
+      start: 'top bottom',
+      end: 'bottom top',
+      onUpdate: (self) => {
+        const velocity = Math.abs(self.getVelocity())
+        // Boost laju pemutaran hingga maksimal 3x tergantung kecepatan scroll
+        const targetRate = Math.min(1 + (velocity / 650), 3.2)
+
+        gsap.to(speedObj, {
+          rate: targetRate,
+          duration: 0.15,
+          ease: 'power1.out',
+          overwrite: 'auto',
+          onUpdate: () => updatePlaybackRate(speedObj.rate),
+          onComplete: () => {
+            // Deselerasi anggun kembali ke kecepatan normal 1x
+            gsap.to(speedObj, {
+              rate: 1,
+              duration: 0.9,
+              ease: 'power2.out',
+              onUpdate: () => updatePlaybackRate(speedObj.rate)
+            })
+          }
+        })
+      }
+    })
+  }, marqueeSectionRef.value)
+})
+
+onUnmounted(() => {
+  if (ctx) ctx.revert()
+})
 </script>
 
 <style scoped>
