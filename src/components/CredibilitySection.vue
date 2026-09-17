@@ -25,10 +25,12 @@
             <span>Standar Mutu &amp; Kelayakan Resmi</span>
           </div>
 
-          <!-- Judul Utama: Reputasi -->
-          <h2 class="text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight">
-            Reputasi
-          </h2>
+          <!-- Judul Utama: Reputasi (Dengan Kinetic Skew Typography Reveal) -->
+          <div class="overflow-hidden py-1">
+            <h2 class="cred-skew-title text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight origin-bottom-left will-change-transform">
+              Reputasi
+            </h2>
+          </div>
 
           <!-- Subjudul 1 Baris -->
           <p class="mt-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
@@ -240,6 +242,20 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
+    // Kinetic Typography Skew Reveal pada Judul Reputasi
+    gsap.from('.cred-skew-title', {
+      y: 50,
+      skewY: 6,
+      opacity: 0,
+      duration: 1.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: credSectionRef.value,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      }
+    })
+
     ScrollTrigger.matchMedia({
       // Desktop & Laptop: Full Pinned Storytelling Sequence (~2 kali putaran scroll)
       "(min-width: 1024px)": () => {

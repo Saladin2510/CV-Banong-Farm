@@ -19,10 +19,12 @@
         <!-- LEFT COLUMN: Content & Vision / Mission Narrative -->
         <div class="lg:col-span-7 flex flex-col justify-center">
           
-          <!-- Big Section Title (100% Clean Bahasa Indonesia) -->
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-2 sm:mb-2.5">
-            Tentang Kami
-          </h2>
+          <!-- Big Section Title (Dengan Kinetic Skew Typography Reveal) -->
+          <div class="overflow-hidden py-1">
+            <h2 class="visi-skew-title text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-2 sm:mb-2.5 origin-bottom-left will-change-transform">
+              Tentang Kami
+            </h2>
+          </div>
 
           <!-- Bold Lead Statement -->
           <h3 class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5">
@@ -140,6 +142,20 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
+    // Kinetic Typography Skew Reveal pada Judul Tentang Kami
+    gsap.from('.visi-skew-title', {
+      y: 50,
+      skewY: 6,
+      opacity: 0,
+      duration: 1.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: visiSectionRef.value,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      }
+    })
+
     ScrollTrigger.matchMedia({
       // Desktop & Laptop: Full Pinned Storytelling Sequence (memerlukan 2-3 kali putaran scroll)
       "(min-width: 1024px)": () => {

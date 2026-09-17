@@ -10,9 +10,11 @@
           <span class="material-symbols-outlined text-[16px] text-primary dark:text-secondary-container">verified</span>
           <span>Langsung dari Peternakan Ajibarang</span>
         </div>
-        <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight">
-          Katalog Produk
-        </h2>
+        <div class="overflow-hidden py-1">
+          <h2 class="product-skew-title font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight origin-bottom-left will-change-transform">
+            Katalog Produk
+          </h2>
+        </div>
       </div>
 
       <!-- Category Filter Tabs -->
@@ -196,16 +198,16 @@ const animateCards = () => {
     const cards = productGridRef.value.querySelectorAll('.product-card-item')
     if (!cards || cards.length === 0) return
 
+    // Staggered grid cards fade-in dari 0 ke 1 dan bergeser naik 50px dengan jeda 0.15s (power3.out premium easing)
     gsap.fromTo(
       cards,
-      { opacity: 0, y: 28, scale: 0.96 },
+      { opacity: 0, y: 50 },
       {
         opacity: 1,
         y: 0,
-        scale: 1,
-        duration: 0.45,
-        stagger: 0.05,
-        ease: 'power2.out',
+        duration: 0.85,
+        stagger: 0.15,
+        ease: 'power3.out',
         overwrite: 'auto'
       }
     )
@@ -240,20 +242,34 @@ watch([selectedCategory, currentPage], () => {
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // 1. Reveal untuk Section Header Katalog
-    gsap.from('#katalog-produk .max-w-container-max > .mb-10', {
-      y: 35,
+    // 1. Kinetic Typography Skew Reveal untuk Judul Katalog
+    gsap.from('.product-skew-title', {
+      y: 55,
+      skewY: 6,
+      opacity: 0,
+      duration: 1.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#katalog-produk',
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      }
+    })
+
+    // 2. Reveal untuk Section Header Badge
+    gsap.from('#katalog-produk .max-w-container-max > .mb-10 > .inline-flex', {
+      y: 25,
       opacity: 0,
       duration: 0.85,
       ease: 'power2.out',
       scrollTrigger: {
         trigger: '#katalog-produk',
-        start: 'top 82%',
+        start: 'top 85%',
         toggleActions: 'play none none none'
       }
     })
 
-    // 2. Cascading reveal kartu produk saat pertama kali masuk viewport
+    // 3. Cascading 50px reveal kartu produk saat pertama kali masuk viewport
     ScrollTrigger.create({
       trigger: '#katalog-produk',
       start: 'top 78%',
