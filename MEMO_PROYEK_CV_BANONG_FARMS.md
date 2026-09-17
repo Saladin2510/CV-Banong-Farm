@@ -852,3 +852,73 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 3. **Verifikasi Build:**
    - `npm run build` sukses 100% (7.90s, 0 error).
    - Seluruh fungsionalitas aplikasi, Supabase Cloud, dan alur checkout WhatsApp tetap aman tanpa gangguan.
+
+---
+
+## 27. Catatan Sesi (17 September 2026 - Bagian 3) - Redesain Footer Modern Minimalis dengan Ubin 3D Floating Ikon Hewan CV Banong (Gaya Referensi ChronoTask)
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna mengunggah gambar referensi desain footer modern SaaS (*ChronoTask*) dan meminta: *"coba ubah lagi footernya menjadi sperti ini! dengan icon/representasi cv banong hewan-hewan"*.
+   - Karakteristik utama referensi yang diunggah:
+     1. **Latar Belakang Bersih & Dot Grid:** Kanvas bertekstur titik halus (*dot matrix pattern* berjarak 24px) yang elegan.
+     2. **Area Atas Terstruktur Rapi:** 
+        - Sisi kiri: Logo brand dan judul tipografi besar 2 baris (*"Pangan Segar Alami, Berkelanjutan dari Ajibarang"*).
+        - Sisi kanan: 2 kolom navigasi minimalis berawalan ikon panah monospasi `→`.
+     3. **Fitur Visual Utama (Hero Visual Footer):**
+        - Formasi ubin squircle putih 3D timbul (*elevated squircle cards*) yang melayang santai (*floating scattered layout*) di seluruh lebar kanvas dengan rotasi organik bervariasi (`-12deg`, `+8deg`, `-6deg`, `+12deg`, dll.).
+        - Ubin memiliki bayangan multi-lapis lembut (*soft multi-layered 3D drop shadow*), efek hover interaktif (*scale 115%*, rotasi kembali lurus, shadow menebal, dan tooltip nama komoditas).
+2. **Representasi Ikon Hewan & Komoditas Riil CV Banong Farms (`FooterSection.vue`):**
+   - Dibuat 10 komponen ikon vektor SVG khusus yang dirancang presisi, berwarna tajam, dan estetis:
+     1. **Ayam Kampung Segar:** Siluet ayam jantan berbadan emas dengan jengger merah cerah dan gelambir.
+     2. **Bebek & Entok Petelur:** Bebek kuning keemasan dengan paruh jingga dan riak air biru.
+     3. **Domba Garut Pilihan:** Kepala domba bertanduk melingkar dengan wol lebat putih bergradasi abu.
+     4. **Sapi Ternak Sehat:** Wajah sapi belang hitam-putih dengan tanduk kuning dan moncong merah muda.
+     5. **Kambing Jawa & Etawa:** Kepala kambing dengan telinga panjang menjuntai, tanduk tegak, dan jenggot putih.
+     6. **Ikan Nila Air Tawar:** Ikan air tawar biru cerah berenang dengan gelembung air alami.
+     7. **Telur Segar Organik:** Pasangan telur bebek biru toska dan telur ayam kampung cokelat keemasan dengan kilau cahaya.
+     8. **Kelinci Pedaging & Hias:** Kelinci putih bertelinga panjang dengan hidung merah muda dan kumis halus.
+     9. **Lebah Madu Peternakan:** Lebah madu belang kuning-hitam bersayap transparan biru muda.
+     10. **Kasgot & Pupuk Organik BSF:** Daun hijau subur dengan butiran nutrisi organik hasil dekomposisi larva BSF.
+   - **Interaktivitas:** Setiap kartu ubin dapat diklik untuk mengarahkan pengunjung langsung ke katalog produk, serta dilengkapi animasi *gentle float* berdurasi bertingkat (4.8s s.d. 6.0s).
+   - **Responsivitas Mobile:** Pada layar kecil ponsel, 8 ubin teratas ditata rapi dalam grid 4 kolom ringkas dengan label nama pendek sehingga tetap nyaman dilihat tanpa saling tumpang tindih.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.23s) dengan 104 modul ter-bundle sempurna dan 0 error.
+   - Seluruh fungsionalitas SPA, checkout WhatsApp, Supabase Cloud, dan asisten AI Si Banong tetap 100% beroperasi normal.
+
+---
+
+## 28. Catatan Sesi (17 September 2026 - Bagian 4) - Penyesuaian Header Footer: Judul Raksasa "CV Banong Farms" & Restorasi Peta Google Maps Interaktif
+1. **Latar Belakang & Permintaan Pengguna:**
+   - Pengguna memberikan masukan perbaikan spesifik pada seksi footer:
+     1. *"nama cv banong farmnya yang besar"* -> Judul utama brand dijadikan teks raksasa dominan.
+     2. *"Pangan Segar Alami, Berkelanjutan dari Ajibarang di hilangin saja"* -> Menghilangkan kalimat *tagline* tersebut dari atas brand.
+     3. *"untuk embed map jangan dihilangkan lo, balikin!!"* -> Mengembalikan kartu sematan *Google Maps Interactive* yang sempat terlepas.
+2. **Penerapan Perubahan (`FooterSection.vue`):**
+   - **Judul Brand Raksasa:** Menjadikan teks **`CV Banong Farms`** sebagai *headline* dominan utama berukuran `text-4xl sm:text-5xl lg:text-[54px] font-black font-outfit tracking-tight`, dilengkapi logo resmi dan badge status peternakan aktif.
+   - **Pembersihan Copywriting:** Menghapus kalimat *"Pangan Segar Alami, Berkelanjutan dari Ajibarang"* sehingga antarmuka lebih langsung dan *clean*.
+   - **Restorasi Peta Google Maps Interaktif:**
+     - Menempatkan kembali kartu peta interaktif (live *iframe* Google Maps koordinat Ajibarang) di kolom kanan atas footer berdampingan dengan 2 kolom navigasi panah `→`.
+     - Dilengkapi indikator titik hijau berdenyut (*pulsing active indicator*), judul lokasi *"Banong Farms Ajibarang"*, dan tombol aksi tautan *"Buka di Maps"*.
+   - **Integritas Ubin Hewan & Fungsionalitas:**
+     - 10 ubin 3D *floating squircle* hewan ternak dan komoditas (Ayam, Bebek, Domba, Sapi, Kambing, Ikan Nila, Telur, Kelinci, Lebah, Kasgot) tetap tersusun elegan di bawah baris utama.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.30s) dengan 104 modul ter-bundle sempurna dan 0 error.
+   - Seluruh fungsionalitas aplikasi dan koneksi WhatsApp/Supabase tetap stabil 100%.
+
+---
+
+## 29. Catatan Sesi (17 September 2026 - Bagian 5) - Perbaikan Menyeluruh Masalah Layout Terhimpit (*Squished Layout Bug Fix*) pada Header Footer
+1. **Latar Belakang Permasalahan:**
+   - Pengguna melaporkan tampilan footer rusak (*"sekarang malah RUSAK!"*) dengan screenshot menunjukkan teks `CV Banong Farms` terhimpit menjadi 3 baris sangat sempit di pojok kiri atas, teks tautan navigasi bertumpuk, dan peta terpotong menyisakan 75% layar kosong di sebelah kanan.
+   - **Penyebab Teknis:** Kontainer atas sebelumnya dideklarasikan menggunakan `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12` namun elemen-elemen anak tidak memiliki kelas `col-span` eksplisit pada layar desktop, sehingga Tailwind CSS menempatkan setiap blok hanya selebar 1 kolom dari 12 (hanya ~8.33% lebar layar).
+2. **Solusi yang Diterapkan:**
+   - **Rekonstruksi dengan Responsive Flex Layout:**
+     - Mengubah kontainer atas menjadi `flex flex-col lg:flex-row items-start justify-between gap-10 xl:gap-14 w-full`.
+     - **Sisi Kiri (Brand & Identitas):** Diberi `w-full lg:flex-1 lg:max-w-xl` sehingga nama **CV Banong Farms** memiliki ruang yang sangat leluasa, tampil megah pada 1 baris utuh (`text-4xl sm:text-5xl lg:text-[54px] font-black`), deskripsinya rapi, dan tombol WhatsApp tertata presisi.
+     - **Sisi Tengah (Navigasi):** Diberi `w-full sm:w-auto shrink-0` dengan grid 2 kolom rapi berjarak `gap-x-8 sm:gap-x-12`.
+     - **Sisi Kanan (Peta Google Maps):** Diberi ukuran pasti yang proporsional `w-full lg:w-80 xl:w-96 shrink-0` sehingga tidak terhimpit dan tidak terpotong.
+3. **Hasil & Verifikasi:**
+   - Seluruh ruang horizontal (100% lebar kontainer) terisi secara seimbang, tidak ada elemen yang tertekan, dan peta tampil jernih.
+   - `npm run build` sukses 100% (5.77s, 0 error).
+
+
+
