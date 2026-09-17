@@ -941,3 +941,22 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
          2. *Sanitasi & Uji Veteriner* (ikon tameng kesehatan teal) mengulas pemeriksaan berkala kesehatan hewan dan biosekuriti kandang.
 3. **Verifikasi Build:**
    - `npm run build` sukses 100% (5.66s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 31. Catatan Sesi (17 September 2026 - Bagian 7) - Penyelarasan Penuh Lebar Kontainer & Warna Latar Belakang Seksi Kredibilitas dengan Desain Asli Website
+1. **Latar Belakang Permasalahan & Masukan Pengguna:**
+   - Pengguna memberikan koreksi bahwa seksi kredibilitas yang baru dibuat:
+     1. *"Terlalu lebar dari section-section yang lain"* -> Lebar kontainer melebihi kontainer standar website.
+     2. *"Warna background tidak sama dengan section lain, TOLONG DI SAMAKAN STYLENYA DENGAN WEBSITE INI!"* -> Warna latar abu-abu terang kontras dan tidak menyatu dengan alur halaman yang menggunakan `bg-surface-pure`.
+2. **Penyelarasan Desain (`CredibilitySection.vue`):**
+   - **Penyelarasan Lebar Kontainer Sempurna:** Mengganti kontainer `max-w-[1440px]` menjadi `max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop` (persis 1280px, identik 100% dengan `VisiMisiSection.vue` dan `ProductGrid.vue`), sehingga batas kiri dan kanan sejajar lurus secara vertikal.
+   - **Penyelarasan Warna Latar Belakang Website:** Mengubah latar seksi menjadi `bg-surface-pure dark:bg-[#070D1E]` dengan aksen glow ambient lembut dan garis pemisah halus `border-b border-slate-100 dark:border-slate-800/80` tanpa ada blok warna abu-abu asing.
+   - **Penerapan Token Desain Resmi CV Banong Farms:**
+     - Judul utama menggunakan token warna `text-primary dark:text-white` (Navy resmi CV Banong).
+     - Badge atas menggunakan pill format `bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container`.
+     - Angka metrik `14rb+` menggunakan warna `text-primary dark:text-secondary-container` (emas).
+     - Kartu utama `bg-white dark:bg-[#0c1a30]` berpadu kartu pendukung `bg-slate-50 dark:bg-[#071120]` dengan border halus yang selaras dengan seluruh komponen web.
+3. **Verifikasi Build:**
+   - `npm run build` sukses 100% (6.42s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
