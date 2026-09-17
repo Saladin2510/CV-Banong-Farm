@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 16 September 2026 (Sesi Pembaruan: Penyederhanaan Copywriting & UI Admin Dashboard untuk Orang Awam / Non-IT, Penghapusan Foto Profil Admin, Eliminasi Tag Redundan Supabase, Standardisasi Istilah Produk Siap Jual)  
-**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Satuan Konsisten 'pcs')  
+**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Standardisasi Penamaan Judul & Navigasi Menjadi "Tentang", "Reputasi", "Katalog", "Kontak", Eliminasi Breadcrumb & Paragraf Deskripsi Redundan, Penghapusan Blok Trust Bar Sesuai Arahan Pengguna)  
+**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Teks Ringkas & Elegan)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -959,4 +959,34 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
      - Kartu utama `bg-white dark:bg-[#0c1a30]` berpadu kartu pendukung `bg-slate-50 dark:bg-[#071120]` dengan border halus yang selaras dengan seluruh komponen web.
 3. **Verifikasi Build:**
    - `npm run build` sukses 100% (6.42s) dengan 108 modul ter-bundle sempurna dan 0 error.
+
+---
+
+## 32. Catatan Sesi (17 September 2026 - Bagian 8) - Pembaruan Teks & Copywriting Bersih, Eliminasi Trust Bar, dan Sinkronisasi Navbar Baru
+1. **Latar Belakang & Instruksi Pengguna:**
+   - Melakukan perubahan copywriting judul dan teks agar lebih ringkas, to-the-point, dan bersih:
+     - Mengubah `"Dedikasi & Komitmen Kami"` menjadi `"Tentang Kami"`.
+     - Mengubah `"Standar Mutu & Legalitas Resmi untuk Pangan Anda"` menjadi `"Reputasi"`.
+     - Mengubah `"Katalog Panen Segar"` menjadi `"Katalog Produk"`.
+   - Menghapus teks-teks:
+     - Breadcrumb `"Sentra Agribisnis Ajibarang / Tentang CV Banong Farms"`.
+     - Paragraf deskripsi `"Pilihan hasil peternakan dan hasil tani berkualitas tinggi, dipanen harian dengan standar kebersihan terjaga tanpa bahan kimia sintetis."`.
+   - Menghapus elemen `<!-- Trust Bar / Farm-to-Table Highlights -->` dan kontainernya dari halaman produk.
+   - Menyelaraskan seluruh menu navigasi di Navbar (`src/components/Navbar.vue`) menjadi:
+     1. **Tentang** (`#tentang-kami` / `#tentang`)
+     2. **Reputasi** (`#reputasi` / `#kelayakan`)
+     3. **Katalog** (`#katalog-produk` / `#katalog`)
+     4. **Kontak** (`#kontak`)
+2. **Penerapan Teknis & Perubahan Berkas:**
+   - `src/components/VisiMisiSection.vue`:
+     - Breadcrumb dihapus, judul section dipastikan `"Tentang Kami"`, ditambahkan jangkar ID `#tentang` untuk dukungan navigasi.
+   - `src/components/CredibilitySection.vue`:
+     - Judul utama dipastikan `"Reputasi"`, memiliki ID `#reputasi` dan jangkar kompatibilitas `#kelayakan`.
+   - `src/components/ProductGrid.vue`:
+     - Mengubah judul menjadi `"Katalog Produk"`, menghapus paragraf deskripsi yang diminta, menghapus seluruh elemen Trust Bar (`#standar-etika`), dan menambahkan jangkar ID `#katalog`.
+   - `src/components/Navbar.vue`:
+     - Memperbarui daftar menu `navItems` desktop dan mobile secara presisi: `Tentang`, `Reputasi`, `Katalog`, dan `Kontak`.
+3. **Verifikasi & Status Sistem:**
+   - `npm run build` sukses 100% (5.95s) tanpa ada error maupun peringatan sintaksis.
+   - Dev server lokal aktif dan menyajikan landing page dengan antarmuka yang jauh lebih bersih, modern, dan navigasi yang responsif.
 

@@ -270,10 +270,10 @@ const toggleTheme = () => {
 }
 
 const navItems = [
-  { id: 'tentang', name: 'Tentang Kami', href: '#tentang-kami' },
-  { id: 'kelayakan', name: 'Mutu & Legalitas', href: '#kelayakan' },
-  { id: 'katalog', name: 'Katalog Produk', href: '#katalog-produk' },
-  { id: 'kontak', name: 'Kontak Kami', href: '#kontak' },
+  { id: 'tentang', name: 'Tentang', href: '#tentang-kami' },
+  { id: 'reputasi', name: 'Reputasi', href: '#reputasi' },
+  { id: 'katalog', name: 'Katalog', href: '#katalog-produk' },
+  { id: 'kontak', name: 'Kontak', href: '#kontak' },
 ]
 </script>
 

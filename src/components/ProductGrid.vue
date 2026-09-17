@@ -1,21 +1,18 @@
 <template>
-  <section class="w-full bg-surface-pure dark:bg-[#070D1E] pt-24 sm:pt-36 lg:pt-48 pb-12 sm:pb-16 lg:pb-20 transition-colors duration-300" id="katalog-produk">
+  <section class="relative w-full bg-surface-pure dark:bg-[#070D1E] pt-24 sm:pt-36 lg:pt-48 pb-12 sm:pb-16 lg:pb-20 transition-colors duration-300" id="katalog-produk">
+    <!-- Anchor identifier for #katalog -->
+    <span id="katalog" class="absolute -top-32 pointer-events-none opacity-0"></span>
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">
       
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6 sm:gap-8 animate-fade-in-up">
-        <div>
-          <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-slate-200 font-label-sm text-label-sm font-semibold mb-3 sm:mb-4 border border-primary/20 dark:border-white/20">
-            <span class="material-symbols-outlined text-[16px] text-primary dark:text-secondary-container">verified</span>
-            <span>Langsung dari Peternakan Ajibarang</span>
-          </div>
-          <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight">
-            Katalog Panen Segar
-          </h2>
+      <div class="mb-10 sm:mb-12 animate-fade-in-up">
+        <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-slate-200 font-label-sm text-label-sm font-semibold mb-3 sm:mb-4 border border-primary/20 dark:border-white/20">
+          <span class="material-symbols-outlined text-[16px] text-primary dark:text-secondary-container">verified</span>
+          <span>Langsung dari Peternakan Ajibarang</span>
         </div>
-        <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 max-w-md">
-          Pilihan hasil peternakan dan hasil tani berkualitas tinggi, dipanen harian dengan standar kebersihan terjaga tanpa bahan kimia sintetis.
-        </p>
+        <h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight">
+          Katalog Produk
+        </h2>
       </div>
 
       <!-- Category Filter Tabs -->
@@ -110,37 +107,6 @@
             <span>Berikutnya</span>
             <span class="material-symbols-outlined text-[16px]">chevron_right</span>
           </button>
-        </div>
-      </div>
-
-      <!-- Trust Bar / Farm-to-Table Highlights -->
-      <div 
-        class="mt-8 sm:mt-10 lg:mt-12 p-6 sm:p-8 lg:p-10 rounded-2xl bg-surface-subtle dark:bg-slate-900/70 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-12 shadow-xs border border-surface-container-high/70 dark:border-slate-800 animate-fade-in-up" 
-        id="standar-etika"
-      >
-        <div class="flex items-center gap-5 sm:gap-6">
-          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary-fixed dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-xs border border-primary-container/20 dark:border-slate-700">
-            <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[28px] sm:text-[32px]">agriculture</span>
-          </div>
-          <div>
-            <div class="font-headline-md text-headline-md sm:text-headline-lg text-primary dark:text-white font-bold">
-              Standar Mutu Peternakan Ajibarang
-            </div>
-            <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-300 mt-1 max-w-xl leading-relaxed">
-              Pakan alami bernutrisi, tata kelola kandang bersih higienis, serta pengiriman cepat langsung ke rumah tangga dan mitra usaha kuliner.
-            </p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0 flex-wrap sm:flex-nowrap">
-          <span class="inline-flex items-center gap-2 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-4 py-2.5 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
-            <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
-            100% Bebas Pengawet
-          </span>
-          <span class="inline-flex items-center gap-2 font-label-md text-label-md text-primary dark:text-slate-200 font-semibold bg-surface-pure dark:bg-slate-800 px-4 py-2.5 rounded-full border border-surface-container dark:border-slate-700 shadow-xs">
-            <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-[20px]">check_circle</span>
-            Halal &amp; Higienis
-          </span>
         </div>
       </div>
 

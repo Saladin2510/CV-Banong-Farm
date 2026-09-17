@@ -1,8 +1,11 @@
 <template>
   <section 
-    id="kelayakan" 
+    id="reputasi" 
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-20 sm:py-28 lg:py-32 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
+    <!-- Anchor identifier for backwards compatibility #kelayakan -->
+    <span id="kelayakan" class="absolute -top-32 pointer-events-none opacity-0"></span>
+
     <!-- Background Ambient Glow Halus Selaras dengan VisiMisiSection -->
     <div class="absolute top-1/3 left-10 w-80 h-80 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
     <div class="absolute bottom-10 right-10 w-80 h-80 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -21,9 +24,9 @@
             <span>Standar Mutu &amp; Kelayakan Resmi</span>
           </div>
 
-          <!-- Judul Utama (Font Sesuai Style Web) -->
+          <!-- Judul Utama: Reputasi -->
           <h2 class="text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight">
-            Standar Mutu &amp; Legalitas Resmi untuk Pangan Anda
+            Reputasi
           </h2>
 
           <!-- Subjudul 1 Baris -->

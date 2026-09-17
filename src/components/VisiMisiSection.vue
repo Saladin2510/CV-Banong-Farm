@@ -3,21 +3,15 @@
     id="tentang-kami" 
     class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-36 sm:py-52 lg:py-72 xl:py-80 transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
-    <!-- Anchor identifier for #visi-misi -->
+    <!-- Anchor identifier for #visi-misi and #tentang -->
     <span id="visi-misi" class="absolute -top-32 pointer-events-none opacity-0"></span>
+    <span id="tentang" class="absolute -top-32 pointer-events-none opacity-0"></span>
     <!-- Subtle Background Ambient Accents (Blue & Yellow) -->
     <div class="absolute top-1/4 left-10 w-96 h-96 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
     <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10">
       
-      <!-- Top Breadcrumb / Category Tracker -->
-      <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-3 sm:mb-4 font-telemetry-code">
-        <span>Sentra Agribisnis Ajibarang</span>
-        <span class="text-slate-300 dark:text-slate-600">/</span>
-        <span class="text-primary dark:text-secondary-container font-bold">Tentang CV Banong Farms</span>
-      </div>
-
       <!-- Main Split Layout (Grid 12 cols: 7 cols Left, 5 cols Right) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-center">
         
@@ -26,7 +20,7 @@
           
           <!-- Big Section Title (100% Clean Bahasa Indonesia) -->
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight mb-2 sm:mb-2.5">
-            Dedikasi &amp; Komitmen Kami
+            Tentang Kami
           </h2>
 
           <!-- Bold Lead Statement -->
