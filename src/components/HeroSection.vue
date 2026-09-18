@@ -137,7 +137,7 @@
     <!-- CRITICAL BOTTOM EDGE MASK: TALLER Sweeping Curved Divider SVG with Dark Mode Support -->
     <div class="absolute -bottom-1 left-0 right-0 w-full overflow-hidden leading-none z-20 pointer-events-none">
       <svg 
-        class="relative block w-full h-24 sm:h-32 md:h-40 lg:h-48 text-surface-pure dark:text-[#0A1128] transition-colors duration-300" 
+        class="relative block w-full h-24 sm:h-32 md:h-40 lg:h-48 text-surface-pure dark:text-[#070D1E] transition-colors duration-300" 
         viewBox="0 0 1440 200" 
         preserveAspectRatio="none"
       >
