@@ -37,44 +37,44 @@
         </div>
 
         <!-- Sisi Kanan: Metrik Besar + 4 Avatar Tumpuk + Keterangan -->
-        <div class="cred-hero-text flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0 will-change-transform">
-          <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0">
+          <div class="cred-hero-text flex items-center gap-3 sm:gap-4 will-change-transform">
             <!-- Angka Metrik Besar Dinamis dengan Counter Rolling Animasi GSAP -->
             <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-secondary-container leading-none font-telemetry-code tabular-nums">
               {{ counterDisplay }}
             </span>
 
-            <!-- 4 Lingkaran Foto Panen Bertumpuk -->
-            <div class="flex -space-x-2.5 sm:-space-x-3 overflow-hidden p-0.5">
+            <!-- 4 Lingkaran Foto Panen Bertumpuk (Bebas overflow-hidden clipping & bebas CSS transition conflict) -->
+            <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
               <img 
                 src="/assets/product-eggs.png" 
                 alt="Panen Telur Segar" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs hover:scale-110 will-change-transform"
                 title="Panen Telur Ayam &amp; Bebek Segar Harian"
               />
               <img 
                 src="/assets/product-chicken.png" 
                 alt="Unggas Sehat Alami" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs hover:scale-110 will-change-transform"
                 title="Ayam Kampung Bebas Hormon Sintetis"
               />
               <img 
                 src="/assets/product-duck.png" 
                 alt="Bebek &amp; Itik Pilihan" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs hover:scale-110 will-change-transform"
                 title="Bebek &amp; Entok Sehat Alami"
               />
               <img 
                 src="/assets/product-fish.png" 
                 alt="Ikan Air Tawar Segar" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs hover:scale-110 will-change-transform"
                 title="Ikan Nila Air Deras Ajibarang"
               />
             </div>
           </div>
 
           <!-- Keterangan Subtitle di Bawah Angka -->
-          <span class="mt-2 text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 font-telemetry-code uppercase">
+          <span class="cred-hero-text mt-2 text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 font-telemetry-code uppercase will-change-transform">
             Dipercaya 1.400+ Pelanggan &amp; Mitra
           </span>
         </div>
@@ -179,13 +179,13 @@
               </p>
             </div>
 
-            <!-- 2 Kartu Pendukung di Bawah Narasi -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1">
+            <!-- 2 Kartu Pendukung di Bawah Narasi (Pembungkus Grid cred-feature-grid untuk Parallax) -->
+            <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1 will-change-transform">
               
               <!-- Kartu 1: Pakan Alami & Bebas Kimia -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group will-change-transform">
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
-                <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
                   <span class="material-symbols-outlined text-[22px]">eco</span>
                 </div>
 
@@ -199,9 +199,9 @@
               </div>
 
               <!-- Kartu 2: Pengawasan Veteriner & Sanitasi -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group will-change-transform">
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
-                <div class="w-10 h-10 rounded-xl bg-secondary-container/20 dark:bg-secondary-container/15 text-primary dark:text-secondary-container flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                <div class="w-10 h-10 rounded-xl bg-secondary-container/20 dark:bg-secondary-container/15 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
                   <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
                 </div>
 
@@ -250,12 +250,12 @@ onMounted(() => {
       }
     })
 
-    // (a) Kinetic Staggered Reveal Gaya Hero Slider pada Header Kiri & Metrik
-    // (y: 45px -> 0, opacity: 0 -> 1, duration: 1.15s, stagger: 0.1s, ease: 'power3.out')
+    // (a) Kinetic Staggered Reveal Gaya Hero Slider pada Header Kiri & Metrik Kanan
+    // (y: 40px -> 0, opacity: 0 -> 1, duration: 1.0s, stagger: 0.1s, ease: 'power3.out')
     entranceTl.from('.cred-hero-text', {
-      y: 45,
+      y: 40,
       opacity: 0,
-      duration: 1.15,
+      duration: 1.0,
       stagger: 0.1,
       ease: 'power3.out'
     })
@@ -271,54 +271,55 @@ onMounted(() => {
       }
     }, '<')
 
-    // (c) 4 Avatar Panen Bertumpuk: Pop-in elastis bergantian
+    // (c) 4 Avatar Panen Bertumpuk: Pop-in elastis bergantian (Bebas CSS transition conflict)
     entranceTl.from('.cred-avatar', {
       scale: 0,
       opacity: 0,
       stagger: 0.08,
-      duration: 0.5,
-      ease: 'back.out(2)'
-    }, '-=1.4')
+      duration: 0.55,
+      ease: 'back.out(1.8)'
+    }, '-=1.6')
 
     // (d) Showcase Sertifikat: Curtain Mask Wipe Reveal + Zoom Out
     entranceTl.from('.cert-card-frame', {
       clipPath: 'inset(100% 0% 0% 0%)',
       opacity: 0,
-      duration: 1.2,
+      duration: 1.15,
       ease: 'power3.inOut'
     }, '-=1.2')
 
     entranceTl.from('.cert-inner-img', {
-      scale: 1.25,
-      duration: 1.3,
+      scale: 1.2,
+      duration: 1.25,
       ease: 'power3.out'
     }, '<')
 
     entranceTl.from('.cert-overlay-card', {
-      y: 30,
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      ease: 'power3.out'
+    }, '-=0.5')
+
+    // (e) Sisi Kanan: Narasi Komitmen
+    entranceTl.from('.cred-narrative', {
+      y: 25,
       opacity: 0,
       duration: 0.75,
       ease: 'power3.out'
-    }, '-=0.5')
+    }, '-=0.7')
 
-    // (e) Sisi Kanan: Narasi Komitmen & 2 Kartu Fitur Elevasi Halus
-    entranceTl.from('.cred-narrative', {
-      y: 28,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power3.out'
-    }, '-=0.8')
-
+    // (f) 2 Kartu Fitur Elevasi Halus (Murni dikontrol entranceTl, bebas tabrakan properti GSAP)
     entranceTl.from('.cred-feature-card', {
-      y: 35,
+      y: 30,
       opacity: 0,
-      stagger: 0.14,
-      duration: 0.7,
+      stagger: 0.12,
+      duration: 0.65,
       ease: 'back.out(1.15)'
-    }, '-=0.5')
+    }, '-=0.45')
 
 
-    // 2. MULTI-PLANE CONTINUOUS SCROLL PARALLAX (Tersinkronisasi 1:1 dengan Lenis, Tanpa Pinning)
+    // 2. CONTINUOUS SCROLL PARALLAX (Tersinkronisasi 1:1 dengan Lenis, Tanpa Tabrakan Properti)
     ScrollTrigger.matchMedia({
       '(min-width: 768px)': () => {
         // Piagam sertifikat meluncur naik perlahan
@@ -333,8 +334,8 @@ onMounted(() => {
           }
         })
 
-        // 2 Kartu fitur di kanan bergeser lembut
-        gsap.to('.cred-feature-card', {
+        // Grid pembungkus fitur di kanan bergeser lembut (animate container .cred-feature-grid, BUKAN card-nya!)
+        gsap.to('.cred-feature-grid', {
           y: 20,
           ease: 'none',
           scrollTrigger: {
