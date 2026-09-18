@@ -184,40 +184,49 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-56 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <!-- Tampilan Desktop & Tablet: Floating Organic Scattered Layout (Ukuran Proporsional & Elegan) -->
-        <div class="hidden md:block relative w-full h-full min-h-[260px] lg:min-h-[300px] xl:min-h-[320px]">
+        <div class="hidden md:block relative w-full h-full min-h-[260px] lg:min-h-[300px] xl:min-h-[320px] perspective-[1200px]">
           <div 
             v-for="(tile, index) in animalTiles" 
             :key="tile.id"
-            :ref="el => setTileRef(el, index)"
+            :ref="el => setTileWrapperRef(el, index)"
             :style="{
               left: tile.left,
               top: tile.top
             }"
-            class="animal-tile-item absolute transform cursor-pointer group will-change-transform"
-            @click="handleTileClick(tile)"
+            class="animal-tile-wrapper absolute transform select-none will-change-transform z-10"
           >
-            <!-- 3D Squircle Card Tile (Proporsional: ~112px) -->
+            <!-- 3D Squircle Card Tile (Interaktif Mouse Hovering) -->
             <div 
+              :ref="el => setTileCardRef(el, index)"
               :class="[
                 tile.rotationClass,
-                'w-24 h-24 sm:w-26 sm:h-26 lg:w-28 lg:h-28 xl:w-[116px] xl:h-[116px] rounded-[24px] sm:rounded-[26px] lg:rounded-[28px] xl:rounded-[30px] p-3 sm:p-3.5 lg:p-4 flex flex-col items-center justify-center transition-all duration-300',
+                'animal-tile-card relative overflow-hidden cursor-pointer select-none',
+                'w-24 h-24 sm:w-26 sm:h-26 lg:w-28 lg:h-28 xl:w-[116px] xl:h-[116px]',
+                'rounded-[24px] sm:rounded-[26px] lg:rounded-[28px] xl:rounded-[30px] p-3 sm:p-3.5 lg:p-4',
+                'flex flex-col items-center justify-center will-change-transform',
                 'bg-white dark:bg-[#111C35] border border-slate-200/80 dark:border-slate-700/80',
                 'shadow-[0_18px_36px_-10px_rgba(0,0,0,0.12),0_8px_16px_-6px_rgba(0,0,0,0.06),inset_0_1.5px_0_rgba(255,255,255,0.95)]',
                 'dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),0_10px_20px_-6px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.15)]',
-                'group-hover:shadow-[0_28px_56px_-12px_rgba(0,0,0,0.22)] dark:group-hover:shadow-[0_28px_56px_-12px_rgba(0,0,0,0.85)]'
+                'hover:border-emerald-500/60 dark:hover:border-emerald-400/60'
               ]"
+              @mouseenter="handleCardMouseEnter(index, $event)"
+              @mousemove="handleCardMouseMove(index, $event)"
+              @mouseleave="handleCardMouseLeave(index)"
+              @click="handleCardClick(index)"
             >
-              <!-- Ikon Hewan / Komoditas (Proporsional: ~64px) -->
-              <div class="w-13 h-13 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-[68px] xl:h-[68px] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              <!-- Dynamic Specular Shine Overlay (Glides with Mouse Hover) -->
+              <div 
+                :ref="el => setShineRef(el, index)"
+                class="shine-overlay absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 transition-opacity duration-200"
+              ></div>
+
+              <!-- Ikon Hewan / Komoditas (Reaktif terhadap Kursor) -->
+              <div 
+                :ref="el => setTileIconRef(el, index)"
+                class="w-13 h-13 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-[68px] xl:h-[68px] flex items-center justify-center pointer-events-none will-change-transform"
+              >
                 <component :is="tile.iconComponent" />
               </div>
-            </div>
-
-            <!-- Floating Label Tooltip on Hover -->
-            <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-40 transform translate-y-1 group-hover:translate-y-0">
-              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md border border-white/10">
-                {{ tile.name }}
-              </span>
             </div>
           </div>
         </div>
@@ -229,15 +238,14 @@
               <span class="material-symbols-outlined text-[15px] text-emerald-500">pets</span>
               <span>Representasi Hewan &amp; Ternak CV Banong</span>
             </span>
-            <span class="text-[11px] text-slate-400">Ketuk untuk rincian</span>
           </div>
 
           <div class="grid grid-cols-4 gap-2.5 py-1">
             <div 
-              v-for="tile in animalTiles.slice(0, 8)" 
+              v-for="(tile, index) in animalTiles.slice(0, 8)" 
               :key="'m-' + tile.id"
-              @click="handleTileClick(tile)"
-              class="flex flex-col items-center gap-1 cursor-pointer active:scale-95 transition-transform"
+              class="flex flex-col items-center justify-center select-none active:scale-90 transition-transform cursor-pointer"
+              @click="handleMobileTileTap(index)"
             >
               <div 
                 :class="[
@@ -251,9 +259,6 @@
                   <component :is="tile.iconComponent" />
                 </div>
               </div>
-              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 text-center truncate max-w-[65px]">
-                {{ tile.shortName }}
-              </span>
             </div>
           </div>
         </div>
@@ -294,10 +299,23 @@ gsap.registerPlugin(ScrollTrigger)
 
 const footerRef = ref(null)
 const tilesContainerRef = ref(null)
-const tileRefs = ref([])
+const tileWrapperRefs = ref([])
+const tileCardRefs = ref([])
+const tileIconRefs = ref([])
+const shineRefs = ref([])
+const activeHoverIndex = ref(null)
 
-const setTileRef = (el, index) => {
-  if (el) tileRefs.value[index] = el
+const setTileWrapperRef = (el, index) => {
+  if (el) tileWrapperRefs.value[index] = el
+}
+const setTileCardRef = (el, index) => {
+  if (el) tileCardRefs.value[index] = el
+}
+const setTileIconRef = (el, index) => {
+  if (el) tileIconRefs.value[index] = el
+}
+const setShineRef = (el, index) => {
+  if (el) shineRefs.value[index] = el
 }
 
 // Style Dot-Grid Halus seperti pada Gambar Referensi
@@ -553,11 +571,166 @@ const animalTiles = [
   }
 ]
 
-// Navigasi cepat saat ubin hewan diklik
-const handleTileClick = (tile) => {
-  const el = document.getElementById('katalog-produk')
+// 1. Direct Card Hover: Mouse Enter
+const handleCardMouseEnter = (index, e) => {
+  activeHoverIndex.value = index
+  const card = tileCardRefs.value[index]
+  const icon = tileIconRefs.value[index]
+  const wrapper = tileWrapperRefs.value[index]
+  const shine = shineRefs.value[index]
+
+  if (wrapper) wrapper.style.zIndex = '35'
+
+  if (card) {
+    gsap.to(card, {
+      scale: 1.2,
+      z: 45,
+      duration: 0.25,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    })
+  }
+
+  if (icon) {
+    gsap.to(icon, {
+      scale: 1.25,
+      y: -4,
+      duration: 0.25,
+      ease: 'back.out(2)',
+      overwrite: 'auto'
+    })
+  }
+
+  if (shine) {
+    shine.style.opacity = '1'
+  }
+}
+
+// 2. Direct Card Hover: Dynamic 3D Gyroscopic Tilt & Specular Shine
+const handleCardMouseMove = (index, e) => {
+  const card = tileCardRefs.value[index]
+  if (!card) return
+
+  const rect = card.getBoundingClientRect()
+  const normX = (e.clientX - rect.left) / rect.width - 0.5 // -0.5 to 0.5
+  const normY = (e.clientY - rect.top) / rect.height - 0.5 // -0.5 to 0.5
+
+  const tiltX = -normY * 36
+  const tiltY = normX * 36
+
+  gsap.to(card, {
+    rotateX: tiltX,
+    rotateY: tiltY,
+    scale: 1.22,
+    z: 50,
+    duration: 0.16,
+    ease: 'power1.out',
+    transformPerspective: 800,
+    overwrite: 'auto'
+  })
+
+  // Dynamic light reflection shine following cursor
+  const shine = shineRefs.value[index]
+  if (shine) {
+    const px = ((normX + 0.5) * 100).toFixed(1)
+    const py = ((normY + 0.5) * 100).toFixed(1)
+    shine.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255, 255, 255, 0.45) 0%, rgba(52, 211, 153, 0.15) 40%, transparent 70%)`
+  }
+
+  // Reactive animal icon slight perspective offset
+  const icon = tileIconRefs.value[index]
+  if (icon) {
+    gsap.to(icon, {
+      x: normX * 14,
+      y: normY * 14 - 4,
+      rotation: normX * 24,
+      scale: 1.26,
+      duration: 0.18,
+      ease: 'power1.out',
+      overwrite: 'auto'
+    })
+  }
+}
+
+// 3. Direct Card Hover: Mouse Leave (Elastic Smooth Spring Back)
+const handleCardMouseLeave = (index) => {
+  if (activeHoverIndex.value === index) {
+    activeHoverIndex.value = null
+  }
+
+  const card = tileCardRefs.value[index]
+  if (card) {
+    gsap.to(card, {
+      rotateX: 0,
+      rotateY: 0,
+      scale: 1,
+      z: 0,
+      duration: 0.75,
+      ease: 'elastic.out(1.15, 0.45)',
+      overwrite: 'auto'
+    })
+  }
+
+  const wrapper = tileWrapperRefs.value[index]
+  if (wrapper) {
+    setTimeout(() => {
+      if (activeHoverIndex.value !== index) {
+        wrapper.style.zIndex = '10'
+      }
+    }, 200)
+  }
+
+  const shine = shineRefs.value[index]
+  if (shine) {
+    gsap.to(shine, { opacity: 0, duration: 0.35 })
+  }
+
+  const icon = tileIconRefs.value[index]
+  if (icon) {
+    gsap.to(icon, {
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      duration: 0.7,
+      ease: 'elastic.out(1.15, 0.45)',
+      overwrite: 'auto'
+    })
+  }
+}
+
+// 4. Tactile Click Haptic Response (Squish and Pop - Tanpa Link / Pindah Halaman)
+const handleCardClick = (index) => {
+  const card = tileCardRefs.value[index]
+  const icon = tileIconRefs.value[index]
+
+  if (card) {
+    gsap.timeline()
+      .to(card, { scale: 0.84, duration: 0.08, ease: 'power2.in' })
+      .to(card, { scale: 1.32, duration: 0.38, ease: 'elastic.out(1.45, 0.38)' })
+      .to(card, { scale: 1.22, duration: 0.2, ease: 'power2.out' })
+  }
+
+  if (icon) {
+    gsap.to(icon, {
+      rotation: '+=360',
+      scale: 1.35,
+      duration: 0.55,
+      ease: 'back.out(2)'
+    })
+  }
+}
+
+// 5. Mobile Tap Feedback
+const handleMobileTileTap = (index) => {
+  const el = tileCardRefs.value[index]
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
+    gsap.fromTo(el,
+      { scale: 0.85 },
+      { scale: 1.15, duration: 0.3, ease: 'elastic.out(1.3, 0.4)', onComplete: () => {
+        gsap.to(el, { scale: 1, duration: 0.2, ease: 'power2.out' })
+      }}
+    )
   }
 }
 
@@ -569,8 +742,8 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // 1. Entrance Pop-In Elastis Bergelombang saat Footer Masuk Layar
-    gsap.from(tileRefs.value, {
+    // A. Entrance Pop-In Elastis Bergelombang saat Footer Masuk Layar
+    gsap.from(tileWrapperRefs.value, {
       scrollTrigger: {
         trigger: footerRef.value,
         start: 'top 85%',
@@ -579,7 +752,7 @@ onMounted(() => {
       scale: 0,
       opacity: 0,
       y: 70,
-      rotation: () => gsap.utils.random(-30, 30),
+      rotation: () => gsap.utils.random(-25, 25),
       duration: 1.2,
       ease: 'elastic.out(1.1, 0.55)',
       stagger: {
@@ -588,13 +761,13 @@ onMounted(() => {
       }
     })
 
-    // 2. Continuous Organic Buoyancy (Mengambang Alami Bebas Jank)
-    tileRefs.value.forEach((tileEl, idx) => {
-      if (!tileEl) return
-      gsap.to(tileEl, {
-        y: '+=8',
-        rotation: '+=' + (idx % 2 === 0 ? 2 : -2),
-        duration: 3 + (idx * 0.35) % 2.5,
+    // B. Continuous Organic Buoyancy (Mengambang Alami Bebas Gangguan pada Wrapper)
+    tileWrapperRefs.value.forEach((wrapperEl, idx) => {
+      if (!wrapperEl) return
+      gsap.to(wrapperEl, {
+        y: '+=9',
+        rotation: '+=' + (idx % 2 === 0 ? 2.2 : -2.2),
+        duration: 3.2 + (idx * 0.4) % 2.5,
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
@@ -608,50 +781,46 @@ onUnmounted(() => {
   if (ctx) ctx.revert()
 })
 
-// 3. Interactive 3D Magnetic & Tilt Physics saat Kursor Mouse Bergerak di Desktop
+// C. Container-wide Proximity Magnetism (Kartu Sekitar Ikut Menoleh Halus ke Arah Mouse)
 const handleTilesPointerMove = (e) => {
   if (!tilesContainerRef.value || window.matchMedia('(pointer: coarse)').matches) return
 
   const mouseX = e.clientX
   const mouseY = e.clientY
 
-  tileRefs.value.forEach((tile) => {
-    if (!tile) return
-    const rect = tile.getBoundingClientRect()
+  tileCardRefs.value.forEach((card, idx) => {
+    if (!card || idx === activeHoverIndex.value) return
+
+    const rect = card.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
     const centerY = rect.top + rect.height / 2
 
     const dx = mouseX - centerX
     const dy = mouseY - centerY
     const dist = Math.sqrt(dx * dx + dy * dy)
-    const maxDist = 260
+    const maxDist = 220
 
     if (dist < maxDist) {
-      const force = (1 - dist / maxDist)
-      const moveX = -(dx / dist) * force * 24
-      const moveY = -(dy / dist) * force * 24
-      const tiltX = (dy / maxDist) * 18
-      const tiltY = -(dx / maxDist) * 18
+      const force = 1 - dist / maxDist
+      const tiltX = (dy / maxDist) * 14
+      const tiltY = -(dx / maxDist) * 14
 
-      gsap.to(tile, {
-        x: moveX,
-        y: moveY,
+      gsap.to(card, {
         rotateX: tiltX,
         rotateY: tiltY,
-        scale: 1.08,
+        scale: 1 + force * 0.08,
         transformPerspective: 800,
-        duration: 0.35,
+        duration: 0.25,
         ease: 'power2.out',
         overwrite: 'auto'
       })
     } else {
-      gsap.to(tile, {
-        x: 0,
+      gsap.to(card, {
         rotateX: 0,
         rotateY: 0,
         scale: 1,
-        duration: 0.7,
-        ease: 'elastic.out(1, 0.4)',
+        duration: 0.65,
+        ease: 'elastic.out(1, 0.45)',
         overwrite: 'auto'
       })
     }
@@ -659,24 +828,33 @@ const handleTilesPointerMove = (e) => {
 }
 
 const handleTilesPointerLeave = () => {
-  if (!tileRefs.value.length) return
-  gsap.to(tileRefs.value, {
-    x: 0,
-    rotateX: 0,
-    rotateY: 0,
-    scale: 1,
-    duration: 0.8,
-    ease: 'elastic.out(1, 0.4)',
-    stagger: 0.02,
-    overwrite: 'auto'
+  tileCardRefs.value.forEach((card, idx) => {
+    if (!card || idx === activeHoverIndex.value) return
+    gsap.to(card, {
+      rotateX: 0,
+      rotateY: 0,
+      scale: 1,
+      duration: 0.7,
+      ease: 'elastic.out(1, 0.45)',
+      overwrite: 'auto'
+    })
   })
 }
 </script>
 
 <style scoped>
-/* Transisi kartu hover halus */
-.animal-tile-item {
+/* 3D Perspective & Layering */
+.animal-tile-wrapper {
   transform-style: preserve-3d;
   perspective: 1000px;
+}
+
+.animal-tile-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.shine-overlay {
+  mix-blend-mode: overlay;
 }
 </style>
