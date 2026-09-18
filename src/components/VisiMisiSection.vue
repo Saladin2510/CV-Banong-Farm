@@ -20,25 +20,34 @@
         <!-- LEFT COLUMN: Content & Vision / Mission Narrative -->
         <div class="lg:col-span-7 flex flex-col justify-center">
           
-          <!-- Big Section Title (Dengan Kinetic Skew Typography Reveal) -->
-          <div class="overflow-hidden py-1 mb-2 sm:mb-2.5">
-            <h2 class="visi-skew-title text-3xl sm:text-4xl lg:text-5xl font-black text-primary dark:text-secondary-container tracking-tight leading-tight origin-bottom-left will-change-transform">
-              Tentang Kami
-            </h2>
+          <!-- Live Status Pill (Persis Style Hero Section) -->
+          <div class="visi-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code shadow-xs w-fit will-change-transform">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-container"></span>
+            </span>
+            <span class="tracking-wider uppercase font-semibold">
+              Dedikasi &amp; Visi Terpadu
+            </span>
           </div>
 
+          <!-- Section Title (Tegak, Bold, Bersih Tanpa Skew Persis Hero Slider) -->
+          <h2 class="visi-hero-text text-3xl sm:text-4xl lg:text-5xl font-black font-outfit text-primary dark:text-secondary-container tracking-tight leading-tight mb-3 origin-bottom-left will-change-transform">
+            Tentang Kami
+          </h2>
+
           <!-- Bold Lead Statement -->
-          <h3 class="visi-lead text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5 will-change-transform">
+          <h3 class="visi-hero-text text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5 will-change-transform">
             Mewujudkan kemandirian pangan sehat dan berkelanjutan dari bumi Ajibarang.
           </h3>
 
           <!-- Narrative Paragraph -->
-          <p class="visi-desc text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed will-change-transform">
+          <p class="visi-hero-text text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed will-change-transform">
             CV Banong Farms menghadirkan ekosistem peternakan dan agribisnis terpadu di Ajibarang, Banyumas. Kami memadukan dedikasi peternak lokal, tata kelola kebersihan modern, dan pemanfaatan sumber daya ramah lingkungan untuk menghasilkan produk pangan hewani yang murni, bergizi, halal, dan terpercaya bagi masyarakat.
           </p>
 
           <!-- Visi & Misi Key Highlights -->
-          <div class="mt-5 pt-5 sm:mt-6 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3.5 sm:space-y-4">
+          <div class="visi-hero-text mt-5 pt-5 sm:mt-6 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3.5 sm:space-y-4">
             
             <!-- Visi Card (Compact & Sleek) -->
             <div class="visi-card p-3.5 sm:p-4 rounded-xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40 will-change-transform transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/5">
@@ -150,7 +159,6 @@ let ctx = null
 onMounted(() => {
   ctx = gsap.context(() => {
     // 1. MASTER ENTRANCE REVEAL TIMELINE (Terkoordinasi Sempurna Saat Seksi Masuk Viewport)
-    // start: 'top 75%' memastikan elemen mulai terungkap mulus tanpa perlu menunggu posisi top terkunci
     const entranceTl = gsap.timeline({
       scrollTrigger: {
         trigger: visiSectionRef.value,
@@ -159,41 +167,24 @@ onMounted(() => {
       }
     })
 
-    // (a) Kinetic Skew Typography Reveal pada Judul "Tentang Kami"
-    entranceTl.from('.visi-skew-title', {
+    // (a) Kinetic Staggered Reveal Persis Seperti Text Hero Slider
+    // (y: 45px -> 0, opacity: 0 -> 1, duration: 1.15s, stagger: 0.1s, ease: 'power3.out')
+    entranceTl.from('.visi-hero-text', {
       y: 45,
-      skewY: 5,
       opacity: 0,
-      duration: 0.95,
+      duration: 1.15,
+      stagger: 0.1,
       ease: 'power3.out'
     })
 
-    // (b) Lead Statement & Narasi Pengantar
-    entranceTl.from(['.visi-lead', '.visi-desc'], {
-      y: 24,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.12,
-      ease: 'power3.out'
-    }, '-=0.7')
-
-    // (c) Kartu Visi Utama dengan pemuaian halus & elevasi lembut
-    entranceTl.from('.visi-card', {
-      y: 28,
-      opacity: 0,
-      scale: 0.96,
-      duration: 0.85,
-      ease: 'back.out(1.1)'
-    }, '-=0.55')
-
-    // (d) 4 Item Misi & Ikon Centang Berputar Mikro
+    // (b) 4 Item Misi & Ikon Centang Berputar Mikro
     entranceTl.from('.misi-item', {
       y: 18,
       opacity: 0,
       stagger: 0.08,
       duration: 0.55,
       ease: 'power2.out'
-    }, '-=0.5')
+    }, '-=0.55')
 
     entranceTl.from('.misi-icon', {
       scale: 0,
@@ -203,7 +194,7 @@ onMounted(() => {
       ease: 'back.out(2)'
     }, '<')
 
-    // (e) 3 Strip Triptych Foto: Curtain Mask Wipe Unveil + Inner Image Scale Down
+    // (c) 3 Strip Triptych Foto: Curtain Mask Wipe Unveil + Inner Image Scale Down
     entranceTl.from('.triptych-frame', {
       clipPath: 'inset(100% 0% 0% 0%)',
       opacity: 0,
@@ -219,7 +210,7 @@ onMounted(() => {
       ease: 'power3.out'
     }, '<')
 
-    // (f) Ambient Halo Glow di Belakang Galeri
+    // (d) Ambient Halo Glow di Belakang Galeri
     entranceTl.from('.triptych-glow', {
       scale: 0.5,
       opacity: 0,

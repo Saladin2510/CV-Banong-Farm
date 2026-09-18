@@ -2,14 +2,14 @@
   <section 
     ref="credSectionRef"
     id="reputasi" 
-    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-0 lg:min-h-screen lg:h-screen lg:flex lg:items-center transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
+    class="relative w-full bg-surface-pure dark:bg-[#070D1E] py-16 sm:py-20 lg:py-24 xl:py-28 min-h-auto lg:min-h-screen lg:flex lg:items-center transition-colors duration-300 overflow-hidden border-b border-slate-100 dark:border-slate-800/80"
   >
     <!-- Anchor identifier for backwards compatibility #kelayakan -->
     <span id="kelayakan" class="absolute -top-32 pointer-events-none opacity-0"></span>
 
     <!-- Background Ambient Glow Halus Selaras dengan VisiMisiSection -->
-    <div class="absolute top-1/3 left-10 w-80 h-80 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
-    <div class="absolute bottom-10 right-10 w-80 h-80 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="cred-ambient-glow absolute top-1/3 left-10 w-80 h-80 bg-primary/5 dark:bg-primary/10 blur-[120px] rounded-full pointer-events-none will-change-transform"></div>
+    <div class="cred-ambient-glow absolute bottom-10 right-10 w-80 h-80 bg-secondary-container/10 dark:bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none will-change-transform"></div>
 
     <!-- Kontainer Lebar Maksimal SAMA PERSIS dengan VisiMisiSection dan ProductGrid (1280px) -->
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop relative z-10 w-full">
@@ -17,29 +17,27 @@
       <!-- 1. Baris Atas: Headline & Metrik 14rb+ (Layout Persis Sesuai Gambar Referensi) -->
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-12">
         
-        <!-- Sisi Kiri: Badge Pill, Judul Utama & Subjudul -->
+        <!-- Sisi Kiri: Badge Pill, Judul Utama & Subjudul (Animasi Hero Slider Stagger) -->
         <div class="max-w-xl">
           <!-- Top Breadcrumb Pill Sesuai Style Web -->
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code">
+          <div class="cred-hero-text inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code w-fit shadow-xs will-change-transform">
             <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
             <span>Standar Mutu &amp; Kelayakan Resmi</span>
           </div>
 
-          <!-- Judul Utama: Reputasi (Dengan Kinetic Skew Typography Reveal) -->
-          <div class="overflow-hidden py-1">
-            <h2 class="cred-skew-title text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight origin-bottom-left will-change-transform">
-              Reputasi
-            </h2>
-          </div>
+          <!-- Judul Utama: Reputasi (Tegak, Bold, Bersih Tanpa Skew) -->
+          <h2 class="cred-hero-text text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight origin-bottom-left will-change-transform">
+            Reputasi
+          </h2>
 
           <!-- Subjudul 1 Baris -->
-          <p class="mt-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
+          <p class="cred-hero-text mt-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed will-change-transform">
             Berizin resmi NIB, higienis, dan teruji laboratorium untuk menjamin pangan sehat keluarga setiap hari.
           </p>
         </div>
 
-        <!-- Sisi Kanan: Metrik Besar + 4 Avatar Tumpuk + Keterangan (Persis Gambar Referensi "115k") -->
-        <div class="flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0">
+        <!-- Sisi Kanan: Metrik Besar + 4 Avatar Tumpuk + Keterangan -->
+        <div class="cred-hero-text flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0 will-change-transform">
           <div class="flex items-center gap-3 sm:gap-4">
             <!-- Angka Metrik Besar Dinamis dengan Counter Rolling Animasi GSAP -->
             <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-secondary-container leading-none font-telemetry-code tabular-nums">
@@ -51,25 +49,25 @@
               <img 
                 src="/assets/product-eggs.png" 
                 alt="Panen Telur Segar" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs transition-transform hover:scale-110 duration-200"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
                 title="Panen Telur Ayam &amp; Bebek Segar Harian"
               />
               <img 
                 src="/assets/product-chicken.png" 
                 alt="Unggas Sehat Alami" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs transition-transform hover:scale-110 duration-200"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
                 title="Ayam Kampung Bebas Hormon Sintetis"
               />
               <img 
                 src="/assets/product-duck.png" 
                 alt="Bebek &amp; Itik Pilihan" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs transition-transform hover:scale-110 duration-200"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
                 title="Bebek &amp; Entok Sehat Alami"
               />
               <img 
                 src="/assets/product-fish.png" 
                 alt="Ikan Air Tawar Segar" 
-                class="inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs transition-transform hover:scale-110 duration-200"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs transition-transform hover:scale-110 duration-200 will-change-transform"
                 title="Ikan Nila Air Deras Ajibarang"
               />
             </div>
@@ -87,7 +85,7 @@
       <div class="bg-white dark:bg-[#0c1a30] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-md dark:shadow-2xl border border-slate-200/90 dark:border-slate-800">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
-          <!-- SISI KIRI: Showcase Sertifikat Resmi & Piala Keunggulan (Pengganti Foto Dokter Sesuai Permintaan) -->
+          <!-- SISI KIRI: Showcase Sertifikat Resmi & Piala Keunggulan -->
           <div class="lg:col-span-5 relative w-full flex flex-col items-center">
             
             <!-- Bingkai Foto Sertifikat & Piala Keunggulan (Interactive 3D Depth Tilt & Curtain Mask Reveal) -->
@@ -95,7 +93,7 @@
               ref="certCardRef"
               @pointermove="handleCertPointerMove"
               @pointerleave="handleCertPointerLeave"
-              class="cert-curtain-mask relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-[clip-path,transform]"
+              class="cert-card-frame relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
             >
               <img 
                 src="/assets/sertifikat_kelayakan_cv_banong.jpg" 
@@ -106,8 +104,8 @@
               <!-- Gradient Vignette Lembut di Bagian Bawah Gambar -->
               <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none"></div>
 
-              <!-- Overlay Card di Bagian Bawah Gambar (Persis Layout Kartu Dokter di Gambar Referensi) -->
-              <div class="absolute bottom-3.5 left-3.5 right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800">
+              <!-- Overlay Card di Bagian Bawah Gambar -->
+              <div class="cert-overlay-card absolute bottom-3.5 left-3.5 right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800 will-change-transform">
                 <div class="flex items-start justify-between gap-3">
                   <div>
                     <h4 class="font-extrabold font-outfit text-sm sm:text-base text-primary dark:text-white leading-tight">
@@ -131,7 +129,7 @@
                   </div>
                 </div>
 
-                <!-- Tautan Kontak & Medsos Resmi (Persis Ikon Medsos di Kartu Referensi) -->
+                <!-- Tautan Kontak & Medsos Resmi -->
                 <div class="flex items-center gap-2.5 pt-2.5 mt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 text-[11px]">
                   <a 
                     href="https://wa.me/628999192861" 
@@ -163,11 +161,11 @@
 
           </div>
 
-          <!-- SISI KANAN: Penjelasan Narasi & 2 Kartu Fitur Tambahan (Persis Referensi Gambar) -->
+          <!-- SISI KANAN: Penjelasan Narasi & 2 Kartu Fitur Tambahan -->
           <div class="lg:col-span-7 flex flex-col justify-between space-y-6 sm:space-y-8">
             
             <!-- Narasi Atas: Judul Award-Winning & Deskripsi Mendalam -->
-            <div class="space-y-3.5">
+            <div class="cred-narrative space-y-3.5 will-change-transform">
               <h3 class="text-2xl sm:text-3xl font-black font-outfit text-primary dark:text-white tracking-tight leading-tight">
                 Standar Higienis Teruji &amp; Kredibilitas yang Dapat Anda Percaya
               </h3>
@@ -181,11 +179,11 @@
               </p>
             </div>
 
-            <!-- 2 Kartu Pendukung di Bawah Narasi (Persis Kartu "Optimize Payroll" & "Streamline Compliance") -->
+            <!-- 2 Kartu Pendukung di Bawah Narasi -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1">
               
-              <!-- Kartu 1: Pakan Alami & Bebas Kimia (Sesuai Kartu Kiri Bawah di Gambar) -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group">
+              <!-- Kartu 1: Pakan Alami & Bebas Kimia -->
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group will-change-transform">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                   <span class="material-symbols-outlined text-[22px]">eco</span>
@@ -200,8 +198,8 @@
                 </p>
               </div>
 
-              <!-- Kartu 2: Pengawasan Veteriner & Sanitasi (Sesuai Kartu Kanan Bawah di Gambar) -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group">
+              <!-- Kartu 2: Pengawasan Veteriner & Sanitasi -->
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 hover:shadow-md hover:-translate-y-1 group will-change-transform">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-secondary-container/20 dark:bg-secondary-container/15 text-primary dark:text-secondary-container flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                   <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
@@ -242,127 +240,129 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // Kinetic Typography Skew Reveal pada Judul Reputasi
-    gsap.from('.cred-skew-title', {
-      y: 50,
-      skewY: 6,
-      opacity: 0,
-      duration: 1.1,
-      ease: 'power3.out',
+    // 1. MASTER ENTRANCE REVEAL TIMELINE (Terkoordinasi Saat Seksi Masuk Viewport)
+    // start: 'top 75%' - Mengalir alami, 100% bebas dari scroll-lock atau pinning tersendat
+    const entranceTl = gsap.timeline({
       scrollTrigger: {
         trigger: credSectionRef.value,
-        start: 'top 85%',
+        start: 'top 75%',
         toggleActions: 'play none none none'
       }
     })
 
+    // (a) Kinetic Staggered Reveal Gaya Hero Slider pada Header Kiri & Metrik
+    // (y: 45px -> 0, opacity: 0 -> 1, duration: 1.15s, stagger: 0.1s, ease: 'power3.out')
+    entranceTl.from('.cred-hero-text', {
+      y: 45,
+      opacity: 0,
+      duration: 1.15,
+      stagger: 0.1,
+      ease: 'power3.out'
+    })
+
+    // (b) Rolling Counter Ticker: Berputar halus dari 0 ke 14rb+
+    const counterObj = { val: 0 }
+    entranceTl.to(counterObj, {
+      val: 14,
+      duration: 2.0,
+      ease: 'power2.out',
+      onUpdate: () => {
+        counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
+      }
+    }, '<')
+
+    // (c) 4 Avatar Panen Bertumpuk: Pop-in elastis bergantian
+    entranceTl.from('.cred-avatar', {
+      scale: 0,
+      opacity: 0,
+      stagger: 0.08,
+      duration: 0.5,
+      ease: 'back.out(2)'
+    }, '-=1.4')
+
+    // (d) Showcase Sertifikat: Curtain Mask Wipe Reveal + Zoom Out
+    entranceTl.from('.cert-card-frame', {
+      clipPath: 'inset(100% 0% 0% 0%)',
+      opacity: 0,
+      duration: 1.2,
+      ease: 'power3.inOut'
+    }, '-=1.2')
+
+    entranceTl.from('.cert-inner-img', {
+      scale: 1.25,
+      duration: 1.3,
+      ease: 'power3.out'
+    }, '<')
+
+    entranceTl.from('.cert-overlay-card', {
+      y: 30,
+      opacity: 0,
+      duration: 0.75,
+      ease: 'power3.out'
+    }, '-=0.5')
+
+    // (e) Sisi Kanan: Narasi Komitmen & 2 Kartu Fitur Elevasi Halus
+    entranceTl.from('.cred-narrative', {
+      y: 28,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.8')
+
+    entranceTl.from('.cred-feature-card', {
+      y: 35,
+      opacity: 0,
+      stagger: 0.14,
+      duration: 0.7,
+      ease: 'back.out(1.15)'
+    }, '-=0.5')
+
+
+    // 2. MULTI-PLANE CONTINUOUS SCROLL PARALLAX (Tersinkronisasi 1:1 dengan Lenis, Tanpa Pinning)
     ScrollTrigger.matchMedia({
-      // Desktop & Laptop: Full Pinned Storytelling Sequence (~2 kali putaran scroll)
-      "(min-width: 1024px)": () => {
-        const tl = gsap.timeline({
+      '(min-width: 768px)': () => {
+        // Piagam sertifikat meluncur naik perlahan
+        gsap.to('.cert-card-frame', {
+          y: -30,
+          ease: 'none',
           scrollTrigger: {
             trigger: credSectionRef.value,
-            start: "top top",
-            end: "+=160%", // Membutuhkan ~2 kali scroll wheel/swipe
-            pin: true,
-            scrub: 1.1,
-            anticipatePin: 1
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.3
           }
         })
 
-        // Awal: Tirai tertutup, inner image sedikit membesar, kartu fitur tersembunyi
-        tl.set('.cert-curtain-mask', { clipPath: 'inset(100% 0% 0% 0%)' })
-        tl.set('.cert-inner-img', { scale: 1.25 })
-        tl.set('.cred-feature-card', { y: 55, opacity: 0 })
-
-        const counterObj = { val: 0 }
-
-        // FASE 1 (Scroll putaran 1: Tirai piagam terbuka penuh + zoom-out halus + Counter berputar proporsional)
-        tl.to('.cert-curtain-mask', {
-          clipPath: 'inset(0% 0% 0% 0%)',
-          duration: 0.45,
-          ease: 'power2.inOut'
-        })
-        tl.to('.cert-inner-img', {
-          scale: 1,
-          duration: 0.45,
-          ease: 'power2.out'
-        }, "<")
-        tl.to(counterObj, {
-          val: 14,
-          duration: 0.45,
-          ease: 'power2.out',
-          onUpdate: () => {
-            counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
-          }
-        }, "<")
-
-        // FASE 2 (Scroll putaran 2: 2 Kartu fitur pendukung meluncur naik dan mengunci ke posisi ideal)
-        tl.to('.cred-feature-card', {
-          y: 0,
-          opacity: 1,
-          stagger: 0.12,
-          duration: 0.35,
-          ease: 'power2.out'
-        })
-
-        // FASE 3: Tahan sejenak tampilan sempurna sebelum unpin
-        tl.to({}, { duration: 0.25 })
-      },
-
-      // Mobile / Tablet (< 1024px): Scroll trigger reveal alami tanpa pin
-      "(max-width: 1023px)": () => {
-        const counterObj = { val: 0 }
-        gsap.to(counterObj, {
-          val: 14,
-          duration: 2,
-          ease: 'power3.out',
+        // 2 Kartu fitur di kanan bergeser lembut
+        gsap.to('.cred-feature-card', {
+          y: 20,
+          ease: 'none',
           scrollTrigger: {
             trigger: credSectionRef.value,
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-          },
-          onUpdate: () => {
-            counterDisplay.value = Math.floor(counterObj.val) + 'rb+'
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.3
           }
         })
 
-        gsap.fromTo('.cert-curtain-mask',
-          { clipPath: 'inset(100% 0% 0% 0%)' },
-          {
-            clipPath: 'inset(0% 0% 0% 0%)',
-            duration: 1.2,
-            ease: 'power3.inOut',
-            scrollTrigger: {
-              trigger: credSectionRef.value,
-              start: 'top 78%',
-              toggleActions: 'play none none none'
-            }
-          }
-        )
-
-        gsap.from('.cred-feature-card', {
+        // Background Ambient Glow Parallax
+        gsap.to('.cred-ambient-glow', {
+          y: 40,
+          scale: 1.1,
+          ease: 'none',
           scrollTrigger: {
             trigger: credSectionRef.value,
-            start: 'top 75%',
-            toggleActions: 'play none none none'
-          },
-          y: 35,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.18,
-          ease: 'power2.out'
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.3
+          }
         })
       }
     })
   }, credSectionRef.value)
 })
 
-onUnmounted(() => {
-  if (ctx) ctx.revert()
-})
-
-// 3. 3D Gyroscopic & Magnetic Depth Tilt pada Piagam Sertifikat
+// 3. INTERACTIVE 3D GYROSCOPIC TILT PADA PIAGAM SERTIFIKAT (Khusus Desktop Pointer)
 const handleCertPointerMove = (e) => {
   if (!certCardRef.value || window.matchMedia('(pointer: coarse)').matches) return
   const rect = certCardRef.value.getBoundingClientRect()
@@ -389,4 +389,8 @@ const handleCertPointerLeave = () => {
     overwrite: 'auto'
   })
 }
+
+onUnmounted(() => {
+  if (ctx) ctx.revert()
+})
 </script>
