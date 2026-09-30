@@ -1219,6 +1219,48 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.58s).
    - Seluruh halaman dari Hero Slider, Visi Misi, Reputasi, hingga Footer berjalan sangat mulus, responsif, dan elegan di `http://localhost:5173/`.
 
+---
+
+## 42. Catatan Sesi (30 September 2026) - Perbaikan UX Scroll Lock Background & Isolasi Scrollbar Sidebar Keranjang Belanja (Cart Drawer)
+1. **Latar Belakang & Identifikasi Masalah UX:**
+   - **Gejala Masalah:** Ketika pengguna menambahkan lebih dari 2 jenis produk ke dalam keranjang belanja (`CartDrawer.vue`) di layar desktop, daftar produk dan rincian formulir memanjang melebihi tinggi layar (*viewport height*). Saat pengguna mencoba melakukan scroll mouse (*wheel*) pada panel sidebar keranjang di sebelah kanan, halaman utama website di belakangnya (*background page*) yang justru ter-scroll naik-turun, sementara panel keranjang tetap diam atau tertahan di tempat.
+   - **Analisis Akar Masalah (Root Cause):**
+     1. **Intersepsi Event Global oleh Lenis Smooth Scroll:** Website menggunakan *smooth scroll engine* Lenis (`src/App.vue`). Lenis secara default mendengarkan event putaran mouse (*wheel*) di tingkat `window`. Karena kontainer drawer belum diisolasi, event scroll dari mouse langsung ditangkap oleh Lenis dan dialirkan ke halaman utama.
+     2. **Ketiadaan Pembatas Viewport Fleksibel pada Body Drawer:** Area daftar item keranjang belum memiliki batasan tinggi absolut `max-h-[100dvh]`, flex containment `min-h-0`, dan instruksi CSS `overscroll-behavior: contain`.
+     3. **Kurangnya Mekanisme Kunci Scroll Body saat Drawer Terbuka:** Ketika `cartStore.isCartOpen` aktif, `document.body` belum dikunci (`overflow: hidden`), sehingga browser desktop tetap memperlakukan body dokumen sebagai target scroll aktif.
+
+2. **Solusi & Implementasi Teknis (Arsitektur 3 Lapis / Triple-Layer Fix):**
+   - **Lapis 1: Sinkronisasi Scroll Lock Global & Kontrol Engine Lenis (`src/App.vue`):**
+     - Mengubah watcher modal tunggal menjadi *computed overlay watcher* yang mencakup keranjang belanja:
+       ```javascript
+       const isAnyOverlayOpen = computed(() => isModalOpen.value || cartStore.isCartOpen.value)
+       ```
+     - Menghentikan perputaran scroll engine Lenis saat keranjang/modal terbuka melalui `lenis.stop()` dan menyalakannya kembali saat ditutup dengan `lenis.start()`.
+     - Mengunci scroll level browser dengan menyematkan class `overflow-hidden` pada `document.documentElement` dan `document.body`, serta menetapkan `document.body.style.overflow = 'hidden'`.
+     - Menjamin pembersihan (*cleanup*) saat komponen di-unmount (`onUnmounted`) agar tidak ada kebocoran state scroll pada aplikasi.
+   - **Lapis 2: Isolasi Event Scroll & Fleksibilitas Layout Drawer (`src/components/CartDrawer.vue`):**
+     - **Atribut Isolasi Lenis:** Menambahkan atribut `data-lenis-prevent`, `data-lenis-prevent-wheel`, dan `data-lenis-prevent-touch` pada overlay backdrop maupun kontainer panel drawer. Atribut ini secara resmi memberi sinyal kepada Lenis untuk tidak mencegat event scroll di area tersebut.
+     - **Penghentian Propagasi Event Mouse Wheel:** Menambahkan handler `@wheel.stop` pada panel drawer untuk memutus propagasi event putaran roda mouse agar tidak bocor ke elemen window/body di bawahnya.
+     - **Constraint Viewport & Flex Container:** Menambahkan class `h-full max-h-[100dvh] overscroll-contain` pada panel utama, serta class `flex-1 min-h-0 overflow-y-auto overscroll-contain` pada drawer body. Hal ini memastikan area konten item dan formulir memiliki ruang scroll vertikal mandiri yang presisi.
+     - **Watcher Independen Fail-Safe:** Menyematkan watcher `watch(cartStore.isCartOpen, ...)` internal di `CartDrawer.vue` yang langsung mengunci dan melepas `document.body.style.overflow = 'hidden'` sebagai pengaman lapis kedua.
+   - **Lapis 3: Deklarasi CSS Lenis Prevent & Custom Styling Scrollbar (`src/style.css`):**
+     - Mendaftarkan aturan CSS spesifik untuk elemen berlabel `data-lenis-prevent`:
+       ```css
+       .lenis.lenis-smooth [data-lenis-prevent] {
+         overscroll-behavior: contain;
+       }
+       .lenis.lenis-stopped {
+         overflow: hidden;
+       }
+       ```
+     - Mendesain scrollbar drawer kustom yang halus dan modern (`.custom-drawer-scrollbar`), baik untuk mode terang maupun mode gelap, dengan ketebalan ramping (`width: 6px`), warna thumb adaptif (`#cbd5e1` / `#334155`), dan transisi hover yang bersih tanpa mengganggu estetika antarmuka.
+
+3. **Validasi & Hasil:**
+   - **Uji Interaksi Desktop:** Saat keranjang berisi > 2 barang, pengguliran roda mouse (*mouse wheel*) di dalam drawer keranjang bergerak dengan sangat mulus dan terisolasi 100%. Halaman website di belakangnya terkunci kokoh tanpa ada pergeseran (*zero background scrolling leakage*).
+   - **Kompilasi Produksi (`npm run build`):** Berjalan sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.31s).
+   - Pengalaman pengguna (*User Experience*) proses checkout keranjang belanja di `http://localhost:5173/` kini berstandar e-commerce profesional, responsif, dan nyaman digunakan di berbagai ukuran layar.
+
+
 
 
 
