@@ -1187,6 +1187,39 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - `npm run build` sukses 100% (6.79s) dengan **113 modul ter-bundle sempurna dan 0 error**.
    - Dev server `http://localhost:5173/` menyajikan animasi yang kaya rasa, berbobot, dan berstandar Awwwards.
 
+---
+
+## 41. Catatan Sesi (18 September 2026) - Pembuatan Ulang Animasi GSAP Visi Misi & Reputasi Bebas Jank, Harmonisasi Mode Gelap, dan Penyempurnaan Ubin Hewan Footer Soft & Smooth
+1. **Latar Belakang & Permintaan Pengguna:**
+   - **Section "Tentang Kami / Visi Misi" (`VisiMisiSection.vue`):** Pengguna melaporkan animasi GSAP terasa tersendat (*"ndandet"* dan tidak *seamless*). Pengguna meminta dibuatkan ulang dari awal dan menyelaraskan ritme animasi teks agar persis seperti teks pada Hero Slider.
+   - **Section "Reputasi Mutu" (`CredibilitySection.vue`):** Pengguna meminta pembuatan ulang karena beberapa elemen tidak tampil (4 lingkaran avatar panen pada metrik `14rb+` dan 2 kartu fitur menghilang di layar).
+   - **Harmonisasi Mode Gelap (Dark Mode):** Warna background bagian bawah Hero Slider dengan bagian Tentang Kami tidak selaras pada mode gelap.
+   - **Ubin Ikon Hewan Footer (`FooterSection.vue`):** Pengguna meminta penghapusan teks tooltip melayang (contoh: *"Kambing Etawa & Jawa"*), penghapusan tautan ke katalog, dan perbaikan efek hover menjadi lembut (*soft & smooth*), bersih, serta bebas dari distorsi miring/trapesium 3D yang berlebihan.
+
+2. **Solusi & Implementasi Teknis:**
+   - **Pembuatan Ulang GSAP Visi Misi (`VisiMisiSection.vue`):**
+     - Menghapus `pin: true`, `anticipatePin: 1`, dan ketinggian kaku `lg:h-screen` yang sebelumnya membajak scroll pengguna (*scroll hijacking*).
+     - Mengubah entrance timeline menjadi *staggered kinetic reveal* yang tegak lurus dan berbobot tanpa `skewY` (`y: 45px` $\rightarrow$ `0`, `opacity: 0` $\rightarrow$ `1`, `duration: 1.15s`, `stagger: 0.1s`, `ease: 'power3.out'`), selaras dengan ritme teks Hero Slider.
+     - Menambahkan badge status live: `DEDIKASI & VISI TERPADU`.
+     - Mengimplementasikan continuous multi-plane parallax pada 3 strip gambar triptych dengan `scrub: 0.3` (sinkron 1:1 dengan inersia Lenis).
+   - **Penyempurnaan Section Reputasi (`CredibilitySection.vue`):**
+     - Mengatasi akar masalah hilangnya elemen: GSAP overwrite manager menabrak CSS `transition-all` dan continuous parallax yang menimpa animasi entrance.
+     - Memisahkan container scroll parallax (`.cred-feature-grid` dengan `scrub: 0.3`) dari kartu anak entrance reveal (`.cred-feature-card`).
+     - Menghapus `overflow-hidden` pembatas baris avatar sehingga 4 avatar panen (`product-eggs.png`, `product-chicken.png`, `product-duck.png`, `product-fish.png`) dan 2 kartu fitur tampil 100% sempurna dan stabil.
+     - Menyematkan animasi penghitung angka dinamis (*rolling counter* dari `0` ke `14rb+`), *curtain mask wipe* pada sertifikat NIB, dan *gyroscopic tilt* halus.
+   - **Harmonisasi Palet Mode Gelap (`HeroSection.vue`):**
+     - Mengoreksi warna kurva pemisah SVG bawah di `HeroSection.vue` (baris 140) dari `dark:text-[#0A1128]` menjadi `dark:text-[#070D1E]`. Batas antara Hero Slider dan Tentang Kami kini menyatu 100% tanpa garis belang.
+   - **Penyempurnaan Ubin Hewan Footer (`FooterSection.vue`):**
+     - Menghapus badge tooltip melayang (seperti label teks *"Kambing Etawa & Jawa"*).
+     - Menghapus fungsi klik navigasi yang mengarahkan ke `#katalog-produk`, ubin kini murni elemen visual interaktif.
+     - Menghilangkan distorsi perspektif trapesium 3D berlebihan (`transformPerspective`, `rotateX`, `rotateY`).
+     - Mengembalikan efek hover menjadi **murni CSS yang lembut (*soft & smooth*)**: kartu terangkat anggun (`hover:-translate-y-2.5`), skala proporsional (`hover:scale-110`), sudut kembali tegak (`hover:rotate-0`), bayangan berelevasi halus (`shadow-2xl`), dan ikon membesar lembut (`group-hover:scale-110`) dengan CSS `@keyframes gentleFloat`.
+
+3. **Validasi & Hasil:**
+   - `npm run build` sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.58s).
+   - Seluruh halaman dari Hero Slider, Visi Misi, Reputasi, hingga Footer berjalan sangat mulus, responsif, dan elegan di `http://localhost:5173/`.
+
+
 
 
 

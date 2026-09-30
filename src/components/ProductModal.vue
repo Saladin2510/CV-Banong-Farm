@@ -9,6 +9,7 @@
   >
     <div 
       v-if="isOpen && product" 
+      data-lenis-prevent
       class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
       @click.self="close"
     >

@@ -40,6 +40,7 @@
         >
           <div 
             v-if="isChatOpen"
+            data-lenis-prevent
             class="mb-4 w-80 sm:w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[480px] z-40 transition-colors"
           >
             <!-- Header -->

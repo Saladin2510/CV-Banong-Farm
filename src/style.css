@@ -52,3 +52,31 @@ html.dark ::-webkit-scrollbar-thumb {
 html.dark ::-webkit-scrollbar-thumb:hover {
   background: #3d5a80;
 }
+
+/* Dedicated Drawer Scrollbar */
+.custom-drawer-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 transparent;
+}
+html.dark .custom-drawer-scrollbar {
+  scrollbar-color: #334155 transparent;
+}
+.custom-drawer-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-drawer-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-drawer-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+html.dark .custom-drawer-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #334155;
+}
+.custom-drawer-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+html.dark .custom-drawer-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #475569;
+}

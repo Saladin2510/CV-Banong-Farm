@@ -93,7 +93,7 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -224,13 +224,25 @@ const handleScroll = () => {
   isCartVisible.value = isPastHero && !isNearFooter
 }
 
-watch(isModalOpen, (isOpen) => {
+// Sinkronisasi Lock Scroll Lenis & Body saat Modal Detail Produk atau Keranjang Belanja Terbuka
+const isAnyOverlayOpen = computed(() => isModalOpen.value || cartStore.isCartOpen.value)
+
+watch(isAnyOverlayOpen, (isOpen) => {
   if (lenis) {
     if (isOpen) {
       lenis.stop()
     } else {
       lenis.start()
     }
+  }
+  if (isOpen) {
+    document.documentElement.classList.add('overflow-hidden')
+    document.body.classList.add('overflow-hidden')
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.documentElement.classList.remove('overflow-hidden')
+    document.body.classList.remove('overflow-hidden')
+    document.body.style.overflow = ''
   }
 })
 
@@ -247,6 +259,9 @@ onMounted(async () => {
 
 onUnmounted(() => {
   destroyLenis()
+  document.documentElement.classList.remove('overflow-hidden')
+  document.body.classList.remove('overflow-hidden')
+  document.body.style.overflow = ''
   window.removeEventListener('hashchange', checkHash)
   window.removeEventListener('scroll', handleScroll)
 })

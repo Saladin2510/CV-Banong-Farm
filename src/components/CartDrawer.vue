@@ -11,6 +11,7 @@
     >
       <div 
         v-if="cartStore.isCartOpen.value" 
+        data-lenis-prevent
         class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
         @click="cartStore.closeCart()"
       ></div>
@@ -27,7 +28,11 @@
     >
       <div 
         v-if="cartStore.isCartOpen.value"
-        class="fixed top-0 right-0 bottom-0 z-[105] w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl flex flex-col border-l border-slate-200 dark:border-slate-800 select-none"
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
+        class="fixed top-0 right-0 bottom-0 z-[105] w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl flex flex-col border-l border-slate-200 dark:border-slate-800 h-full max-h-[100dvh] overscroll-contain select-none"
+        @wheel.stop
       >
         <!-- Drawer Header -->
         <div class="h-16 px-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/60 shrink-0">
@@ -55,7 +60,10 @@
         </div>
 
         <!-- Drawer Body -->
-        <div class="flex-grow overflow-y-auto p-5 pb-10 flex flex-col gap-5">
+        <div 
+          data-lenis-prevent
+          class="flex-1 min-h-0 overflow-y-auto overscroll-contain p-5 pb-12 flex flex-col gap-5 custom-drawer-scrollbar"
+        >
           
           <!-- 1. State Sukses Setelah Konfirmasi -->
           <div 
@@ -468,12 +476,31 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 import { useCartStore } from '../stores/useCartStore'
 import { useAdminStore } from '../stores/useAdminStore'
 
 const cartStore = useCartStore()
 const adminStore = useAdminStore()
+
+// Penguncian Scroll Body & HTML saat Drawer Terbuka (Mencegah background web bergeser)
+watch(cartStore.isCartOpen, (isOpen) => {
+  if (isOpen) {
+    document.documentElement.classList.add('overflow-hidden')
+    document.body.classList.add('overflow-hidden')
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.documentElement.classList.remove('overflow-hidden')
+    document.body.classList.remove('overflow-hidden')
+    document.body.style.overflow = ''
+  }
+}, { immediate: true })
+
+onUnmounted(() => {
+  document.documentElement.classList.remove('overflow-hidden')
+  document.body.classList.remove('overflow-hidden')
+  document.body.style.overflow = ''
+})
 
 const customerName = ref('')
 const customerPhone = ref('')
