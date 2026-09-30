@@ -142,7 +142,7 @@
           v-if="!isChatOpen && isBubbleVisible"
           class="relative mb-2 mr-1 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl text-primary dark:text-white text-[11px] sm:text-xs font-semibold rounded-xl shadow-2xl flex items-center gap-1.5 sm:gap-2 animate-bounce border border-white/40 dark:border-slate-700/80 transition-colors"
         >
-          <span @click="toggleChat" class="cursor-pointer">Halo! Butuh bantuan pesanan?</span>
+          <span @click="toggleChat" class="cursor-pointer">Halo! Butuh pakan & bibit ternak?</span>
           <button 
             @click.stop="isBubbleVisible = false" 
             class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded transition-colors cursor-pointer"
@@ -241,16 +241,16 @@ const getTime = () => {
 const messages = ref([
   {
     sender: 'bot',
-    text: 'Halo Kak! Saya Si Banong, asisten AI resmi CV Banong Farms di Ajibarang. Ada yang bisa saya bantu seputar produk segar, info sisa stok realtime, atau lokasi peternakan hari ini? 🌾',
+    text: 'Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (Agen Resmi PT. New Hope Indonesia). Ada yang bisa saya bantu seputar pakan unggas, bibit DOQ/DOC, obat Medion, atau pengantaran armada toko ke kandang Anda hari ini? 🌾🚚',
     time: getTime()
   }
 ])
 
 const quickTopics = [
-  { title: '🥚 Cek Stok & Harga Telur' },
-  { title: '🐟 Cek Ikan Air Deras Segar' },
-  { title: '📍 Info Lokasi & Jam Buka' },
-  { title: '📲 Cara Order via WhatsApp' }
+  { title: '🌾 Cek Pakan New Hope HP100' },
+  { title: '🐣 Info Bibit DOQ & DOC' },
+  { title: '💊 Obat Medion & Vaksin Resmi' },
+  { title: '🚚 Layanan Armada Toko Sendiri' }
 ]
 
 // Parser teks percakapan: Mengubah URL mentah, link WhatsApp, dan Google Maps menjadi tombol/link interaktif yang bisa diklik langsung

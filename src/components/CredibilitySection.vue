@@ -22,17 +22,17 @@
           <!-- Top Breadcrumb Pill Sesuai Style Web -->
           <div class="cred-hero-text inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code w-fit shadow-xs will-change-transform">
             <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
-            <span>BUKTI KUALITAS &amp; LEGALITAS</span>
+            <span>BUKTI KUALITAS &amp; KEMITRAAN RESMI</span>
           </div>
 
           <!-- Judul Utama: Reputasi & Legalitas Resmi -->
           <h2 class="cred-hero-text text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight origin-bottom-left will-change-transform">
-            Reputasi &amp; Legalitas Resmi
+            Reputasi Pabrikan &amp; Kemitraan Terpercaya
           </h2>
 
           <!-- Subjudul 1 Baris Persuasif & Manusiawi -->
           <p class="cred-hero-text mt-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed will-change-transform">
-            Berizin NIB resmi, pemotongan higienis bersertifikasi, dan pengawasan terpadu demi asupan pangan sehat keluarga Anda.
+            Menghubungkan peternak Banyumas Raya dengan pakan berstandar internasional dari PT. New Hope Indonesia Cirebon, produk kesehatan Medion resmi, serta keandalan armada antar toko.
           </p>
         </div>
 
@@ -44,38 +44,38 @@
               {{ counterDisplay }}
             </span>
 
-            <!-- 4 Lingkaran Foto Panen Bertumpuk (Bebas overflow-hidden clipping & bebas CSS transition conflict) -->
+            <!-- 4 Lingkaran Foto Panen Bertumpuk -->
             <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
               <img 
-                src="/assets/product-eggs.png" 
-                alt="Panen Telur Segar" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-amber-50 shadow-xs hover:scale-110 will-change-transform"
-                title="Panen Telur Ayam &amp; Bebek Segar Harian"
+                src="/assets/store/karung_1.jpeg" 
+                alt="Pakan Karungan Berkualitas" 
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                title="Pakan Pabrikan Teruji"
               />
               <img 
-                src="/assets/product-chicken.png" 
-                alt="Unggas Sehat Alami" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-emerald-50 shadow-xs hover:scale-110 will-change-transform"
-                title="Ayam Kampung Bebas Hormon Sintetis"
+                src="/assets/store/vaksin_obat-obatan_produk.jpeg" 
+                alt="Obat &amp; Vitamin Medion" 
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                title="Obat &amp; Vaksin Resmi"
               />
               <img 
-                src="/assets/product-duck.png" 
-                alt="Bebek &amp; Itik Pilihan" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-blue-50 shadow-xs hover:scale-110 will-change-transform"
-                title="Bebek &amp; Entok Sehat Alami"
+                src="/assets/store/pakan_hewan_burung.jpeg" 
+                alt="Pakan Burung Lengkap" 
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                title="Pakan Burung Berkicau"
               />
               <img 
-                src="/assets/product-fish.png" 
-                alt="Ikan Air Tawar Segar" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover bg-cyan-50 shadow-xs hover:scale-110 will-change-transform"
-                title="Ikan Nila Air Deras Ajibarang"
+                src="/assets/store/pakan_hewan_kucing.jpeg" 
+                alt="Pet Food Lengkap" 
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                title="Makanan Kucing &amp; Hewan Peliharaan"
               />
             </div>
           </div>
 
           <!-- Keterangan Subtitle di Bawah Angka -->
           <span class="cred-hero-text mt-2 text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 font-telemetry-code uppercase will-change-transform">
-            Kg Panen Segar Tersalurkan di Banyumas Raya
+            Sak Pakan &amp; Sarana Ternak Tersalurkan
           </span>
         </div>
 
@@ -85,10 +85,10 @@
       <div class="bg-white dark:bg-[#0c1a30] rounded-3xl p-5 sm:p-8 lg:p-10 shadow-md dark:shadow-2xl border border-slate-200/90 dark:border-slate-800">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
-          <!-- SISI KIRI: Showcase Sertifikat Resmi & Piala Keunggulan -->
+          <!-- SISI KIRI: Showcase Banner Resmi Kemitraan New Hope -->
           <div class="lg:col-span-5 relative w-full flex flex-col items-center">
             
-            <!-- Bingkai Foto Sertifikat & Piala Keunggulan (Interactive 3D Depth Tilt & Curtain Mask Reveal) -->
+            <!-- Bingkai Foto Banner Kemitraan (Interactive 3D Depth Tilt & Curtain Mask Reveal) -->
             <div 
               ref="certCardRef"
               @pointermove="handleCertPointerMove"
@@ -96,8 +96,8 @@
               class="cert-card-frame relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
             >
               <img 
-                src="/assets/sertifikat_kelayakan_cv_banong.jpg" 
-                alt="Sertifikat Kelayakan Mutu dan Higienis CV Banong Farms" 
+                src="/assets/store/banner.jpeg" 
+                alt="Plang Resmi Banong Farms Agen Pakan Ternak PT New Hope Indonesia Cirebon" 
                 class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
@@ -109,17 +109,17 @@
                 <div class="flex items-start justify-between gap-3">
                   <div>
                     <h4 class="font-extrabold font-outfit text-sm sm:text-base text-primary dark:text-white leading-tight">
-                      Sertifikasi Mutu &amp; Higienis
+                      Agen Resmi PT. New Hope Indonesia
                     </h4>
                     <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                      Izin Usaha NIB: 018/KMF/BPOM-AGRI/2023
+                      New Hope Cirebon · Bring You New Life
                     </p>
                     
                     <!-- Rating & Jumlah Review Pelanggan -->
                     <div class="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-amber-500">
                       <span class="material-symbols-outlined text-[15px] fill-current">star</span>
-                      <span class="text-slate-800 dark:text-slate-200">4.9</span>
-                      <span class="text-slate-400 font-normal text-[11px]">(1.420+ keluarga &amp; resto puas)</span>
+                      <span class="text-slate-800 dark:text-slate-200">5.0</span>
+                      <span class="text-slate-400 font-normal text-[11px]">(Pilihan utama peternak Banyumas Barat)</span>
                     </div>
                   </div>
 
@@ -138,21 +138,15 @@
                     class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1 font-medium"
                   >
                     <span class="material-symbols-outlined text-[14px]">chat</span>
-                    <span>WhatsApp</span>
+                    <span>WhatsApp Toko</span>
                   </a>
                   <span class="text-slate-300 dark:text-slate-700">•</span>
-                  <a 
-                    href="https://instagram.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="hover:text-pink-500 transition-colors flex items-center gap-1 font-medium"
-                  >
-                    <span class="material-symbols-outlined text-[14px]">photo_camera</span>
-                    <span>Instagram</span>
-                  </a>
+                  <span class="text-slate-600 dark:text-slate-300 font-medium">
+                    Senin–Sabtu 07.30–16.00
+                  </span>
                   <span class="text-slate-300 dark:text-slate-700">•</span>
                   <span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
-                    <span>100% Halal</span>
+                    <span>100% Asli</span>
                   </span>
                 </div>
               </div>
@@ -167,50 +161,48 @@
             <!-- Narasi Atas: Judul & Deskripsi Mendalam Manusiawi -->
             <div class="cred-narrative space-y-3 sm:space-y-3.5 will-change-transform">
               <h3 class="text-2xl sm:text-3xl font-black font-outfit text-primary dark:text-white tracking-tight leading-tight">
-                Pangan Sehat Berawal dari Pola Ternak yang Jujur &amp; Bertanggung Jawab
+                Keberhasilan Ternak Dimulai dari Nutrisi Pakan yang Tepat &amp; Konsisten
               </h3>
               
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                CV Banong Farms hadir menjawab keresahan keluarga dan pelaku kuliner akan bahan pangan yang sarat residu kimiawi. Setiap butir telur segar, ayam kampung, bebek, domba, hingga ikan air tawar kami pelihara di udara asri Ajibarang dengan sirkulasi alami—tanpa suntikan hormon pemacu pertumbuhan dan bebas antibiotik berlebih.
+                Sebagai praktisi yang memulai usaha dari kandang puyuh sejak 2015, kami menyadari betul bahwa pakan memakan lebih dari 70% biaya operasional peternak. Ketidakstabilan nutrisi pakan berakibat fatal pada penurunan produksi telur dan lambatnya pertambahan bobot daging. Itulah mengapa CV Banong Farms bermitra resmi dengan PT. New Hope Indonesia Cirebon guna menjamin pakan yang Anda terima memiliki FCR hemat dan konsistensi mutu standar pabrikan.
               </p>
               
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                Kami menggabungkan ketelitian peternak lokal dengan biokonversi maggot BSF untuk menghasilkan pakan alami kaya asam amino. Hasilnya adalah daging yang lebih padat dan gurih, telur berkuning jingga kental, serta ikan yang bersih tanpa aroma lumpur—siap Anda sajikan dengan tenang di meja makan keluarga.
+                Kami juga melengkapi kebutuhan kandang Anda dengan bibit unggul pilihan (DOQ puyuh, DOC ayam, DOD bebek), multivitamin Medion, vaksin resmi pencegah wabah, serta perlengkapan kandang kokoh. Seluruh produk dapat dibeli dalam kemasan karung sak 50kg maupun eceran kiloan dengan takaran timbangan yang jujur.
               </p>
             </div>
 
-            <!-- 2 Kartu Pendukung di Bawah Narasi (Pembungkus Grid cred-feature-grid untuk Parallax) -->
+            <!-- 2 Kartu Pendukung di Bawah Narasi -->
             <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1 will-change-transform">
               
-              <!-- Kartu 1: Pakan Mandiri & Alami -->
+              <!-- Kartu 1: Armada Toko Sendiri -->
               <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
-                <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
-                  <span class="material-symbols-outlined text-[22px]">eco</span>
+                  <span class="material-symbols-outlined text-[22px]">local_shipping</span>
                 </div>
 
                 <h4 class="font-bold font-outfit text-sm sm:text-base text-primary dark:text-white mb-1.5 leading-snug">
-                  Pakan Mandiri Tanpa Hormon
+                  Armada Pengiriman Sendiri
                 </h4>
 
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Diracik dari jagung giling pilihan, dedak murni, dan maggot BSF berprotein tinggi tanpa pakan sintetis yang memicu residu berbahaya.
+                  Pengantaran langsung ke kandang Anda di Ajibarang, Cilongok, Pekuncen, dan sekitarnya tanpa repot angkut sendiri.
                 </p>
               </div>
 
-              <!-- Kartu 2: Pengawasan Veteriner & Sanitasi -->
+              <!-- Kartu 2: Pengalaman Praktisi Lapangan -->
               <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
-                <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-secondary-container/20 dark:bg-secondary-container/15 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
-                  <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+                  <span class="material-symbols-outlined text-[22px]">support_agent</span>
                 </div>
 
                 <h4 class="font-bold font-outfit text-sm sm:text-base text-primary dark:text-white mb-1.5 leading-snug">
-                  Sanitasi &amp; Syariat Halal
+                  Konsultasi Pengalaman Sejak 2015
                 </h4>
 
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Pembersihan kandang biosekuriti, pemotongan unggas sesuai syariat Islam, serta air kolam deras pegunungan yang menjaga ikan tetap segar dan higienis.
+                  Siap berdiskusi mengenai dosis pakan, pencegahan penyakit, jadwal vaksinasi, dan pemilihan bibit unggul yang tepat.
                 </p>
               </div>
 

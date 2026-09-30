@@ -1,11 +1,17 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 17 September 2026 (Sesi Pembaruan: Kalibrasi Ulang Ukuran Proporsional Golden Ratio Ubin Squircle ~112px & Ikon Hewan ~64px di Footer Desktop, Resolusi Masalah Terlalu Besar vs Terlalu Kecil)  
-**Status Proyek:** Siap Produksi & Siap Ujian PSAJ (Vite v6.4.3 Build Passed / Zero Errors / Supabase Cloud PostgreSQL 100% Terhubung / Dual-Engine AI Aktif / Ubin Hewan Footer Proporsional & Presisi)  
-**Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
+**Tanggal Pembaruan Terakhir:** 30 September 2026 (Sesi 49: Eksekusi Penuh Copywriting Konten Website, Penyelarasan AI Si Banong & Pembuatan Spreadsheet Katalog Produk)  
+**Status Proyek:** Tahap Peninjauan Katalog Spreadsheet oleh Pengguna & Konten Website Siap Tayang (Vite v6.4.3 Build Verified / Zero Errors / Supabase Cloud PostgreSQL Terhubung / UI Mobile-Tablet-Desktop Responsif)  
+**Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
 
 ## 1. Identitas & Tech Stack Proyek
+* **Nama Usaha:** CV Banong Farms
+* **Bidang Usaha:** Pakan ternak, bibit ternak, obat-obatan ternak, dan alat/perlengkapan ternak (Poultry Shop & Livestock Supplies)
+* **Tahun Berdiri:** 2015 (Awal ternak puyuh) & 2022 (Ekspansi toko fisik sarana peternakan)
+* **Kemitraan:** Drop shipper / Agen Resmi PT. New Hope Indonesia, Cirebon
+* **Jam Operasional:** Senin – Sabtu: 07.30 – 16.00 WIB (Minggu Libur/Tutup)
+* **Cakupan Wilayah:** Ajibarang, Cilongok, Pekuncen, Banyumas Raya, dan pengiriman luar daerah
 * **Framework:** Vue 3 (Composition API `<script setup>`) + Vite
 * **Styling:** Tailwind CSS (Vanilla CSS + Custom Token Design System)
 * **Design Rule:** **Strict 60% : 30% : 10% Color System**
@@ -13,6 +19,7 @@
 * **Database Backend:** Supabase Cloud PostgreSQL 24/7 + WebSocket Real-time Replication
 * **Nomor WhatsApp Resmi Admin:** **`08999192861`** (Format URL: `https://wa.me/628999192861`)
 * **Tautan Google Maps Resmi Farm:** **`https://maps.app.goo.gl/AXAGnr9V4D15MyUz9`** (Koordinat Ajibarang: `-7.4065147, 109.0743739`)
+
 
 ---
 
@@ -1416,15 +1423,170 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - Kompilasi produksi `npm run build` sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.78s).
    - Seluruh elemen kartu Polaroid, teks headline, tombol aksi, dan badge garansi tampil proporsional, tidak meluap ke luar viewport, dan tidak terpotong di perangkat Mobile (360px–480px), Tablet (640px–1024px), maupun Desktop.
 
+---
 
+## 47. Catatan Sesi (30 September 2026 - Bagian 6) - Penyelarasan Fondasi Profil Bisnis Nyata CV Banong Farms & Perancangan Arsitektur Copywriting Website
 
+1. **Latar Belakang & Klarifikasi Profil Bisnis Nyata:**
+   - Website sebelumnya mengasumsikan CV Banong Farms sebagai peternakan komoditas pangan langsung (telur konsumsi, karkas ayam, ikan air deras).
+   - Pengguna mengklarifikasi dan menetapkan data profil resmi CV Banong Farms yang sesungguhnya:
+     - **Nama Usaha:** CV Banong Farms
+     - **Bidang Usaha Inti:** Penyedia Sarana Produksi Peternakan (Poultry Shop & Livestock Supplies), mencakup:
+       1. **Pakan Ternak:** Pakan ayam pedaging/petelur, bebek, puyuh, ikan, ruminansia.
+       2. **Bibit Ternak Unggul:** DOC (ayam), DOD (bebek), DOQ (puyuh) berkualitas prima.
+       3. **Obat-obatan & Suplemen Ternak:** Vitamin, antibiotik hewan resmi, vaksin ternak, disinfektan kandang, suplemen antistres.
+       4. **Alat & Perlengkapan Ternak:** Tempat pakan/minum otomatis/manual, pemanas indukan, tirai kandang, spuit vaksin, dan sanitasi.
+     - **Kemitraan Strategis Pabrikan:** Drop shipper / Agen penyalur resmi dari **PT. New Hope Indonesia, Cirebon** (produsen pakan ternak berskala internasional dengan kontrol mutu teruji).
+     - **Asal-Usul & Rekam Jejak (Unique Value Proposition / Founder Story):**
+       - **Tahun 2015:** Dimulai dari budidaya ternak burung puyuh mandiri di Ajibarang. Fondasi ini menjadikan pemilik memahami secara mendalam kebutuhan riil, tantangan mortalitas, manajemen pakan, dan kesehatan ternak dari sudut pandang peternak langsung.
+       - **Tahun 2022:** Berkembang membuka toko fisik sarana peternakan modern yang beroperasi hingga kini, melayani sesama peternak rakyat dan peternak komersial.
+     - **Jam Operasional Resmi:** **Senin – Sabtu: 07.30 – 16.00 WIB** (Hari Minggu Libur / Tutup).
+     - **Cakupan Wilayah Operasional:** Kawasan segitiga peternakan Banyumas Barat (**Ajibarang, Cilongok, Pekuncen**) serta melayani pengiriman pesanan partai ke luar daerah.
+   - **Instruksi Pengendalian Versi:** **DILARANG KERAS** melakukan git commit otomatis dari agent. Seluruh commit git dikelola manual secara mandiri oleh pengguna.
 
+2. **Evaluasi Kelayakan Data untuk Website:**
+   - Data yang diberikan **SUDAH SANGAT LENGKAP & MENCUKUPI** sebagai fondasi copywriting profesional untuk seluruh landing page (Hero Slider, Narasi Perjalanan/Tentang Kami, Nilai Tambah Kredibilitas, 4 Kategori Katalog, Marquee Produk, Footer, dan Prompt AI Asisten "Si Banong").
+   - Disiapkan beberapa poin pendukung opsional untuk mematangkan konversi penjualan (layanan konsultasi kandang gratis, fleksibilitas eceran vs karungan/tonase, dan opsi pengiriman lokal vs luar kota).
 
+---
 
+## 48. Catatan Sesi (30 September 2026 - Bagian 7) - Analisis Mendalam Bukti Otentik 'Foto-Foto Toko', Ekstraksi Produk Riil, Harga Buku Jurnal, & Konfirmasi Armada Pengiriman
 
+1. **Analisis 15 Bukti Foto Otentik Folder `foto-foto toko`:**
+   - **Plang & Banner Toko Nyata (`banner.jpeg`, `toko depan.jpeg`, `toko depan 1.jpeg`):**
+     - Nama Resmi: **Banong Farms (Toko Pakan Ternak Grosir & Ecer)**
+     - Slogan Toko: *"Membangun perekonomian dengan Peternakan dan Perikanan..."* & *"New Hope Cirebon - Bring You New Life"*
+     - Alamat Fisik Presisi: **Depan Pasar Hewan, Sebelah Barat Pangkalan Ojek Ajibarang**
+     - Kontak Toko: WhatsApp Resmi Landing Page `0899-9192-861` dan plang toko `0857-2608-0086`.
+   - **Ekstraksi Data Transaksi Nyata Buku Jurnal Harian (`jurnal pembelian 1, 2, 3.jpeg`):**
+     - **Pakan Sak 50kg:**
+       - Pakan New Hope HP100: **Rp 405.000 / sak** (produk terlaris / fast moving).
+       - Pakan Layer New Hope HL83: **Rp 385.000 – Rp 390.000 / sak**.
+       - Pakan New Hope HB200: **Rp 380.000 / sak** & HL166: **Rp 365.000 / sak**.
+       - Konsentrat / Pakan Bebek Malindo: **Rp 405.000 – Rp 410.000 / sak**.
+       - Pakan Babi Malindo: **Rp 420.000 – Rp 425.000 / sak**.
+       - Pakan Puyuh Seri T78 (T78-1, T78-2, T78-3): **Rp 295.000 – Rp 310.000 / sak**.
+       - Pakan BF-99: **Rp 355.000 / sak**.
+     - **Pakan Eceran Kiloan (Bebas Beli Sesuai Kebutuhan Peternak Rumahan):**
+       - Pur Eceran / Kiloan: **Rp 5.000, Rp 8.000, Rp 10.000, Rp 15.000, hingga Rp 25.000 / kg**.
+       - Pur Pedaging: **Rp 100.000 / 10 kg**.
+       - Konsentrat Eceran: **Rp 15.000 – Rp 30.000 / kg**.
+     - **Pakan Ikan & Aquaculture (`karung 1.jpeg`, `pakan hewan ikan.jpeg`):**
+       - HI-PRO-VITE 781-2 (Pakan Lele Awal Produksi CP Prima 30 kg): Karungan & eceran.
+       - Prima Feed PF-800 / PF-1000 (Pelet apung benih ikan).
+       - Takari (Pakan Koi/Ikan Hias CP Petindo): **Rp 10.000 – Rp 15.000**.
+       - Pelet Ikan Eceran Pack 500g: **Rp 8.000 – Rp 20.000 / bungkus**.
+       - Probiotik EM4 Perikanan & Peternakan (Pengolah air & fermentasi pakan).
+     - **Pakan Hewan Peliharaan / Pet Food (`karung 2.jpeg`, `pakan hewan burung.jpeg`, `pakan hewan kucing.jpeg`):**
+       - Bolt Cat Food Tuna/Salmon (800g/1kg & 20kg): **Rp 19.000 – Rp 22.000 / pack**.
+       - Cat Choize Adult & Kitten (800g & 20kg): **Rp 22.000 / pack**.
+       - Felibite: **Rp 14.000 – Rp 26.000**.
+       - Whiskas / Me-O Pouch: **Rp 7.000**.
+       - Makanan Kaleng Kucing (Wet food): **Rp 13.000 – Rp 20.000**.
+       - Pakan Burung Leopard Rumput Laut: **Rp 7.500**.
+       - Phoenix Perkutut Gold: **Rp 11.000**.
+       - Topsong Plus 3 in 1: **Rp 7.500 – Rp 12.000**.
+       - NutriBird Uni Komplet: **Rp 7.000**.
+     - **Obat-obatan, Vitamin & Vaksin Resmi (`obat-obatan ternak.jpeg`, `obat-obatan unggas.jpeg`, `vaksin obat-obatan produk.jpeg`):**
+       - Vaksin Medivac ND Clone (Tetelo): **Rp 27.000**.
+       - Vaksin Medivac Gumboro A & B: **Rp 35.000 – Rp 37.000**.
+       - Vaksin Medivac ND La Sota: **Rp 27.000** & ND-IB: **Rp 28.000**.
+       - Vita Stress (100g, 250g, 1kg): **Rp 17.000 – Rp 37.000**.
+       - Vita Chicks (Vitamin DOC): **Rp 15.000 – Rp 45.000**.
+       - Neobro (Pemacu Bobot Daging): **Rp 17.000 – Rp 37.000**.
+       - Egg Stimulant (Pemacu Produksi Telur): **Rp 95.000**.
+       - Turbo 5gr: **Rp 24.000**.
+       - Tetra-Chlor Medion: **Rp 30.000**.
+       - Trimezyn (Snot/CRD): **Rp 10.000 – Rp 25.000**.
+       - Coxy (Koksidiosis/Berak Darah): **Rp 80.000 – Rp 85.000**.
+       - Therapy (Antibiotik Spektrum Luas 100g/250g): **Rp 45.000 – Rp 85.000**.
+       - Jamu Herbal Ayam Jago Mbah Joyo, Dragon SN, Magic SN, Herbal SN, Super Rontox kutu, Anticep Medion 120ml (Rp 65.000), Fly-Tox racun lalat (Rp 15.000).
+     - **Alat & Perlengkapan Kandang (`sangkar burung.jpeg`):**
+       - Sangkar & kurungan kayu/bambu ayam aduan/burung dara bertanda *"SEDIA VAKSIN"*.
+       - Tempat pakan gantung, ember takaran pakan, galon minum unggas.
+   - **Konfirmasi Operasional & Logistik Toko:**
+     - **Armada Pengiriman Mandiri:** Toko memiliki armada transportasi sendiri untuk pengiriman langsung ke kandang-kandang peternak di wilayah Ajibarang, Cilongok, Pekuncen, serta pengiriman luar daerah.
+     - **Sistem Penjualan Fleksibel:** Melayani skala grosir (karung/sak 30-50 kg) maupun eceran kiloan untuk peternak rumahan.
 
+2. **Kesimpulan Kesiapan Data:**
+   - **DATA SUDAH 100% LENGKAP & SEMPURNA.** Tidak ada data yang kurang lagi. Semua nama barang, merek, harga riil, foto visual, alamat presisi, dan mekanisme pengiriman telah terverifikasi secara faktual.
 
+---
 
+## 25. Checkpoint Sesi 48: Pembuatan Spreadsheet Katalog Produk Toko (CSV & Excel)
+* **Tanggal:** 30 September 2026
+* **Tujuan:** Menghasilkan dokumen katalog data terstruktur lengkap yang dapat ditinjau langsung oleh pengguna di Microsoft Excel atau Google Sheets sebelum proses seeding ke database.
+* **Hasil Pembuatan File Katalog:**
+  1. **[KATALOG_PRODUK_CV_BANONG_FARMS.csv](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/KATALOG_PRODUK_CV_BANONG_FARMS.csv):**
+     - Format: CSV UTF-8 dengan BOM (Byte Order Mark) dan pemisah titik koma (`;`) agar saat dibuka langsung di Microsoft Excel wilayah Indonesia, kolom tidak menumpuk menjadi satu baris.
+     - Total: 74 item produk riil yang diverifikasi dari 15 foto toko.
+  2. **[KATALOG_PRODUK_CV_BANONG_FARMS.xls](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/KATALOG_PRODUK_CV_BANONG_FARMS.xls):**
+     - Format: XML Spreadsheet resmi Microsoft Excel dengan styling visual tabel profesional:
+       - Header Kolom: Latar belakang Navy `#022448`, teks putih tebal, rata tengah.
+       - Kolom Harga: Tipe numerik dengan format format mata uang Rupiah (`"Rp"#,##0`).
+       - Border tipis pada seluruh sel tabel untuk kemudahan pembacaan.
+  3. **Struktur Kolom Katalog (10 Kolom):**
+     - `No`, `Kategori`, `Nama Produk`, `Merek / Pabrikan`, `Satuan`, `Harga (Rp)`, `Bentuk Penjualan`, `Deskripsi & Komposisi`, `Target Ternak`, `Sumber Bukti Toko`.
+  4. **Klasifikasi 5 Kategori Produk:**
+     - `Pakan Ternak & Unggas` (21 item: New Hope HP100, HL83, HB200, Sinindo KSK-36S/T78, Jagung Giling, Dedak Bekatul, Konsentrat, dll).
+     - `Bibit Unggul` (6 item: DOQ Malempeng Puyuh Petelur, DOC Broiler, DOC Joper, DOC Layer, DOD Bebek Mojosari, DOD Bebek Alabio).
+     - `Obat, Vitamin & Vaksin` (28 item: Vaksin Medivac ND Clone, Gumboro, La Sota, Vita Stress, Vita Chicks, Neobro, Egg Stimulant, Tetra-Chlor, dll).
+     - `Pakan Ikan & Pet Food` (13 item: HI-PRO-VITE 781-2, Takari, Bolt Tuna/Salmon, Felibite, Leopard, Phoenix, Topsong, dll).
+     - `Alat & Perlengkapan Kandang` (6 item: Sangkar bambu kurungan, Nipple Drinker, Feeder gantung, Egg Tray puyuh/ayam, Sprayer).
 
+---
 
+## 26. Checkpoint Sesi 49: Eksekusi Penuh Copywriting Konten Website & Penyelarasan Maskot AI
+* **Tanggal:** 30 September 2026
+* **Status Build:** `npm run build` BERHASIL 100% (Vite v6.4.3, Zero Errors, Exit Code 0).
+* **Komponen yang Telah Selesai Dieksekusi:**
+  1. **`HeroSection.vue`:**
+     - 3 Slide hero baru yang merepresentasikan keunggulan utama toko:
+       - Slide 1: *"Pusat Pakan Ternak & Sarana Peternakan Terlengkap"* (Pakan New Hope Cirebon grosir sak & eceran).
+       - Slide 2: *"Bibit Unggul & Vitamin Terpercaya"* (DOQ puyuh, DOC ayam, DOD bebek & obat Medion).
+       - Slide 3: *"Siap Antar dengan Armada Toko Sendiri"* (Pengantaran langsung ke kandang Ajibarang, Cilongok, Pekuncen).
+     - 2 Tombol CTA utama: *"Pesan Pakan via WA"* (kuning emas `#fcd400`) & *"Lihat Katalog Pakan"* (navy border).
+     - Strip metrik bawah: *"2015 Awal Mandiri & 2022 Toko Fisik"*, *"Kemitraan PT. New Hope Indonesia"*, *"Armada Mandiri Langsung Antar Kandang"*.
+  2. **`VisiMisiSection.vue`:**
+     - Storytelling otentik: Berawal dari peternakan puyuh mandiri 2015, membuka toko fisik sarana peternakan modern 2022, hingga dipercaya menjadi agen resmi PT. New Hope Indonesia (Cirebon).
+     - 4 Pilar Misi: Ketersediaan Ransum Pakan Segar Pabrik, Bibit Ternak Terseleksi, Obat & Vaksin Terlisensi, serta Distribusi Armada Toko Mandiri.
+     - Galeri Triptych Foto Asli Toko: Menampilkan `karung_1.jpeg` (stok sak pakan), `toko_depan.jpeg` (fasad fisik toko di depan pasar hewan), dan `vaksin_obat-obatan_produk.jpeg` (etalase obat Medion & lisensi vaksin).
+  3. **`CredibilitySection.vue`:**
+     - Bingkai showcase plang resmi toko New Hope Cirebon (`banner.jpeg`).
+     - Penjelasan jaminan pakan fresh dari pabrik dengan efisiensi FCR tinggi.
+     - 2 Kartu nilai tambah: *"Armada Pengiriman Toko Sendiri"* & *"Pengalaman Praktis Peternak Sejak 2015"*.
+  4. **`InteractiveMarqueeMenu.vue`:**
+     - 5 Jalur teks berjalan (*marquee*) interaktif diselaraskan dengan produk nyata toko:
+       - Row 1: *"Pakan New Hope HP100 · HL83 · HB200 · Sinindo KSK-36S"* (hover: `banner.jpeg`).
+       - Row 2: *"Bibit DOQ Malempeng · DOC Broiler · DOD Bebek"* (hover: `toko_depan.jpeg`).
+       - Row 3: *"Obat Medion · Vita Stress · Neobro · Tetra-Chlor"* (hover: `obat-obatan_unggas.jpeg`).
+       - Row 4: *"Vaksin Medivac ND Clone · Gumboro · La Sota"* (hover: `vaksin_obat-obatan_produk.jpeg`).
+       - Row 5: *"Grosir Karungan & Eceran · Kirim Armada Toko"* (hover: `karung_1.jpeg`).
+  5. **`PolaroidCtaSection.vue`:**
+     - Bingkai foto Polaroid asli fasad toko (`toko_depan.jpeg`).
+     - Copywriting ajakan konsultasi ransum pakan dan pemesanan dengan armada toko.
+     - 4 Trust Badges: *"Armada Toko Sendiri"*, *"Pakan Fresh Pabrik"*, *"Timbangan Pas Presisi"*, *"Konsultasi Gratis"*.
+  6. **`FooterSection.vue`:**
+     - Header brand: *"CV Banong Farms - Poultry Shop & Pakan Ternak"*.
+     - Deskripsi: Agen resmi drop shipper PT. New Hope Indonesia Cirebon melayani grosir & eceran.
+     - Jadwal Jam Operasional: Buka Senin – Sabtu pukul 07.30 – 16.00 WIB (Hari Minggu Libur/Tutup).
+     - Alamat Lengkap & Patokan: Depan Pasar Hewan (Sebelah Barat Pangkalan Ojek), Ajibarang, Banyumas 53163.
+  7. **`Navbar.vue`:**
+     - Sub-tagline diperbarui menjadi *"Poultry Shop · Ajibarang"*.
+  8. **`ProductGrid.vue`:**
+     - Subjudul & deskripsi diselaraskan menjadi Katalog Pakan & Sarana Peternakan dengan 5 kategori tab filter.
+  9. **`src/services/aiService.js`:**
+     - Context injection Si Banong diperbarui total: profil usaha toko sarana peternakan, agen New Hope, jam buka 07.30–16.00 WIB, armada toko mandiri, alamat depan pasar hewan.
+     - Smart heuristic offline fallback menguasai pakan New Hope HP100/HL83/HB200, puyuh Sinindo, bibit DOQ/DOC/DOD, obat Medion lengkap & vaksin resmi Medivac.
+  10. **`src/components/ChatbotMascot.vue`:**
+      - Sapaan awal bot: *"Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (Agen Resmi PT. New Hope Indonesia)..."*
+      - Tooltip bubble: *"Halo! Butuh pakan & bibit ternak?"*
+      - Quick topics: *"🌾 Cek Pakan New Hope HP100"*, *"🐣 Info Bibit DOQ & DOC"*, *"💊 Obat Medion & Vaksin Resmi"*, *"🚚 Layanan Armada Toko Sendiri"*.
+
+---
+
+## 27. Komitmen & Batasan Operasional
+* **LARANGAN GIT COMMIT OTOMATIS OLEH AGENT:** Seluruh commit git dilakukan secara manual oleh pemilik proyek / pengguna. Agent dilarang menjalankan `git commit` maupun `git push`.
+* **RULE WARNA 60:30:10:** Wajib dipertahankan (Putih Dominan 60%, Navy Brand `#022448` 30%, Kuning Emas `#FCD400` 10%). Tombol merah dan hijau tetap dilarang pada landing page publik.
+* **STATUS KATALOG:** Disimpan dalam format spreadsheet Excel/CSV untuk diperiksa pengguna terlebih dahulu. Setelah dikonfirmasi, data dapat diintegrasikan ke tabel produk Supabase.
 

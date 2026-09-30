@@ -14,18 +14,18 @@
         <!-- Badge Pill -->
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code shadow-xs w-fit mx-auto sm:mx-0">
           <span class="material-symbols-outlined text-[15px] text-secondary-container">verified</span>
-          <span class="tracking-wider uppercase">PILIHAN CERMAT KELUARGA &amp; MITRA</span>
+          <span class="tracking-wider uppercase">PILIHAN TEPAT PETERNAK TANGGUH</span>
         </div>
 
         <!-- Headline -->
         <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight font-sans">
-          Pangan Sehat Alami, <br class="hidden sm:inline"/>
-          <span class="text-primary dark:text-secondary-container">Kelezatan Murni Peternak Jujur.</span>
+          Pakan Berkualitas, Bibit Sehat, <br class="hidden sm:inline"/>
+          <span class="text-primary dark:text-secondary-container">Hasil Panen Ternak Berlimpah.</span>
         </h2>
 
         <!-- Subtitle -->
         <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mt-3 mx-auto sm:mx-0">
-          Setiap butir telur, daging unggas, dan ikan air deras kami rawat dengan pakan alami tanpa suntikan hormon sintetis atau antibiotik kimia. Langsung dipanen setiap subuh dari perbukitan Ajibarang demi menjamin kesegaran di meja makan Anda.
+          Penuhi kebutuhan pakan pabrikan PT. New Hope Indonesia, bibit unggas DOQ/DOC/DOD, multivitamin Medion, serta alat kandang Anda di CV Banong Farms. Melayani sak grosir dan eceran kiloan dengan pengantaran langsung armada toko kami.
         </p>
       </div>
 
@@ -36,57 +36,57 @@
         <div class="lg:col-span-6 flex items-center justify-center w-full">
           <div class="relative w-full max-w-[320px] sm:max-w-[420px] md:max-w-[460px] lg:max-w-[500px] xl:max-w-[520px] h-[270px] sm:h-[330px] md:h-[360px] lg:h-[390px] xl:h-[410px] select-none mx-auto">
             
-            <!-- Polaroid 1 (Left - Kreasi Dapur) -->
+            <!-- Polaroid 1 (Left - Obat & Vitamin) -->
             <div 
               class="absolute top-2 sm:top-4 lg:top-6 left-1 sm:left-3 lg:left-4 w-[118px] sm:w-[155px] md:w-[175px] lg:w-[195px] xl:w-[205px] bg-white p-1.5 sm:p-2.5 pb-4 sm:pb-6 rounded-xs shadow-[0_12px_28px_rgba(0,0,0,0.14)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7)] transform -rotate-[7deg] hover:-rotate-[3deg] hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-10 border border-slate-200/90 group"
-              title="Kreasi Kuliner Banyumas"
+              title="Obat &amp; Vitamin Medion Resmi"
             >
               <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/polaroid-culinary.jpg" 
-                  alt="Olahan Ayam & Telur CV Banong Farms di Dapur Banyumas" 
+                  src="/assets/store/obat-obatan_ternak.jpeg" 
+                  alt="Daftar Obat dan Vitamin Ternak CV Banong Farms" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
               <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-600 font-semibold tracking-wide">
-                Kreasi Dapur Segar
+                Obat &amp; Vitamin Medion
               </div>
             </div>
 
-            <!-- Polaroid 3 (Right - Kebersamaan di Farm) -->
+            <!-- Polaroid 3 (Right - Sedia Vaksin & Alat Kandang) -->
             <div 
               class="absolute top-1 sm:top-2 lg:top-4 right-1 sm:right-3 lg:right-4 w-[122px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px] bg-white p-1.5 sm:p-2.5 pb-4 sm:pb-6 rounded-xs shadow-[0_12px_28px_rgba(0,0,0,0.14)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7)] transform rotate-[6deg] hover:rotate-[2deg] hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-10 border border-slate-200/90 group"
-              title="Momen Santap Bersama"
+              title="Sedia Vaksin &amp; Perlengkapan Kandang"
             >
               <div class="w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/polaroid-friends.jpg" 
-                  alt="Momen Bahagia Menikmati Makanan Segar di Ajibarang" 
+                  src="/assets/store/sangkar_burung.jpeg" 
+                  alt="Sedia Vaksin dan Perlengkapan Kandang CV Banong Farms" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
               <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-600 font-semibold tracking-wide">
-                Kebersamaan Alami
+                Sedia Vaksin &amp; Kandang
               </div>
             </div>
 
-            <!-- Polaroid 2 (Center Hero - Santapan Keluarga) -->
+            <!-- Polaroid 2 (Center Hero - Toko Banong Farms) -->
             <div 
               class="absolute bottom-2 sm:bottom-4 lg:bottom-5 left-1/2 -translate-x-1/2 w-[165px] sm:w-[215px] md:w-[245px] lg:w-[270px] xl:w-[285px] bg-white p-2 sm:p-3 pb-5 sm:pb-7 rounded-xs shadow-[0_18px_40px_rgba(0,0,0,0.24)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.85)] transform -rotate-[1.5deg] hover:rotate-0 hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-20 border border-slate-200/90 group"
-              title="Santapan Sehat Keluarga"
+              title="Toko Banong Farms Ajibarang"
             >
               <div class="w-full aspect-[4/3] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/polaroid-family.jpg" 
-                  alt="Keluarga Sehat Menikmati Santapan Segar CV Banong Farms" 
+                  src="/assets/store/toko_depan.jpeg" 
+                  alt="Toko Fisik CV Banong Farms Depan Pasar Hewan Ajibarang" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
               <div class="mt-1.5 sm:mt-2 text-center text-[10px] sm:text-xs text-slate-900 font-extrabold tracking-wide">
-                Pangan Sehat Alami
+                Grosir &amp; Eceran Ajibarang
               </div>
             </div>
 
@@ -101,18 +101,18 @@
             <!-- Badge Pill -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 sm:mb-4 border border-primary/20 dark:border-white/20 font-telemetry-code shadow-xs w-fit">
               <span class="material-symbols-outlined text-[15px] text-secondary-container">verified</span>
-              <span class="tracking-wider uppercase">PILIHAN CERMAT KELUARGA &amp; MITRA</span>
+              <span class="tracking-wider uppercase">PILIHAN TEPAT PETERNAK TANGGUH</span>
             </div>
 
             <!-- Headline Desktop -->
             <h2 class="text-3xl lg:text-[38px] xl:text-[42px] font-black text-slate-900 dark:text-white tracking-tight leading-tight font-sans">
-              Pangan Sehat Alami, <br/>
-              <span class="text-primary dark:text-secondary-container">Kelezatan Murni Peternak Jujur.</span>
+              Pakan Berkualitas, Bibit Sehat, <br/>
+              <span class="text-primary dark:text-secondary-container">Hasil Panen Ternak Berlimpah.</span>
             </h2>
 
             <!-- Descriptive Subtitle Desktop -->
             <p class="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mt-4">
-              Setiap butir telur, daging unggas, dan ikan air deras kami rawat dengan pakan alami tanpa suntikan hormon sintetis atau antibiotik kimia. Langsung dipanen setiap subuh dari perbukitan Ajibarang demi menjamin kesegaran di setiap hidangan Anda.
+              Penuhi kebutuhan pakan pabrikan PT. New Hope Indonesia, bibit unggas DOQ/DOC/DOD, multivitamin Medion, serta alat kandang Anda di CV Banong Farms. Melayani sak grosir dan eceran kiloan dengan pengantaran langsung armada toko kami.
             </p>
           </div>
 
@@ -120,12 +120,12 @@
           <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-3 sm:gap-4">
             <!-- Bold Primary Button: PESAN SEKARANG VIA WA -->
             <a 
-              href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20memesan%20panen%20segar%20(telur/ayam/ikan)."
+              href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20memesan%20pakan/bibit/obat%20ternak."
               target="_blank" 
               rel="noopener noreferrer" 
               class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:shadow-yellow-500/25 active:scale-95 transition-all duration-300 inline-flex items-center justify-center gap-2.5 cursor-pointer font-telemetry-code border border-yellow-400/40"
             >
-              <span>PESAN PANEN HARI INI VIA WA</span>
+              <span>PESAN PAKAN &amp; KONSULTASI VIA WA</span>
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
             </a>
 
@@ -142,15 +142,15 @@
           <div class="mt-7 pt-5 sm:mt-8 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3 text-xs text-slate-600 dark:text-slate-400 font-telemetry-code">
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
               <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">verified</span>
-              <span class="font-semibold">100% Halal &amp; Alami</span>
+              <span class="font-semibold">100% Produk Pabrikan Asli</span>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">schedule</span>
-              <span class="font-semibold">Panen Subuh Kirim Hari Ini</span>
+              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">inventory_2</span>
+              <span class="font-semibold">Grosir Sak &amp; Ecer Kiloan</span>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">pin_drop</span>
-              <span class="font-semibold">Peternakan Ajibarang</span>
+              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">local_shipping</span>
+              <span class="font-semibold">Armada Toko Ajibarang &amp; Sekitarnya</span>
             </div>
           </div>
 

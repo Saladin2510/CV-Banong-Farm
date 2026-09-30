@@ -72,7 +72,7 @@
       </div>
 
       <!-- Floating Animated Image Popups (Ukuran Proporsional & Pas Sesuai Referensi) -->
-      <!-- Row 1: TELUR AYAM & BEBEK SEGAR (Position: RIGHT, Clockwise +10deg, Extends Downwards) -->
+      <!-- Row 1: PAKAN TERNAK PT. NEW HOPE INDONESIA (Position: RIGHT, Clockwise +10deg, Extends Downwards) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 0"
@@ -81,19 +81,19 @@
           <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
-                src="/assets/farm-eggs-marquee.jpg" 
-                alt="Telur Ayam & Bebek Organik CV Banong Farms" 
+                src="/assets/store/karung_1.jpeg" 
+                alt="Pakan Ternak PT New Hope Indonesia dan CP Prima CV Banong Farms" 
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Telur Segar Harian
+              Pakan New Hope &amp; Pakan Ikan
             </div>
           </div>
         </div>
       </transition>
 
-      <!-- Row 2: PETERNAKAN UNGGAS ALAMI (Position: LEFT, Counter-Clockwise -9deg, Extends Downwards) -->
+      <!-- Row 2: BIBIT UNGGUL DOQ, DOC & DOD SEHAT (Position: LEFT, Counter-Clockwise -9deg, Extends Downwards) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 1"
@@ -102,19 +102,19 @@
           <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[9deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
-                src="/assets/farm-poultry-marquee.jpg" 
-                alt="Peternakan Unggas Bebas & Alami Ajibarang" 
+                src="/assets/store/sangkar_burung.jpeg" 
+                alt="Bibit Ternak Unggul DOQ Puyuh, DOC Ayam & Sedia Vaksin" 
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Unggas Sehat Alami
+              Bibit Unggas &amp; Sedia Vaksin
             </div>
           </div>
         </div>
       </transition>
 
-      <!-- Row 3: DAGING SEGAR & HIGIENIS (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
+      <!-- Row 3: OBAT, VITAMIN & VAKSIN MEDION RESMI (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 2"
@@ -123,19 +123,19 @@
           <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
-                src="/assets/product-chicken.png" 
-                alt="Daging Ayam & Bebek Potong Segar Harian" 
+                src="/assets/store/vaksin_obat-obatan_produk.jpeg" 
+                alt="Etalase Obat, Multivitamin Medion dan Vaksin Unggas" 
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Daging Segar Pilihan
+              Obat &amp; Multivitamin Medion
             </div>
           </div>
         </div>
       </transition>
 
-      <!-- Row 4: PERIKANAN AIR DERAS (Position: LEFT, Counter-Clockwise -9deg, Arah Ke Atas / Anchored from Bottom) -->
+      <!-- Row 4: PAKAN IKAN, BURUNG & HEWAN KESAYANGAN (Position: LEFT, Counter-Clockwise -9deg, Arah Ke Atas / Anchored from Bottom) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 3"
@@ -144,19 +144,19 @@
           <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform -rotate-[9deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
-                src="/assets/product-fish.png" 
-                alt="Perikanan Air Deras Ikan Lele & Gurame Segar" 
+                src="/assets/store/pakan_hewan_burung.jpeg" 
+                alt="Pakan Burung Leopard Topsong & Pakan Ikan Takari" 
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Ikan Air Tawar Segar
+              Pakan Burung, Ikan &amp; Kucing
             </div>
           </div>
         </div>
       </transition>
 
-      <!-- Row 5: PUPUK ORGANIK KASGOT (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
+      <!-- Row 5: LAYANAN AJIBARANG, CILONGOK & PEKUNCEN (Position: RIGHT, Clockwise +10deg, Arah Ke Atas / Anchored from Bottom) -->
       <transition name="pop-card">
         <div 
           v-if="activeRow === 4"
@@ -165,13 +165,13 @@
           <div class="p-1.5 sm:p-2 bg-white rounded-xs border-[3px] sm:border-[3.5px] border-primary dark:border-secondary-container shadow-[0_22px_45px_rgba(2,36,72,0.25)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] transform rotate-[10deg] w-40 sm:w-48 md:w-54 lg:w-60 xl:w-64">
             <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
               <img 
-                src="/assets/product-fertilizer.png" 
-                alt="Pupuk Kasgot Super Organik & Ramah Lingkungan" 
+                src="/assets/store/toko_depan.jpeg" 
+                alt="Toko Pakan Ternak Banong Farms Grosir dan Ecer Ajibarang" 
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="mt-1.5 text-center text-[10px] sm:text-[11px] font-black text-primary dark:text-slate-900 uppercase tracking-wider">
-              Pupuk Organik Kasgot
+              Grosir, Ecer &amp; Armada Toko
             </div>
           </div>
         </div>
@@ -193,11 +193,11 @@ const marqueeSectionRef = ref(null)
 
 // Row definition strictly for CV Banong Farms with alternating zigzag directions
 const rows = [
-  { id: 0, text: 'TELUR AYAM & BEBEK SEGAR', direction: 'left' },
-  { id: 1, text: 'PETERNAKAN UNGGAS ALAMI', direction: 'right' },
-  { id: 2, text: 'DAGING SEGAR & HIGIENIS', direction: 'left' },
-  { id: 3, text: 'PERIKANAN AIR DERAS', direction: 'right' },
-  { id: 4, text: 'PUPUK ORGANIK KASGOT', direction: 'left' }
+  { id: 0, text: 'PAKAN TERNAK PT. NEW HOPE INDONESIA', direction: 'left' },
+  { id: 1, text: 'BIBIT UNGGUL DOQ, DOC & DOD SEHAT', direction: 'right' },
+  { id: 2, text: 'OBAT, VITAMIN & VAKSIN MEDION RESMI', direction: 'left' },
+  { id: 3, text: 'PAKAN IKAN, BURUNG & HEWAN KESAYANGAN', direction: 'right' },
+  { id: 4, text: 'LAYANAN AJIBARANG, CILONGOK & PEKUNCEN', direction: 'left' }
 ]
 
 // When null, ALL rows run continuously at unified fast speed and NO image is shown.

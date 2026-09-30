@@ -8,15 +8,15 @@
       <div class="mb-8 sm:mb-12 animate-fade-in-up">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code">
           <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
-          <span>PANEN SEGAR AJIBARANG</span>
+          <span>SARANA PETERNAKAN &amp; PAKAN TERLENGKAP</span>
         </div>
         <div class="overflow-hidden py-1">
           <h2 class="product-skew-title font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-black tracking-tight origin-bottom-left will-change-transform">
-            Katalog Panen Harian
+            Katalog Pakan &amp; Sarana Peternakan
           </h2>
         </div>
         <p class="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-          Pilihan telur segar, ayam kampung, bebek, daging, ikan air deras, hingga pupuk kasgot langsung dari peternakan. Dipanen harian, bebas bahan pengawet, dan siap diantar selagi segar.
+          Pilihan pakan pabrikan PT. New Hope Indonesia, pakan ikan, pakan burung &amp; kucing, bibit unggul DOQ/DOC/DOD, obat &amp; vitamin Medion resmi, hingga alat kandang. Tersedia sak karungan grosir dan eceran kiloan siap kirim dengan armada toko.
         </p>
       </div>
 
@@ -144,26 +144,23 @@ let ctx = null
 
 const categories = [
   { id: 'all', name: 'Semua Produk' },
-  { id: 'unggas', name: 'Peternakan Unggas' },
-  { id: 'ikan', name: 'Perikanan Air Deras' },
-  { id: 'daging', name: 'Daging Segar' },
-  { id: 'buah', name: 'Buah-buahan' },
-  { id: 'sayur', name: 'Sayur & Cabai' },
-  { id: 'kopi', name: 'Biji Kopi' },
-  { id: 'organik', name: 'Produk Organik' }
+  { id: 'pakan', name: 'Pakan Ternak & Unggas' },
+  { id: 'bibit', name: 'Bibit Unggul (DOQ/DOC/DOD)' },
+  { id: 'obat', name: 'Obat, Vitamin & Vaksin' },
+  { id: 'ikan_pet', name: 'Pakan Ikan & Pet Food' },
+  { id: 'alat', name: 'Alat & Perlengkapan Kandang' }
 ]
 
 const matchesCategory = (p, catId) => {
   if (catId === 'all') return true
   if (p.categoryId === catId) return true
   const catName = (p.category || '').toLowerCase()
-  if (catId === 'unggas') return catName.includes('unggas') || catName.includes('telur')
-  if (catId === 'ikan') return catName.includes('ikan') || catName.includes('lele') || catName.includes('nila')
-  if (catId === 'daging') return catName.includes('daging') || catName.includes('ayam') || catName.includes('bebek')
-  if (catId === 'buah') return catName.includes('buah') || catName.includes('pisang')
-  if (catId === 'sayur') return catName.includes('sayur') || catName.includes('cabai')
-  if (catId === 'kopi') return catName.includes('kopi')
-  if (catId === 'organik') return catName.includes('organik') || catName.includes('kasgot') || catName.includes('pupuk') || catName.includes('ruminansia') || catName.includes('silase')
+  const pName = (p.name || p.title || '').toLowerCase()
+  if (catId === 'pakan') return catName.includes('pakan') || catName.includes('konsentrat') || catName.includes('pur') || pName.includes('new hope') || pName.includes('hp100') || pName.includes('hl83') || pName.includes('unggas')
+  if (catId === 'bibit') return catName.includes('bibit') || pName.includes('doq') || pName.includes('doc') || pName.includes('dod') || pName.includes('bibit')
+  if (catId === 'obat') return catName.includes('obat') || catName.includes('vaksin') || catName.includes('vitamin') || pName.includes('medivac') || pName.includes('vita') || pName.includes('therapy') || pName.includes('tetra')
+  if (catId === 'ikan_pet') return catName.includes('ikan') || catName.includes('pet') || catName.includes('burung') || catName.includes('kucing') || pName.includes('bolt') || pName.includes('leopard') || pName.includes('pro-vite') || pName.includes('takari')
+  if (catId === 'alat') return catName.includes('alat') || catName.includes('kandang') || pName.includes('sangkar') || pName.includes('feeder') || pName.includes('minum')
   return false
 }
 

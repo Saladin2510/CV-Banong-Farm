@@ -34,7 +34,7 @@
             <span 
               class="text-[11px] sm:text-xs font-medium text-primary/75 dark:text-slate-300 leading-tight transition-colors duration-300"
             >
-              Ajibarang, Jawa Tengah
+              Poultry Shop · Ajibarang
             </span>
           </div>
         </a>

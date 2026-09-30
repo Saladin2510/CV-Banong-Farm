@@ -24,7 +24,7 @@
             </a>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Peternakan &amp; Agribisnis Modern</span>
+              <span>Toko Pakan Ternak Grosir &amp; Ecer</span>
             </span>
           </div>
 
@@ -34,7 +34,7 @@
           </h2>
 
           <p class="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed">
-            Pusat peternakan unggas, domba, kambing, budidaya perikanan air tawar, dan pupuk organik kasgot berkualitas unggul dari Ajibarang, Banyumas.
+            Agen resmi pakan ternak PT. New Hope Indonesia Cirebon. Menyediakan pakan komplit unggas, puyuh, bebek, pakan ikan, pet food, bibit unggul DOQ/DOC/DOD, obat &amp; vitamin Medion, serta perlengkapan kandang lengkap di Ajibarang.
           </p>
 
           <!-- WhatsApp & Jam Operasional -->
@@ -50,7 +50,7 @@
             </a>
             <div class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-medium">
               <span class="material-symbols-outlined text-[15px] text-slate-500">schedule</span>
-              <span>07.00 - 17.00 WIB</span>
+              <span>Senin–Sabtu: 07.30 - 16.00 WIB</span>
             </div>
           </div>
         </div>
@@ -153,9 +153,9 @@
 
             <!-- Strip Bawah Peta -->
             <div class="p-2.5 bg-white dark:bg-[#0c1e34] flex items-center justify-between gap-2 border-t border-slate-200/80 dark:border-white/10">
-              <span class="text-[11px] text-slate-700 dark:text-slate-200 font-semibold truncate flex items-center gap-1.5">
+              <span class="text-[11px] text-slate-700 dark:text-slate-200 font-semibold truncate flex items-center gap-1.5" title="Depan Pasar Hewan, Sebelah Barat Pangkalan Ojek Ajibarang">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Banong Farms Ajibarang</span>
+                <span>Depan Pasar Hewan Ajibarang</span>
               </span>
               <a 
                 href="https://maps.app.goo.gl/AXAGnr9V4D15MyUz9" 

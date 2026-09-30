@@ -27,7 +27,7 @@
               <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-container"></span>
             </span>
             <span class="tracking-wider uppercase font-semibold">
-              CERITA &amp; PRINSIP KAMI
+              JEJAK LANGKAH SEJAK 2015
             </span>
           </div>
 
@@ -38,12 +38,12 @@
 
           <!-- Bold Lead Statement -->
           <h3 class="visi-hero-text text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5 will-change-transform">
-            Menghidangkan Pangan Sehat, Murni, &amp; Penuh Berkah dari Bumi Ajibarang.
+            Berawal dari Kandang Puyuh 2015, Tumbuh Menjadi Pusat Sarana Peternakan Terpercaya.
           </h3>
 
           <!-- Narrative Paragraph -->
           <p class="visi-hero-text text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed will-change-transform">
-            CV Banong Farms bermula dari komitmen sederhana: setiap keluarga dan pengusaha kuliner berhak mendapatkan bahan pangan yang benar-benar segar, bersih, dan menyehatkan. Dari peternakan di perbukitan sejuk Ajibarang, kami merawat unggas dan perikanan dengan pakan nabati alami, air pegunungan yang jernih mengalir, serta dedikasi peternak lokal yang amanah.
+            Perjalanan CV Banong Farms berakar dari ketulusan dan pengalaman langsung di lapangan. Pada tahun 2015, kami memulai usaha dari budidaya ternak burung puyuh mandiri di Ajibarang. Mengalami sendiri suka duka dunia peternakan—mulai dari pentingnya efisiensi pakan pabrikan berprotein presisi, menjaga daya tahan bibit, hingga memilih obat dan perlengkapan kandang yang tepat—mendorong kami mendirikan toko fisik sarana peternakan modern pada tahun 2022. Kini, dipercaya sebagai agen resmi pakan ternak PT. New Hope Indonesia Cirebon, kami berdedikasi melayani sesama peternak di Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan pasokan prima dan armada pengiriman mandiri.
           </p>
 
           <!-- Visi & Misi Key Highlights -->
@@ -58,7 +58,7 @@
                 </span>
               </div>
               <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 italic font-medium leading-relaxed">
-                "Menjadi sentra agribisnis dan peternakan terpadu pilihan utama di Jawa Tengah yang konsisten menghadirkan produk pangan sehat, halal, dan terjangkau—menyehatkan keluarga sekaligus memajukan kesejahteraan peternak lokal."
+                "Menjadi pusat sarana produksi peternakan pilihan utama yang menghubungkan peternak lokal dengan pakan pabrikan berkualitas dunia, bibit unggul, serta pendampingan kandang yang jujur, bersahabat, dan menyejahterakan."
               </p>
             </div>
 
@@ -66,19 +66,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Pakan nabati alami tanpa hormon kimia &amp; tanpa antibiotik sintetis.</span>
+                <span>Mitra resmi pakan pabrikan PT. New Hope Indonesia Cirebon.</span>
               </div>
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Budidaya air deras pegunungan: daging ikan gurih tanpa bau tanah.</span>
+                <span>Bibit unggul sehat: DOQ puyuh, DOC ayam &amp; DOD bebek aktif.</span>
               </div>
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Kemitraan berdaya memajukan kelompok peternak lokal Banyumas.</span>
+                <span>Obat, vitamin Medion, vaksin resmi &amp; alat kandang lengkap.</span>
               </div>
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Pengiriman cepat &lt; 12 jam agar kualitas panen tetap prima.</span>
+                <span>Grosir karungan &amp; eceran kiloan, siap kirim dengan armada toko.</span>
               </div>
             </div>
 
@@ -99,36 +99,36 @@
 
           <div class="grid grid-cols-3 gap-3 sm:gap-4 items-center relative z-10">
             
-            <!-- Column 1: Pak Peternak dengan Keranjang Telur Organik -->
+            <!-- Column 1: Gudang Pakan Karungan New Hope & HI-PRO-VITE -->
             <div class="triptych-col triptych-col-1 flex flex-col gap-3 will-change-transform">
               <div class="triptych-frame triptych-frame-1 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/visi-farmer-eggs.jpg" 
-                  alt="Peternak Organik Telur CV Banong Farms Ajibarang"
+                  src="/assets/store/karung_1.jpeg" 
+                  alt="Gudang Stok Pakan Karungan CV Banong Farms Ajibarang"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
               </div>
             </div>
 
-            <!-- Column 2: Ahli Agribisnis Memeriksa Peternakan (Slightly taller / elevated center) -->
+            <!-- Column 2: Toko Depan Banong Farms Grosir & Ecer Ajibarang (Center elevated) -->
             <div class="triptych-col triptych-col-2 flex flex-col gap-3 will-change-transform -mt-2 sm:-mt-4">
               <div class="triptych-frame triptych-frame-2 h-[310px] sm:h-[410px] lg:h-[470px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/visi-farmer-check.jpg" 
-                  alt="Ahli Peternakan CV Banong Farms Memeriksa Ayam Sehat"
+                  src="/assets/store/toko_depan.jpeg" 
+                  alt="Toko Fisik CV Banong Farms Depan Pasar Hewan Ajibarang"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
               </div>
             </div>
 
-            <!-- Column 3: Lanskap Peternakan & Gunung Slamet Ajibarang -->
+            <!-- Column 3: Etalase Vaksin, Vitamin & Obat-obatan Unggas Medion -->
             <div class="triptych-col triptych-col-3 flex flex-col gap-3 will-change-transform">
               <div class="triptych-frame triptych-frame-3 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/hero-bg.png" 
-                  alt="Lanskap Peternakan Terbuka CV Banong Farms di Ajibarang"
+                  src="/assets/store/vaksin_obat-obatan_produk.jpeg" 
+                  alt="Etalase Obat, Vaksin Resmi dan Vitamin Medion CV Banong Farms"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />

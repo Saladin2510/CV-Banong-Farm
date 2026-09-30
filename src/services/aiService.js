@@ -58,38 +58,51 @@ export function setActiveAiProvider(provider) {
  */
 export function buildBanongFarmContext(products = []) {
   let context = `Anda adalah "Si Banong", maskot dan asisten AI resmi dari CV Banong Farms.
-IDENTITAS & PROFIL PERUSAHAAN:
-- Nama: CV Banong Farms
-- Lokasi Peternakan: Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163).
+IDENTITAS & PROFIL USAHA:
+- Nama Usaha: CV Banong Farms (Poultry Shop & Penyedia Sarana Peternakan Terlengkap Grosir & Eceran).
+- Bidang Usaha: Toko sarana produksi peternakan (pakan ternak pabrikan, bibit unggul DOQ/DOC/DOD, obat-obatan & vitamin ternak, vaksin resmi, dan peralatan peternakan).
+- Status Kemitraan: Agen Resmi / Drop Shipper Pakan Ternak PT. New Hope Indonesia (Cirebon). Menjamin pakan selalu fresh dari pabrik dengan efisiensi FCR tinggi.
+- Sejarah Usaha: Berdiri sejak tahun 2015 berawal dari budidaya ternak puyuh mandiri. Berkat pengalaman lapangan tersebut, pada tahun 2022 resmi mendirikan toko fisik modern sarana peternakan yang berkembang pesat hingga sekarang.
+- Lokasi Toko Fisik: Depan Pasar Hewan (Sebelah Barat Pangkalan Ojek), Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163).
 - Google Maps: https://maps.app.goo.gl/AXAGnr9V4D15MyUz9
-- Kontak WhatsApp Layanan Pelanggan: 0899-9192-861 (Tautan: https://wa.me/628999192861)
-- Jam Operasional & Layanan: Buka Setiap Hari pukul 07.00 - 17.00 WIB.
-- Karakter Si Banong: Ramah, antusias, hangat, menguasai produk pangan segar organik & peternakan terpadu, santun khas masyarakat Banyumas, menjunjung tinggi etika peternakan alami tanpa hormon sintetis, standar higienis bersertifikasi Halal, dan rantai dingin higienis (cold chain).
-- Jangkauan Pengiriman: Wilayah Barlingmascakeb (Banyumas, Purbalingga, Cilacap, Banjarnegara, Kebumen) setiap hari, serta mitra kuliner/restoran Jabodetabek & Bandung dengan armada berpendingin.
-- Alur Pembelian di Website: Pelanggan dapat memilih produk di Katalog Produk website, klik "+ Tambah ke Keranjang", lalu buka Keranjang Belanja di sisi kanan atas dan klik tombol "Lanjut ke WhatsApp" untuk konfirmasi langsung ke pengelola (0899-9192-861).\n\n`
+- Kontak WhatsApp Resmi: 0899-9192-861 (Tautan: https://wa.me/628999192861)
+- Jam Operasional Toko: Buka Senin – Sabtu pukul 07.30 – 16.00 WIB. (Hari Minggu Libur / Tutup).
+- Wilayah Layanan & Pengiriman: Melayani wilayah Ajibarang, Cilongok, Pekuncen, hingga pengiriman luar daerah langsung diantar ke lokasi kandang peternak menggunakan ARMADA TOKO SENDIRI (mobil pickup & truk toko).
+- Sistem Penjualan: Melayani pembelian partai besar grosir sak (karungan 30–50 kg) dengan harga agen bersaing, maupun eceran kiloan dengan timbangan digital pas presisi.
+- Pilihan Produk Utama:
+  * Pakan New Hope: HP100 (puyuh petelur Rp 405.000/sak), HL83 (layer petelur Rp 390.000/sak), HB200 (broiler Rp 380.000/sak).
+  * Pakan Puyuh Sinindo: KSK-36S (starter Rp 305.000/sak), T78 (grower Rp 295.000/sak).
+  * Pakan Lele & Ikan: HI-PRO-VITE 781-2 (Rp 360.000/sak 30kg), Takari, dll.
+  * Pakan Burung & Pet: Fancy 9 Star, Gold Coin, Chirpy, Phoenix, Pakan Kucing Bolt, Chester, dll.
+  * Bibit Ternak Unggul: DOQ Malempeng (puyuh petelur produktif), DOC ayam (broiler & joper), DOD bebek (pedaging & petelur).
+  * Obat-obatan & Vitamin: Medion resmi lengkap (Vita Stress, Vita Chicks, Neobro, Egg Stimulant, Tetra-Chlor, Therapy, C-Tetra, Tinolin, Gumbonal).
+  * Vaksin Resmi Terlisensi: Medivac ND Clone 45, Medivac Gumboro, Medivac La Sota (suhu dingin terjaga standar cold chain).
+  * Peralatan Kandang: Tempat pakan gantung, nipple drinker puyuh/ayam, tempat minum otomatis, sprayer disinfektan.
+- Karakter Si Banong: Ramah, bersahabat, solutif, santun khas Banyumas, berwawasan luas seputar manajemen pemeliharaan unggas, ransum pakan New Hope, pencegahan penyakit, dan jadwal vaksinasi.
+- Alur Pemesanan: Pelanggan dapat memilih produk di Katalog Website, klik "+ Tambah ke Keranjang", lalu checkout via WhatsApp ke 0899-9192-861 untuk konfirmasi jadwal kirim armada toko.\n\n`
 
-  context += `DATA STOK & HARGA PRODUK TERKINI (SUMBER UTAMA REALTIME DARI DATABASE):\n`
+  context += `DATA STOK & HARGA PRODUK TERKINI (DATABASE REALTIME):\n`
   if (Array.isArray(products) && products.length > 0) {
     products.forEach((p, idx) => {
       const name = p.name || p.title || 'Produk'
-      const cat = p.category || 'Komoditas'
+      const cat = p.category || 'Sarana Ternak'
       const price = Number(p.price || 0).toLocaleString('id-ID')
-      const unit = p.unit || 'pcs'
+      const unit = p.unit || 'sak'
       const stock = Number(p.stock !== undefined ? p.stock : 0)
-      const status = stock > 0 ? `TERSEDIA (${stock} ${unit})` : `HABIS (0 ${unit} - Sedang Restok/Pembesaran)`
+      const status = stock > 0 ? `TERSEDIA (${stock} ${unit})` : `HABIS (0 ${unit} - Sedang Restok Pabrik/Breeder)`
       context += `${idx + 1}. ${name} [Kategori: ${cat}] - Rp ${price} / ${unit} - Status: ${status}\n`
     })
   } else {
-    context += `- Produk katalog sedang disinkronkan secara langsung dari sistem inventaris.\n`
+    context += `- Produk katalog sedang disinkronkan secara langsung dari sistem inventaris toko.\n`
   }
 
   context += `\nPANDUAN & ATURAN MENJAWAB BAGI SI BANONG:
-1. Jawablah selalu dalam bahasa Indonesia yang ramah, santun, solutif, dan jelas (maksimal 2–3 paragraf ringkas).
-2. Jika pelanggan bertanya harga, ketersediaan, atau sisa stok produk tertentu, sebutkan angka dan nominal persis sesuai data realtime di atas.
-3. Jika produk yang ditanyakan berstatus HABIS (0), jelaskan dengan sopan bahwa stok sedang habis/dalam proses panen/pembesaran berikutnya, lalu tawarkan produk alternatif yang tersedia atau sarankan untuk chat WhatsApp pengelola (0899-9192-861).
-4. Jika pelanggan bertanya lokasi atau jam buka, sebutkan Ajibarang, Banyumas, buka 07.00 - 17.00 WIB, dan berikan nomor WhatsApp 0899-9192-861.
-5. Gunakan sapaan hangat seperti "Halo Kak!", "Halo Sobat Banong!", dan sertakan emoji yang relevan secukupnya (🌾, 🥚, 🐟, 🚚, 😊).
-6. Jangan mengarang data stok/harga di luar daftar resmi di atas.`
+1. Jawablah selalu dalam bahasa Indonesia yang ramah, sopan, membantu, dan jelas (maksimal 2–3 paragraf ringkas).
+2. Jika pelanggan bertanya harga, pakan, bibit DOQ/DOC, atau obat Medion, sebutkan informasi sesuai profil dan data di atas.
+3. Sebutkan keunggulan bahwa pengiriman dapat diantar langsung ke kandang memakai ARMADA TOKO SENDIRI (area Ajibarang, Cilongok, Pekuncen, dan sekitarnya).
+4. Jika pelanggan bertanya lokasi dan jam buka: Jelaskan Depan Pasar Hewan (Sebelah Barat Pangkalan Ojek) Ajibarang, buka Senin-Sabtu 07.30 - 16.00 WIB (Minggu Libur).
+5. Gunakan sapaan hangat seperti "Halo Peternak Hebat!", "Halo Kak!", "Halo Sobat Banong!", dan sertakan emoji yang relevan (🌾, 🐣, 💊, 🚚, 😊).
+6. Jangan mengarang data stok/harga di luar daftar resmi toko.`
 
   return context
 }
@@ -231,26 +244,35 @@ function getHeuristicMascotReply(query, liveProducts = []) {
     }
   }
 
-  if (q.includes('telur') || q.includes('bebek') || q.includes('ayam')) {
-    return 'Halo! Telur ayam dan bebek di CV Banong Farms dipanen setiap pagi dari kandang bebas sangkar (cage-free) di Ajibarang. Telur kami bebas antibiotika, kaya Omega-3, dan kuning telurnya berwarna oranye alami pekat karena pakan jagung organik fermentasi!'
+  if (q.includes('pakan') || q.includes('new hope') || q.includes('hp100') || q.includes('hl83') || q.includes('hb200') || q.includes('sinindo') || q.includes('sak') || q.includes('karung') || q.includes('ecer')) {
+    return 'CV Banong Farms adalah Agen Resmi / Drop Shipper pakan ternak PT. New Hope Indonesia (Cirebon). Kami menyediakan pakan puyuh petelur unggulan New Hope HP100 (Rp 405.000/sak), pakan layer HL83 (Rp 390.000/sak), broiler HB200 (Rp 380.000/sak), pakan Sinindo KSK-36S & T78, serta pakan lele HI-PRO-VITE 781-2. Melayani pembelian grosir sak (30-50 kg) maupun eceran kiloan dengan timbangan pas!'
   }
-  if (q.includes('ikan') || q.includes('lele') || q.includes('nila') || q.includes('gurame')) {
-    return 'Ikan kami (lele, nila, gurame) dipelihara di kolam air deras mengalir pegunungan Ajibarang. Kualitas air selalu terjaga sehingga dagingnya kenyal, gurih, dan sama sekali tidak berbau tanah/lumpur. Bisa dipesan hidup maupun fillet beku higienis!'
+  if (q.includes('bibit') || q.includes('doq') || q.includes('doc') || q.includes('dod') || q.includes('puyuh') || q.includes('bebek') || q.includes('anak ayam')) {
+    return 'Kami menyediakan bibit ternak unggul kualitas terseleksi: DOQ (Day Old Quail) bibit puyuh petelur Malempeng dengan daya tahan tinggi, DOC ayam broiler/joper/layer, dan DOD bebek petelur & pedaging. Bibit sehat, lincah, dan siap dibesarkan dengan ransum pakan New Hope terbaik!'
   }
-  if (q.includes('pesan') || q.includes('beli') || q.includes('order') || q.includes('wa') || q.includes('whatsapp')) {
-    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol "+ Tambah ke Keranjang" pada produk di atas, lalu lanjutkan checkout via WhatsApp ke nomor pengelola 0899-9192-861!'
+  if (q.includes('obat') || q.includes('vaksin') || q.includes('vitamin') || q.includes('medion') || q.includes('vita stress') || q.includes('sakit') || q.includes('neobro')) {
+    return 'Toko kami menyediakan produk farmasi dan vitamin ternak Medion lengkap: Vita Stress, Vita Chicks, Neobro, Egg Stimulant, Tetra-Chlor, Therapy, C-Tetra, Tinolin, hingga disinfektan kandang. Kami juga memiliki izin resmi SEDIA VAKSIN (Medivac ND Clone, Gumboro, La Sota) dengan suhu penyimpanan dingin terstandar.'
   }
-  if (q.includes('lokasi') || q.includes('alamat') || q.includes('dimana') || q.includes('ajibarang')) {
-    return 'Peternakan utama CV Banong Farms berpusat di Ajibarang, Kabupaten Banyumas, Jawa Tengah (Buka 07.00 - 17.00 WIB). Kami melayani pengiriman rantai dingin (cold chain) untuk wilayah Barlingmascakeb hingga mitra kuliner di Jabodetabek & Bandung!'
+  if (q.includes('antar') || q.includes('kirim') || q.includes('ongkir') || q.includes('armada') || q.includes('delivery') || q.includes('kandang')) {
+    return 'Tenang, CV Banong Farms memiliki ARMADA TOKO SENDIRI! Kami siap mengantar pesanan pakan sak-sakan dan kebutuhan peternakan Anda langsung sampai ke depan pintu kandang. Melayani rute Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan jadwal pengiriman teratur.'
   }
-  if (q.includes('pupuk') || q.includes('organik') || q.includes('kasgot')) {
-    return 'Kami juga memproduksi Pupuk Kasgot (bekas maggot) dan Kompos Bio-Organik hasil pengolahan ramah lingkungan tanpa limbah. Sangat subur untuk tanaman buah, sayur pekarangan, maupun perkebunan!'
+  if (q.includes('jam') || q.includes('buka') || q.includes('tutup') || q.includes('operasional') || q.includes('hari')) {
+    return 'Jam operasional toko CV Banong Farms: Buka hari Senin – Sabtu pukul 07.30 – 16.00 WIB. Hari Minggu Libur/Tutup. Untuk konsultasi atau pemesanan pakan silakan chat WhatsApp resmi kami di 0899-9192-861!'
   }
-  if (q.includes('halo') || q.includes('hai') || q.includes('siang') || q.includes('pagi') || q.includes('sore') || q.includes('malam')) {
-    return 'Halo! Senang sekali bisa menyapa Anda. Saya Si Banong, maskot peternakan CV Banong Farms Ajibarang (WhatsApp: 0899-9192-861, Buka 07.00 - 17.00 WIB). Ada yang bisa saya bantu terkait produk segar organik harian kami?'
+  if (q.includes('lokasi') || q.includes('alamat') || q.includes('dimana') || q.includes('tempat') || q.includes('pasar hewan')) {
+    return 'Toko fisik CV Banong Farms beralamat di: Depan Pasar Hewan, Sebelah Barat Pangkalan Ojek, Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163). Patokannya sangat mudah diakses kendaraan niaga maupun peternak!'
+  }
+  if (q.includes('sejarah') || q.includes('profil') || q.includes('tentang') || q.includes('2015') || q.includes('2022')) {
+    return 'CV Banong Farms berawal dari peternakan puyuh mandiri sejak tahun 2015. Dengan pengalaman nyata memelihara ribuan puyuh, pada tahun 2022 kami resmi mendirikan toko sarana peternakan modern dan menjadi agen drop shipper PT. New Hope Indonesia (Cirebon) guna memasok pakan berkualitas bagi peternak lokal.'
+  }
+  if (q.includes('pesan') || q.includes('beli') || q.includes('order') || q.includes('wa') || q.includes('whatsapp') || q.includes('kontak')) {
+    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol "+ Tambah ke Keranjang" pada produk di website ini, lalu klik checkout WhatsApp ke nomor resmi kami di 0899-9192-861. Tim kami siap mengatur armada pengiriman ke kandang Anda!'
+  }
+  if (q.includes('halo') || q.includes('hai') || q.includes('siang') || q.includes('pagi') || q.includes('sore') || q.includes('malam') || q.includes('assalam')) {
+    return 'Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (WhatsApp: 0899-9192-861, Buka Senin-Sabtu 07.30 - 16.00 WIB). Ada yang bisa saya bantu seputar pakan New Hope, bibit DOQ/DOC, obat Medion, atau pengantaran armada ke kandang?'
   }
 
-  return `Terima kasih telah bertanya! Produk peternakan dan agribisnis CV Banong Farms di Ajibarang dikelola secara etis dan higienis. Untuk pertanyaan spesifik atau pemesanan skala partai besar B2B, Anda bisa langsung chat kami via WhatsApp di nomor resmi 0899-9192-861!`
+  return `Terima kasih telah bertanya! CV Banong Farms adalah toko sarana peternakan terlengkap & agen resmi pakan PT. New Hope Indonesia di Ajibarang. Untuk pemesanan grosir sak, konsultasi penyakit unggas, atau jadwal armada antar kandang, langsung hubungi WhatsApp kami di 0899-9192-861 ya!`
 }
 
 /**

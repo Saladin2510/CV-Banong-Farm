@@ -67,7 +67,7 @@
           href="#katalog-produk" 
           class="inline-flex items-center justify-center gap-2 px-5 sm:px-space-32 py-3 sm:py-4 rounded-full bg-secondary-container text-primary font-label-lg text-xs sm:text-label-lg font-bold shadow-2xl hover:bg-accent-hover transition-all transform hover:-translate-y-1 active:translate-y-0"
         >
-          <span>Pilih Produk Panen</span>
+          <span>Jelajahi Produk Pakan &amp; Ternak</span>
           <span class="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
         </a>
 
@@ -76,7 +76,7 @@
           class="inline-flex items-center justify-center gap-1.5 px-4 sm:px-space-24 py-3 sm:py-4 rounded-full bg-surface-pure/15 hover:bg-surface-pure/25 text-surface-pure font-label-md text-xs md:text-label-md backdrop-blur-md transition-all transform hover:-translate-y-0.5 border border-white/20 shadow-md"
         >
           <span class="material-symbols-outlined text-[16px] md:text-[18px]">verified</span>
-          <span>Jaminan Mutu &amp; Halal</span>
+          <span>Pengalaman Sejak 2015</span>
         </a>
       </div>
 
@@ -104,18 +104,18 @@
       <!-- Metric Counter Strip (Responsive 3-Column Grid on Mobile, Flex on Desktop) -->
       <div class="hero-reveal-item mt-4 sm:mt-5 pt-3.5 sm:pt-5 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-8 border-t border-surface-pure/20 w-full max-w-3xl">
         <div>
-          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-secondary-container">100%</div>
-          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Pakan Alami Bebas Kimia</div>
+          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-secondary-container">Mitra Resmi</div>
+          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">PT. New Hope Cirebon</div>
         </div>
         <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
         <div>
-          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">&lt; 12 Jam</div>
-          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Panen Langsung Kirim</div>
+          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">Grosir &amp; Ecer</div>
+          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Sak Karungan &amp; Kiloan Pas</div>
         </div>
         <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
         <div>
-          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">Ajibarang</div>
-          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Banyumas, Jawa Tengah</div>
+          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">Armada Sendiri</div>
+          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Kirim Ajibarang &amp; Sekitarnya</div>
         </div>
       </div>
     </div>
@@ -167,24 +167,24 @@ let ctx = null
 const slides = [
   {
     image: '/assets/hero-bg.png',
-    badge: 'PANEN HARI INI · AJIBARANG',
-    titleHighlight: 'Telur & Unggas Segar,',
-    titleRest: 'Dipanen Setiap Subuh.',
-    description: 'Bebas suntikan hormon dan antibiotik kimia. Kami rawat unggas dengan pakan alami di perbukitan Ajibarang untuk sajian kaya nutrisi dan rasa gurih asli di meja makan keluarga Anda.'
+    badge: 'MITRA RESMI PT. NEW HOPE INDONESIA · CIREBON',
+    titleHighlight: 'Pakan Nutrisi Unggul,',
+    titleRest: 'Ternak Tumbuh Sehat & Maksimal.',
+    description: 'Pusat pakan pabrikan berstandar internasional dari PT. New Hope Indonesia. Menyediakan pakan komplit broiler, layer, bebek, puyuh, hingga pakan ikan dengan FCR hemat dan nutrisi teruji.'
   },
   {
     image: '/assets/hero-bg2.jpg',
-    badge: 'KOLAM AIR DERAS · 100% HALAL',
-    titleHighlight: 'Ikan Nila & Lele Pilihan,',
-    titleRest: 'Gurih Tanpa Bau Lumpur.',
-    description: 'Dibesarkan di aliran mata air pegunungan Ajibarang yang jernih. Daging ikan kenyal, padat, dan higienis berstandar halal—pilihan utama dapur keluarga hingga resto ternama.'
+    badge: 'BIBIT UNGGUL, OBAT & ALAT KANDANG',
+    titleHighlight: 'Sedia DOQ, DOC, DOD,',
+    titleRest: 'Hingga Vaksin & Vitamin Medion Lengkap.',
+    description: 'Bibit unggas sehat berdaya tahan tinggi, vitamin Medion, antibiotik resmi, serta perlengkapan kandang lengkap. Solusi satu pintu sarana produksi peternakan modern di Ajibarang.'
   },
   {
     image: '/assets/hero-bg3.jpg',
-    badge: 'LANGSUNG DARI PETERNAK LOKAL',
-    titleHighlight: 'Pangan Sehat Alami,',
-    titleRest: 'Tiba Selagi Segar di Rumah Anda.',
-    description: 'Panen pagi langsung kami kirim dalam hitungan jam dengan armada berpendingin khusus ke seluruh wilayah Banyumas dan sekitarnya. Segar, praktis, dan terpercaya.'
+    badge: 'ARMADA TOKO SENDIRI · GROSIR & ECER',
+    titleHighlight: 'Dari Pengalaman Nyata di Kandang,',
+    titleRest: 'Siap Kirim Langsung ke Kandang Anda.',
+    description: 'Berangkat dari peternak puyuh sejak 2015, kami memahami kebutuhan Anda. Melayani pembelian sak maupun eceran kiloan dengan pengiriman sigap ke Ajibarang, Cilongok, Pekuncen, hingga luar daerah.'
   }
 ]
 
