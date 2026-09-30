@@ -27,7 +27,7 @@
     >
       <div 
         v-show="isVisible && !cartStore.isCartOpen.value" 
-        class="fixed bottom-6 right-6 z-40 flex flex-col items-end pointer-events-auto select-none"
+        class="fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end pointer-events-auto select-none"
       >
         <!-- AI Chat Window Popup -->
         <transition
@@ -41,17 +41,17 @@
           <div 
             v-if="isChatOpen"
             data-lenis-prevent
-            class="mb-4 w-80 sm:w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[480px] z-40 transition-colors"
+            class="mb-3 w-[calc(100vw-28px)] max-w-[360px] sm:w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[460px] max-h-[78vh] sm:h-[480px] z-40 transition-colors"
           >
             <!-- Header -->
-            <div class="bg-primary dark:bg-slate-950 text-on-primary p-4 flex items-center justify-between border-b dark:border-slate-800">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-surface-pure dark:bg-slate-800 p-0.5 overflow-hidden flex-shrink-0 shadow-sm border border-white/20">
+            <div class="bg-primary dark:bg-slate-950 text-on-primary p-3.5 sm:p-4 flex items-center justify-between border-b dark:border-slate-800">
+              <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-pure dark:bg-slate-800 p-0.5 overflow-hidden flex-shrink-0 shadow-sm border border-white/20">
                   <img src="/assets/mascot.png" alt="Mascot" class="w-full h-full object-cover rounded-full" />
                 </div>
                 <div>
-                  <div class="font-bold text-sm text-secondary-container">Asisten AI Si Banong</div>
-                  <div class="text-xs text-primary-fixed dark:text-slate-400 flex items-center gap-1.5">
+                  <div class="font-bold text-xs sm:text-sm text-secondary-container">Asisten AI Si Banong</div>
+                  <div class="text-[11px] sm:text-xs text-primary-fixed dark:text-slate-400 flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-secondary-container inline-block shadow-xs"></span> Aktif · Ajibarang
                   </div>
                 </div>
@@ -66,25 +66,24 @@
             </div>
 
             <!-- Chat Messages Container -->
-            <div class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-sm" ref="messagesContainer">
+            <div class="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-sm" ref="messagesContainer">
               <div 
                 v-for="(msg, idx) in messages" 
                 :key="idx" 
                 :class="[
-                  'flex flex-col max-w-[85%]',
+                  'flex flex-col max-w-[88%] sm:max-w-[85%]',
                   msg.sender === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'
                 ]"
               >
                 <div 
                   :class="[
-                    'p-3 rounded-2xl text-xs leading-relaxed shadow-xs backdrop-blur-md',
+                    'p-2.5 sm:p-3 rounded-2xl text-xs leading-relaxed shadow-xs backdrop-blur-md break-words',
                     msg.sender === 'user' 
                       ? 'bg-primary dark:bg-primary-container text-white rounded-br-none' 
                       : 'bg-white/95 dark:bg-slate-800/90 text-on-surface dark:text-slate-100 border border-slate-200/80 dark:border-slate-700/80 rounded-bl-none shadow-xs'
                   ]"
-                >
-                  {{ msg.text }}
-                </div>
+                  v-html="formatMessageText(msg.text)"
+                ></div>
                 <div class="flex items-center gap-1.5 mt-1 px-1">
                   <span class="text-[10px] text-on-surface-variant dark:text-slate-400">
                     {{ msg.time }}
@@ -111,7 +110,7 @@
                   v-for="(topic, idx) in quickTopics" 
                   :key="idx"
                   @click="sendQuickTopic(topic)"
-                  class="text-[11px] py-1 px-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 border border-secondary-container/60 text-primary dark:text-secondary-fixed hover:bg-secondary-container/20 transition-colors font-medium text-left shadow-xs backdrop-blur-md"
+                  class="text-[10px] sm:text-[11px] py-1 px-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 border border-secondary-container/60 text-primary dark:text-secondary-fixed hover:bg-secondary-container/20 transition-colors font-medium text-left shadow-xs backdrop-blur-md cursor-pointer"
                 >
                   {{ topic.title }}
                 </button>
@@ -119,7 +118,7 @@
             </div>
 
             <!-- Chat Input Footer -->
-            <div class="p-3 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200/80 dark:border-slate-800 backdrop-blur-md flex items-center gap-2">
+            <div class="p-2.5 sm:p-3 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200/80 dark:border-slate-800 backdrop-blur-md flex items-center gap-2">
               <input 
                 v-model="inputQuery"
                 @keyup.enter="sendMessage"
@@ -129,7 +128,7 @@
               />
               <button 
                 @click="sendMessage"
-                class="p-2 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary transition-all active:scale-95 shadow-sm"
+                class="p-2 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary transition-all active:scale-95 shadow-sm cursor-pointer"
                 aria-label="Kirim Pesan"
               >
                 <span class="material-symbols-outlined text-[18px]">send</span>
@@ -138,10 +137,10 @@
           </div>
         </transition>
 
-        <!-- Speech Bubble Tooltip -->
+        <!-- Speech Bubble Tooltip (Compact on mobile) -->
         <div 
           v-if="!isChatOpen && isBubbleVisible"
-          class="relative mb-2 mr-1 px-3.5 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl text-primary dark:text-white text-xs font-semibold rounded-xl shadow-2xl flex items-center gap-2 animate-bounce border border-white/40 dark:border-slate-700/80 transition-colors"
+          class="relative mb-2 mr-1 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl text-primary dark:text-white text-[11px] sm:text-xs font-semibold rounded-xl shadow-2xl flex items-center gap-1.5 sm:gap-2 animate-bounce border border-white/40 dark:border-slate-700/80 transition-colors"
         >
           <span @click="toggleChat" class="cursor-pointer">Halo! Butuh bantuan pesanan?</span>
           <button 
@@ -149,18 +148,18 @@
             class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded transition-colors cursor-pointer"
             title="Tutup pesan"
           >
-            <span class="material-symbols-outlined text-[14px]">close</span>
+            <span class="material-symbols-outlined text-[13px] sm:text-[14px]">close</span>
           </button>
           <!-- Tooltip Tail -->
-          <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl transform rotate-45 border-r border-b border-white/40 dark:border-slate-700/80"></div>
+          <div class="absolute -bottom-1.5 right-5 sm:right-6 w-3 h-3 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl transform rotate-45 border-r border-b border-white/40 dark:border-slate-700/80"></div>
         </div>
 
-        <!-- Floating Mascot Circle Button -->
+        <!-- Floating Mascot Circle Button (Compact on Mobile, Prominent on Desktop) -->
         <div 
           @click="toggleChat"
           class="relative group cursor-pointer"
         >
-          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl p-1 shadow-2xl transition-transform duration-300 transform group-hover:scale-110 flex items-center justify-center overflow-hidden border-2 border-secondary-container animate-float">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl p-1 shadow-2xl transition-transform duration-300 transform group-hover:scale-105 flex items-center justify-center overflow-hidden border-2 border-secondary-container animate-float">
             <img 
               alt="AI Farm Assistant Mascot CV Banong Farms" 
               class="w-full h-full object-cover rounded-full" 
@@ -171,7 +170,7 @@
           <!-- Red Notification Badge Dot "1" -->
           <div 
             v-if="unreadCount > 0" 
-            class="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-alert-badge text-surface-pure flex items-center justify-center font-label-sm text-xs sm:text-label-sm font-bold shadow-md ring-2 ring-white dark:ring-slate-900"
+            class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-alert-badge text-surface-pure flex items-center justify-center text-[10px] sm:text-xs font-bold shadow-md ring-2 ring-white dark:ring-slate-900"
           >
             {{ unreadCount }}
           </div>
@@ -186,8 +185,10 @@
 import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { chatWithMascot } from '../services/aiService'
 import { useCartStore } from '../stores/useCartStore'
+import { useAdminStore } from '../stores/useAdminStore'
 
 const cartStore = useCartStore()
+const adminStore = useAdminStore()
 const isVisible = ref(false)
 const isChatOpen = ref(false)
 const isBubbleVisible = ref(true)
@@ -240,17 +241,71 @@ const getTime = () => {
 const messages = ref([
   {
     sender: 'bot',
-    text: 'Halo! Saya Si Banong, asisten virtual resmi CV Banong Farms Ajibarang. Ada yang bisa saya bantu terkait produk peternakan hari ini?',
+    text: 'Halo Kak! Saya Si Banong, asisten AI resmi CV Banong Farms di Ajibarang. Ada yang bisa saya bantu seputar produk segar, info sisa stok realtime, atau lokasi peternakan hari ini? 🌾',
     time: getTime()
   }
 ])
 
 const quickTopics = [
-  { title: '🥚 Stok Telur Ayam Kampung', answer: 'Stok Telur Ayam Kampung Segar dipanen setiap pagi. Siap kirim langsung melalui kontak layanan WhatsApp kami!' },
-  { title: '🚚 Area Pengiriman Ajibarang', answer: 'Kami melayani pengiriman harian untuk wilayah Ajibarang, Banyumas, Purwokerto, dan sekitarnya menggunakan armada berpendingin.' },
-  { title: '🌿 Jaminan Mutu & Halal', answer: 'Seluruh peternakan kami menerapkan pakan bernutrisi alami tanpa hormon sintetis, berstandar higienis, dan bersertifikasi Halal.' },
-  { title: '📲 Cara Pemesanan Produk', answer: 'Pilih produk di katalog, masukkan ke keranjang belanja, lalu klik lanjutkan ke WhatsApp untuk konfirmasi pesanan dengan pengelola!' }
+  { title: '🥚 Cek Stok & Harga Telur' },
+  { title: '🐟 Cek Ikan Air Deras Segar' },
+  { title: '📍 Info Lokasi & Jam Buka' },
+  { title: '📲 Cara Order via WhatsApp' }
 ]
+
+// Parser teks percakapan: Mengubah URL mentah, link WhatsApp, dan Google Maps menjadi tombol/link interaktif yang bisa diklik langsung
+const formatMessageText = (text) => {
+  if (!text) return ''
+
+  // 1. Escape HTML untuk mencegah injeksi XSS
+  let formatted = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+
+  // 2. Parse Markdown Links [Label](url)
+  formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (match, label, url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 break-all cursor-pointer transition-colors">${label} <span class="material-symbols-outlined text-[13px]">open_in_new</span></a>`
+  })
+
+  // 3. Parse Raw URLs (http:// atau https://)
+  formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, (match) => {
+    const cleanUrl = match.replace(/[.,;!?:)]+$/, '')
+    const trail = match.slice(cleanUrl.length)
+
+    let displayLabel = cleanUrl
+    let icon = 'open_in_new'
+    let linkClass = 'inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 break-all cursor-pointer transition-colors'
+
+    if (cleanUrl.includes('maps.app.goo.gl') || cleanUrl.includes('google.com/maps')) {
+      displayLabel = 'Buka Google Maps 📍'
+      icon = 'near_me'
+      linkClass = 'inline-flex items-center gap-1.5 px-3 py-1 my-1 rounded-xl bg-emerald-100/90 hover:bg-emerald-200/90 dark:bg-emerald-950/80 dark:hover:bg-emerald-900/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/80 font-bold text-[11px] shadow-xs active:scale-95 transition-all cursor-pointer no-underline'
+    } else if (cleanUrl.includes('wa.me')) {
+      displayLabel = 'Chat WhatsApp Pengelola 📲'
+      icon = 'chat'
+      linkClass = 'inline-flex items-center gap-1.5 px-3 py-1 my-1 rounded-xl bg-green-100/90 hover:bg-green-200/90 dark:bg-green-950/80 dark:hover:bg-green-900/80 text-green-800 dark:text-green-300 border border-green-300 dark:border-green-700/80 font-bold text-[11px] shadow-xs active:scale-95 transition-all cursor-pointer no-underline'
+    }
+
+    return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="${linkClass}"><span>${displayLabel}</span><span class="material-symbols-outlined text-[13px]">${icon}</span></a>${trail}`
+  })
+
+  // 4. Deteksi nomor WhatsApp resmi jika belum terbungkus link (misal: 0899-9192-861 atau 08999192861)
+  formatted = formatted.replace(/(?<!href="[^"]*|">)(0899[- ]?9192[- ]?861)/g, (match) => {
+    return `<a href="https://wa.me/628999192861" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 cursor-pointer transition-colors" title="Klik untuk chat WhatsApp">${match} <span class="material-symbols-outlined text-[13px]">chat</span></a>`
+  })
+
+  // 5. Parse Markdown Bold: **text**
+  formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold opacity-95">$1</strong>')
+
+  // 6. Parse Markdown Italic: *text* (excluding already formatted)
+  formatted = formatted.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em class="italic">$1</em>')
+
+  // 7. Parse Line Breaks (\n to <br/>)
+  formatted = formatted.replace(/\n/g, '<br/>')
+
+  return formatted
+}
 
 const toggleChat = () => {
   isChatOpen.value = !isChatOpen.value
@@ -269,22 +324,8 @@ const scrollToBottom = () => {
 }
 
 const sendQuickTopic = (topic) => {
-  messages.value.push({
-    sender: 'user',
-    text: topic.title,
-    time: getTime()
-  })
-  
-  setTimeout(() => {
-    messages.value.push({
-      sender: 'bot',
-      text: topic.answer,
-      time: getTime()
-    })
-    scrollToBottom()
-  }, 400)
-  
-  scrollToBottom()
+  inputQuery.value = topic.title
+  sendMessage()
 }
 
 const isTyping = ref(false)
@@ -304,7 +345,10 @@ const sendMessage = async () => {
 
   isTyping.value = true
   try {
-    const aiResponse = await chatWithMascot(text, messages.value)
+    // Suntikkan data produk realtime dari adminStore ke engine AI Gemini
+    const liveProducts = adminStore.products.value || []
+    const aiResponse = await chatWithMascot(text, messages.value, liveProducts)
+    
     messages.value.push({
       sender: 'bot',
       text: aiResponse.text,
@@ -314,7 +358,7 @@ const sendMessage = async () => {
   } catch (e) {
     messages.value.push({
       sender: 'bot',
-      text: 'Terima kasih atas pertanyaannya! Untuk informasi harga grosir dan pemesanan cepat, Anda bisa langsung menghubungi hotline WA kami di +62 812-3456-7890.',
+      text: 'Halo Kak! Untuk informasi harga, ketersediaan stok panen terbaru, atau pemesanan cepat, Kakak bisa langsung chat hotline WhatsApp pengelola CV Banong Farms di 0899-9192-861 (Ajibarang, Banyumas). Kami siap melayani setiap hari pukul 07.00 - 17.00 WIB!',
       time: getTime()
     })
   } finally {

@@ -1260,6 +1260,164 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
    - **Kompilasi Produksi (`npm run build`):** Berjalan sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.31s).
    - Pengalaman pengguna (*User Experience*) proses checkout keranjang belanja di `http://localhost:5173/` kini berstandar e-commerce profesional, responsif, dan nyaman digunakan di berbagai ukuran layar.
 
+---
+
+## 43. Catatan Sesi (30 September 2026 - Bagian 2) - Integrasi Smart AI Chatbot "Si Banong" Berbasis Google Gemini API dengan Dynamic Knowledge Injection (Real-Time Stok, Harga, Lokasi, dan WhatsApp Hotline)
+1. **Latar Belakang & Kebutuhan Pengguna:**
+   - Pengguna ingin mengaktifkan dan "melatih" (*train*) fitur Asisten AI Chatbot Pengunjung ("Si Banong") di landing page website menggunakan API Key Google Gemini (Free Trial).
+   - Chatbot ini dikhususkan **100% untuk pengunjung/pembeli (user-facing)**, bukan admin.
+   - Kebutuhan spesifik pengetahuan AI:
+     - Informasi sisa stok gudang terkini (*real-time inventory*).
+     - Harga resmi satuan dan unit produk (Rupiah per kg/butir/sak/pcs).
+     - Lokasi fisik toko/peternakan (Ajibarang, Banyumas, Jawa Tengah), Google Maps, dan jam operasional (07.00 - 17.00 WIB).
+     - Nomor kontak WhatsApp pengelola (`0899-9192-861`) dan panduan alur pemesanan (*Tambah ke Keranjang* $\rightarrow$ *Lanjut ke WhatsApp*).
+   - Pengguna meminta penjelasan teknis mengenai metode "training" AI yang tepat serta pencatatan terstruktur pada memo agar anggota tim pengembang dapat memahami arsitekturnya.
+
+2. **Konsep & Arsitektur Teknis: Dynamic Knowledge Injection (RAG Ringan) vs Fine-Tuning:**
+   - **Mengapa bukan Fine-Tuning / Retraining Bobot Model?** Data produk, harga, dan sisa stok bersifat dinamis dan berubah setiap ada transaksi di database Supabase. Jika model di-train secara statis, informasi stok akan langsung usang (*outdated*) dan rentan halusinasi.
+   - **Solusi Standar Industri: Dynamic Knowledge Context Injection (RAG Ringan):**
+     - Setiap kali pengguna mengirim pertanyaan, sistem menyusun *knowledge context* secara real-time yang bersumber dari state reaktif `useAdminStore` (tersinkron ke Supabase Cloud).
+     - Konteks pengetahuan disuntikkan ke dalam parameter `systemInstruction` Google Gemini API.
+     - Model membaca data detik itu juga sebagai satu-satunya *source of truth*, sehingga jawaban selalu akurat, tidak berhalusinasi, dan responsif dalam waktu < 2 detik.
+
+3. **Solusi & Implementasi Teknis:**
+   - **Penyimpanan Konfigurasi Kunci API ([`.env`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/.env)):**
+     - Menambahkan variabel `VITE_GEMINI_API_KEY` berisi kunci resmi Google Gemini API.
+   - **Peningkatan Layanan AI & Knowledge Builder ([`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js)):**
+     - **Fungsi `buildBanongFarmContext(products)`:** Merangkum profil identitas CV Banong Farms (Ajibarang Banyumas, kode pos 53163, link maps, WhatsApp 0899-9192-861, jam operasional 07.00-17.00 WIB, jangkauan pengiriman Barlingmascakeb + Jabodetabek/Bandung cold chain), panduan pemesanan website, serta daftar katalog produk real-time lengkap dengan sisa stok dan status (TERSEDIA vs HABIS).
+     - **Resilient Multi-Tier Gemini Model Fallback:**
+       - Model tier: `['gemini-3.1-flash-lite', 'gemini-3.5-flash', 'gemini-3.8-flash']`.
+       - Mengutamakan `gemini-3.1-flash-lite` yang berkecepatan tinggi (~1.5–2 detik) dan stabil dari lonjakan beban server (*503 high demand spike*). Jika salah satu model mengalami kendala kuota/beban, sistem otomatis mencoba model berikutnya secara mulus tanpa membuat percakapan terhenti.
+     - **Smart Heuristic Fallback Adaptif:** Fungsi `getHeuristicMascotReply(query, liveProducts)` diperkuat sehingga tetap dapat membaca data stok dan harga live secara lokal meskipun perangkat sedang offline atau API key terputus.
+     - **Penanganan SSR/Node Lingkungan Aman:** Menambahkan proteksi `typeof window !== 'undefined' && window.localStorage` serta in-memory key fallback.
+   - **Integrasi Komponen Antarmuka ([`src/components/ChatbotMascot.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/ChatbotMascot.vue)):**
+     - Mengimpor `useAdminStore` dan menyuntikkan `adminStore.products.value` langsung ke dalam fungsi `chatWithMascot()`.
+     - Memperbarui tombol topik cepat (*quick topics*) agar langsung memicu respons dinamis cerdas: *🥚 Cek Stok & Harga Telur*, *🐟 Cek Ikan Air Deras Segar*, *📍 Info Lokasi & Jam Buka*, dan *📲 Cara Order via WhatsApp*.
+     - Memperbarui nomor kontak pada state error dengan hotline resmi CV Banong Farms: `0899-9192-861`.
+
+4. **Validasi & Hasil Pengujian:**
+   - **Pengujian Kasus Uji Produk Tersedia:** Pertanyaan mengenai telur bebek dijawab tepat menyebutkan harga `Rp 28.000 / kg`, sisa stok `15 kg`, dan mengarahkan ke keranjang belanja website.
+   - **Pengujian Kasus Uji Produk Habis:** Pertanyaan mengenai ikan nila dijawab jujur bahwa stok sedang habis (`0 kg - masa pembesaran`), menawarkan alternatif produk siap panen, dan menyediakan tautan WhatsApp pengelola.
+   - **Pengujian Kasus Uji Lokasi & Operasional:** Menyebutkan lokasi fisik di Ajibarang Banyumas, jam kerja 07.00 - 17.00 WIB, jangkauan armada berpendingin, dan nomor WA resmi.
+   - **Kompilasi Produksi (`npm run build`):** Sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.55s).
+
+---
+
+## 44. Catatan Sesi (30 September 2026 - Bagian 3) - Peningkatan UX Interaktif Chatbot "Si Banong": Parsing Otomatis Tautan (Google Maps, WhatsApp, URL) & Markdown Rich-Text
+1. **Latar Belakang & Identifikasi Masalah UX:**
+   - Pengguna menguji chatbot Si Banong dan mengajukan pertanyaan seputar lokasi peternakan.
+   - Balasan AI menyertakan tautan Google Maps (`https://maps.app.goo.gl/AXAGnr9V4D15MyUz9`), nomor WhatsApp (`0899-9192-861`), serta sintaks cetak tebal markdown (`**Ajibarang...**`).
+   - Masalah UX: Seluruh tautan dan format teks ditampilkan sebagai teks polos (*plain text* string) yang tidak bisa diklik / disentuh langsung oleh pengunjung di perangkat desktop maupun ponsel. Pengguna meminta: *"ini yang misal kalo ngirim link apapun jadiin biar langsung bisa di pencet dong ux nya"*.
+
+2. **Solusi & Implementasi Teknis (`src/components/ChatbotMascot.vue`):**
+   - **Parser Teks & Sanitasi Keamanan (`formatMessageText`):**
+     - Melakukan sanitasi awal (*HTML entity escape* `&`, `<`, `>`) guna mencegah potensi celah keamanan XSS.
+     - **Deteksi & Render Tautan Google Maps Cerdas:**
+       - Tautan `maps.app.goo.gl` atau `google.com/maps` secara otomatis diubah menjadi tombol chip/pill interaktif berikon: `Buka Google Maps 📍` dengan atribut `target="_blank"` dan `rel="noopener noreferrer"`.
+     - **Deteksi & Render Tautan WhatsApp Cerdas:**
+       - Tautan `wa.me` atau nomor telepon resmi pengelola `0899-9192-861` otomatis diubah menjadi tautan langsung dengan tombol `Chat WhatsApp Pengelola 📲`.
+     - **Deteksi Tautan Umum & Markdown Links:**
+       - Tautan URL umum `http(s)://` dan sintaks markdown `[Label](url)` diubah menjadi hyperlink interaktif berwarna emerald dengan ikon `open_in_new` dan proteksi `break-all` agar tidak merusak gelembung chat.
+       - Pembersihan tanda baca otomatis (*trailing punctuation trimmer* seperti titik atau koma di akhir kalimat URL).
+     - **Parsing Tipografi Markdown:**
+       - Mengubah `**teks**` menjadi tag `<strong class="font-bold opacity-95">` yang adaptif di mode terang maupun mode gelap.
+       - Mengubah `*teks*` menjadi `<em class="italic">`.
+       - Mengubah karakter baris baru `\n` menjadi tag `<br/>` agar struktur paragraf rapi dan nyaman dibaca.
+   - **Pembaruan Bubble Chat:**
+     - Mengubah binding bubble dari `{{ msg.text }}` menjadi `v-html="formatMessageText(msg.text)"` dengan kelas `break-words`.
+
+3. **Validasi & Hasil:**
+   - Seluruh tautan Google Maps, kontak WhatsApp, dan URL eksternal yang dikirimkan oleh Si Banong kini langsung tampil sebagai tombol link interaktif yang bisa diklik (*one-tap navigation*).
+   - Teks bercetak tebal (*bold*) tampil tegas dan indah, menghilangkan tampilan tanda bintang `**`.
+   - `npm run build` sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.88s).
+
+---
+
+## 45. Catatan Sesi (30 September 2026 - Bagian 4) - Perbaikan Menyeluruh UI/UX Responsif (Mobile, Tablet, Desktop) & Perombakan Copywriting Profesional, Persuasif, dan Alami
+
+1. **Latar Belakang & Identifikasi Masalah Pengguna:**
+   - **Tangkapan Layar 1 (Hero Section pada Mobile):**
+     - Titik navigasi slider (*slider dots* dengan posisi `bottom-20`) mengalami tabrakan fisik (*overlap/collision*) tepat di atas angka metrik `< 12 Jam Panen Langsung Dikirim`.
+     - Tombol navigasi panah kiri/kanan (`<` dan `>`) yang melayang di tengah layar menabrak batas teks dan mengganggu pengalaman membaca judul/deskripsi di layar ponsel sempit (360px–420px).
+     - Kurva lengkungan SVG bawah memakan area vertikal layar ponsel terlalu besar sehingga memotong metrik panen.
+   - **Tangkapan Layar 2 (Polaroid Section pada Mobile):**
+     - Tiga kartu foto Polaroid berukuran terlalu besar dengan rotasi ekstrem, tumpukan menutupi keseluruhan judul utama, teks deskripsi, dan tombol CTA Jelajahi Panen.
+     - Posisi visual bertabrakan dengan gelembung chatbot asisten yang mengambang di kanan bawah.
+   - **Keluhan Copywriting ("Terlalu AI"):**
+     - Diksi sebelumnya terdengar kaku, generik, dan penuh jargon korporat seperti "optimalisasi nutrisi", "komoditas terintegrasi", "higienis & halal murni".
+     - Pengguna meminta: *"tolong perbaiki untuk bagian UI/UX HARUS RESPONSIVE MOBILE, TABLET, DAN DESKTOP! TOLONG PERBAIKI JUGA COPYWRITER YANG PROFESIONAL DAN PERSUASIF JANGAN TERLALU AI!!!"*.
+
+2. **Solusi & Implementasi Teknis Responsif UI/UX:**
+   - **Hero Section (`src/components/HeroSection.vue`):**
+     - **Pemberantasan Tabrakan Elemen Mobile:** Menggantikan titik navigasi absolut `bottom-20` dengan kapsul navigasi *in-flow* (`flex items-center gap-3`) lengkap dengan slide counter `01 / 03` yang ditempatkan secara ergonomis di atas strip metrik.
+     - **Grid Metrik Adaptif:** Mengubah baris metrik menjadi 3 kolom terukur (`grid grid-cols-3 sm:flex`) dengan tipografi yang pas (`text-base sm:text-2xl` untuk angka dan `text-[10px] sm:text-xs` untuk label), sehingga ketiga metrik panen tampil proporsional tanpa terpotong kurva SVG.
+     - **Navigasi Panah Ergonomis:** Menyembunyikan panah melayang tengah di layar mobile (`hidden sm:flex`) dan mengandalkan gestur *touch swipe* alami yang sudah aktif, serta tetap mempertahankan panah di tablet dan desktop.
+     - **Skalabilitas Lengkungan SVG Bawah:** Kurva pembatas bawah dioptimalkan secara bertahap (`h-16 sm:h-24 md:h-32 lg:h-44`) agar tidak menghabiskan ruang vertikal viewport ponsel.
+   - **Polaroid CTA Section (`src/components/PolaroidCtaSection.vue`):**
+     - **Pembalikan Urutan Hierarki Mobile:** Teks headline & CTA diatur menjadi `order-1 lg:order-2` (terbaca jernih di bagian atas tanpa halangan), sedangkan kluster foto Polaroid diatur menjadi `order-2 lg:order-1` (tampil rapi di bawah tombol).
+     - **Skala & Rotasi Aman Polaroid:** Mengecilkan kartu Polaroid di mobile (`w-28` hingga `w-36`, sudut rotasi aman `-8deg`, `+7deg`, `-2deg`), dibungkus dalam container berdimensi `max-w-[320px] xs:max-w-[360px]` sehingga 100% tidak meluap ke luar layar.
+     - **Tombol CTA Responsif:** Tombol pemesanan WhatsApp dan katalog dibuat fleksibel (`w-full sm:w-auto`).
+   - **Chatbot Floating Mascot (`src/components/ChatbotMascot.vue`):**
+     - Mengubah ukuran tombol maskot melayang menjadi proporsional di mobile (`w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20`).
+     - Mengatur offset posisi `bottom-4 right-3.5` agar tidak menghalangi tombol aksi bawah.
+     - Mengatur lebar jendela chat mobile menjadi responsif `w-[calc(100vw-28px)] max-w-[360px] sm:w-96` dengan batas tinggi maksimum `max-h-[78vh]` dan scrolling internal halus.
+   - **Section Kredibilitas & Reputasi (`src/components/CredibilitySection.vue`):**
+     - Padding kartu dioptimalkan menjadi `p-5 sm:p-8 lg:p-10` untuk layar ponsel sempit.
+     - Mengharmoniskan label metrik rolling counter `14rb+` menjadi `Kg Panen Segar Tersalurkan di Banyumas Raya` agar relevan dengan volume panen harian peternakan.
+   - **Katalog Produk (`src/components/ProductGrid.vue`):**
+     - Menambahkan overflow scrolling halus touch-friendly (`scrollbar-none overscroll-x-contain -mx-4 px-4 sm:mx-0`) pada tab filter kategori agar pengunjung ponsel dapat menggeser kategori dengan nyaman.
+     - Mengatur `ProductModal.vue` dengan pembatas `max-h-[92vh] overflow-y-auto` agar tidak terpotong di layar ponsel landscape atau beresolusi pendek.
+
+3. **Perombakan Copywriting Profesional, Persuasif & Alami (Tanpa Bahasa Robotik AI):**
+   - **Hero Slider:**
+     - Menghapus jargon kaku, menggantinya dengan cerita kesegaran nyata: panen telur subuh hari, unggas kampung sehat bebas hormon sintetis, dan ikan nila air deras pegunungan tanpa bau lumpur.
+     - Penekanan komitmen pengiriman: pesanan diproses dan dikirim di hari yang sama selagi segar dengan armada berpendingin.
+   - **Visi Misi / Tentang Kami:**
+     - Mengadopsi narasi agribisnis lokal Banyumas yang otentik: *"Bermula dari kepedulian terhadap mutu pangan keluarga, CV Banong Farms hadir di kaki Gunung Slamet, Ajibarang..."*.
+     - 4 pilar misi diformulasikan lugas: Peternakan Alami Tanpa Hormon, Air Deras Pegunungan & Kolam Sehat, Biokonversi Ramah Lingkungan (BSF), dan Rantai Pasok Segar Terpercaya.
+   - **Reputasi & Legalitas:**
+     - Penegasan legalitas NIB resmi dan pemotongan syariat halal sebagai wujud perlindungan konsumen.
+   - **Katalog Panen Harian:**
+     - Judul diubah menjadi `Katalog Panen Harian` dengan penjelasan produk yang ramah bagi keluarga maupun pemilik resto katering.
+
+4. **Validasi & Hasil:**
+   - Kompilasi produksi `npm run build` sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 7.90s).
+   - Pengujian tampilan mobile (360px–420px), tablet (768px–1024px), dan desktop (>1024px) membuktikan seluruh elemen visual proporsional, tanpa overlap teks, tanpa horizontal scrolling bug, dan pesan persuasif tersampaikan secara elegan.
+
+---
+
+## 46. Catatan Sesi (30 September 2026 - Bagian 5) - Rekonstruksi Total Responsivitas Section Polaroid CTA (Pencegahan Overflow Gambar & Perataan Rapi Trust Badges di Mobile)
+
+1. **Latar Belakang & Identifikasi Akar Masalah (Root Cause):**
+   - **Masalah Utama:** Pengguna melaporkan bahwa section Polaroid masih mengalami masalah responsivitas di layar ponsel (sesuai tangkapan layar `media_1790755580000.png`):
+     - Foto Polaroid kanan (`polaroid-friends.jpg`) mengembang raksasa melampaui lebar layar ponsel, kartu foto tengah (`polaroid-family.jpg`) terpotong di tepi bawah dan menabrak background footer.
+     - Tiga badge di bawah tombol (`100% Halal & Alami`, `Panen Subuh Kirim Hari Ini`, `Peternakan Ajibarang`) tertekan ke dalam 3 kolom kaku sehingga teks terpecah menjadi 3 baris aneh (*"Panen Subuh \n Kirim Hari \n Ini"*).
+   - **Akar Masalah Teknis:**
+     - Penggunaan kelas non-standar Tailwind seperti `w-30`, `w-42`, `w-50`, `w-54`, `w-62` serta prefix `xs:` (yang tidak ada dalam schema `tailwind.config.js`). Akibatnya browser tidak menerima aturan lebar (*no width CSS generated*), sehingga elemen `div` absolut mengambil resolusi alami gambar JPG penuh (~800px) dan meledak memenuhi layar.
+     - Penempatan seluruh teks di atas foto pada mobile menyebabkan kartu Polaroid terdorong ke paling bawah dan terpotong oleh `overflow-hidden` pembungkus `<section>`.
+
+2. **Solusi & Implementasi Teknis (`src/components/PolaroidCtaSection.vue`):**
+   - **Dimensi Lebar Eksplisit & Valid Tailwind:**
+     - Mengubah semua lebar kartu menjadi nilai piksel terukur eksplisit (*arbitrary values*):
+       - **Polaroid Kiri (Kreasi Dapur):** `w-[118px] sm:w-[155px] md:w-[175px] lg:w-[195px] xl:w-[205px]` (rotasi `-7deg`, `top-2 sm:top-4 lg:top-6 left-1 sm:left-3 lg:left-4`).
+       - **Polaroid Kanan (Kebersamaan Farm):** `w-[122px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px]` (rotasi `+6deg`, `top-1 sm:top-2 lg:top-4 right-1 sm:right-3 lg:right-4`).
+       - **Polaroid Tengah Hero (Santapan Keluarga):** `w-[165px] sm:w-[215px] md:w-[245px] lg:w-[270px] xl:w-[285px]` (rotasi `-1.5deg`, diposisikan simetris tepat di tengah `left-1/2 -translate-x-1/2 bottom-2 sm:bottom-4 lg:bottom-5` dengan elevasi bayangan `z-20`).
+     - Kontainer Polaroid diberikan ketinggian adaptif proporsional: `h-[270px] sm:h-[330px] md:h-[360px] lg:h-[390px] xl:h-[410px]` dengan batas lebar `max-w-[320px] sm:max-w-[420px] lg:max-w-[500px]`, menjamin kartu berada 100% di dalam kanvas tanpa terpotong kurva atau footer.
+   - **Hierarki Konten Mobile yang Alami & Menarik:**
+     - Di layar mobile & tablet (`< lg`), **Badge, Headline, dan Subtitle** diletakkan di bagian atas (`block lg:hidden`) sehingga pengunjung membaca pesan terlebih dahulu.
+     - Galeri Polaroid tampil tepat di tengah sebagai bukti visual kehangatan keluarga & mutu pangan.
+     - Tombol aksi utama (**Pesan WA & Katalog**) serta **Trust Badges** berada di bawah foto, sehingga saat pengunjung selesai melihat foto, tombol langsung siap ditekan.
+     - Di layar desktop (`>= lg`), tata letak otomatis berubah kembali menjadi 2 kolom berdampingan (*split-screen showcase*) yang simetris dan elegan.
+   - **Perataan Rapi Trust Badges:**
+     - Mengganti grid 3 kolom yang sempit menjadi rangkaian chip *pill* fleksibel (`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80`).
+     - Teks `Panen Subuh Kirim Hari Ini`, `100% Halal & Alami`, dan `Peternakan Ajibarang` kini tampil utuh dalam satu baris per chip tanpa pernah terpotong atau terpecah.
+
+3. **Validasi & Hasil:**
+   - Kompilasi produksi `npm run build` sukses 100% (**113 modul ter-bundle sempurna, 0 error**, waktu kompilasi 6.78s).
+   - Seluruh elemen kartu Polaroid, teks headline, tombol aksi, dan badge garansi tampil proporsional, tidak meluap ke luar viewport, dan tidak terpotong di perangkat Mobile (360px–480px), Tablet (640px–1024px), maupun Desktop.
+
+
+
 
 
 

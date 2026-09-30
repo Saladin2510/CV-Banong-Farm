@@ -5,33 +5,36 @@
     <div class="max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop">
       
       <!-- Section Header -->
-      <div class="mb-10 sm:mb-12 animate-fade-in-up">
-        <div class="inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-slate-200 font-label-sm text-label-sm font-semibold mb-3 sm:mb-4 border border-primary/20 dark:border-white/20">
-          <span class="material-symbols-outlined text-[16px] text-primary dark:text-secondary-container">verified</span>
-          <span>Langsung dari Peternakan Ajibarang</span>
+      <div class="mb-8 sm:mb-12 animate-fade-in-up">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code">
+          <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
+          <span>PANEN SEGAR AJIBARANG</span>
         </div>
         <div class="overflow-hidden py-1">
-          <h2 class="product-skew-title font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-bold tracking-tight origin-bottom-left will-change-transform">
-            Katalog Produk
+          <h2 class="product-skew-title font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-black tracking-tight origin-bottom-left will-change-transform">
+            Katalog Panen Harian
           </h2>
         </div>
+        <p class="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+          Pilihan telur segar, ayam kampung, bebek, daging, ikan air deras, hingga pupuk kasgot langsung dari peternakan. Dipanen harian, bebas bahan pengawet, dan siap diantar selagi segar.
+        </p>
       </div>
 
-      <!-- Category Filter Tabs -->
-      <div class="flex items-center gap-2.5 mb-10 sm:mb-12 overflow-x-auto pb-2 scrollbar-none animate-fade-in">
+      <!-- Category Filter Tabs (Scrollable on Mobile) -->
+      <div class="flex items-center gap-2 mb-8 sm:mb-12 overflow-x-auto pb-2.5 scrollbar-none overscroll-x-contain -mx-4 px-4 sm:mx-0 sm:px-0 animate-fade-in">
         <button
           v-for="cat in categories"
           :key="cat.id"
           @click="setCategory(cat.id)"
           :class="[
-            'px-5 py-2.5 rounded-full font-label-md text-label-md transition-all duration-300 whitespace-nowrap active:scale-95 shadow-xs',
+            'px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm transition-all duration-200 whitespace-nowrap active:scale-95 shrink-0 shadow-xs',
             selectedCategory === cat.id
-              ? 'bg-primary dark:bg-secondary-container text-on-primary dark:text-primary font-bold shadow-md translate-y-[-1px]'
-              : 'bg-surface-container-low dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 font-medium'
+              ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary font-bold shadow-md translate-y-[-1px]'
+              : 'bg-surface-container-low dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 font-medium'
           ]"
         >
           {{ cat.name }}
-          <span class="ml-1 text-xs opacity-75">
+          <span class="ml-1 text-[11px] opacity-75">
             ({{ getCategoryCount(cat.id) }})
           </span>
         </button>
@@ -43,10 +46,10 @@
           <span class="material-symbols-outlined text-[32px]">inventory_2</span>
         </div>
         <h3 class="font-headline-sm text-headline-sm text-primary dark:text-white font-bold mb-1">
-          Belum Ada Produk Tersedia
+          Belum Ada Produk di Kategori Ini
         </h3>
         <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 max-w-sm">
-          Produk panen baru akan segera diperbarui secara langsung oleh pengelola di sistem.
+          Hasil panen untuk kategori ini sedang disortir di peternakan. Silakan cek kategori lain atau hubungi kami langsung via WhatsApp untuk pesanan khusus.
         </p>
       </div>
 

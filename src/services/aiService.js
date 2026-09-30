@@ -10,43 +10,105 @@ const GEMINI_KEY_STORAGE = 'banong_gemini_api_key'
 const OPENAI_KEY_STORAGE = 'banong_openai_api_key'
 const ACTIVE_PROVIDER_STORAGE = 'banong_ai_provider'
 
+// Default fallback key untuk memastikan AI selalu aktif
+const inMemoryApiKey = {
+  gemini: '',
+  openai: ''
+}
+
 export function getStoredApiKey(provider = 'gemini') {
-  if (provider === 'gemini') {
-    return localStorage.getItem(GEMINI_KEY_STORAGE) || import.meta.env.VITE_GEMINI_API_KEY || ''
-  } else {
-    return localStorage.getItem(OPENAI_KEY_STORAGE) || import.meta.env.VITE_OPENAI_API_KEY || ''
+  let envKey = ''
+  try {
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+      envKey = provider === 'gemini' ? import.meta.env.VITE_GEMINI_API_KEY : import.meta.env.VITE_OPENAI_API_KEY
+    }
+  } catch (_) {}
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const storageKey = provider === 'gemini' ? GEMINI_KEY_STORAGE : OPENAI_KEY_STORAGE
+    return localStorage.getItem(storageKey) || envKey || inMemoryApiKey[provider] || ''
   }
+  return envKey || inMemoryApiKey[provider] || ''
 }
 
 export function setStoredApiKey(provider, key) {
-  if (provider === 'gemini') {
-    localStorage.setItem(GEMINI_KEY_STORAGE, key.trim())
-  } else {
-    localStorage.setItem(OPENAI_KEY_STORAGE, key.trim())
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const storageKey = provider === 'gemini' ? GEMINI_KEY_STORAGE : OPENAI_KEY_STORAGE
+    localStorage.setItem(storageKey, (key || '').trim())
   }
 }
 
 export function getActiveAiProvider() {
-  return localStorage.getItem(ACTIVE_PROVIDER_STORAGE) || 'gemini'
+  if (typeof window !== 'undefined' && window.localStorage) {
+    return localStorage.getItem(ACTIVE_PROVIDER_STORAGE) || 'gemini'
+  }
+  return 'gemini'
 }
 
 export function setActiveAiProvider(provider) {
-  localStorage.setItem(ACTIVE_PROVIDER_STORAGE, provider)
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.setItem(ACTIVE_PROVIDER_STORAGE, provider)
+  }
 }
 
 /**
- * Chat with Mascot "Si Banong" (AI Agritech Assistant)
+ * Context Builder: Dynamic Knowledge Injection (RAG Ringan)
+ * Menyuntikkan seluruh informasi profil toko, lokasi Ajibarang, kontak WA, 
+ * jam buka, serta data katalog & sisa stok produk realtime dari database Supabase.
  */
-export async function chatWithMascot(userMessage, chatHistory = []) {
+export function buildBanongFarmContext(products = []) {
+  let context = `Anda adalah "Si Banong", maskot dan asisten AI resmi dari CV Banong Farms.
+IDENTITAS & PROFIL PERUSAHAAN:
+- Nama: CV Banong Farms
+- Lokasi Peternakan: Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163).
+- Google Maps: https://maps.app.goo.gl/AXAGnr9V4D15MyUz9
+- Kontak WhatsApp Layanan Pelanggan: 0899-9192-861 (Tautan: https://wa.me/628999192861)
+- Jam Operasional & Layanan: Buka Setiap Hari pukul 07.00 - 17.00 WIB.
+- Karakter Si Banong: Ramah, antusias, hangat, menguasai produk pangan segar organik & peternakan terpadu, santun khas masyarakat Banyumas, menjunjung tinggi etika peternakan alami tanpa hormon sintetis, standar higienis bersertifikasi Halal, dan rantai dingin higienis (cold chain).
+- Jangkauan Pengiriman: Wilayah Barlingmascakeb (Banyumas, Purbalingga, Cilacap, Banjarnegara, Kebumen) setiap hari, serta mitra kuliner/restoran Jabodetabek & Bandung dengan armada berpendingin.
+- Alur Pembelian di Website: Pelanggan dapat memilih produk di Katalog Produk website, klik "+ Tambah ke Keranjang", lalu buka Keranjang Belanja di sisi kanan atas dan klik tombol "Lanjut ke WhatsApp" untuk konfirmasi langsung ke pengelola (0899-9192-861).\n\n`
+
+  context += `DATA STOK & HARGA PRODUK TERKINI (SUMBER UTAMA REALTIME DARI DATABASE):\n`
+  if (Array.isArray(products) && products.length > 0) {
+    products.forEach((p, idx) => {
+      const name = p.name || p.title || 'Produk'
+      const cat = p.category || 'Komoditas'
+      const price = Number(p.price || 0).toLocaleString('id-ID')
+      const unit = p.unit || 'pcs'
+      const stock = Number(p.stock !== undefined ? p.stock : 0)
+      const status = stock > 0 ? `TERSEDIA (${stock} ${unit})` : `HABIS (0 ${unit} - Sedang Restok/Pembesaran)`
+      context += `${idx + 1}. ${name} [Kategori: ${cat}] - Rp ${price} / ${unit} - Status: ${status}\n`
+    })
+  } else {
+    context += `- Produk katalog sedang disinkronkan secara langsung dari sistem inventaris.\n`
+  }
+
+  context += `\nPANDUAN & ATURAN MENJAWAB BAGI SI BANONG:
+1. Jawablah selalu dalam bahasa Indonesia yang ramah, santun, solutif, dan jelas (maksimal 2–3 paragraf ringkas).
+2. Jika pelanggan bertanya harga, ketersediaan, atau sisa stok produk tertentu, sebutkan angka dan nominal persis sesuai data realtime di atas.
+3. Jika produk yang ditanyakan berstatus HABIS (0), jelaskan dengan sopan bahwa stok sedang habis/dalam proses panen/pembesaran berikutnya, lalu tawarkan produk alternatif yang tersedia atau sarankan untuk chat WhatsApp pengelola (0899-9192-861).
+4. Jika pelanggan bertanya lokasi atau jam buka, sebutkan Ajibarang, Banyumas, buka 07.00 - 17.00 WIB, dan berikan nomor WhatsApp 0899-9192-861.
+5. Gunakan sapaan hangat seperti "Halo Kak!", "Halo Sobat Banong!", dan sertakan emoji yang relevan secukupnya (🌾, 🥚, 🐟, 🚚, 😊).
+6. Jangan mengarang data stok/harga di luar daftar resmi di atas.`
+
+  return context
+}
+
+// Daftar model Gemini dengan mekanisme multi-tier fallback otomatis
+const GEMINI_MODELS = ['gemini-3.1-flash-lite', 'gemini-3.5-flash', 'gemini-3.8-flash']
+
+/**
+ * Chat with Mascot "Si Banong" (AI Agritech Assistant)
+ * Dilengkapi dengan Dynamic Knowledge Injection (Stok & Profil Toko Real-Time)
+ */
+export async function chatWithMascot(userMessage, chatHistory = [], liveProducts = []) {
   const provider = getActiveAiProvider()
   const apiKey = getStoredApiKey(provider)
 
-  // 1. If Gemini API Key is available, call Google Gemini 1.5 Flash
+  // 1. If Gemini API Key is available, panggil Google Gemini dengan fallback model otomatis
   if (provider === 'gemini' && apiKey) {
     try {
-      const systemInstruction = `Anda adalah "Si Banong", maskot dan asisten AI resmi dari CV Banong Farms (peternakan dan agribisnis terintegrasi modern di Ajibarang, Banyumas, Jawa Tengah). 
-Karakter Anda: Ramah, antusias, sangat memahami produk pangan segar organik (telur bebek/ayam kampung, ikan nila/lele air deras, karkas ayam, cabai, kopi, pupuk hayati), menjunjung tinggi etika peternakan alami tanpa hormon sintetis dan rantai dingin higienis.
-Jawablah dengan bahasa Indonesia yang santun, informatif, dan ringkas (maksimal 3 paragraf).`
+      const systemInstruction = buildBanongFarmContext(liveProducts)
 
       const contents = chatHistory.slice(-6).map(msg => ({
         role: msg.sender === 'user' ? 'user' : 'model',
@@ -58,25 +120,41 @@ Jawablah dengan bahasa Indonesia yang santun, informatif, dan ringkas (maksimal 
         parts: [{ text: userMessage }]
       })
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents,
-          systemInstruction: {
-            parts: [{ text: systemInstruction }]
-          },
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 600
-          }
-        })
-      })
+      // Loop mencoba model-model Gemini yang tersedia (prioritas kecepatan dan stabilitas)
+      for (const modelName of GEMINI_MODELS) {
+        try {
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents,
+              systemInstruction: {
+                parts: [{ text: systemInstruction }]
+              },
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 600
+              }
+            })
+          })
 
-      if (response.ok) {
-        const data = await response.json()
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
-        if (reply) return { text: reply, isLiveAi: true }
+          if (response.ok) {
+            const data = await response.json()
+            const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
+            if (reply) {
+              return { 
+                text: reply, 
+                isLiveAi: true,
+                modelName 
+              }
+            }
+          } else if (response.status === 503) {
+            console.warn(`Model ${modelName} sedang ramai (503), mencoba model cadangan berikutnya...`)
+            continue
+          }
+        } catch (subErr) {
+          console.warn(`Panggilan ke model ${modelName} gagal:`, subErr)
+        }
       }
     } catch (err) {
       console.warn('Gemini API call failed, falling back to smart heuristic:', err)
@@ -89,7 +167,7 @@ Jawablah dengan bahasa Indonesia yang santun, informatif, dan ringkas (maksimal 
       const messages = [
         {
           role: 'system',
-          content: 'Anda adalah "Si Banong", asisten AI ramah CV Banong Farms di Ajibarang. Jawab seputar produk organik, peternakan, dan pemesanan WhatsApp dengan santun dan ringkas.'
+          content: buildBanongFarmContext(liveProducts)
         },
         ...chatHistory.slice(-6).map(m => ({
           role: m.sender === 'user' ? 'user' : 'assistant',
@@ -124,13 +202,34 @@ Jawablah dengan bahasa Indonesia yang santun, informatif, dan ringkas (maksimal 
 
   // 3. Smart Agritech Heuristic Fallback (Runs 100% offline & without API Key)
   return {
-    text: getHeuristicMascotReply(userMessage),
+    text: getHeuristicMascotReply(userMessage, liveProducts),
     isLiveAi: false
   }
 }
 
-function getHeuristicMascotReply(query) {
+function getHeuristicMascotReply(query, liveProducts = []) {
   const q = query.toLowerCase()
+
+  // Cek apakah ada produk live yang dicari dalam database
+  if (Array.isArray(liveProducts) && liveProducts.length > 0) {
+    const matchedProduct = liveProducts.find(p => {
+      const name = (p.name || p.title || '').toLowerCase()
+      return q.includes(name) || name.split(' ').some(word => word.length > 3 && q.includes(word))
+    })
+
+    if (matchedProduct && (q.includes('stok') || q.includes('harga') || q.includes('ada') || q.includes('berapa') || q.includes('beli'))) {
+      const name = matchedProduct.name || matchedProduct.title
+      const price = Number(matchedProduct.price || 0).toLocaleString('id-ID')
+      const unit = matchedProduct.unit || 'pcs'
+      const stock = Number(matchedProduct.stock !== undefined ? matchedProduct.stock : 0)
+
+      if (stock > 0) {
+        return `Halo Kak! Untuk produk **${name}**, saat ini stoknya **TERSEDIA (${stock} ${unit})** dengan harga **Rp ${price} / ${unit}**. Kakak bisa langsung tambahkan ke keranjang belanja di atas atau pesan via WhatsApp pengelola di **0899-9192-861** ya!`
+      } else {
+        return `Halo Kak! Untuk produk **${name}**, stok saat ini sedang **HABIS (0 ${unit})** karena masih dalam tahap pembesaran/panen berikutnya. Harga normalnya adalah **Rp ${price} / ${unit}**. Kakak bisa hubungi WhatsApp kami di **0899-9192-861** untuk info jadwal restok panen berikutnya!`
+      }
+    }
+  }
 
   if (q.includes('telur') || q.includes('bebek') || q.includes('ayam')) {
     return 'Halo! Telur ayam dan bebek di CV Banong Farms dipanen setiap pagi dari kandang bebas sangkar (cage-free) di Ajibarang. Telur kami bebas antibiotika, kaya Omega-3, dan kuning telurnya berwarna oranye alami pekat karena pakan jagung organik fermentasi!'
@@ -139,19 +238,19 @@ function getHeuristicMascotReply(query) {
     return 'Ikan kami (lele, nila, gurame) dipelihara di kolam air deras mengalir pegunungan Ajibarang. Kualitas air selalu terjaga sehingga dagingnya kenyal, gurih, dan sama sekali tidak berbau tanah/lumpur. Bisa dipesan hidup maupun fillet beku higienis!'
   }
   if (q.includes('pesan') || q.includes('beli') || q.includes('order') || q.includes('wa') || q.includes('whatsapp')) {
-    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol "Pesan via WA" pada kartu produk di atas atau pilih langsung kuantiti yang Anda inginkan! Pesanan Anda akan langsung terhubung ke layanan pelanggan kami.'
+    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol "+ Tambah ke Keranjang" pada produk di atas, lalu lanjutkan checkout via WhatsApp ke nomor pengelola 0899-9192-861!'
   }
   if (q.includes('lokasi') || q.includes('alamat') || q.includes('dimana') || q.includes('ajibarang')) {
-    return 'Peternakan utama kami berpusat di Ajibarang, Kabupaten Banyumas, Jawa Tengah. Kami melayani pengiriman rantai dingin (cold chain) untuk wilayah Barlingmascakeb hingga mitra kuliner di Jabodetabek & Bandung!'
+    return 'Peternakan utama CV Banong Farms berpusat di Ajibarang, Kabupaten Banyumas, Jawa Tengah (Buka 07.00 - 17.00 WIB). Kami melayani pengiriman rantai dingin (cold chain) untuk wilayah Barlingmascakeb hingga mitra kuliner di Jabodetabek & Bandung!'
   }
   if (q.includes('pupuk') || q.includes('organik') || q.includes('kasgot')) {
     return 'Kami juga memproduksi Pupuk Kasgot (bekas maggot) dan Kompos Bio-Organik hasil pengolahan ramah lingkungan tanpa limbah. Sangat subur untuk tanaman buah, sayur pekarangan, maupun perkebunan!'
   }
   if (q.includes('halo') || q.includes('hai') || q.includes('siang') || q.includes('pagi') || q.includes('sore') || q.includes('malam')) {
-    return 'Halo! Senang sekali bisa menyapa Anda. Saya Si Banong, maskot peternakan CV Banong Farms Ajibarang. Ada yang bisa saya bantu terkait produk segar organik harian kami?'
+    return 'Halo! Senang sekali bisa menyapa Anda. Saya Si Banong, maskot peternakan CV Banong Farms Ajibarang (WhatsApp: 0899-9192-861, Buka 07.00 - 17.00 WIB). Ada yang bisa saya bantu terkait produk segar organik harian kami?'
   }
 
-  return `Terima kasih telah bertanya! Produk peternakan dan agribisnis CV Banong Farms di Ajibarang dikelola secara etis dan higienis. Untuk pertanyaan spesifik atau pemesanan skala partai besar B2B, Anda juga bisa langsung chat kami via WhatsApp di nomor resmi kami!`
+  return `Terima kasih telah bertanya! Produk peternakan dan agribisnis CV Banong Farms di Ajibarang dikelola secara etis dan higienis. Untuk pertanyaan spesifik atau pemesanan skala partai besar B2B, Anda bisa langsung chat kami via WhatsApp di nomor resmi 0899-9192-861!`
 }
 
 /**
@@ -180,7 +279,7 @@ Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 parag
 1. Paragraf 1: Analisis penjualan produk ${topProduct.name} dan ketersediaan stok di gudang.
 2. Paragraf 2: Rekomendasi menjaga pasokan dan melayani pesanan WhatsApp dari pembeli agar pemasukan tetap lancar.`
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

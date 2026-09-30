@@ -20,13 +20,13 @@
       <div class="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-black/60 backdrop-brightness-90 z-[1]"></div>
     </div>
 
-    <!-- Hero Content Container (100vh Responsive Layout with Parallax Scrub) -->
+    <!-- Hero Content Container (Responsive Layout with In-Flow Dots & Clean Spacing) -->
     <div 
       ref="heroContentRef"
-      class="relative z-10 w-full max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop pt-28 sm:pt-32 md:pt-36 pb-28 sm:pb-32 md:pb-40 flex flex-col items-start justify-center my-auto pointer-events-auto will-change-transform"
+      class="relative z-10 w-full max-w-container-max mx-auto px-gutter-mobile lg:px-gutter-desktop pt-24 sm:pt-32 md:pt-36 pb-20 sm:pb-28 md:pb-36 flex flex-col items-start justify-center my-auto pointer-events-auto will-change-transform"
     >
       
-      <!-- Text Slider Container: CSS Grid Stack for Zero Layout Shift & Pure Simultaneous Crossfade (No Jump / Naik-Turun) -->
+      <!-- Text Slider Container: CSS Grid Stack for Zero Layout Shift & Pure Simultaneous Crossfade -->
       <div class="w-full max-w-3xl grid grid-cols-1 grid-rows-1 items-start">
         <div 
           v-for="(slide, idx) in slides" 
@@ -40,13 +40,13 @@
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary-container"></span>
             </span>
-            <span class="font-label-sm text-label-sm text-secondary-fixed tracking-wider uppercase font-semibold">
+            <span class="font-label-sm text-[11px] sm:text-label-sm text-secondary-fixed tracking-wider uppercase font-semibold">
               {{ slide.badge }}
             </span>
           </div>
 
           <!-- Dynamic Slide Typography -->
-          <h1 class="hero-reveal-item font-display-hero text-[32px] sm:text-[42px] md:text-display-hero text-on-primary font-extrabold tracking-tight leading-tight md:leading-none drop-shadow-lg">
+          <h1 class="hero-reveal-item font-display-hero text-[28px] xs:text-[32px] sm:text-[42px] md:text-display-hero text-on-primary font-extrabold tracking-tight leading-[1.15] md:leading-none drop-shadow-lg">
             <span class="text-secondary-container">
               {{ slide.titleHighlight }}
             </span><br/>
@@ -55,52 +55,73 @@
             </span>
           </h1>
 
-          <p class="hero-reveal-item mt-3 md:mt-4 font-body-lg text-sm sm:text-base md:text-body-lg text-primary-fixed max-w-xl leading-relaxed text-slate-100 drop-shadow">
+          <p class="hero-reveal-item mt-3 md:mt-4 font-body-lg text-xs sm:text-base md:text-body-lg text-primary-fixed max-w-xl leading-relaxed text-slate-100 drop-shadow">
             {{ slide.description }}
           </p>
         </div>
       </div>
 
-      <!-- Stable CTA Buttons (Stationary & Always Accessible - No Bouncing on Slide Changes) -->
-      <div class="hero-reveal-item mt-6 md:mt-8 flex items-center gap-3 sm:gap-space-16 flex-wrap">
+      <!-- Stable CTA Buttons (Stationary & Always Accessible) -->
+      <div class="hero-reveal-item mt-5 sm:mt-7 flex items-center gap-3 sm:gap-space-16 flex-wrap">
         <a 
           href="#katalog-produk" 
-          class="inline-flex items-center justify-center gap-space-8 px-6 md:px-space-32 py-3.5 md:py-4 rounded-full bg-secondary-container text-primary font-label-lg text-sm md:text-label-lg font-bold shadow-2xl hover:bg-accent-hover transition-all transform hover:-translate-y-1 active:translate-y-0"
+          class="inline-flex items-center justify-center gap-2 px-5 sm:px-space-32 py-3 sm:py-4 rounded-full bg-secondary-container text-primary font-label-lg text-xs sm:text-label-lg font-bold shadow-2xl hover:bg-accent-hover transition-all transform hover:-translate-y-1 active:translate-y-0"
         >
-          <span>Jelajahi Produk Panen</span>
+          <span>Pilih Produk Panen</span>
           <span class="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
         </a>
 
         <a 
           href="#tentang-kami" 
-          class="inline-flex items-center justify-center gap-space-8 px-5 md:px-space-24 py-3.5 md:py-4 rounded-full bg-surface-pure/15 hover:bg-surface-pure/25 text-surface-pure font-label-md text-xs md:text-label-md backdrop-blur-md transition-all transform hover:-translate-y-0.5 border border-white/20 shadow-md"
+          class="inline-flex items-center justify-center gap-1.5 px-4 sm:px-space-24 py-3 sm:py-4 rounded-full bg-surface-pure/15 hover:bg-surface-pure/25 text-surface-pure font-label-md text-xs md:text-label-md backdrop-blur-md transition-all transform hover:-translate-y-0.5 border border-white/20 shadow-md"
         >
           <span class="material-symbols-outlined text-[16px] md:text-[18px]">verified</span>
           <span>Jaminan Mutu &amp; Halal</span>
         </a>
       </div>
 
-      <!-- Metric Counter Strip -->
-      <div class="hero-reveal-item mt-5 md:mt-8 pt-4 md:pt-5 flex items-center gap-4 sm:gap-space-32 flex-wrap border-t border-surface-pure/20 w-full max-w-3xl">
-        <div>
-          <div class="font-headline-lg text-lg sm:text-headline-lg font-bold text-secondary-container">100%</div>
-          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Alami &amp; Bebas Kimia</div>
+      <!-- In-Flow Slider Dot Indicators & Slide Counter (Prevents ANY Collision with Content on Mobile/Tablet/Desktop) -->
+      <div class="hero-reveal-item mt-5 sm:mt-7 flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <button 
+            v-for="(slide, index) in slides" 
+            :key="index"
+            @click.stop="goToSlide(index)"
+            :aria-label="`Pergi ke slide ${index + 1}`"
+            :class="[
+              'transition-all duration-500 rounded-full cursor-pointer',
+              currentSlide === index 
+                ? 'w-7 sm:w-10 h-2 bg-secondary-container shadow-md' 
+                : 'w-2 h-2 bg-surface-pure/50 hover:bg-surface-pure/80'
+            ]"
+          ></button>
         </div>
-        <div class="w-px h-6 sm:h-8 bg-surface-pure/20"></div>
+        <span class="text-[11px] sm:text-xs font-mono text-slate-300 font-bold ml-1 tracking-wider">
+          0{{ currentSlide + 1 }} / 0{{ slides.length }}
+        </span>
+      </div>
+
+      <!-- Metric Counter Strip (Responsive 3-Column Grid on Mobile, Flex on Desktop) -->
+      <div class="hero-reveal-item mt-4 sm:mt-5 pt-3.5 sm:pt-5 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-8 border-t border-surface-pure/20 w-full max-w-3xl">
         <div>
-          <div class="font-headline-lg text-lg sm:text-headline-lg font-bold text-surface-pure">&lt; 12 Jam</div>
-          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Panen Langsung Dikirim</div>
+          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-secondary-container">100%</div>
+          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Pakan Alami Bebas Kimia</div>
         </div>
-        <div class="w-px h-6 sm:h-8 bg-surface-pure/20"></div>
+        <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
         <div>
-          <div class="font-headline-lg text-lg sm:text-headline-lg font-bold text-surface-pure">Ajibarang</div>
-          <div class="font-label-sm text-xs sm:text-label-sm text-primary-fixed">Banyumas, Jawa Tengah</div>
+          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">&lt; 12 Jam</div>
+          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Panen Langsung Kirim</div>
+        </div>
+        <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
+        <div>
+          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">Ajibarang</div>
+          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Banyumas, Jawa Tengah</div>
         </div>
       </div>
     </div>
 
-    <!-- Navigation Arrows (Click or Geser/Swipe) -->
-    <div class="absolute inset-y-0 left-2 right-2 sm:left-4 sm:right-4 z-20 flex items-center justify-between pointer-events-none">
+    <!-- Navigation Arrows (Hidden on Mobile to Prevent Text Clipping, Elegant on Tablet & Desktop) -->
+    <div class="hidden sm:flex absolute inset-y-0 left-4 right-4 lg:left-8 lg:right-8 z-20 items-center justify-between pointer-events-none">
       <button 
         @click.stop="prevSlide(); resetTimer()" 
         aria-label="Slide sebelumnya" 
@@ -118,26 +139,10 @@
       </button>
     </div>
 
-    <!-- Slider Dot Indicators (Positioned above tall curve) -->
-    <div class="absolute bottom-20 sm:bottom-28 md:bottom-32 lg:bottom-36 left-0 right-0 z-20 flex justify-center items-center gap-2.5">
-      <button 
-        v-for="(slide, index) in slides" 
-        :key="index"
-        @click.stop="goToSlide(index)"
-        :aria-label="`Pergi ke slide ${index + 1}`"
-        :class="[
-          'transition-all duration-500 rounded-full',
-          currentSlide === index 
-            ? 'w-10 h-2.5 bg-secondary-container shadow-md' 
-            : 'w-2.5 h-2.5 bg-surface-pure/50 hover:bg-surface-pure/80'
-        ]"
-      ></button>
-    </div>
-
-    <!-- CRITICAL BOTTOM EDGE MASK: TALLER Sweeping Curved Divider SVG with Dark Mode Support -->
+    <!-- CRITICAL BOTTOM EDGE MASK: Sweeping Curved Divider SVG (Responsive Height to Avoid Mobile Clipping) -->
     <div class="absolute -bottom-1 left-0 right-0 w-full overflow-hidden leading-none z-20 pointer-events-none">
       <svg 
-        class="relative block w-full h-24 sm:h-32 md:h-40 lg:h-48 text-surface-pure dark:text-[#070D1E] transition-colors duration-300" 
+        class="relative block w-full h-16 sm:h-24 md:h-32 lg:h-44 text-surface-pure dark:text-[#070D1E] transition-colors duration-300" 
         viewBox="0 0 1440 200" 
         preserveAspectRatio="none"
       >
@@ -162,24 +167,24 @@ let ctx = null
 const slides = [
   {
     image: '/assets/hero-bg.png',
-    badge: 'Peternakan Modern · Ajibarang',
-    titleHighlight: 'Panen Segar Alami',
-    titleRest: 'Kualitas Unggul Terpercaya',
-    description: 'Peternakan dan agribisnis terpadu di Ajibarang. Menghadirkan produk pangan sehat, bebas bahan kimia sintetis, dan dikelola secara ramah lingkungan untuk keluarga Anda.'
+    badge: 'PANEN HARI INI · AJIBARANG',
+    titleHighlight: 'Telur & Unggas Segar,',
+    titleRest: 'Dipanen Setiap Subuh.',
+    description: 'Bebas suntikan hormon dan antibiotik kimia. Kami rawat unggas dengan pakan alami di perbukitan Ajibarang untuk sajian kaya nutrisi dan rasa gurih asli di meja makan keluarga Anda.'
   },
   {
     image: '/assets/hero-bg2.jpg',
-    badge: 'Panen Harian · Mutu Terjamin',
-    titleHighlight: 'Hasil Ternak Pilihan',
-    titleRest: 'Higienis & Halal Murni',
-    description: 'Dikelola dengan pakan bernutrisi murni dan pengawasan ketat, menjamin mutu telur, unggas, daging, dan ikan segar berkualitas tinggi.'
+    badge: 'KOLAM AIR DERAS · 100% HALAL',
+    titleHighlight: 'Ikan Nila & Lele Pilihan,',
+    titleRest: 'Gurih Tanpa Bau Lumpur.',
+    description: 'Dibesarkan di aliran mata air pegunungan Ajibarang yang jernih. Daging ikan kenyal, padat, dan higienis berstandar halal—pilihan utama dapur keluarga hingga resto ternama.'
   },
   {
     image: '/assets/hero-bg3.jpg',
-    badge: 'Distribusi Cepat · Banyumas',
-    titleHighlight: 'Pangan Sehat Berkualitas',
-    titleRest: 'Langsung dari Peternak',
-    description: 'Layanan distribusi cepat menjaga kesegaran panen dari perbukitan Ajibarang langsung tiba di meja makan rumah tangga dan mitra usaha Anda.'
+    badge: 'LANGSUNG DARI PETERNAK LOKAL',
+    titleHighlight: 'Pangan Sehat Alami,',
+    titleRest: 'Tiba Selagi Segar di Rumah Anda.',
+    description: 'Panen pagi langsung kami kirim dalam hitungan jam dengan armada berpendingin khusus ke seluruh wilayah Banyumas dan sekitarnya. Segar, praktis, dan terpercaya.'
   }
 ]
 

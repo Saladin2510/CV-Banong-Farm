@@ -20,30 +20,30 @@
         <!-- LEFT COLUMN: Content & Vision / Mission Narrative -->
         <div class="lg:col-span-7 flex flex-col justify-center">
           
-          <!-- Live Status Pill (Persis Style Hero Section) -->
+          <!-- Live Status Pill -->
           <div class="visi-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code shadow-xs w-fit will-change-transform">
             <span class="relative flex h-2 w-2">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-container"></span>
             </span>
             <span class="tracking-wider uppercase font-semibold">
-              Dedikasi &amp; Visi Terpadu
+              CERITA &amp; PRINSIP KAMI
             </span>
           </div>
 
-          <!-- Section Title (Tegak, Bold, Bersih Tanpa Skew Persis Hero Slider) -->
+          <!-- Section Title (Tegak, Bold, Bersih) -->
           <h2 class="visi-hero-text text-3xl sm:text-4xl lg:text-5xl font-black font-outfit text-primary dark:text-secondary-container tracking-tight leading-tight mb-3 origin-bottom-left will-change-transform">
             Tentang Kami
           </h2>
 
           <!-- Bold Lead Statement -->
           <h3 class="visi-hero-text text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5 will-change-transform">
-            Mewujudkan kemandirian pangan sehat dan berkelanjutan dari bumi Ajibarang.
+            Menghidangkan Pangan Sehat, Murni, &amp; Penuh Berkah dari Bumi Ajibarang.
           </h3>
 
           <!-- Narrative Paragraph -->
           <p class="visi-hero-text text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed will-change-transform">
-            CV Banong Farms menghadirkan ekosistem peternakan dan agribisnis terpadu di Ajibarang, Banyumas. Kami memadukan dedikasi peternak lokal, tata kelola kebersihan modern, dan pemanfaatan sumber daya ramah lingkungan untuk menghasilkan produk pangan hewani yang murni, bergizi, halal, dan terpercaya bagi masyarakat.
+            CV Banong Farms bermula dari komitmen sederhana: setiap keluarga dan pengusaha kuliner berhak mendapatkan bahan pangan yang benar-benar segar, bersih, dan menyehatkan. Dari peternakan di perbukitan sejuk Ajibarang, kami merawat unggas dan perikanan dengan pakan nabati alami, air pegunungan yang jernih mengalir, serta dedikasi peternak lokal yang amanah.
           </p>
 
           <!-- Visi & Misi Key Highlights -->
@@ -58,7 +58,7 @@
                 </span>
               </div>
               <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 italic font-medium leading-relaxed">
-                "Menjadi sentra agribisnis dan peternakan terpadu terpercaya di Jawa Tengah yang berdaya saing tinggi, berkelanjutan, serta konsisten menghadirkan produk pangan sehat, halal, dan terjangkau bagi seluruh lapisan masyarakat."
+                "Menjadi sentra agribisnis dan peternakan terpadu pilihan utama di Jawa Tengah yang konsisten menghadirkan produk pangan sehat, halal, dan terjangkau—menyehatkan keluarga sekaligus memajukan kesejahteraan peternak lokal."
               </p>
             </div>
 
@@ -66,19 +66,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Pangan segar alami berkualitas tanpa bahan pengawet sintetis.</span>
+                <span>Pakan nabati alami tanpa hormon kimia &amp; tanpa antibiotik sintetis.</span>
               </div>
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Pengelolaan peternakan ramah lingkungan dan bebas limbah.</span>
+                <span>Budidaya air deras pegunungan: daging ikan gurih tanpa bau tanah.</span>
               </div>
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Kemitraan berdaya bersama kelompok peternak lokal Banyumas.</span>
+                <span>Kemitraan berdaya memajukan kelompok peternak lokal Banyumas.</span>
               </div>
               <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
                 <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Jaminan distribusi cepat panen tiba dalam waktu kurang dari 12 jam.</span>
+                <span>Pengiriman cepat &lt; 12 jam agar kualitas panen tetap prima.</span>
               </div>
             </div>
 

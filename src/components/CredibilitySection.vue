@@ -22,17 +22,17 @@
           <!-- Top Breadcrumb Pill Sesuai Style Web -->
           <div class="cred-hero-text inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code w-fit shadow-xs will-change-transform">
             <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
-            <span>Standar Mutu &amp; Kelayakan Resmi</span>
+            <span>BUKTI KUALITAS &amp; LEGALITAS</span>
           </div>
 
-          <!-- Judul Utama: Reputasi (Tegak, Bold, Bersih Tanpa Skew) -->
+          <!-- Judul Utama: Reputasi & Legalitas Resmi -->
           <h2 class="cred-hero-text text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight origin-bottom-left will-change-transform">
-            Reputasi
+            Reputasi &amp; Legalitas Resmi
           </h2>
 
-          <!-- Subjudul 1 Baris -->
+          <!-- Subjudul 1 Baris Persuasif & Manusiawi -->
           <p class="cred-hero-text mt-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-normal leading-relaxed will-change-transform">
-            Berizin resmi NIB, higienis, dan teruji laboratorium untuk menjamin pangan sehat keluarga setiap hari.
+            Berizin NIB resmi, pemotongan higienis bersertifikasi, dan pengawasan terpadu demi asupan pangan sehat keluarga Anda.
           </p>
         </div>
 
@@ -75,14 +75,14 @@
 
           <!-- Keterangan Subtitle di Bawah Angka -->
           <span class="cred-hero-text mt-2 text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 font-telemetry-code uppercase will-change-transform">
-            Dipercaya 1.400+ Pelanggan &amp; Mitra
+            Kg Panen Segar Tersalurkan di Banyumas Raya
           </span>
         </div>
 
       </div>
 
       <!-- 2. Kontainer Kartu Utama (Clean Card Selaras dengan Desain Web & Referensi) -->
-      <div class="bg-white dark:bg-[#0c1a30] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-md dark:shadow-2xl border border-slate-200/90 dark:border-slate-800">
+      <div class="bg-white dark:bg-[#0c1a30] rounded-3xl p-5 sm:p-8 lg:p-10 shadow-md dark:shadow-2xl border border-slate-200/90 dark:border-slate-800">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           <!-- SISI KIRI: Showcase Sertifikat Resmi & Piala Keunggulan -->
@@ -98,14 +98,14 @@
               <img 
                 src="/assets/sertifikat_kelayakan_cv_banong.jpg" 
                 alt="Sertifikat Kelayakan Mutu dan Higienis CV Banong Farms" 
-                class="cert-inner-img w-full h-[360px] sm:h-[420px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
+                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
               <!-- Gradient Vignette Lembut di Bagian Bawah Gambar -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent pointer-events-none"></div>
 
               <!-- Overlay Card di Bagian Bawah Gambar -->
-              <div class="cert-overlay-card absolute bottom-3.5 left-3.5 right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800 will-change-transform">
+              <div class="cert-overlay-card absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800 will-change-transform">
                 <div class="flex items-start justify-between gap-3">
                   <div>
                     <h4 class="font-extrabold font-outfit text-sm sm:text-base text-primary dark:text-white leading-tight">
@@ -119,7 +119,7 @@
                     <div class="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-amber-500">
                       <span class="material-symbols-outlined text-[15px] fill-current">star</span>
                       <span class="text-slate-800 dark:text-slate-200">4.9</span>
-                      <span class="text-slate-400 font-normal text-[11px]">(1.428 ulasan pembeli puas)</span>
+                      <span class="text-slate-400 font-normal text-[11px]">(1.420+ keluarga &amp; resto puas)</span>
                     </div>
                   </div>
 
@@ -164,25 +164,25 @@
           <!-- SISI KANAN: Penjelasan Narasi & 2 Kartu Fitur Tambahan -->
           <div class="lg:col-span-7 flex flex-col justify-between space-y-6 sm:space-y-8">
             
-            <!-- Narasi Atas: Judul Award-Winning & Deskripsi Mendalam -->
-            <div class="cred-narrative space-y-3.5 will-change-transform">
+            <!-- Narasi Atas: Judul & Deskripsi Mendalam Manusiawi -->
+            <div class="cred-narrative space-y-3 sm:space-y-3.5 will-change-transform">
               <h3 class="text-2xl sm:text-3xl font-black font-outfit text-primary dark:text-white tracking-tight leading-tight">
-                Standar Higienis Teruji &amp; Kredibilitas yang Dapat Anda Percaya
+                Pangan Sehat Berawal dari Pola Ternak yang Jujur &amp; Bertanggung Jawab
               </h3>
               
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                CV Banong Farms beroperasi dengan kepatuhan standar mutu peternakan modern di bawah pengawasan veteriner terpadu dan izin legalitas Nomor Induk Berusaha (NIB). Kami memastikan setiap butir telur segar harian, karkas unggas higienis, domba, kambing, serta ikan air tawar dipanen dari lingkungan sehat alami bebas suntikan hormon sintetis dan tanpa residu antibiotik berbahaya.
+                CV Banong Farms hadir menjawab keresahan keluarga dan pelaku kuliner akan bahan pangan yang sarat residu kimiawi. Setiap butir telur segar, ayam kampung, bebek, domba, hingga ikan air tawar kami pelihara di udara asri Ajibarang dengan sirkulasi alami—tanpa suntikan hormon pemacu pertumbuhan dan bebas antibiotik berlebih.
               </p>
               
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                Dengan pendekatan agribisnis sirkular terpadu dan pemanfaatan larva Black Soldier Fly (BSF) sebagai pengurai limbah organik, kami menjamin nutrisi pakan berprotein murni yang menghasilkan produk pangan lezat, sehat, dan berdaya simpan lebih tahan lama secara alami untuk keluarga Anda.
+                Kami menggabungkan ketelitian peternak lokal dengan biokonversi maggot BSF untuk menghasilkan pakan alami kaya asam amino. Hasilnya adalah daging yang lebih padat dan gurih, telur berkuning jingga kental, serta ikan yang bersih tanpa aroma lumpur—siap Anda sajikan dengan tenang di meja makan keluarga.
               </p>
             </div>
 
             <!-- 2 Kartu Pendukung di Bawah Narasi (Pembungkus Grid cred-feature-grid untuk Parallax) -->
             <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1 will-change-transform">
               
-              <!-- Kartu 1: Pakan Alami & Bebas Kimia -->
+              <!-- Kartu 1: Pakan Mandiri & Alami -->
               <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
                 <!-- Icon Box di Pojok Kiri Atas Kartu -->
                 <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
@@ -190,11 +190,11 @@
                 </div>
 
                 <h4 class="font-bold font-outfit text-sm sm:text-base text-primary dark:text-white mb-1.5 leading-snug">
-                  Pakan Alami Bebas Hormon
+                  Pakan Mandiri Tanpa Hormon
                 </h4>
 
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Pakan racikan dedak alami, hijauan jagung, dan larva maggot BSF berprotein tinggi menghasilkan daging dan telur padat nutrisi yang bebas bahan pengawet sintesis.
+                  Diracik dari jagung giling pilihan, dedak murni, dan maggot BSF berprotein tinggi tanpa pakan sintetis yang memicu residu berbahaya.
                 </p>
               </div>
 
@@ -206,11 +206,11 @@
                 </div>
 
                 <h4 class="font-bold font-outfit text-sm sm:text-base text-primary dark:text-white mb-1.5 leading-snug">
-                  Sanitasi &amp; Uji Veteriner
+                  Sanitasi &amp; Syariat Halal
                 </h4>
 
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Pemeriksaan berkala kesehatan hewan, sterilisasi kandang biosekuriti, dan sirkulasi air kolam deras menjamin keamanan biologis pangan sesuai standar dinas terkait.
+                  Pembersihan kandang biosekuriti, pemotongan unggas sesuai syariat Islam, serta air kolam deras pegunungan yang menjaga ikan tetap segar dan higienis.
                 </p>
               </div>
 
