@@ -20,6 +20,88 @@
         </p>
       </div>
 
+      <!-- Search Bar & Filter Controls -->
+      <div class="mb-6 sm:mb-8 space-y-3.5 animate-fade-in">
+        <!-- Main Search Bar Row -->
+        <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+          
+          <!-- Search Input Box -->
+          <div class="relative flex-1 max-w-2xl">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-[22px] pointer-events-none">
+              search
+            </span>
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Cari pakan (HP100, HL83), bibit (DOQ, DOC), obat Medion, merk..."
+              class="w-full pl-11 pr-28 py-3 sm:py-3.5 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 text-xs sm:text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-primary dark:focus:border-secondary-container focus:ring-4 focus:ring-primary/10 dark:focus:ring-secondary-container/10 transition-all shadow-xs"
+              @keydown.esc="clearSearch"
+              aria-label="Cari pakan atau sarana peternakan"
+            />
+            
+            <!-- Clear Button & Result Count Badge -->
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+              <button
+                v-if="searchQuery"
+                @click="clearSearch"
+                type="button"
+                class="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                title="Hapus pencarian (Esc)"
+              >
+                <span class="material-symbols-outlined text-[18px]">close</span>
+              </button>
+              <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 font-telemetry-code bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-md shrink-0">
+                {{ filteredProducts.length }} Produk
+              </span>
+            </div>
+          </div>
+
+          <!-- Sorting Dropdown -->
+          <div class="flex items-center gap-2 shrink-0 self-start md:self-auto">
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline font-telemetry-code">Urutkan:</span>
+            <div class="relative">
+              <select
+                v-model="sortBy"
+                class="appearance-none pl-3 pr-8 py-2.5 sm:py-3 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-primary dark:focus:border-secondary-container cursor-pointer shadow-xs"
+                aria-label="Urutkan produk"
+              >
+                <option value="default">Rekomendasi Toko</option>
+                <option value="price-asc">Harga: Terendah → Tertinggi</option>
+                <option value="price-desc">Harga: Tertinggi → Terendah</option>
+                <option value="stock-desc">Stok Terbanyak</option>
+                <option value="name-asc">Nama Produk (A - Z)</option>
+              </select>
+              <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">
+                expand_more
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quick Search Suggestion Tags -->
+        <div class="flex items-center gap-1.5 flex-wrap text-xs">
+          <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium mr-1 flex items-center gap-1 font-telemetry-code">
+            <span class="material-symbols-outlined text-[14px] text-secondary-container">trending_up</span>
+            Populer:
+          </span>
+          <button
+            v-for="tag in quickSearchTags"
+            :key="tag"
+            @click="applyQuickTag(tag)"
+            type="button"
+            :class="[
+              'px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer active:scale-95 shadow-2xs',
+              searchQuery.toLowerCase() === tag.toLowerCase()
+                ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary font-bold shadow-xs'
+                : 'bg-white dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700/80'
+            ]"
+          >
+            {{ tag }}
+          </button>
+        </div>
+      </div>
+
       <!-- Category Filter Tabs (Scrollable on Mobile) -->
       <div class="flex items-center gap-2 mb-8 sm:mb-12 overflow-x-auto pb-2.5 scrollbar-none overscroll-x-contain -mx-4 px-4 sm:mx-0 sm:px-0 animate-fade-in">
         <button
@@ -27,7 +109,7 @@
           :key="cat.id"
           @click="setCategory(cat.id)"
           :class="[
-            'px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm transition-all duration-200 whitespace-nowrap active:scale-95 shrink-0 shadow-xs',
+            'px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm transition-all duration-200 whitespace-nowrap active:scale-95 shrink-0 shadow-xs cursor-pointer',
             selectedCategory === cat.id
               ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary font-bold shadow-md translate-y-[-1px]'
               : 'bg-surface-container-low dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 font-medium'
@@ -43,14 +125,37 @@
       <!-- Empty / Syncing State -->
       <div v-if="filteredProducts.length === 0" class="py-16 text-center flex flex-col items-center justify-center animate-fade-in">
         <div class="w-16 h-16 rounded-full bg-surface-container-low dark:bg-slate-800 flex items-center justify-center text-primary dark:text-secondary-container mb-4 shadow-xs">
-          <span class="material-symbols-outlined text-[32px]">inventory_2</span>
+          <span class="material-symbols-outlined text-[32px]">
+            {{ searchQuery ? 'search_off' : 'inventory_2' }}
+          </span>
         </div>
         <h3 class="font-headline-sm text-headline-sm text-primary dark:text-white font-bold mb-1">
-          Belum Ada Produk di Kategori Ini
+          {{ searchQuery ? 'Produk Tidak Ditemukan' : 'Belum Ada Produk di Kategori Ini' }}
         </h3>
-        <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 max-w-sm">
-          Stok sarana peternakan untuk kategori ini sedang disiapkan di gudang toko. Silakan cek kategori lain atau hubungi kami langsung via WhatsApp untuk ketersediaan barang.
+        <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 max-w-sm mb-4">
+          {{ searchQuery 
+            ? `Tidak ada produk yang cocok dengan kata kunci "${searchQuery}". Silakan coba kata kunci lain atau hapus filter pencarian.` 
+            : 'Stok sarana peternakan untuk kategori ini sedang disiapkan di gudang toko. Silakan cek kategori lain atau hubungi kami langsung via WhatsApp untuk ketersediaan barang.' 
+          }}
         </p>
+        <div class="flex items-center gap-2">
+          <button
+            v-if="searchQuery"
+            @click="clearSearch"
+            type="button"
+            class="px-4 py-2 rounded-xl bg-primary dark:bg-secondary-container text-white dark:text-primary text-xs font-bold shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
+          >
+            Hapus Pencarian
+          </button>
+          <button
+            v-if="selectedCategory !== 'all'"
+            @click="setCategory('all')"
+            type="button"
+            class="px-4 py-2 rounded-xl bg-surface-container-low dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-surface-container dark:hover:bg-slate-700 transition-all active:scale-95 cursor-pointer"
+          >
+            Lihat Semua Kategori
+          </button>
+        </div>
       </div>
 
       <!-- 4-Column Product Grid (Staggered GSAP Reveal) -->
@@ -136,11 +241,38 @@ const emit = defineEmits(['openModal'])
 
 const adminStore = useAdminStore()
 const selectedCategory = ref('all')
+const searchQuery = ref('')
+const sortBy = ref('default')
 const currentPage = ref(1)
 const ITEMS_PER_PAGE = 12
 const productGridRef = ref(null)
 
 let ctx = null
+
+const quickSearchTags = [
+  'New Hope HP100',
+  'Layer HL83',
+  'DOQ Puyuh',
+  'DOC Broiler',
+  'Vita Stress',
+  'Vaksin Medivac',
+  'HI-PRO-VITE 781',
+  'Bolt Kucing'
+]
+
+const clearSearch = () => {
+  searchQuery.value = ''
+  currentPage.value = 1
+}
+
+const applyQuickTag = (tag) => {
+  if (searchQuery.value.toLowerCase() === tag.toLowerCase()) {
+    searchQuery.value = ''
+  } else {
+    searchQuery.value = tag
+  }
+  currentPage.value = 1
+}
 
 const categories = [
   { id: 'all', name: 'Semua Produk' },
@@ -179,7 +311,42 @@ const getCategoryCount = (catId) => {
 }
 
 const filteredProducts = computed(() => {
-  return products.value.filter(p => matchesCategory(p, selectedCategory.value))
+  let list = products.value.filter(p => matchesCategory(p, selectedCategory.value))
+
+  const q = (searchQuery.value || '').trim().toLowerCase()
+  if (q) {
+    const terms = q.split(/\s+/).filter(Boolean)
+    list = list.filter(p => {
+      const name = (p.name || p.title || p.nama_produk || '').toLowerCase()
+      const brand = (p.brand || '').toLowerCase()
+      const cat = (p.category || p.category_name || '').toLowerCase()
+      const target = (p.target || '').toLowerCase()
+      const desc = (p.deskripsi || p.description || '').toLowerCase()
+      const unit = (p.unit || p.satuan || '').toLowerCase()
+
+      return terms.every(term =>
+        name.includes(term) ||
+        brand.includes(term) ||
+        cat.includes(term) ||
+        target.includes(term) ||
+        desc.includes(term) ||
+        unit.includes(term)
+      )
+    })
+  }
+
+  // Sort
+  if (sortBy.value === 'price-asc') {
+    list = [...list].sort((a, b) => Number(a.price || 0) - Number(b.price || 0))
+  } else if (sortBy.value === 'price-desc') {
+    list = [...list].sort((a, b) => Number(b.price || 0) - Number(a.price || 0))
+  } else if (sortBy.value === 'stock-desc') {
+    list = [...list].sort((a, b) => Number(b.stock || 0) - Number(a.stock || 0))
+  } else if (sortBy.value === 'name-asc') {
+    list = [...list].sort((a, b) => (a.title || a.name || '').localeCompare(b.title || b.name || ''))
+  }
+
+  return list
 })
 
 const totalPages = computed(() => {
@@ -235,7 +402,12 @@ const handleProductSelect = (product) => {
   emit('openModal', product)
 }
 
-watch([selectedCategory, currentPage], () => {
+watch([selectedCategory, searchQuery, sortBy], () => {
+  currentPage.value = 1
+  animateCards()
+})
+
+watch(currentPage, () => {
   animateCards()
 })
 
