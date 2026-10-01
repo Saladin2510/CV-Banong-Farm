@@ -36,57 +36,57 @@
         <div class="lg:col-span-6 flex items-center justify-center w-full">
           <div class="relative w-full max-w-[320px] sm:max-w-[420px] md:max-w-[460px] lg:max-w-[500px] xl:max-w-[520px] h-[270px] sm:h-[330px] md:h-[360px] lg:h-[390px] xl:h-[410px] select-none mx-auto">
             
-            <!-- Polaroid 1 (Left - Obat & Vitamin) -->
+            <!-- Polaroid 1 (Left - Konsultasi Nutrisi & Pakan) -->
             <div 
               class="absolute top-2 sm:top-4 lg:top-6 left-1 sm:left-3 lg:left-4 w-[118px] sm:w-[155px] md:w-[175px] lg:w-[195px] xl:w-[205px] bg-white p-1.5 sm:p-2.5 pb-4 sm:pb-6 rounded-xs shadow-[0_12px_28px_rgba(0,0,0,0.14)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7)] transform -rotate-[7deg] hover:-rotate-[3deg] hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-10 border border-slate-200/90 group"
-              title="Obat &amp; Vitamin Medion Resmi"
+              title="Konsultasi Nutrisi &amp; Pakan Ternak Gratis"
             >
               <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/store/obat-obatan_ternak.jpeg" 
-                  alt="Daftar Obat dan Vitamin Ternak CV Banong Farms" 
+                  src="/assets/polaroid-nutrisi-vitamin.jpg" 
+                  alt="Konsultasi Kebutuhan Nutrisi dan Vitamin Ternak CV Banong Farms" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
-              <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-600 font-semibold tracking-wide">
-                Obat &amp; Vitamin Medion
+              <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-700 font-bold tracking-wide">
+                Konsultasi Nutrisi Pakan
               </div>
             </div>
 
-            <!-- Polaroid 3 (Right - Sedia Vaksin & Alat Kandang) -->
+            <!-- Polaroid 3 (Right - Hasil Panen Ternak Berlimpah) -->
             <div 
               class="absolute top-1 sm:top-2 lg:top-4 right-1 sm:right-3 lg:right-4 w-[122px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px] bg-white p-1.5 sm:p-2.5 pb-4 sm:pb-6 rounded-xs shadow-[0_12px_28px_rgba(0,0,0,0.14)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7)] transform rotate-[6deg] hover:rotate-[2deg] hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-10 border border-slate-200/90 group"
-              title="Sedia Vaksin &amp; Perlengkapan Kandang"
+              title="Hasil Peternakan Sehat &amp; Berkelanjutan"
             >
               <div class="w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/store/sangkar_burung.jpeg" 
-                  alt="Sedia Vaksin dan Perlengkapan Kandang CV Banong Farms" 
+                  src="/assets/polaroid-panen-optimal.jpg" 
+                  alt="Hasil Panen dan Budidaya Unggas Mitra CV Banong Farms" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
-              <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-600 font-semibold tracking-wide">
-                Sedia Vaksin &amp; Kandang
+              <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-700 font-bold tracking-wide">
+                Panen Ternak Optimal
               </div>
             </div>
 
-            <!-- Polaroid 2 (Center Hero - Toko Banong Farms) -->
+            <!-- Polaroid 2 (Center Hero - Armada Antar Toko Sendiri) -->
             <div 
               class="absolute bottom-2 sm:bottom-4 lg:bottom-5 left-1/2 -translate-x-1/2 w-[165px] sm:w-[215px] md:w-[245px] lg:w-[270px] xl:w-[285px] bg-white p-2 sm:p-3 pb-5 sm:pb-7 rounded-xs shadow-[0_18px_40px_rgba(0,0,0,0.24)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.85)] transform -rotate-[1.5deg] hover:rotate-0 hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-20 border border-slate-200/90 group"
-              title="Toko Banong Farms Ajibarang"
+              title="Armada Mandiri CV Banong Farms Siap Antar ke Kandang"
             >
               <div class="w-full aspect-[4/3] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/store/toko_depan.jpeg" 
-                  alt="Toko Fisik CV Banong Farms Depan Pasar Hewan Ajibarang" 
+                  src="/assets/polaroid-armada-antar.jpg" 
+                  alt="Armada Pengiriman Mandiri CV Banong Farms Langsung Antar ke Kandang Peternak" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
-              <div class="mt-1.5 sm:mt-2 text-center text-[10px] sm:text-xs text-slate-900 font-extrabold tracking-wide">
-                Grosir &amp; Eceran Ajibarang
+              <div class="mt-1.5 sm:mt-2 text-center text-[10px] sm:text-xs text-slate-900 font-black tracking-wide">
+                Armada Toko Antar Kandang 🚚
               </div>
             </div>
 

@@ -54,31 +54,35 @@
               <div class="flex items-center gap-2 mb-1.5">
                 <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">visibility</span>
                 <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-white font-telemetry-code">
-                  Visi Utama
+                  Visi Kami
                 </span>
               </div>
               <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 italic font-medium leading-relaxed">
-                "Menjadi pusat sarana produksi peternakan pilihan utama yang menghubungkan peternak lokal dengan pakan pabrikan berkualitas dunia, bibit unggul, serta pendampingan kandang yang jujur, bersahabat, dan menyejahterakan."
+                "Menjadi mitra utama peternak dalam menyediakan pakan berkualitas untuk hasil ternak yang optimal dan berkelanjutan."
               </p>
             </div>
 
-            <!-- Misi 4 Bullet Grid (Yellow Checkmark Accents) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
-              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Mitra resmi pakan pabrikan PT. New Hope Indonesia Cirebon.</span>
+            <!-- Misi 3 Bullet Grid (Yellow Checkmark Accents) -->
+            <div class="space-y-2">
+              <div class="flex items-center gap-1.5 mb-0.5">
+                <span class="material-symbols-outlined text-secondary-container text-[16px]">flag</span>
+                <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-secondary-container font-telemetry-code">
+                  Misi Kami
+                </span>
               </div>
-              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Bibit unggul sehat: DOQ puyuh, DOC ayam &amp; DOD bebek aktif.</span>
-              </div>
-              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Obat, vitamin Medion, vaksin resmi &amp; alat kandang lengkap.</span>
-              </div>
-              <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                <span>Grosir karungan &amp; eceran kiloan, siap kirim dengan armada toko.</span>
+              <div class="grid grid-cols-1 gap-2">
+                <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
+                  <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
+                  <span>Menyediakan pakan ternak lengkap, original, dan dengan harga yang kompetitif.</span>
+                </div>
+                <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
+                  <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
+                  <span>Memberikan konsultasi gratis tentang kebutuhan nutrisi ternak.</span>
+                </div>
+                <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
+                  <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
+                  <span>Menjaga stok selalu ready dan pengiriman cepat.</span>
+                </div>
               </div>
             </div>
 
@@ -99,36 +103,36 @@
 
           <div class="grid grid-cols-3 gap-3 sm:gap-4 items-center relative z-10">
             
-            <!-- Column 1: Gudang Pakan Karungan New Hope & HI-PRO-VITE -->
+            <!-- Column 1: Gudang Distribusi Pakan Ternak Modern -->
             <div class="triptych-col triptych-col-1 flex flex-col gap-3 will-change-transform">
               <div class="triptych-frame triptych-frame-1 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/store/karung_1.jpeg" 
-                  alt="Gudang Stok Pakan Karungan CV Banong Farms Ajibarang"
+                  src="/assets/tentang-gudang-pakan.jpg" 
+                  alt="Gudang Distribusi Pakan Ternak Modern CV Banong Farms Ajibarang"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
               </div>
             </div>
 
-            <!-- Column 2: Toko Depan Banong Farms Grosir & Ecer Ajibarang (Center elevated) -->
+            <!-- Column 2: Toko Sarana Peternakan & Konsultasi Modern (Center elevated) -->
             <div class="triptych-col triptych-col-2 flex flex-col gap-3 will-change-transform -mt-2 sm:-mt-4">
               <div class="triptych-frame triptych-frame-2 h-[310px] sm:h-[410px] lg:h-[470px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/store/toko_depan.jpeg" 
-                  alt="Toko Fisik CV Banong Farms Depan Pasar Hewan Ajibarang"
+                  src="/assets/tentang-toko-modern.jpg" 
+                  alt="Toko Sarana Peternakan Modern & Konsultasi CV Banong Farms"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
               </div>
             </div>
 
-            <!-- Column 3: Etalase Vaksin, Vitamin & Obat-obatan Unggas Medion -->
+            <!-- Column 3: Peternakan Sehat & Berkelanjutan Sejak 2015 -->
             <div class="triptych-col triptych-col-3 flex flex-col gap-3 will-change-transform">
               <div class="triptych-frame triptych-frame-3 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/store/vaksin_obat-obatan_produk.jpeg" 
-                  alt="Etalase Obat, Vaksin Resmi dan Vitamin Medion CV Banong Farms"
+                  src="/assets/tentang-kandang-unggas.jpg" 
+                  alt="Budidaya Unggas Sehat dan Optimal CV Banong Farms"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />

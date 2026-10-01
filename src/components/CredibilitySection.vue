@@ -44,31 +44,31 @@
               {{ counterDisplay }}
             </span>
 
-            <!-- 4 Lingkaran Foto Panen Bertumpuk -->
+            <!-- 4 Lingkaran Foto Peternak Mitra Bertumpuk (Wajah Orang / Peternak Nyata) -->
             <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
               <img 
-                src="/assets/store/karung_1.jpeg" 
-                alt="Pakan Karungan Berkualitas" 
+                src="/assets/avatar-peternak-1.jpg" 
+                alt="Peternak Ayam Petelur Mitra Banong Farms" 
                 class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Pakan Pabrikan Teruji"
+                title="Bpk. Santoso (Peternak Puyuh & Layer)"
               />
               <img 
-                src="/assets/store/vaksin_obat-obatan_produk.jpeg" 
-                alt="Obat &amp; Vitamin Medion" 
+                src="/assets/avatar-peternak-2.jpg" 
+                alt="Peternak & Pengusaha Ternak Mitra - Ibu Lani" 
                 class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Obat &amp; Vaksin Resmi"
+                title="Ibu Lani (Peternak Mandiri Cilongok)"
               />
               <img 
-                src="/assets/store/pakan_hewan_burung.jpeg" 
-                alt="Pakan Burung Lengkap" 
+                src="/assets/avatar-peternak-3.jpg" 
+                alt="Peternak Muda Mitra Banong Farms" 
                 class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Pakan Burung Berkicau"
+                title="Mas Dimas (Peternak Bebek & Broiler)"
               />
               <img 
-                src="/assets/store/pakan_hewan_kucing.jpeg" 
-                alt="Pet Food Lengkap" 
+                src="/assets/avatar-peternak-4.jpg" 
+                alt="Peternak Senior Banyumas" 
                 class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Makanan Kucing &amp; Hewan Peliharaan"
+                title="Bpk. Haryanto (Peternak Senior Pekuncen)"
               />
             </div>
           </div>
@@ -96,9 +96,9 @@
               class="cert-card-frame relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
             >
               <img 
-                src="/assets/store/banner.jpeg" 
-                alt="Plang Resmi Banong Farms Agen Pakan Ternak PT New Hope Indonesia Cirebon" 
-                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
+                src="/assets/sertifikat-kemitraan-resmi.jpg" 
+                alt="Sertifikat Distributor Resmi PT New Hope Indonesia - CV Banong Farms" 
+                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-top will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
               <!-- Gradient Vignette Lembut di Bagian Bawah Gambar -->
