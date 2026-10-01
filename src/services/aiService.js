@@ -223,14 +223,36 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
 function getHeuristicMascotReply(query, liveProducts = []) {
   const q = query.toLowerCase()
 
-  // Cek apakah ada produk live yang dicari dalam database
+  // Cek apakah ada produk live yang dicari dalam database dengan scoring relevansi cerdas
   if (Array.isArray(liveProducts) && liveProducts.length > 0) {
-    const matchedProduct = liveProducts.find(p => {
-      const name = (p.name || p.title || '').toLowerCase()
-      return q.includes(name) || name.split(' ').some(word => word.length > 3 && q.includes(word))
-    })
+    let matchedProduct = null
+    let maxScore = 0
 
-    if (matchedProduct && (q.includes('stok') || q.includes('harga') || q.includes('ada') || q.includes('berapa') || q.includes('beli'))) {
+    for (const p of liveProducts) {
+      const name = (p.name || p.title || '').toLowerCase()
+      let score = 0
+      if (q.includes(name)) score += 50
+
+      const words = name.split(/\s+/).filter(w => w.length > 2)
+      for (const w of words) {
+        if (q.includes(w)) {
+          if (['hp100', 'hl83', 'hb200', 'ksk-36s', 't78', '781-2', 'doq', 'doc', 'dod', 'bolt', 'felibite', 'medivac'].includes(w)) {
+            score += 30
+          } else if (!['pakan', 'untuk', 'unggas', 'ayam', 'super', 'grosir', 'eceran'].includes(w)) {
+            score += 10
+          } else {
+            score += 2
+          }
+        }
+      }
+
+      if (score > maxScore) {
+        maxScore = score
+        matchedProduct = p
+      }
+    }
+
+    if (matchedProduct && maxScore >= 10 && (q.includes('stok') || q.includes('harga') || q.includes('ada') || q.includes('berapa') || q.includes('beli') || q.includes('cari'))) {
       const name = matchedProduct.name || matchedProduct.title
       const price = Number(matchedProduct.price || 0).toLocaleString('id-ID')
       const unit = matchedProduct.unit || 'pcs'
@@ -239,7 +261,7 @@ function getHeuristicMascotReply(query, liveProducts = []) {
       if (stock > 0) {
         return `Halo Kak! Untuk produk **${name}**, saat ini stoknya **TERSEDIA (${stock} ${unit})** dengan harga **Rp ${price} / ${unit}**. Kakak bisa langsung tambahkan ke keranjang belanja di atas atau pesan via WhatsApp pengelola di **0899-9192-861** ya!`
       } else {
-        return `Halo Kak! Untuk produk **${name}**, stok saat ini sedang **HABIS (0 ${unit})** karena masih dalam tahap pembesaran/panen berikutnya. Harga normalnya adalah **Rp ${price} / ${unit}**. Kakak bisa hubungi WhatsApp kami di **0899-9192-861** untuk info jadwal restok panen berikutnya!`
+        return `Halo Kak! Untuk produk **${name}**, stok saat ini sedang **HABIS (0 ${unit})** karena sedang menunggu pasokan kiriman pabrik/breeder berikutnya. Harga normalnya adalah **Rp ${price} / ${unit}**. Kakak bisa hubungi WhatsApp kami di **0899-9192-861** untuk info jadwal restok atau booking barang!`
       }
     }
   }
@@ -335,7 +357,7 @@ Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 parag
     : (metrics.totalRevenueJuta ? `Rp ${(Number(metrics.totalRevenueJuta) * 1000000).toLocaleString('id-ID')}` : 'Rp 0')
 
   return {
-    analysis: `Berdasarkan data transaksi riil dari Supabase, produk ${topProduct?.name || 'Hasil Panen'} mencatat penjualan sebesar ${topProduct?.soldCount?.toLocaleString('id-ID') || 0} pcs dengan total pendapatan yang didapat sebesar ${formattedRev}. Sisa cadangan stok di gudang saat ini ${topProduct?.stock?.toLocaleString('id-ID') || 0} pcs. Pantau pesanan WhatsApp secara berkala untuk menjaga ketersediaan barang dan melayani kebutuhan pembeli.`,
+    analysis: `Berdasarkan data transaksi riil dari Supabase, produk ${topProduct?.name || 'Produk Pakan'} mencatat penjualan sebesar ${topProduct?.soldCount?.toLocaleString('id-ID') || 0} pcs dengan total pendapatan yang didapat sebesar ${formattedRev}. Sisa cadangan stok di gudang saat ini ${topProduct?.stock?.toLocaleString('id-ID') || 0} pcs. Pantau pesanan WhatsApp secara berkala untuk menjaga ketersediaan barang dan melayani kebutuhan pembeli.`,
     isLiveAi: false,
     provider: 'Algoritma Prediktif Internal'
   }
@@ -351,11 +373,11 @@ Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 parag
 export function downloadCsvTemplate() {
   const csvHeader = "tanggal,kode_pesanan,nama_produk,jumlah_pcs,harga_satuan,total_harga\n"
   const sampleRows = [
-    "2026-08-16,ORD-TR-01,Konsentrat Bebek Petelur Super,20,425000,8500000",
-    "2026-08-17,ORD-TR-02,Pelet Ikan Lele Apung LP-2,25,315000,7875000",
-    "2026-08-18,ORD-TR-03,Silase Pakan Fermentasi Sapi & Kambing,12,185000,2220000",
-    "2026-08-19,ORD-TR-04,Pupuk Organik Kasgot Biokonversi,35,65000,2275000",
-    "2026-08-20,ORD-TR-05,Konsentrat Bebek Petelur Super,18,425000,7650000"
+    "2026-08-16,ORD-TR-01,Pakan Komplit Unggas HP100,20,405000,8100000",
+    "2026-08-17,ORD-TR-02,Pakan Layer Petelur HL83,25,390000,9750000",
+    "2026-08-18,ORD-TR-03,Pakan Puyuh Sinindo KSK-36S,15,305000,4575000",
+    "2026-08-19,ORD-TR-04,HI-PRO-VITE 781-2 Pakan Lele,10,360000,3600000",
+    "2026-08-20,ORD-TR-05,Pakan Komplit Unggas HP100,18,405000,7290000"
   ].join("\n")
 
   const blob = new Blob([csvHeader + sampleRows], { type: 'text/csv;charset=utf-8;' })
@@ -411,10 +433,10 @@ export function parseCsvDataset(csvText) {
 // 3. Generate Realistic 30-Day Simulated Dataset for PSAJ Demo Presentation
 export function generateSample30DaysDataset(availableProducts = []) {
   const defaultProdList = [
-    { id: 1, name: 'Konsentrat Bebek Petelur Super', price: 425000, baseQty: 25 },
-    { id: 2, name: 'Pelet Ikan Lele Apung LP-2', price: 315000, baseQty: 20 },
-    { id: 3, name: 'Silase Pakan Fermentasi Sapi & Kambing', price: 185000, baseQty: 15 },
-    { id: 4, name: 'Pupuk Organik Kasgot Biokonversi', price: 65000, baseQty: 30 }
+    { id: 1, name: 'Pakan Komplit Unggas HP100', price: 405000, baseQty: 25 },
+    { id: 3, name: 'Pakan Layer Petelur HL83', price: 390000, baseQty: 20 },
+    { id: 6, name: 'Pakan Puyuh Sinindo KSK-36S', price: 305000, baseQty: 18 },
+    { id: 18, name: 'HI-PRO-VITE 781-2 Pakan Lele', price: 360000, baseQty: 15 }
   ]
 
   const prodSource = (availableProducts && availableProducts.length > 0)

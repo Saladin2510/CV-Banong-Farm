@@ -58,13 +58,11 @@
                 v-model="formData.category" 
                 class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors text-sm shadow-xs cursor-pointer"
               >
-                <option value="Peternakan Unggas">Peternakan Unggas</option>
-                <option value="Perikanan Air Deras">Perikanan Air Deras</option>
-                <option value="Daging Segar">Daging Segar</option>
-                <option value="Sayur & Cabai">Sayur & Cabai</option>
-                <option value="Buah-buahan">Buah-buahan</option>
-                <option value="Biji Kopi">Biji Kopi</option>
-                <option value="Produk Organik">Produk Organik</option>
+                <option value="Pakan Ternak & Unggas">Pakan Ternak & Unggas</option>
+                <option value="Bibit Unggul">Bibit Unggul</option>
+                <option value="Obat, Vitamin & Vaksin">Obat, Vitamin & Vaksin</option>
+                <option value="Pakan Ikan & Pet Food">Pakan Ikan & Pet Food</option>
+                <option value="Alat & Perlengkapan Kandang">Alat & Perlengkapan Kandang</option>
               </select>
             </div>
 
@@ -76,13 +74,12 @@
                 v-model="formData.icon" 
                 class="h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0d1117] text-slate-900 dark:text-white focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors text-sm shadow-xs cursor-pointer"
               >
-                <option value="egg">Telur Ternak (egg)</option>
-                <option value="set_meal">Ikan Segar (set_meal)</option>
-                <option value="nutrition">Daging Segar (nutrition)</option>
-                <option value="local_fire_department">Cabai / Sayur (fire)</option>
-                <option value="eco">Buah / Organik (eco)</option>
-                <option value="coffee">Biji Kopi (coffee)</option>
-                <option value="spa">Herbal / Rimpang (spa)</option>
+                <option value="agriculture">Pakan Ternak (agriculture)</option>
+                <option value="flutter_dash">Bibit Unggul (flutter_dash)</option>
+                <option value="medication">Obat & Vitamin (medication)</option>
+                <option value="vaccines">Vaksin Medivac (vaccines)</option>
+                <option value="pets">Pakan Ikan & Pet Food (pets)</option>
+                <option value="fence">Alat Kandang (fence)</option>
               </select>
             </div>
           </div>
@@ -310,22 +307,25 @@ const isDragging = ref(false)
 const showUrlInput = ref(false)
 
 const presetImages = [
-  { label: 'Telur', path: '/assets/product-eggs.png' },
-  { label: 'Bebek', path: '/assets/product-duck.png' },
-  { label: 'Ikan Lele', path: '/assets/product-fish.png' },
-  { label: 'Ayam Segar', path: '/assets/product-chicken.png' },
-  { label: 'Kasgot/Pupuk', path: '/assets/product-fertilizer.png' },
-  { label: 'Kebun/Panen', path: '/assets/farm-poultry-marquee.jpg' }
+  { label: 'Pakan Karungan', path: '/assets/store/karung_1.jpeg' },
+  { label: 'Plang New Hope', path: '/assets/store/banner.jpeg' },
+  { label: 'Obat & Vitamin', path: '/assets/store/obat-obatan_ternak.jpeg' },
+  { label: 'Vaksin Medivac', path: '/assets/store/vaksin_obat-obatan_produk.jpeg' },
+  { label: 'Pakan Burung', path: '/assets/store/pakan_hewan_burung.jpeg' },
+  { label: 'Pakan Ikan', path: '/assets/store/pakan_hewan_ikan.jpeg' },
+  { label: 'Makanan Kucing', path: '/assets/store/pakan_hewan_kucing.jpeg' },
+  { label: 'Kandang & Sangkar', path: '/assets/store/sangkar_burung.jpeg' },
+  { label: 'Toko Depan', path: '/assets/store/toko_depan.jpeg' }
 ]
 
 const formData = ref({
   name: '',
-  category: 'Peternakan Unggas',
-  icon: 'egg',
-  unit: 'pcs',
-  stock: 0,
+  category: 'Pakan Ternak & Unggas',
+  icon: 'agriculture',
+  unit: 'sak',
+  stock: 50,
   maxStock: 5000,
-  price: 20000,
+  price: 100000,
   image: ''
 })
 
@@ -418,10 +418,13 @@ const handleSubmit = () => {
   let finalImage = formData.value.image
   if (!finalImage) {
     const cat = formData.value.category.toLowerCase()
-    if (cat.includes('ikan')) finalImage = '/assets/product-fish.png'
-    else if (cat.includes('daging')) finalImage = '/assets/product-chicken.png'
-    else if (cat.includes('unggas')) finalImage = '/assets/product-eggs.png'
-    else finalImage = '/assets/product-fertilizer.png'
+    if (cat.includes('bibit')) finalImage = '/assets/store/toko_depan.jpeg'
+    else if (cat.includes('obat') || cat.includes('vaksin')) finalImage = '/assets/store/vaksin_obat-obatan_produk.jpeg'
+    else if (cat.includes('ikan')) finalImage = '/assets/store/pakan_hewan_ikan.jpeg'
+    else if (cat.includes('pet') || cat.includes('kucing')) finalImage = '/assets/store/pakan_hewan_kucing.jpeg'
+    else if (cat.includes('burung')) finalImage = '/assets/store/pakan_hewan_burung.jpeg'
+    else if (cat.includes('alat') || cat.includes('kandang')) finalImage = '/assets/store/sangkar_burung.jpeg'
+    else finalImage = '/assets/store/karung_1.jpeg'
   }
 
   emit('save', {

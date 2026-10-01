@@ -36,7 +36,7 @@
           <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
             <div class="flex flex-col">
               <span class="text-xs uppercase tracking-wider text-secondary-container font-bold font-telemetry-code">
-                {{ product.category || 'Produk Panen' }}
+                {{ product.category || 'Pakan & Sarana Ternak' }}
               </span>
               <h3 class="text-xl font-bold text-white leading-snug">
                 {{ product.title || product.name }}
@@ -59,7 +59,7 @@
         <!-- Product Details & Add to Cart -->
         <div class="p-6 flex flex-col gap-4">
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            {{ product.description || 'Produk hasil panen peternakan berkualitas unggul, diproduksi dengan standar higienis dan bebas bahan kimia sintetis dari CV Banong Farms Ajibarang.' }}
+            {{ product.description || 'Pakan ternak dan sarana produksi peternakan berkualitas prima dari CV Banong Farms Ajibarang (Mitra Resmi PT. New Hope Indonesia Cirebon). Tersedia grosir sak & eceran kiloan.' }}
           </p>
 
           <!-- Quantity Controls & Price Summary -->

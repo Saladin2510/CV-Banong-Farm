@@ -1585,8 +1585,39 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 
 ---
 
-## 27. Komitmen & Batasan Operasional
+## 28. Checkpoint Sesi 50: Integrasi Total Katalog Riil 74 Produk Toko & Verifikasi Penuh
+* **Tanggal:** 01 Oktober 2026
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Berhasil, Vite v6.4.3, Zero Errors).
+* **Latar Belakang & Tindak Lanjut Permintaan Pengguna:**
+  - Pengguna menegaskan integrasi data katalog asli toko dan penyingkiran seluruh data makanan konsumsi manusia (telur ayam/bebek konsumsi meja, daging karkas ayam, sayur segar) yang sebelumnya merupakan mock komoditas panen. CV Banong Farms adalah **toko sarana peternakan & pakan hewan ternak (poultry shop)**, bukan toko bahan makanan konsumsi manusia.
+  - Sesi sebelumnya mengalami *stuck loading* pada subagent peramban akibat limitasi server backend model AI (`503: No capacity available for model gemini-3-flash on the server`), sehingga proses dilanjutkan dan diselesaikan secara tuntas.
+* **Hasil Implementasi & Pembaharuan Arsitektur:**
+  1. **Master Data Katalog Otentik (`src/data/katalogBanong.js`):**
+     - Memuat **74 produk riil** hasil ekstraksi dari file `KATALOG_PRODUK_CV_BANONG_FARMS.csv` & `KATALOG_PRODUK_CV_BANONG_FARMS.xls`.
+     - Terklasifikasi dalam 5 kategori resmi:
+       - `Pakan Ternak & Unggas` (17 produk): New Hope HP100 Sak & Ecer, HL83 Sak & Ecer, HB200 Sak & Ecer, Malindo Bebek, Pur Broiler Starter, Sinindo KSK-36S/T78, Pelet Kelinci, Jagung Giling, Dedak Bekatul, Konsentrat Bebek/Ayam.
+       - `Pakan Ikan & Pet Food` (21 produk): HI-PRO-VITE 781-2 Sak & Ecer, Takari, Sakura, Pakan Burung Fancy 9 Star, Chirpy, Phoenix, Pakan Kucing Bolt Salmon/Tuna, Chester, Felibite, dll.
+       - `Bibit Unggul (DOQ/DOC/DOD)` (5 produk): DOQ Malempeng Puyuh Petelur, DOC Ayam Broiler, DOC Ayam Layer, DOC Ayam Joper, DOD Bebek/Itik Mojosari & Alabio.
+       - `Obat, Vitamin & Vaksin` (26 produk): Vaksin Medivac ND Clone 45, Gumboro A, La Sota, Vita Stress, Vita Chicks, Neobro, Egg Stimulant, Tetra-Chlor, Therapy, Trimezyn, Coxy, dll.
+       - `Alat & Perlengkapan Kandang` (5 produk): Kurungan ayam/burung, Feeder gantung, Nipple drinker otomatis, Egg tray, Sprayer disinfektan.
+     - Setiap item dilengkapi: nama resmi, merek/pabrikan, satuan spesifik (Sak 50kg, Karung 30kg, Bungkus, Botol, Box, Ekor), harga rupiah riil, deskripsi mutu & target ternak, stok riil, serta foto bukti toko (`/assets/store/*.jpeg`).
+  2. **Pembersihan Bersih Data Mock (`src/stores/useAdminStore.js`):**
+     - Default store diinisialisasi langsung dari `KATALOG_BANONG_74`.
+     - Fungsi `isMockProduct()` secara aktif memblokir dan menghapus data dummy lama dari `localStorage` browser.
+  3. **Penyempurnaan Filter Kategori Presisi (`src/components/ProductGrid.vue`):**
+     - Menghilangkan *overlapping* antar kategori pakan unggas dan pakan ikan/burung/kucing.
+     - Setiap kategori menampilkan jumlah item yang akurat (Pakan: 17, Bibit: 5, Obat: 26, Pakan Ikan/Pet: 21, Alat: 5, Total: 74).
+  4. **Peningkatan Kecerdasan Chatbot Si Banong (`src/services/aiService.js`):**
+     - Mesin pencocokan heuristik cerdas dengan *relevance scoring* terhadap 74 produk toko.
+     - Pertanyaan pelanggan (seperti *"Apakah ada pakan New Hope HP100 dan berapa harganya?"*) langsung dijawab dengan status stok aktual (`TERSEDIA (120 Sak (50 kg))`), harga riil (`Rp 405.000 / Sak (50 kg)`), dan nomor WhatsApp resmi toko `0899-9192-861`.
+  5. **Status Build & Runtime:**
+     - `npm run build` sukses 100% tanpa kendala (9.46s).
+     - Dev server aktif di `http://localhost:5173/` siap digunakan.
+
+---
+
+## 29. Komitmen & Batasan Operasional
 * **LARANGAN GIT COMMIT OTOMATIS OLEH AGENT:** Seluruh commit git dilakukan secara manual oleh pemilik proyek / pengguna. Agent dilarang menjalankan `git commit` maupun `git push`.
-* **RULE WARNA 60:30:10:** Wajib dipertahankan (Putih Dominan 60%, Navy Brand `#022448` 30%, Kuning Emas `#FCD400` 10%). Tombol merah dan hijau tetap dilarang pada landing page publik.
-* **STATUS KATALOG:** Disimpan dalam format spreadsheet Excel/CSV untuk diperiksa pengguna terlebih dahulu. Setelah dikonfirmasi, data dapat diintegrasikan ke tabel produk Supabase.
+* **RULE WARNA 60:30:10:** Wajib dipertahankan (Putih Dominan 60%, Navy Brand `#022448` 30%, Kuning Emas `#FCD400` 10%).
+* **STATUS KATALOG:** 74 Produk riil telah terintegrasi 100% ke dalam antarmuka web, store state, sistem pencarian, keranjang belanja, dan AI Chatbot Si Banong.
 

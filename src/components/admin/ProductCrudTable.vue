@@ -6,11 +6,11 @@
         <div class="flex items-center gap-2">
           <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[22px]">inventory_2</span>
           <h2 class="text-lg font-bold text-primary dark:text-white uppercase tracking-tight">
-            Katalog &amp; Manajemen Produk Panen
+            Katalog &amp; Manajemen Produk Sarana Peternakan
           </h2>
         </div>
         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Kelola daftar produk panen: Tambah Produk, Ubah Stok/Harga, dan Pantau Ketersediaan Gudang.
+          Kelola daftar pakan ternak, bibit unggul, obat &amp; alat kandang: Tambah Produk, Ubah Stok/Harga, dan Pantau Ketersediaan Gudang.
         </p>
       </div>
 
@@ -224,13 +224,11 @@ const selectedCategory = ref('Semua')
 
 const categories = [
   'Semua', 
-  'Peternakan Unggas', 
-  'Perikanan Air Deras', 
-  'Daging Segar', 
-  'Sayur & Cabai', 
-  'Buah-buahan', 
-  'Biji Kopi', 
-  'Produk Organik'
+  'Pakan Ternak & Unggas', 
+  'Bibit Unggul', 
+  'Obat, Vitamin & Vaksin', 
+  'Pakan Ikan & Pet Food', 
+  'Alat & Perlengkapan Kandang'
 ]
 
 const zeroStockCount = computed(() => {

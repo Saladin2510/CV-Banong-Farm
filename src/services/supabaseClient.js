@@ -86,13 +86,12 @@ export function isSupabaseConfigured() {
 
 export function getCategoryId(cat) {
   const c = (cat || '').toLowerCase()
-  if (c.includes('unggas') || c.includes('telur')) return 'unggas'
-  if (c.includes('daging') || c.includes('ayam') || c.includes('bebek')) return 'daging'
-  if (c.includes('ikan') || c.includes('perikanan') || c.includes('lele') || c.includes('nila') || c.includes('gurame')) return 'ikan'
-  if (c.includes('sayur') || c.includes('cabai')) return 'sayur'
-  if (c.includes('buah') || c.includes('pisang')) return 'buah'
-  if (c.includes('kopi')) return 'kopi'
-  return 'organik'
+  if (c.includes('pakan') || c.includes('pur') || c.includes('konsentrat') || c.includes('unggas') || c.includes('layer') || c.includes('broiler')) return 'pakan'
+  if (c.includes('bibit') || c.includes('doq') || c.includes('doc') || c.includes('dod')) return 'bibit'
+  if (c.includes('obat') || c.includes('vaksin') || c.includes('vitamin') || c.includes('medion') || c.includes('terapi') || c.includes('jamu')) return 'obat'
+  if (c.includes('ikan') || c.includes('pet') || c.includes('kucing') || c.includes('burung') || c.includes('pelet')) return 'ikan_pet'
+  if (c.includes('alat') || c.includes('kandang') || c.includes('sangkar') || c.includes('feeder') || c.includes('galon')) return 'alat'
+  return 'pakan'
 }
 
 export const supabaseApi = {
@@ -141,11 +140,12 @@ export const supabaseApi = {
       if (!result.error && Array.isArray(result.data) && result.data.length > 0) {
         return result.data.map(p => {
           const categoryName = p.kategori?.nama_kategori || p.category_name || (
-            p.id_kategori === 1 ? 'Peternakan Unggas' :
-            p.id_kategori === 2 ? 'Perikanan Air Deras' :
-            p.id_kategori === 3 ? 'Daging Segar' :
-            p.id_kategori === 4 ? 'Produk Organik' :
-            'Buah & Hasil Panen'
+            p.id_kategori === 1 ? 'Pakan Ternak & Unggas' :
+            p.id_kategori === 2 ? 'Bibit Unggul' :
+            p.id_kategori === 3 ? 'Obat, Vitamin & Vaksin' :
+            p.id_kategori === 4 ? 'Pakan Ikan & Pet Food' :
+            p.id_kategori === 5 ? 'Alat & Perlengkapan Kandang' :
+            'Pakan Ternak & Unggas'
           )
           return {
             id: Number(p.id),
@@ -158,8 +158,8 @@ export const supabaseApi = {
             maxStock: Number(p.stok_maksimal ?? p.max_stock) || 5000,
             unit: p.satuan || p.unit || 'pcs',
             soldCount: Number(p.jumlah_terjual ?? p.sold_count) || 0,
-            icon: p.ikon || p.icon || 'eco',
-            image: p.url_gambar || p.image_url || '/assets/product-fertilizer.png',
+            icon: p.ikon || p.icon || 'agriculture',
+            image: p.url_gambar || p.image_url || '/assets/store/karung_1.jpeg',
             description: p.deskripsi || p.description || ''
           }
         })
@@ -261,9 +261,11 @@ export const supabaseApi = {
         const matched = catRows.find(c => 
           catLower.includes((c.slug || '').toLowerCase()) || 
           catLower.includes((c.nama_kategori || '').toLowerCase()) ||
-          (c.slug === 'unggas' && (catLower.includes('telur') || catLower.includes('unggas'))) ||
-          (c.slug === 'ikan' && (catLower.includes('ikan') || catLower.includes('lele') || catLower.includes('nila'))) ||
-          (c.slug === 'organik' && (catLower.includes('pupuk') || catLower.includes('kasgot') || catLower.includes('buah') || catLower.includes('sayur') || catLower.includes('kopi')))
+          (c.slug === 'pakan' && (catLower.includes('pakan') || catLower.includes('pur') || catLower.includes('unggas'))) ||
+          (c.slug === 'bibit' && (catLower.includes('bibit') || catLower.includes('doq') || catLower.includes('doc') || catLower.includes('dod'))) ||
+          (c.slug === 'obat' && (catLower.includes('obat') || catLower.includes('vaksin') || catLower.includes('vitamin'))) ||
+          (c.slug === 'ikan_pet' && (catLower.includes('ikan') || catLower.includes('pet') || catLower.includes('kucing') || catLower.includes('burung'))) ||
+          (c.slug === 'alat' && (catLower.includes('alat') || catLower.includes('kandang') || catLower.includes('sangkar')))
         )
         if (matched) {
           idKategori = matched.id
@@ -281,8 +283,8 @@ export const supabaseApi = {
       harga: Number(product.price) || 0,
       stok: Number(product.stock) || 0,
       stok_maksimal: Number(product.maxStock) || 5000,
-      satuan: product.unit || 'kg',
-      url_gambar: product.image || '/assets/product-fertilizer.png',
+      satuan: product.unit || 'pcs',
+      url_gambar: product.image || '/assets/store/karung_1.jpeg',
       deskripsi: product.description || '',
       jumlah_terjual: 0
     }

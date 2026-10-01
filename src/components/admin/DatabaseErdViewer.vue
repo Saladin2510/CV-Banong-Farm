@@ -553,17 +553,18 @@ ALTER PUBLICATION supabase_realtime ADD TABLE metrik_harian;
 
 -- SEED DATA AWAL
 INSERT INTO kategori (id, nama_kategori, slug, ikon) VALUES
-(1, 'Pakan Unggas & Bebek', 'unggas', 'egg'),
-(2, 'Pakan Ikan Air Tawar', 'ikan', 'set_meal'),
-(3, 'Pakan Ternak Ruminansia', 'ruminansia', 'nutrition'),
-(4, 'Pupuk & Olahan Organik', 'organik', 'eco')
+(1, 'Pakan Ternak & Unggas', 'pakan', 'agriculture'),
+(2, 'Bibit Unggul', 'bibit', 'flutter_dash'),
+(3, 'Obat, Vitamin & Vaksin', 'obat', 'medication'),
+(4, 'Pakan Ikan & Pet Food', 'ikan_pet', 'pets'),
+(5, 'Alat & Perlengkapan Kandang', 'alat', 'fence')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO produk (id, id_kategori, nama_produk, deskripsi, satuan, harga, stok, stok_maksimal, jumlah_terjual, url_gambar) VALUES
-(1, 1, 'Konsentrat Bebek Petelur Super', 'Pakan formulasi asam amino lengkap untuk mengoptimalkan produksi kuning telur jingga alami.', 'karung 50kg', 425000.00, 180, 500, 120, '/assets/product-eggs.png'),
-(2, 2, 'Pelet Ikan Lele Apung LP-2', 'Pelet apung protein 32% cocok untuk pembesaran lele kolam air deras.', 'karung 30kg', 315000.00, 240, 600, 310, '/assets/product-fish.png'),
-(3, 3, 'Silase Pakan Fermentasi Sapi & Kambing', 'Hijauan jagung manis terfermentasi bakteri asam laktat.', 'drum 100kg', 185000.00, 95, 300, 75, '/assets/product-chicken.png'),
-(4, 4, 'Pupuk Organik Kasgot Biokonversi', 'Pupuk hayati kaya hara makro hasil biokonversi limbah organik larva maggot BSF.', 'karung 25kg', 65000.00, 500, 1000, 420, '/assets/product-fertilizer.png')
+(1, 1, 'Pakan Komplit Unggas HP100', 'Pakan butiran crumble nutrisi tinggi pemacu pertumbuhan optimal dan FCR hemat standar PT New Hope Indonesia.', 'sak (50 kg)', 405000.00, 120, 5000, 24, '/assets/store/karung_1.jpeg'),
+(2, 1, 'Pakan Layer Petelur HL83', 'Pakan ayam petelur dengan kalsium dan asam amino seimbang produksi telur stabil.', 'sak (50 kg)', 390000.00, 110, 5000, 38, '/assets/store/banner.jpeg'),
+(3, 3, 'Vita Stress Multivitamin 100g', 'Multivitamin lengkap elektrolit mengatasi stres cuaca terik dan vaksinasi.', 'bungkus (100g)', 17000.00, 95, 1000, 75, '/assets/store/obat-obatan_ternak.jpeg'),
+(4, 4, 'HI-PRO-VITE 781-2 Pakan Lele', 'Pakan apung lele protein 31-33% aroma disukai ikan dari CP Prima.', 'sak (30 kg)', 360000.00, 80, 2000, 42, '/assets/store/karung_1.jpeg')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO metrik_harian (tanggal, label_hari, volume_aktual_kg, prediksi_volume_kg) VALUES
@@ -621,19 +622,19 @@ const tableSchemas = [
     description: 'Master Klasifikasi Komoditas Agribisnis & Peternakan Farm',
     columns: [
       { name: 'id', type: 'INTEGER', key: 'PK', desc: 'Identifikator unik kategori (GENERATED ALWAYS AS IDENTITY)' },
-      { name: 'nama_kategori', type: 'VARCHAR', key: '-', desc: 'Nama kategori komoditas (Unggas, Perikanan, Daging, dll)' },
+      { name: 'nama_kategori', type: 'VARCHAR', key: '-', desc: 'Nama kategori komoditas (Pakan Ternak, Bibit, Obat, dll)' },
       { name: 'slug', type: 'VARCHAR', key: 'UNIQUE', desc: 'Slug URL unik untuk filter katalog publik' },
-      { name: 'ikon', type: 'VARCHAR', key: 'DEFAULT', desc: "Kode ikon Material Symbols (Default: 'eco')" }
+      { name: 'ikon', type: 'VARCHAR', key: 'DEFAULT', desc: "Kode ikon Material Symbols (Default: 'agriculture')" }
     ]
   },
   {
     name: 'produk',
-    description: 'Master Katalog Komoditas Panen Aktif & Inventaris Fisik Farm',
+    description: 'Master Katalog Pakan & Sarana Peternakan Aktif & Inventaris Toko',
     columns: [
-      { name: 'id', type: 'BIGINT', key: 'PK', desc: 'Identifikator unik komoditas panen (GENERATED ALWAYS AS IDENTITY)' },
+      { name: 'id', type: 'BIGINT', key: 'PK', desc: 'Identifikator unik produk sarana peternakan (GENERATED ALWAYS AS IDENTITY)' },
       { name: 'id_kategori', type: 'INTEGER', key: 'FK', desc: 'Relasi foreign key ke kategori.id' },
-      { name: 'nama_produk', type: 'VARCHAR', key: '-', desc: 'Nama produk resmi hasil panen / olahan' },
-      { name: 'deskripsi', type: 'TEXT', key: '-', desc: 'Deskripsi mutu, spesifikasi, dan manfaat komoditas' },
+      { name: 'nama_produk', type: 'VARCHAR', key: '-', desc: 'Nama resmi produk pakan/bibit/obat ternak' },
+      { name: 'deskripsi', type: 'TEXT', key: '-', desc: 'Deskripsi mutu, spesifikasi pakan dan indikasi ternak' },
       { name: 'satuan', type: 'VARCHAR', key: 'DEFAULT', desc: "Satuan takaran komoditas (Default: 'kg' / pcs)" },
       { name: 'harga', type: 'NUMERIC', key: 'DEFAULT', desc: 'Harga satuan aktif komoditas dalam Rupiah (Default: 0.00)' },
       { name: 'stok', type: 'INTEGER', key: 'DEFAULT', desc: 'Kapasitas stok fisik saat ini (otomatis berkurang saat order)' },

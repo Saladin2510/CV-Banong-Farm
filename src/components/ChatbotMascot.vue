@@ -358,7 +358,7 @@ const sendMessage = async () => {
   } catch (e) {
     messages.value.push({
       sender: 'bot',
-      text: 'Halo Kak! Untuk informasi harga, ketersediaan stok panen terbaru, atau pemesanan cepat, Kakak bisa langsung chat hotline WhatsApp pengelola CV Banong Farms di 0899-9192-861 (Ajibarang, Banyumas). Kami siap melayani setiap hari pukul 07.00 - 17.00 WIB!',
+      text: 'Halo Kak! Untuk informasi harga, ketersediaan stok pakan, bibit, atau obat terbaru, Kakak bisa langsung chat hotline WhatsApp resmi CV Banong Farms di 0899-9192-861 (Ajibarang, Banyumas). Kami siap melayani Senin – Sabtu pukul 07.30 - 16.00 WIB (Hari Minggu Libur)!',
       time: getTime()
     })
   } finally {

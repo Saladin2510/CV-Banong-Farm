@@ -49,7 +49,7 @@
           Belum Ada Produk di Kategori Ini
         </h3>
         <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 max-w-sm">
-          Hasil panen untuk kategori ini sedang disortir di peternakan. Silakan cek kategori lain atau hubungi kami langsung via WhatsApp untuk pesanan khusus.
+          Stok sarana peternakan untuk kategori ini sedang disiapkan di gudang toko. Silakan cek kategori lain atau hubungi kami langsung via WhatsApp untuk ketersediaan barang.
         </p>
       </div>
 
@@ -154,13 +154,12 @@ const categories = [
 const matchesCategory = (p, catId) => {
   if (catId === 'all') return true
   if (p.categoryId === catId) return true
-  const catName = (p.category || '').toLowerCase()
-  const pName = (p.name || p.title || '').toLowerCase()
-  if (catId === 'pakan') return catName.includes('pakan') || catName.includes('konsentrat') || catName.includes('pur') || pName.includes('new hope') || pName.includes('hp100') || pName.includes('hl83') || pName.includes('unggas')
-  if (catId === 'bibit') return catName.includes('bibit') || pName.includes('doq') || pName.includes('doc') || pName.includes('dod') || pName.includes('bibit')
-  if (catId === 'obat') return catName.includes('obat') || catName.includes('vaksin') || catName.includes('vitamin') || pName.includes('medivac') || pName.includes('vita') || pName.includes('therapy') || pName.includes('tetra')
-  if (catId === 'ikan_pet') return catName.includes('ikan') || catName.includes('pet') || catName.includes('burung') || catName.includes('kucing') || pName.includes('bolt') || pName.includes('leopard') || pName.includes('pro-vite') || pName.includes('takari')
-  if (catId === 'alat') return catName.includes('alat') || catName.includes('kandang') || pName.includes('sangkar') || pName.includes('feeder') || pName.includes('minum')
+  const catName = (p.category || p.category_name || '').toLowerCase()
+  if (catId === 'pakan') return (catName.includes('pakan ternak') || catName.includes('unggas')) && !catName.includes('ikan') && !catName.includes('pet')
+  if (catId === 'bibit') return catName.includes('bibit')
+  if (catId === 'obat') return catName.includes('obat') || catName.includes('vaksin') || catName.includes('vitamin')
+  if (catId === 'ikan_pet') return catName.includes('ikan') || catName.includes('pet')
+  if (catId === 'alat') return catName.includes('alat') || catName.includes('kandang')
   return false
 }
 

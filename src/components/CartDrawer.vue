@@ -95,7 +95,7 @@
                 <span>Notifikasi Real-time Pengelola Aktif</span>
               </div>
               <p class="text-[11px] text-slate-400 mt-1">
-                Pengelola kami akan segera memvalidasi pesanan dan menyiapkan panen segar Anda.
+                Pengelola toko kami akan segera memvalidasi pesanan dan menyiapkan pesanan sarana pakan Anda.
               </p>
             </div>
 
@@ -119,7 +119,7 @@
               Keranjang Belanja Masih Kosong
             </h3>
             <p class="text-xs text-slate-500 max-w-xs">
-              Pilih produk segar unggulan dari katalog panen untuk memesan langsung via WhatsApp.
+              Pilih pakan ternak atau sarana peternakan unggulan dari katalog untuk memesan langsung via WhatsApp.
             </p>
             <button 
               @click="cartStore.closeCart()"

@@ -91,7 +91,7 @@
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
                 <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
-                <span>Komoditas Panen</span>
+                <span>Produk &amp; Sarana Ternak</span>
               </a>
             </div>
 
@@ -415,8 +415,8 @@ const IconKasgotOrganik = () => h('svg', { viewBox: '0 0 64 64', fill: 'none', c
 const animalTiles = [
   {
     id: 'ayam',
-    name: 'Ayam Kampung Segar',
-    shortName: 'Ayam',
+    name: 'Pakan Ayam & Unggas',
+    shortName: 'Pakan Ayam',
     iconComponent: IconAyam,
     left: '2%',
     top: '34%',
@@ -426,8 +426,8 @@ const animalTiles = [
   },
   {
     id: 'telur',
-    name: 'Telur Ayam & Bebek',
-    shortName: 'Telur',
+    name: 'Pakan Puyuh & Layer',
+    shortName: 'Pakan Layer',
     iconComponent: IconTelur,
     left: '11%',
     top: '6%',
@@ -437,8 +437,8 @@ const animalTiles = [
   },
   {
     id: 'bebek',
-    name: 'Bebek & Entok',
-    shortName: 'Bebek',
+    name: 'Pakan Bebek & Itik',
+    shortName: 'Pakan Bebek',
     iconComponent: IconBebek,
     left: '16%',
     top: '46%',
@@ -448,8 +448,8 @@ const animalTiles = [
   },
   {
     id: 'domba',
-    name: 'Domba Garut Pilihan',
-    shortName: 'Domba',
+    name: 'Pakan Ruminansia Domba',
+    shortName: 'Pakan Domba',
     iconComponent: IconDomba,
     left: '28%',
     top: '38%',
@@ -459,8 +459,8 @@ const animalTiles = [
   },
   {
     id: 'sapi',
-    name: 'Sapi Ternak Sehat',
-    shortName: 'Sapi',
+    name: 'Konsentrat & Pakan Sapi',
+    shortName: 'Pakan Sapi',
     iconComponent: IconSapi,
     left: '39%',
     top: '8%',
@@ -470,8 +470,8 @@ const animalTiles = [
   },
   {
     id: 'ikan',
-    name: 'Ikan Air Tawar Nila',
-    shortName: 'Ikan Nila',
+    name: 'Pelet Pakan Ikan HI-PRO-VITE',
+    shortName: 'Pakan Ikan',
     iconComponent: IconIkan,
     left: '49%',
     top: '48%',
@@ -481,8 +481,8 @@ const animalTiles = [
   },
   {
     id: 'kambing',
-    name: 'Kambing Etawa & Jawa',
-    shortName: 'Kambing',
+    name: 'Obat & Vitamin Medion',
+    shortName: 'Obat Medion',
     iconComponent: IconKambing,
     left: '59%',
     top: '6%',
@@ -492,8 +492,8 @@ const animalTiles = [
   },
   {
     id: 'kelinci',
-    name: 'Kelinci Pedaging & Hias',
-    shortName: 'Kelinci',
+    name: 'Pakan Pelet Kelinci',
+    shortName: 'Pakan Kelinci',
     iconComponent: IconKelinci,
     left: '69%',
     top: '42%',
@@ -503,8 +503,8 @@ const animalTiles = [
   },
   {
     id: 'lebah',
-    name: 'Lebah Madu Peternakan',
-    shortName: 'Lebah',
+    name: 'Pakan Burung Berkicau',
+    shortName: 'Pakan Burung',
     iconComponent: IconLebah,
     left: '79%',
     top: '8%',
@@ -514,8 +514,8 @@ const animalTiles = [
   },
   {
     id: 'kasgot',
-    name: 'Kasgot & Pupuk Organik',
-    shortName: 'Kasgot BSF',
+    name: 'Perlengkapan Kandang & Alat',
+    shortName: 'Alat Kandang',
     iconComponent: IconKasgotOrganik,
     left: '84%',
     top: '44%',
@@ -526,7 +526,7 @@ const animalTiles = [
 ]
 
 const openWhatsAppConsultation = () => {
-  window.open('https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20berkonsultasi%20mengenai%20produk%20peternakan%20dan%20hasil%20panen.', '_blank')
+  window.open('https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20berkonsultasi%20mengenai%20pakan%20ternak,%20bibit,%20dan%20obat%20vitamin.', '_blank')
 }
 </script>
 

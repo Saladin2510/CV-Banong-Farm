@@ -2,8 +2,9 @@ import { ref, computed } from 'vue'
 import { apiService } from '../services/apiService'
 import { supabaseApi, isSupabaseConfigured } from '../services/supabaseClient'
 import { analyzePredictiveStockAndRevenue } from '../services/aiService'
+import { KATALOG_BANONG_74 } from '../data/katalogBanong'
 
-const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_pure_v9'
+const STORAGE_PRODUCTS_KEY = 'cv_banong_farms_products_real_v10'
 const STORAGE_ORDERS_KEY = 'cv_banong_farms_orders_pure_v9'
 const STORAGE_CHART_KEY = 'cv_banong_farms_daily_chart_pure_v10'
 const STORAGE_STAFF_KEY = 'cv_banong_farms_staff_pure_v2'
@@ -20,7 +21,7 @@ if (typeof window !== 'undefined' && window.localStorage) {
       'cv_banong_farms_products_zero_v6', 'cv_banong_farms_orders_zero_v6', 'cv_banong_farms_daily_chart_zero_v6',
       'cv_banong_farms_products_pcs_v7', 'cv_banong_farms_orders_pcs_v7', 'cv_banong_farms_daily_chart_pcs_v7',
       'cv_banong_farms_products_pure_v8', 'cv_banong_farms_orders_pure_v8', 'cv_banong_farms_daily_chart_pure_v8',
-      'cv_banong_farms_daily_chart_pure_v9', 'cv_banong_ai_predictions_v1',
+      'cv_banong_farms_products_pure_v9', 'cv_banong_farms_daily_chart_pure_v9', 'cv_banong_ai_predictions_v1',
       'cv_banong_farms_staff_pure_v1',
       'cv_banong_reset_zero_synced_v8'
     ].forEach(k => localStorage.removeItem(k))
@@ -57,7 +58,12 @@ export function isMockProduct(p) {
     name.includes('kasgot super') ||
     name.includes('cabai rawit') ||
     name.includes('buah naga') ||
-    name.includes('robusta')
+    name.includes('robusta') ||
+    name.includes('telur ayam negeri') ||
+    name.includes('telur bebek omega') ||
+    name.includes('telur asin') ||
+    name.includes('ikan nila merah segar') ||
+    name.includes('sayur hidroponik')
   )
 }
 
@@ -153,8 +159,8 @@ export function getDynamicLast7Days() {
   return days
 }
 
-// Data komoditas murni dari database: array awal kosong agar tidak ada flash 1 frame mock fiktif
-const DEFAULT_PRODUCTS = []
+// Data komoditas murni dari katalog otentik toko 74 produk
+const DEFAULT_PRODUCTS = KATALOG_BANONG_74
 
 // Zero Initial Orders for Pure Real Testing
 const DEFAULT_ORDERS = []
@@ -166,11 +172,12 @@ function loadInitialProducts() {
     if (raw) {
       const parsed = JSON.parse(raw)
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed.filter(p => !isMockProduct(p))
+        const filtered = parsed.filter(p => !isMockProduct(p))
+        if (filtered.length > 0) return filtered
       }
     }
   } catch (e) {}
-  return []
+  return KATALOG_BANONG_74
 }
 
 function loadInitialOrders() {
@@ -266,37 +273,37 @@ const cloudAiStrategyText = ref('')
 
 const defaultAiPredictions = {
   bestSeller: {
-    name: 'Konsentrat Bebek Petelur Super',
+    name: 'Pakan Komplit Unggas HP100',
     projectedDemand30Days: 340,
-    projectedRevenue: 144500000,
+    projectedRevenue: 137700000,
     marketShare: 37.8
   },
   stockProjections: [
     {
-      name: 'Konsentrat Bebek Petelur Super',
-      currentStock: 180,
-      price: 425000,
-      projectedDemand30Days: 340,
+      name: 'Pakan Komplit Unggas HP100',
+      currentStock: 120,
+      price: 405000,
+      projectedDemand30Days: 280,
       stockDeficit: 160,
       restockRecommended: 200,
       daysUntilStockout: 14,
       urgency: 'Perlu Restok'
     },
     {
-      name: 'Pelet Ikan Lele Apung LP-2',
-      currentStock: 240,
-      price: 315000,
-      projectedDemand30Days: 290,
-      stockDeficit: 50,
-      restockRecommended: 70,
-      daysUntilStockout: 22,
+      name: 'Pakan Layer Petelur HL83',
+      currentStock: 110,
+      price: 390000,
+      projectedDemand30Days: 240,
+      stockDeficit: 130,
+      restockRecommended: 150,
+      daysUntilStockout: 18,
       urgency: 'Perlu Restok'
     },
     {
-      name: 'Pupuk Organik Kasgot Biokonversi',
-      currentStock: 500,
-      price: 65000,
-      projectedDemand30Days: 480,
+      name: 'HI-PRO-VITE 781-2 Pakan Lele',
+      currentStock: 80,
+      price: 360000,
+      projectedDemand30Days: 75,
       stockDeficit: 0,
       restockRecommended: 0,
       daysUntilStockout: 31,
@@ -304,13 +311,13 @@ const defaultAiPredictions = {
     }
   ],
   revenueProjection: {
-    projectedNextMonthRevenue: 48200000,
-    estimatedGrossProfit: 7904800,
-    grossProfitMarginPercent: 16.4,
-    growthRatePercent: 15.2,
-    totalProjectedVolume: 1110
+    projectedNextMonthRevenue: 78500000,
+    estimatedGrossProfit: 12400000,
+    grossProfitMarginPercent: 15.8,
+    growthRatePercent: 14.2,
+    totalProjectedVolume: 820
   },
-  strategicAnalysis: 'Model prediktif siap. Unggah dataset transaksi atau klik "Muat Dataset 30 Hari (Demo PSAJ)" untuk melatih model secara real-time.',
+  strategicAnalysis: 'Model prediktif siap. Pantau penjualan pakan New Hope HP100 & HL83 serta jadwalkan pasokan armada toko ke kandang peternak.',
   isLiveAi: false,
   accuracy: '96,8%',
   trainingDatasetCount: 0,
@@ -1115,13 +1122,12 @@ async function deleteProduct(id) {
 
 function getCategoryId(cat) {
   const c = (cat || '').toLowerCase()
-  if (c.includes('unggas') || c.includes('telur')) return 'unggas'
-  if (c.includes('daging') || c.includes('ayam') || c.includes('bebek')) return 'daging'
-  if (c.includes('ikan') || c.includes('perikanan') || c.includes('lele') || c.includes('nila') || c.includes('gurame')) return 'ikan'
-  if (c.includes('sayur') || c.includes('cabai')) return 'sayur'
-  if (c.includes('buah') || c.includes('pisang')) return 'buah'
-  if (c.includes('kopi')) return 'kopi'
-  return 'organik'
+  if (c.includes('pakan') || c.includes('pur') || c.includes('konsentrat') || c.includes('unggas') || c.includes('layer') || c.includes('broiler')) return 'pakan'
+  if (c.includes('bibit') || c.includes('doq') || c.includes('doc') || c.includes('dod')) return 'bibit'
+  if (c.includes('obat') || c.includes('vaksin') || c.includes('vitamin') || c.includes('medion') || c.includes('terapi') || c.includes('jamu')) return 'obat'
+  if (c.includes('ikan') || c.includes('pet') || c.includes('kucing') || c.includes('burung') || c.includes('pelet')) return 'ikan_pet'
+  if (c.includes('alat') || c.includes('kandang') || c.includes('sangkar') || c.includes('feeder') || c.includes('galon')) return 'alat'
+  return 'pakan'
 }
 
 function resetAllDataToZero() {
@@ -1347,7 +1353,7 @@ async function trainAiModelWithDataset(transactions) {
 // Bangun proyeksi prediksi AI berdasarkan produk dan pesanan asli Supabase
 function buildLivePredictionsFromProducts() {
   const activeProducts = products.value.filter(p => !isMockProduct(p))
-  const top = topSellingProduct.value || activeProducts[0] || { name: 'Konsentrat Bebek Petelur Super', stock: 0, price: 425000, soldCount: 0 }
+  const top = topSellingProduct.value || activeProducts[0] || { name: 'Pakan Komplit Unggas HP100', stock: 120, price: 405000, soldCount: 24 }
   
   const stockProjections = activeProducts.slice(0, 4).map(p => {
     const sold = Number(p.soldCount) || 0
@@ -1376,14 +1382,14 @@ function buildLivePredictionsFromProducts() {
 
   if (stockProjections.length === 0) {
     stockProjections.push({
-      name: 'Konsentrat Bebek Petelur Super',
-      currentStock: 0,
-      price: 425000,
+      name: 'Pakan Komplit Unggas HP100',
+      currentStock: 120,
+      price: 405000,
       projectedDemand30Days: 50,
-      stockDeficit: 50,
-      restockRecommended: 50,
-      daysUntilStockout: 0,
-      urgency: 'Sangat Kritis'
+      stockDeficit: 0,
+      restockRecommended: 0,
+      daysUntilStockout: 30,
+      urgency: 'Aman'
     })
   }
 
@@ -1461,15 +1467,15 @@ async function resetAiModelToSupabase() {
             id: Number(p.id),
             name: p.name || p.nama_produk || 'Produk Pakan',
             title: p.title || p.name || p.nama_produk || 'Produk Pakan',
-            category: p.category || p.category_name || 'Peternakan Unggas',
-            categoryId: getCategoryId(p.category || p.category_name || 'Peternakan Unggas'),
+            category: p.category || p.category_name || 'Pakan Ternak & Unggas',
+            categoryId: getCategoryId(p.category || p.category_name || 'Pakan Ternak & Unggas'),
             price: Number(p.price ?? p.harga) || 0,
             stock: Number(p.stock ?? p.stok) || 0,
             maxStock: Number(p.maxStock ?? p.stok_maksimal ?? p.max_stock) || 5000,
             unit: p.unit || p.satuan || 'pcs',
             soldCount: Number(p.soldCount ?? p.jumlah_terjual ?? p.sold_count) || 0,
-            icon: p.icon || p.ikon || 'eco',
-            image: p.image || p.url_gambar || p.image_url || '/assets/product-fertilizer.png',
+            icon: p.icon || p.ikon || 'agriculture',
+            image: p.image || p.url_gambar || p.image_url || '/assets/store/karung_1.jpeg',
             description: p.description || p.deskripsi || ''
           }))
         }
