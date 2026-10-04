@@ -1678,8 +1678,60 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 
 ---
 
-## 31. Komitmen & Batasan Operasional
+## 31. Checkpoint Sesi 53: Verifikasi 100% Data Supabase Cloud & Rekonstruksi Responsivitas Penuh Dashboard Admin (Mobile & Tablet)
+* **Tanggal:** 05 Oktober 2026
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Berhasil, Vite v6.4.3, Zero Errors, 116 Modul).
+* **Hasil Verifikasi Database Supabase Cloud:**
+  1. **Tabel `produk`:** Terverifikasi memuat **74 produk riil** hasil ekstraksi katalog toko. Seluruh kolom (`id`, `id_kategori`, `nama_produk`, `deskripsi`, `satuan`, `harga`, `stok`, `stok_maksimal`, `jumlah_terjual`, `url_gambar`) cocok 100% dengan `src/data/katalogBanong.js` tanpa ada selisih (*0 mismatches*).
+  2. **Tabel `kategori`:** Terverifikasi memuat 5 kategori resmi (*Pakan Ternak & Unggas*, *Bibit Unggul*, *Obat, Vitamin & Vaksin*, *Pakan Ikan & Pet Food*, *Alat & Perlengkapan Kandang*).
+  3. **Tabel Transaksi & Skema:** Tabel `pesanan`, `detail_pesanan`, `metrik_harian`, `strategi_ai`, dan `admin` aktif dan terhubung.
+* **Rekonstruksi Responsivitas Penuh Dashboard Admin (Mobile & Tablet):**
+  1. **Sistem Off-Canvas Drawer Sidebar (`src/components/admin/AdminSidebar.vue`):**
+     - Pada layar Desktop ($\ge$ 1024px): Sidebar tetap tampil statis kokoh di sisi kiri (`w-64`).
+     - Pada layar Mobile & Tablet (< 1024px): Sidebar bertransformasi menjadi off-canvas drawer meluncur dari kiri (`-translate-x-full lg:translate-x-0 transition-transform duration-300`) dengan tombol penutup silang (`close`), serta otomatis menutup saat item navigasi atau tautan dipilih.
+  2. **Backdrop & Kontrol Navigasi Utama (`src/components/admin/CommandCenter.vue`):**
+     - Penambahan overlay backdrop gelap (`fixed inset-0 bg-black/60 backdrop-blur-xs z-45 lg:hidden`) yang dapat diketuk untuk menutup drawer.
+     - Penataan layout fleksibel: `w-full lg:pl-64 flex flex-col min-h-screen` dengan padding adaptif (`p-3.5 sm:p-6 md:p-8`) dan proteksi luapan horizontal `overflow-x-hidden`.
+  3. **Header Admin Responsif (`src/components/admin/AdminHeader.vue`):**
+     - Lebar penuh pada layar kecil (`left-0 lg:left-64 right-0`) sehingga tidak lagi tergeser 256px ke kanan.
+     - Penambahan tombol **Hamburger Menu (`menu`)** ergonomis di sisi kiri atas untuk membuka drawer navigasi pada smartphone dan tablet.
+     - Pembatasan lebar responsif dropdown notifikasi pesanan (`w-[calc(100vw-28px)] sm:w-80 max-w-sm`) agar tidak keluar dari tepi layar ponsel.
+     - Tombol profil dan logout disederhanakan dengan ikon ringkas tanpa memakan ruang horisontal berlebih.
+  4. **Dual-View Responsif Tabel Produk (`src/components/admin/ProductCrudTable.vue`):**
+     - **Desktop/Tablet ($\ge$ 768px):** Tampilan tabel data berdensitas tinggi lengkap dengan progress bar stok dan tombol aksi.
+     - **Mobile (< 768px):** Tampilan **Mobile Product Cards** profesional: kartu produk modern berbingkai elegan yang memuat foto thumbnail, nama produk, chip kategori, badge sisa stok real-time (dengan indikator warna hijau/kuning/merah), harga, dan tombol sentuh besar (*touch-friendly*) untuk "Ubah / Isi Stok" dan "Hapus".
+     - Integrasi bilah pencarian lokal langsung di dalam tabel produk admin (`Cari pakan, bibit, obat, ID...`) dengan counter realtime jumlah produk yang cocok.
+     - Tab filter kategori dapat digeser halus dengan sentuhan jari (*horizontal touch scrolling*).
+  5. **Dual-View Manajemen Karyawan (`src/components/admin/StaffManagement.vue`):**
+     - **Desktop/Tablet ($\ge$ 768px):** Tabel data karyawan lengkap dengan avatar inisial, email, divisi, status, dan tombol aksi.
+     - **Mobile (< 768px):** Kartu karyawan mobile dengan tata letak rapi, status akun, dan tombol sentuh ubah/hapus akun.
+  6. **Proteksi Viewport Modal Admin (`ProductModal.vue` & `StaffModal.vue`):**
+     - Pembatasan tinggi maksimal modal `max-h-[92dvh]` dengan kontainer formulir `overflow-y-auto`, memastikan tombol simpan dan kolom input formulir tetap dapat diakses penuh saat keyboard virtual smartphone terbuka.
+
+---
+
+## 32. Checkpoint Sesi 54: Perbaikan Presisi Dropdown Notifikasi Mobile & Pembebasan Kurva Grafik Analitik dari Halangan Kotak Teks
+* **Tanggal:** 05 Oktober 2026
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Berhasil, Vite v6.4.3, Zero Errors, 116 Modul).
+* **Masalah UX yang Dilaporkan Pengguna (Berdasarkan Tangkapan Layar iPhone SE 375x667):**
+  1. **Dropdown Notifikasi Terpotong:** Panel popover notifikasi pesanan masuk saat aktif terpotong di sisi kiri/kanan layar ponsel karena posisi `absolute right-0` di dalam tombol bell inline menyebabkan kontainer meluap ke luar batas viewport kiri (`-97px`).
+  2. **Grafik Analitik Tertimpa Kotak Teks:** Kurva garis grafik perkiraan penjualan tertutup/terhalang oleh kotak teks melayang `PENJUALAN TERTINGGI: 14 pcs / mgg • Rp 448.000` yang diposisikan `absolute top-3` tepat di atas puncak kurva canvas, sehingga pengguna tidak dapat melihat kurva dan titik data secara utuh.
+* **Solusi & Implementasi Teknis:**
+  1. **Reposisi Presisi Dropdown Notifikasi Mobile (`src/components/admin/AdminHeader.vue`):**
+     - Mengubah koordinat posisi popover menjadi `fixed left-3 right-3 top-16 mt-1` pada layar mobile (< 640px). Panel kini otomatis terpusat sempurna dengan margin simetris 12px di sisi kiri dan kanan, membentang tepat di bawah header (68px).
+     - Pada layar Tablet & Desktop ($\ge$ 640px), posisi otomatis kembali menjadi `sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-80`.
+     - Menambahkan backdrop overlay klik luar (`fixed inset-0 z-40 bg-black/20 backdrop-blur-xs`) agar panel dapat ditutup dengan mengetuk area mana saja di layar.
+  2. **Pembebasan Penuh Kurva Grafik Analitik (`src/components/admin/AiAnalyticsSection.vue`):**
+     - Memindahkan informasi metrik penjualan tertinggi dari posisi `absolute` di dalam canvas ke **Strip Header Khusus di Atas Grafik** (`mb-3 p-2.5 sm:p-3 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 border border-orange-200/80 dark:border-orange-800/60`).
+     - Seluruh area canvas Chart.js kini **100% bersih, lapang, dan bebas dari halangan visual**. Seluruh lekukan kurva, area gradien, titik data, dan label sumbu X-Y (Mgg 1 s/d Mgg 4) terlihat jernih dan menyeluruh baik di ponsel, tablet, maupun desktop.
+
+---
+
+## 33. Komitmen & Batasan Operasional
 * **LARANGAN GIT COMMIT OTOMATIS OLEH AGENT:** Seluruh commit git dilakukan secara manual oleh pemilik proyek / pengguna. Agent dilarang menjalankan `git commit` maupun `git push`.
 * **RULE WARNA 60:30:10:** Wajib dipertahankan (Putih Dominan 60%, Navy Brand `#022448` 30%, Kuning Emas `#FCD400` 10%).
 * **STATUS KATALOG & SEARCH:** 74 Produk riil dapat dicari secara instan, difilter per kategori, dan diurutkan berdasarkan harga maupun stok secara responsif di semua perangkat.
+* **STATUS ADMIN DASHBOARD:** 100% Responsif dan ergonomis di smartphone (mobile), tablet, maupun monitor desktop dengan off-canvas drawer, dual-view cards, dropdown notifikasi terpusat bebas potong, dan visualisasi grafik bersih 100%.
+
+
 

@@ -9,13 +9,13 @@
   >
     <div 
       v-if="isOpen" 
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm select-none"
+      class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm select-none"
       @click.self="$emit('close')"
     >
-      <div class="bg-white dark:bg-[#161b22] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-lg overflow-hidden flex flex-col transition-colors">
+      <div class="bg-white dark:bg-[#161b22] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-lg max-h-[92dvh] overflow-hidden flex flex-col transition-colors">
         
         <!-- Modal Header -->
-        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/60">
+        <div class="px-5 sm:px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/60 shrink-0">
           <div class="flex items-center gap-2.5">
             <span class="material-symbols-outlined text-primary dark:text-secondary-container text-[24px]">
               {{ isEditMode ? 'manage_accounts' : 'person_add' }}
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Form Body -->
-        <form @submit.prevent="handleSubmit" class="p-6 flex flex-col gap-4 text-sm bg-white dark:bg-[#161b22]">
+        <form @submit.prevent="handleSubmit" class="p-4 sm:p-6 flex flex-col gap-4 text-sm bg-white dark:bg-[#161b22] overflow-y-auto max-h-[calc(92dvh-70px)]">
           
           <!-- Nama Lengkap -->
           <div class="flex flex-col gap-1.5">

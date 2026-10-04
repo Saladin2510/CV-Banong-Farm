@@ -40,30 +40,30 @@
         </div>
       </div>
 
-      <!-- Chart Display with Floating Peak Telemetry Node -->
-      <div class="relative w-full h-72 sm:h-80 bg-[#fbf9f6] dark:bg-[#0d1117] rounded-lg p-3 flex flex-col justify-between overflow-hidden border border-slate-100 dark:border-slate-800/80 transition-colors">
-        <!-- Floating Interactive Tooltip Node -->
-        <div class="absolute top-3 left-1/2 -translate-x-1/2 sm:left-[54%] z-10 bg-white/95 dark:bg-[#1c2128]/95 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cc-orange shadow-md flex items-center gap-2 max-w-xs sm:max-w-md pointer-events-none transition-all duration-300">
-          <span class="w-2 h-2 rounded-full bg-cc-orange animate-ping"></span>
-          <div class="flex flex-col">
-            <span class="font-telemetry-code text-xs text-cc-orange-strong font-bold">
-              PENJUALAN TERTINGGI: {{ peakInfo.amount }} • {{ peakInfo.val }}
-            </span>
-            <span class="text-[11px] text-[#797067] dark:text-slate-400 truncate">
-              {{ peakInfo.buyer }}
-            </span>
-          </div>
+      <!-- Peak Metric Highlight Strip (Placed cleanly outside canvas, zero chart obstruction) -->
+      <div class="mb-3 p-2.5 sm:p-3 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 border border-orange-200/80 dark:border-orange-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs transition-colors">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-cc-orange animate-pulse shrink-0"></span>
+          <span class="font-telemetry-code text-xs text-cc-orange-strong font-bold">
+            PENJUALAN TERTINGGI: {{ peakInfo.amount }} • {{ peakInfo.val }}
+          </span>
         </div>
+        <span class="text-[11px] text-[#797067] dark:text-slate-400 font-medium pl-4 sm:pl-0">
+          {{ peakInfo.buyer }}
+        </span>
+      </div>
 
+      <!-- Chart Display (100% Unobstructed & Crystal Clear) -->
+      <div class="relative w-full h-72 sm:h-80 bg-[#fbf9f6] dark:bg-[#0d1117] rounded-lg p-3 flex flex-col justify-between overflow-hidden border border-slate-100 dark:border-slate-800/80 transition-colors">
         <!-- Chart.js Canvas -->
-        <div class="w-full h-full pt-6">
+        <div class="w-full h-full pt-1">
           <canvas ref="chartCanvas"></canvas>
         </div>
       </div>
 
       <!-- Chart Footer Legend & Metric -->
-      <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between text-xs text-[#797067] dark:text-slate-400">
-        <div class="flex items-center gap-4">
+      <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-[#797067] dark:text-slate-400">
+        <div class="flex flex-wrap items-center gap-3 sm:gap-4">
           <span class="flex items-center gap-1.5 font-medium text-slate-700 dark:text-slate-300">
             <span class="w-3 h-1 bg-cc-orange rounded-full inline-block"></span> Penjualan Sebenarnya
           </span>

@@ -118,8 +118,10 @@
         </div>
       </div>
 
-      <!-- Table -->
-      <div class="overflow-x-auto rounded-xl border border-slate-200/80 dark:border-slate-800">
+      <!-- ======================================================== -->
+      <!-- DESKTOP & TABLET VIEW: High-Density Table (hidden on md) -->
+      <!-- ======================================================== -->
+      <div class="hidden md:block overflow-x-auto rounded-xl border border-slate-200/80 dark:border-slate-800">
         <table class="w-full text-left border-collapse min-w-[640px]">
           <thead>
             <tr class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200/80 dark:border-slate-700">
@@ -143,7 +145,7 @@
           <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
             <tr 
               v-for="staff in filteredStaff" 
-              :key="staff.id"
+              :key="'table-staff-' + staff.id"
               class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors"
             >
               <!-- Avatar & Name -->
@@ -237,6 +239,101 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- MOBILE VIEW: Interactive Staff Cards (block on md)       -->
+      <!-- ======================================================== -->
+      <div class="block md:hidden flex flex-col gap-3">
+        <div 
+          v-for="staff in filteredStaff" 
+          :key="'mobile-staff-' + staff.id"
+          class="p-4 bg-slate-50/70 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-col gap-3 shadow-xs"
+        >
+          <!-- Top Row: Avatar + Name + Status -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-full bg-primary dark:bg-primary-container text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs border border-white/20">
+                {{ getInitials(staff.nama_lengkap) }}
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span class="font-bold text-sm text-primary dark:text-white leading-tight truncate">
+                  {{ staff.nama_lengkap }}
+                </span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-telemetry-code">
+                  ID: #{{ staff.id.toString().slice(-8) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Status Pill -->
+            <span 
+              :class="[
+                'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0',
+                staff.status === 'Aktif' || !staff.status
+                  ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+              ]"
+            >
+              <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+              {{ staff.status || 'Aktif' }}
+            </span>
+          </div>
+
+          <!-- Middle Details: Email & Role -->
+          <div class="p-3 rounded-xl bg-white dark:bg-[#0E1726] border border-slate-100 dark:border-slate-800 flex flex-col gap-2 text-xs">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] text-slate-400 font-semibold uppercase font-telemetry-code">Email:</span>
+              <span class="font-telemetry-code text-slate-700 dark:text-slate-300 truncate max-w-[200px]">{{ staff.email }}</span>
+            </div>
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+              <span class="text-[11px] text-slate-400 font-semibold uppercase font-telemetry-code">Divisi:</span>
+              <span 
+                :class="[
+                  'px-2 py-0.5 rounded-full text-[11px] font-bold font-telemetry-code border',
+                  staff.peran === 'Super Admin'
+                    ? 'bg-primary/10 text-primary dark:text-secondary-container border-primary/20 dark:border-secondary-container/40'
+                    : staff.peran === 'Admin Gudang & Stok'
+                      ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border-blue-200 dark:border-blue-800'
+                      : staff.peran === 'Admin Pesanan WA'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                ]"
+              >
+                {{ staff.peran }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <button 
+              @click="$emit('openEditModal', staff)"
+              class="h-9 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary dark:text-white border border-primary/20 dark:border-white/20 text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[16px]">edit</span>
+              <span>Ubah Akun</span>
+            </button>
+            <button 
+              @click="confirmDelete(staff)"
+              class="h-9 rounded-xl bg-slate-100 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-rose-950/40 text-slate-700 hover:text-rose-600 dark:text-slate-300 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors active:scale-95 cursor-pointer"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+              <span>Hapus</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Empty State -->
+        <div 
+          v-if="filteredStaff.length === 0" 
+          class="py-10 px-4 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-dashed border-slate-200 dark:border-slate-800 text-center flex flex-col items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600">person_off</span>
+          <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Tidak ada karyawan yang sesuai</span>
+        </div>
       </div>
 
     </div>

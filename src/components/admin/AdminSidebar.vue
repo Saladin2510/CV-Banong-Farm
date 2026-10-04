@@ -1,21 +1,39 @@
 <template>
-  <aside class="fixed left-0 top-0 h-screen w-64 bg-primary text-white border-r border-white/10 z-50 flex flex-col justify-between select-none">
+  <aside 
+    :class="[
+      'fixed left-0 top-0 h-screen w-64 bg-primary text-white border-r border-white/10 z-50 flex flex-col justify-between select-none transition-transform duration-300 ease-in-out',
+      isOpen ? 'translate-x-0 shadow-2xl ring-1 ring-white/15' : '-translate-x-full lg:translate-x-0'
+    ]"
+  >
     <div class="flex flex-col">
-      <!-- Header / Logo -->
-      <div class="h-16 px-4 flex items-center gap-3 border-b border-white/10">
-        <img 
-          alt="CV Banong Farms Logo" 
-          class="h-9 w-auto object-contain shrink-0 drop-shadow" 
-          src="/assets/logo.png" 
-        />
-        <div class="flex flex-col justify-center leading-tight min-w-0">
-          <span class="text-[15px] text-white tracking-tight font-bold truncate">
-            CV Banong Farms
-          </span>
-          <span class="text-[11px] text-secondary-container font-semibold tracking-wider uppercase truncate">
-            Admin Dashboard
-          </span>
+      <!-- Header / Logo & Mobile Close Button -->
+      <div class="h-16 px-4 flex items-center justify-between border-b border-white/10">
+        <div class="flex items-center gap-3 min-w-0">
+          <img 
+            alt="CV Banong Farms Logo" 
+            class="h-9 w-auto object-contain shrink-0 drop-shadow" 
+            src="/assets/logo.png" 
+          />
+          <div class="flex flex-col justify-center leading-tight min-w-0">
+            <span class="text-[15px] text-white tracking-tight font-bold truncate">
+              CV Banong Farms
+            </span>
+            <span class="text-[11px] text-secondary-container font-semibold tracking-wider uppercase truncate">
+              Admin Dashboard
+            </span>
+          </div>
         </div>
+
+        <!-- Close button on Mobile/Tablet -->
+        <button
+          @click="$emit('close')"
+          type="button"
+          class="lg:hidden w-8 h-8 rounded-lg text-white/70 hover:text-white hover:bg-white/10 flex items-center justify-center cursor-pointer transition-colors"
+          title="Tutup Menu"
+          aria-label="Tutup Menu"
+        >
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
       </div>
 
       <!-- Navigation Section Label -->
@@ -30,7 +48,7 @@
         <button 
           v-for="item in navItems" 
           :key="item.id"
-          @click="$emit('changeTab', item.id)"
+          @click="$emit('changeTab', item.id); $emit('close')"
           type="button"
           :class="[
             'w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer text-left',
@@ -93,7 +111,7 @@
 
       <!-- Back to Public Landing Page Button -->
       <button 
-        @click="$emit('switchView', 'landing')" 
+        @click="$emit('switchView', 'landing'); $emit('close')" 
         class="w-full h-9 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all border border-white/15 cursor-pointer shadow-xs active:scale-95"
         title="Beralih ke Landing Page Publik"
         type="button"
@@ -113,10 +131,14 @@ const props = defineProps({
   activeTab: {
     type: String,
     default: 'overview'
+  },
+  isOpen: {
+    type: Boolean,
+    default: false
   }
 })
 
-defineEmits(['switchView', 'changeTab'])
+defineEmits(['switchView', 'changeTab', 'close'])
 
 const adminStore = useAdminStore()
 

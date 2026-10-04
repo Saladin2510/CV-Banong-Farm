@@ -1,30 +1,50 @@
 <template>
-  <div class="min-h-screen bg-[#fbf9f6] dark:bg-[#0b0f17] text-[#1b1c1a] dark:text-slate-100 font-sans antialiased flex transition-colors duration-300">
+  <div class="min-h-screen bg-[#fbf9f6] dark:bg-[#0b0f17] text-[#1b1c1a] dark:text-slate-100 font-sans antialiased flex transition-colors duration-300 relative overflow-x-hidden">
     
+    <!-- Mobile / Tablet Backdrop Overlay -->
+    <transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div 
+        v-if="isMobileSidebarOpen"
+        @click="isMobileSidebarOpen = false"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-45 lg:hidden"
+        aria-hidden="true"
+      ></div>
+    </transition>
+
     <!-- 1. Dark Frosted Shell Sidebar -->
     <AdminSidebar 
       :activeTab="currentTab"
-      @changeTab="currentTab = $event"
+      :isOpen="isMobileSidebarOpen"
+      @changeTab="currentTab = $event; isMobileSidebarOpen = false"
+      @close="isMobileSidebarOpen = false"
       @switchView="$emit('switchView', $event)" 
     />
 
     <!-- 2. Main Workspace Layout -->
-    <div class="pl-64 w-full flex flex-col min-h-screen">
+    <div class="w-full lg:pl-64 flex flex-col min-h-screen transition-all duration-300">
       
       <!-- Top Fixed Header -->
       <AdminHeader 
         @switchView="$emit('switchView', $event)" 
         @search="handleSearch"
         @openAiSettings="isAiSettingsOpen = true"
+        @toggleSidebar="isMobileSidebarOpen = !isMobileSidebarOpen"
       />
 
       <!-- Content Container -->
-      <main class="w-full pt-16 bg-[#fbf9f6] dark:bg-[#0b0f17] flex-grow transition-colors duration-300">
-        <div class="max-w-[1400px] mx-auto p-6 md:p-8 flex flex-col gap-6">
+      <main class="w-full pt-16 bg-[#fbf9f6] dark:bg-[#0b0f17] flex-grow transition-colors duration-300 overflow-x-hidden">
+        <div class="max-w-[1400px] mx-auto p-3.5 sm:p-6 md:p-8 flex flex-col gap-5 sm:gap-6">
           
           <!-- Dynamic Page Header & Tactical Actions -->
-          <header class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
-            <div class="flex flex-col gap-1.5">
+          <header class="flex flex-col xl:flex-row xl:items-end justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-slate-200/80 dark:border-slate-800">
+            <div class="flex flex-col gap-1 sm:gap-1.5">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-white text-xs font-bold">
                   <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
@@ -32,7 +52,7 @@
                 </span>
               </div>
 
-              <h1 class="text-2xl sm:text-3xl text-primary dark:text-white font-extrabold tracking-tight mt-1 leading-snug">
+              <h1 class="text-xl sm:text-2xl md:text-3xl text-primary dark:text-white font-extrabold tracking-tight mt-0.5 sm:mt-1 leading-snug">
                 {{ currentHeaderInfo.title }}
               </h1>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
@@ -335,6 +355,7 @@ onErrorCaptured((err, instance, info) => {
 })
 
 const currentTab = ref('overview')
+const isMobileSidebarOpen = ref(false)
 const searchQuery = ref('')
 const isSyncing = ref(false)
 const toastMessage = ref('')
