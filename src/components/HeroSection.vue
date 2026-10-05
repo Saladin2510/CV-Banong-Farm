@@ -102,20 +102,20 @@
       </div>
 
       <!-- Metric Counter Strip (Responsive 3-Column Grid on Mobile, Flex on Desktop) -->
-      <div class="hero-reveal-item mt-4 sm:mt-5 pt-3.5 sm:pt-5 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-8 border-t border-surface-pure/20 w-full max-w-3xl">
-        <div>
-          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-secondary-container">Mitra Resmi</div>
-          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">PT. New Hope Cirebon</div>
+      <div class="hero-reveal-item mt-4 sm:mt-5 pt-3.5 sm:pt-5 grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-8 border-t border-surface-pure/20 w-full max-w-3xl">
+        <div class="min-w-0">
+          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-secondary-container truncate sm:overflow-visible">Mitra Resmi</div>
+          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible">PT. New Hope Cirebon</div>
         </div>
         <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
-        <div>
-          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">Grosir &amp; Ecer</div>
-          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Sak Karungan &amp; Kiloan Pas</div>
+        <div class="min-w-0">
+          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-surface-pure truncate sm:overflow-visible">Grosir &amp; Ecer</div>
+          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible">Sak &amp; Kiloan Pas</div>
         </div>
         <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
-        <div>
-          <div class="font-headline-lg text-base sm:text-headline-lg font-bold text-surface-pure">Armada Sendiri</div>
-          <div class="font-label-sm text-[10px] sm:text-label-sm text-primary-fixed leading-tight">Kirim Ajibarang &amp; Sekitarnya</div>
+        <div class="min-w-0">
+          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-surface-pure truncate sm:overflow-visible">Armada Sendiri</div>
+          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible">Kirim Ajibarang dsk</div>
         </div>
       </div>
     </div>

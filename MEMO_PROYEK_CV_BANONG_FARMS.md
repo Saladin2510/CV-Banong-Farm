@@ -1727,11 +1727,29 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 
 ---
 
-## 33. Komitmen & Batasan Operasional
+## 33. Checkpoint Sesi 55: Rekonstruksi Penuh UI/UX Navbar & Menu Mobile Landing Page (Eliminasi Distorsi Kaca Bulat & Kunci Lebar Viewport)
+* **Tanggal:** 05 Oktober 2026
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Berhasil, Vite v6.4.3, Zero Errors, 116 Modul).
+* **Masalah UI/UX yang Dilaporkan Pengguna (Berdasarkan Tangkapan Layar iPhone SE 375x667):**
+  1. **Navbar Menjorok ke Kanan:** Bilah navbar tampak menonjol ke luar tepi kanan melebihi background hero section, menimbulkan kolom putih kosong di sisi kanan layar. Hal ini dipicu oleh luapan elemen horisontal (`overflow-x`) dan grid metrik yang mendorong lebar canvas dokumen melebihi lebar viewport layar (375px).
+  2. **Efek Kaca Navbar Berubah Bulat:** Ketika menu navigasi dibuka (*hamburger clicked*), kontainer kapsul dengan `rounded-full` (`border-radius: 9999px`) merangkul seluruh drawer menu di dalamnya. Bertambahnya tinggi kontainer dari 64px menjadi ~350px mengubah bentuk kapsul secara matematis menjadi lingkaran/bola telur raksasa buram yang menutupi layar dan membuat tombol silang `close` terlempar keluar lingkaran.
+* **Solusi & Rekonstruksi Arsitektur:**
+  1. **Dekopel Kapsul Navbar & Drawer Menu (`src/components/Navbar.vue`):**
+     - Kapsul utama navbar dikunci secara permanen dengan tinggi tetap (`h-14 sm:h-[68px]`) dan `rounded-full`. Kapsul ini **TIDAK PERNAH** merangkul drawer di dalamnya, sehingga bentuknya selalu kapsul horizontal presisi dan **TIDAK PERNAH terdistorsi menjadi lingkaran/bulat**.
+     - Menu navigasi mobile kini diposisikan sebagai **Kartu Melayang Terpisah (Floating Card)** tepat di bawah kapsul (`mt-2`) dengan sudut membulat modern (`rounded-2xl`), shadow lembut, dan animasi transisi *fade-scale* yang mulus.
+     - Penambahan **Backdrop Overlay (`bg-black/40 backdrop-blur-xs`)**: Mengetuk area luar layar mana pun saat menu terbuka akan langsung menutup menu secara ergonomis.
+  2. **Kunci Lebar Layar Tanpa Luapan Horisontal (`src/style.css`, `src/App.vue`, `src/components/HeroSection.vue`):**
+     - Penerapan `overflow-x: hidden; max-width: 100vw;` pada level root `html, body` di `style.css`.
+     - Penambahan `overflow-x-hidden max-w-full` pada kontainer root `App.vue` dan elemen `<main>`.
+     - Penerapan `min-w-0` dan font responsif (`text-xs xs:text-sm`) pada 3 kolom strip metrik hero (`HeroSection.vue`) agar grid tidak pernah mendorong lebar layout melebihi 100vw pada ponsel berlayar ramping (375px kebawah).
+
+---
+
+## 34. Komitmen & Batasan Operasional
 * **LARANGAN GIT COMMIT OTOMATIS OLEH AGENT:** Seluruh commit git dilakukan secara manual oleh pemilik proyek / pengguna. Agent dilarang menjalankan `git commit` maupun `git push`.
 * **RULE WARNA 60:30:10:** Wajib dipertahankan (Putih Dominan 60%, Navy Brand `#022448` 30%, Kuning Emas `#FCD400` 10%).
 * **STATUS KATALOG & SEARCH:** 74 Produk riil dapat dicari secara instan, difilter per kategori, dan diurutkan berdasarkan harga maupun stok secara responsif di semua perangkat.
-* **STATUS ADMIN DASHBOARD:** 100% Responsif dan ergonomis di smartphone (mobile), tablet, maupun monitor desktop dengan off-canvas drawer, dual-view cards, dropdown notifikasi terpusat bebas potong, dan visualisasi grafik bersih 100%.
+* **STATUS RESPONSIVITAS:** 100% Responsif dan ergonomis di smartphone (mobile), tablet, maupun desktop, baik di Landing Page publik (Navbar kapsul presisi bebas distorsi, menu floating card dengan backdrop) maupun Dashboard Admin (off-canvas drawer, dual-view cards, grafik bersih).
 
 
 

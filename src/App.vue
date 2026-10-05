@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen font-sans antialiased">
+  <div class="min-h-screen font-sans antialiased overflow-x-hidden max-w-full">
     <!-- Admin View with Supabase Auth Guard -->
     <div v-if="currentView === 'admin'">
       <!-- If authenticated: show Command Center -->
@@ -17,12 +17,12 @@
     </div>
 
     <!-- Public Landing Page View -->
-    <div v-else class="min-h-screen bg-surface-pure dark:bg-[#070D1E] text-on-surface dark:text-slate-100 flex flex-col transition-colors duration-300">
+    <div v-else class="min-h-screen bg-surface-pure dark:bg-[#070D1E] text-on-surface dark:text-slate-100 flex flex-col transition-colors duration-300 overflow-x-hidden max-w-full">
       <!-- Sticky Navbar -->
       <Navbar @openAdmin="switchView('admin')" />
 
       <!-- Main Content -->
-      <main class="w-full bg-surface-pure dark:bg-[#070D1E] flex-grow transition-colors duration-300">
+      <main class="w-full bg-surface-pure dark:bg-[#070D1E] flex-grow transition-colors duration-300 overflow-x-hidden max-w-full">
         <!-- 1. Hero Section with SVG Curve Mask -->
         <HeroSection />
 

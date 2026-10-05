@@ -1,38 +1,53 @@
 <template>
+  <!-- Mobile Backdrop Overlay when menu is open -->
+  <transition
+    enter-active-class="transition-opacity duration-300 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition-opacity duration-200 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div 
+      v-if="isMobileMenuOpen"
+      @click="isMobileMenuOpen = false"
+      class="fixed inset-0 z-40 bg-black/40 dark:bg-black/65 backdrop-blur-xs md:hidden"
+    ></div>
+  </transition>
+
   <header 
-    class="fixed top-3 sm:top-5 inset-x-0 z-50 px-3 sm:px-6 lg:px-8 pointer-events-none transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.35,1)] will-change-transform"
+    class="fixed top-2.5 sm:top-5 inset-x-0 z-50 px-3 sm:px-6 lg:px-8 pointer-events-none transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.35,1)] will-change-transform"
     :class="[
       isNavbarHidden ? '-translate-y-24 opacity-0' : 'translate-y-0 opacity-100'
     ]"
   >
-    <!-- Floating Glassmorphism Capsule Container -->
-    <div 
-      class="pointer-events-auto max-w-7xl mx-auto w-full rounded-full transition-all duration-300 relative"
-      :class="[
-        isHeroSection
-          ? 'bg-white/25 dark:bg-[#022448]/35 backdrop-blur-xl border border-white/40 dark:border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.14)] ring-1 ring-white/20'
-          : 'bg-white/85 dark:bg-[#022448]/90 backdrop-blur-2xl border border-slate-200/70 dark:border-white/15 shadow-[0_12px_36px_rgba(2,36,72,0.15)] ring-1 ring-black/5'
-      ]"
-    >
-      <div class="h-16 sm:h-[68px] px-3.5 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
-        
+    <div class="max-w-7xl mx-auto w-full flex flex-col items-center">
+      <!-- Floating Glassmorphism Capsule (STRICTLY FIXED HEIGHT & ALWAYS ROUNDED-FULL) -->
+      <div 
+        class="pointer-events-auto w-full h-14 sm:h-[68px] px-3.5 sm:px-6 rounded-full flex items-center justify-between gap-2 sm:gap-4 transition-all duration-300"
+        :class="[
+          isHeroSection
+            ? 'bg-white/30 dark:bg-[#022448]/45 backdrop-blur-xl border border-white/40 dark:border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.14)] ring-1 ring-white/20'
+            : 'bg-white/90 dark:bg-[#022448]/90 backdrop-blur-2xl border border-slate-200/80 dark:border-white/15 shadow-[0_12px_36px_rgba(2,36,72,0.15)] ring-1 ring-black/5'
+        ]"
+      >
         <!-- Left: Brand Logo & Title -->
-        <a href="#hero" @click="scrollToHero" class="flex items-center gap-2.5 sm:gap-3 group shrink-0 cursor-pointer">
+        <a href="#hero" @click="scrollToHero" class="flex items-center gap-2 sm:gap-3 group shrink-0 cursor-pointer">
           <div class="relative flex items-center justify-center">
             <img 
               alt="CV Banong Farms Logo" 
-              class="h-9 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xs" 
+              class="h-8 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xs" 
               src="/assets/logo.png" 
             />
           </div>
           <div class="flex flex-col">
             <span 
-              class="font-bold text-[15px] sm:text-[17px] leading-tight tracking-tight text-primary dark:text-white transition-colors duration-300"
+              class="font-bold text-[14px] sm:text-[17px] leading-tight tracking-tight text-primary dark:text-white transition-colors duration-300"
             >
               CV Banong Farms
             </span>
             <span 
-              class="text-[11px] sm:text-xs font-medium text-primary/75 dark:text-slate-300 leading-tight transition-colors duration-300"
+              class="text-[10px] sm:text-xs font-medium text-primary/75 dark:text-slate-300 leading-tight transition-colors duration-300"
             >
               Poultry Shop · Ajibarang
             </span>
@@ -57,7 +72,7 @@
           </a>
         </nav>
 
-        <!-- Right: Actions (Cart + CTA + User Profile + Theme Toggle) -->
+        <!-- Right: Desktop Actions (Cart + CTA + User Profile + Theme Toggle) -->
         <div class="hidden md:flex items-center gap-2 sm:gap-2.5 shrink-0">
           <!-- Shopping Cart Trigger Button -->
           <button
@@ -100,15 +115,15 @@
         </div>
 
         <!-- Mobile Controls (< md) -->
-        <div class="md:hidden flex items-center gap-1.5">
+        <div class="md:hidden flex items-center gap-1.5 shrink-0">
           <!-- Mobile Cart Button -->
           <button
             @click="cartStore.openCart()"
-            class="relative p-2 rounded-full bg-white/20 dark:bg-white/10 text-primary dark:text-white border border-white/30 cursor-pointer"
+            class="relative p-2 rounded-full bg-white/20 dark:bg-white/10 hover:bg-white/30 text-primary dark:text-white border border-white/30 transition-all active:scale-95 cursor-pointer shadow-xs"
             title="Keranjang"
             type="button"
           >
-            <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+            <span class="material-symbols-outlined text-[19px]">shopping_cart</span>
             <span 
               v-if="cartStore.totalItems.value > 0"
               class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary-container text-primary text-[9px] font-black flex items-center justify-center font-telemetry-code shadow-xs"
@@ -120,63 +135,65 @@
           <!-- Mobile Hamburger Toggle Button -->
           <button 
             @click="isMobileMenuOpen = !isMobileMenuOpen"
-            class="p-2 rounded-full bg-white/20 dark:bg-white/10 text-primary dark:text-white border border-white/30 transition-colors"
+            class="p-2 rounded-full bg-white/20 dark:bg-white/10 hover:bg-white/30 text-primary dark:text-white border border-white/30 transition-all active:scale-95 cursor-pointer shadow-xs"
             aria-label="Toggle Navigation Menu"
+            type="button"
           >
-            <span class="material-symbols-outlined text-[22px]">
+            <span class="material-symbols-outlined text-[20px] transition-transform duration-200" :class="{ 'rotate-90': isMobileMenuOpen }">
               {{ isMobileMenuOpen ? 'close' : 'menu' }}
             </span>
           </button>
         </div>
       </div>
 
-      <!-- Mobile Dropdown Drawer (Floating Glassmorphism Card) -->
+      <!-- Mobile Dropdown Menu (FLOATING CARD OUTSIDE CAPSULE - ZERO DISTORTION) -->
       <transition
-        enter-active-class="transition duration-200 ease-out"
-        enter-from-class="opacity-0 -translate-y-3 scale-98"
+        enter-active-class="transition duration-250 ease-out"
+        enter-from-class="opacity-0 -translate-y-2.5 scale-[0.98]"
         enter-to-class="opacity-100 translate-y-0 scale-100"
         leave-active-class="transition duration-150 ease-in"
         leave-from-class="opacity-100 translate-y-0 scale-100"
-        leave-to-class="opacity-0 -translate-y-3 scale-98"
+        leave-to-class="opacity-0 -translate-y-2.5 scale-[0.98]"
       >
         <div 
           v-if="isMobileMenuOpen" 
-          class="md:hidden mt-2 p-4 rounded-3xl backdrop-blur-2xl border shadow-2xl transition-all duration-300 flex flex-col gap-2.5"
+          class="md:hidden mt-2 w-full p-4 rounded-2xl sm:rounded-3xl backdrop-blur-2xl border shadow-2xl transition-all duration-300 flex flex-col gap-2 pointer-events-auto"
           :class="isHeroSection 
-            ? 'bg-white/95 dark:bg-[#022448]/95 border-white/40 dark:border-white/20' 
-            : 'bg-white/98 dark:bg-[#022448]/98 border-slate-200/80 dark:border-slate-800'"
+            ? 'bg-white/95 dark:bg-[#022448]/95 border-white/40 dark:border-white/20 shadow-[0_16px_40px_rgba(0,0,0,0.25)]' 
+            : 'bg-white/98 dark:bg-[#022448]/98 border-slate-200/80 dark:border-slate-800 shadow-[0_16px_40px_rgba(2,36,72,0.2)]'"
         >
           <a 
             v-for="item in navItems" 
             :key="item.id"
             :href="item.href"
             @click="handleNavClick(item.id, item.href, $event)"
-            class="py-2.5 px-4 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between"
+            class="py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-between"
             :class="[
               activeNav === item.id 
-                ? 'bg-primary/10 dark:bg-white/15 text-primary dark:text-secondary-container font-bold' 
+                ? 'bg-primary/10 dark:bg-white/15 text-primary dark:text-secondary-container font-bold shadow-xs' 
                 : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10'
             ]"
           >
             <span>{{ item.name }}</span>
-            <span v-if="activeNav === item.id" class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+            <span v-if="activeNav === item.id" class="w-1.5 h-1.5 rounded-full bg-secondary-container shadow-xs"></span>
           </a>
 
-          <div class="pt-2 border-t border-slate-200/70 dark:border-white/15 flex items-center justify-between gap-3">
+          <div class="pt-2.5 mt-1 border-t border-slate-200/70 dark:border-white/15 flex items-center justify-between gap-2.5">
             <a 
               href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20bertanya%20mengenai%20produk%20dan%20layanan" 
               target="_blank" 
-              class="flex-1 text-center py-2.5 rounded-full bg-secondary-container text-primary font-bold text-xs shadow-md hover:bg-accent-hover"
+              class="flex-1 text-center py-2.5 px-3 rounded-full bg-secondary-container text-primary font-bold text-xs shadow-md hover:bg-accent-hover active:scale-95 transition-all truncate"
             >
               Hubungi Kami via WhatsApp
             </a>
 
             <button
               @click="toggleTheme"
-              class="p-2 rounded-full bg-slate-100 dark:bg-white/10 text-primary dark:text-secondary-container border border-slate-200 dark:border-white/15"
+              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-primary dark:text-secondary-container border border-slate-200 dark:border-white/15 flex items-center justify-center transition-all active:scale-95 shadow-xs shrink-0 cursor-pointer"
               :title="isDark ? 'Mode Terang' : 'Mode Gelap'"
+              type="button"
             >
-              <span class="material-symbols-outlined text-[19px]">
+              <span class="material-symbols-outlined text-[18px]">
                 {{ isDark ? 'light_mode' : 'dark_mode' }}
               </span>
             </button>
