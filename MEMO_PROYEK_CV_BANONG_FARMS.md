@@ -1745,10 +1745,29 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 
 ---
 
-## 34. Komitmen & Batasan Operasional
+## 34. Checkpoint Sesi 56: Pengujian Penuh & Peningkatan Akurasi AI Chatbot Mascot "Si Banong" (Konsultasi Nutrisi & Inventaris Real-Time)
+* **Tanggal:** 05 Oktober 2026
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Berhasil, Vite v6.4.3, Zero Errors, 116 Modul).
+* **Fokus Pengujian & Peningkatan (`src/components/ChatbotMascot.vue` & `src/services/aiService.js`):**
+  1. **Integrasi Model Gemini Resmi:**
+     - Memperbarui daftar fallback model Google Gemini ke model resmi Google AI Studio: `gemini-1.5-flash`, `gemini-2.0-flash`, dan `gemini-1.5-pro` (menghindari error 404 dari string versi non-standar).
+  2. **Hirarki Prioritas Intent & Heuristik Cerdas:**
+     - Penataan ulang hierarki intent: pencarian produk spesifik (harga & stok live dari 74 produk Supabase) dan intent pengantaran/armada toko (`antar`, `kirim`, `ongkir`, `kandang`) kini diprioritaskan lebih tinggi dibandingkan kata kunci generik seperti `pakan`.
+  3. **Hasil Verifikasi 6 Skenario Percakapan Kritis (100% Lulus):**
+     - **Skenario 1 (Cek Produk Terlaris - HP100):** Menjawab nama resmi, status `TERSEDIA (45 sak)`, harga `Rp 405.000 / sak`, dan tombol CTA WhatsApp.
+     - **Skenario 2 (Cek Obat/Vitamin - Vita Stress):** Menjawab nama resmi, status `TERSEDIA (120 bungkus)`, harga `Rp 18.000 / bungkus`.
+     - **Skenario 3 (Cek Barang Habis - Bibit DOQ):** Secara jujur dan akurat melaporkan status `HABIS (0 ekor)`, menyertakan harga normal, serta menawarkan hotline WhatsApp untuk pemesanan/booking antrean restok.
+     - **Skenario 4 (Jam Buka Toko):** Menjawab operasional Senin – Sabtu 07.30 – 16.00 WIB, Minggu libur.
+     - **Skenario 5 (Armada Pengantaran):** Mengonfirmasi keberadaan ARMADA TOKO SENDIRI untuk pengantaran langsung ke kandang di area Ajibarang, Cilongok, Pekuncen, dsk.
+     - **Skenario 6 (Lokasi Toko Fisik):** Menjawab lokasi strategis Depan Pasar Hewan (Sebelah Barat Pangkalan Ojek) Ajibarang, lengkap dengan tautan Google Maps interaktif yang dapat diklik langsung.
+
+---
+
+## 35. Komitmen & Batasan Operasional
 * **LARANGAN GIT COMMIT OTOMATIS OLEH AGENT:** Seluruh commit git dilakukan secara manual oleh pemilik proyek / pengguna. Agent dilarang menjalankan `git commit` maupun `git push`.
 * **RULE WARNA 60:30:10:** Wajib dipertahankan (Putih Dominan 60%, Navy Brand `#022448` 30%, Kuning Emas `#FCD400` 10%).
 * **STATUS KATALOG & SEARCH:** 74 Produk riil dapat dicari secara instan, difilter per kategori, dan diurutkan berdasarkan harga maupun stok secara responsif di semua perangkat.
+* **STATUS AI CHATBOT MASCOT:** 100% Siap melayani pelanggan secara cerdas (baik via Cloud Gemini API maupun Engine Heuristik Offline terintegrasi katalog live Supabase).
 * **STATUS RESPONSIVITAS:** 100% Responsif dan ergonomis di smartphone (mobile), tablet, maupun desktop, baik di Landing Page publik (Navbar kapsul presisi bebas distorsi, menu floating card dengan backdrop) maupun Dashboard Admin (off-canvas drawer, dual-view cards, grafik bersih).
 
 

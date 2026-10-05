@@ -108,7 +108,7 @@ IDENTITAS & PROFIL USAHA:
 }
 
 // Daftar model Gemini dengan mekanisme multi-tier fallback otomatis
-const GEMINI_MODELS = ['gemini-3.1-flash-lite', 'gemini-3.5-flash', 'gemini-3.8-flash']
+const GEMINI_MODELS = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro']
 
 /**
  * Chat with Mascot "Si Banong" (AI Agritech Assistant)
@@ -223,7 +223,7 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
 function getHeuristicMascotReply(query, liveProducts = []) {
   const q = query.toLowerCase()
 
-  // Cek apakah ada produk live yang dicari dalam database dengan scoring relevansi cerdas
+  // 1. Cek apakah ada produk live yang dicari dalam database dengan scoring relevansi cerdas
   if (Array.isArray(liveProducts) && liveProducts.length > 0) {
     let matchedProduct = null
     let maxScore = 0
@@ -236,9 +236,9 @@ function getHeuristicMascotReply(query, liveProducts = []) {
       const words = name.split(/\s+/).filter(w => w.length > 2)
       for (const w of words) {
         if (q.includes(w)) {
-          if (['hp100', 'hl83', 'hb200', 'ksk-36s', 't78', '781-2', 'doq', 'doc', 'dod', 'bolt', 'felibite', 'medivac'].includes(w)) {
+          if (['hp100', 'hl83', 'hb200', 'ksk-36s', 't78', '781-2', 'doq', 'doc', 'dod', 'bolt', 'felibite', 'medivac', 'stimulant', 'stress'].includes(w)) {
             score += 30
-          } else if (!['pakan', 'untuk', 'unggas', 'ayam', 'super', 'grosir', 'eceran'].includes(w)) {
+          } else if (!['pakan', 'untuk', 'unggas', 'ayam', 'super', 'grosir', 'eceran', 'medion'].includes(w)) {
             score += 10
           } else {
             score += 2
@@ -252,7 +252,7 @@ function getHeuristicMascotReply(query, liveProducts = []) {
       }
     }
 
-    if (matchedProduct && maxScore >= 10 && (q.includes('stok') || q.includes('harga') || q.includes('ada') || q.includes('berapa') || q.includes('beli') || q.includes('cari'))) {
+    if (matchedProduct && maxScore >= 10 && (q.includes('stok') || q.includes('harga') || q.includes('ada') || q.includes('berapa') || q.includes('beli') || q.includes('cari') || q.includes('ready'))) {
       const name = matchedProduct.name || matchedProduct.title
       const price = Number(matchedProduct.price || 0).toLocaleString('id-ID')
       const unit = matchedProduct.unit || 'pcs'
@@ -266,35 +266,52 @@ function getHeuristicMascotReply(query, liveProducts = []) {
     }
   }
 
-  if (q.includes('pakan') || q.includes('new hope') || q.includes('hp100') || q.includes('hl83') || q.includes('hb200') || q.includes('sinindo') || q.includes('sak') || q.includes('karung') || q.includes('ecer')) {
-    return 'CV Banong Farms adalah Agen Resmi / Drop Shipper pakan ternak PT. New Hope Indonesia (Cirebon). Kami menyediakan pakan puyuh petelur unggulan New Hope HP100 (Rp 405.000/sak), pakan layer HL83 (Rp 390.000/sak), broiler HB200 (Rp 380.000/sak), pakan Sinindo KSK-36S & T78, serta pakan lele HI-PRO-VITE 781-2. Melayani pembelian grosir sak (30-50 kg) maupun eceran kiloan dengan timbangan pas!'
+  // 2. High Specificity Intents: Pengantaran / Armada Toko
+  if (q.includes('antar') || q.includes('kirim') || q.includes('ongkir') || q.includes('armada') || q.includes('delivery') || q.includes('kandang') || q.includes('pickup')) {
+    return 'Tenang, CV Banong Farms memiliki **ARMADA TOKO SENDIRI**! 🚚 Kami siap mengantar pesanan pakan sak-sakan dan kebutuhan peternakan Anda langsung sampai ke depan pintu kandang. Melayani rute Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan jadwal pengiriman sigap.'
   }
-  if (q.includes('bibit') || q.includes('doq') || q.includes('doc') || q.includes('dod') || q.includes('puyuh') || q.includes('bebek') || q.includes('anak ayam')) {
-    return 'Kami menyediakan bibit ternak unggul kualitas terseleksi: DOQ (Day Old Quail) bibit puyuh petelur Malempeng dengan daya tahan tinggi, DOC ayam broiler/joper/layer, dan DOD bebek petelur & pedaging. Bibit sehat, lincah, dan siap dibesarkan dengan ransum pakan New Hope terbaik!'
-  }
-  if (q.includes('obat') || q.includes('vaksin') || q.includes('vitamin') || q.includes('medion') || q.includes('vita stress') || q.includes('sakit') || q.includes('neobro')) {
-    return 'Toko kami menyediakan produk farmasi dan vitamin ternak Medion lengkap: Vita Stress, Vita Chicks, Neobro, Egg Stimulant, Tetra-Chlor, Therapy, C-Tetra, Tinolin, hingga disinfektan kandang. Kami juga memiliki izin resmi SEDIA VAKSIN (Medivac ND Clone, Gumboro, La Sota) dengan suhu penyimpanan dingin terstandar.'
-  }
-  if (q.includes('antar') || q.includes('kirim') || q.includes('ongkir') || q.includes('armada') || q.includes('delivery') || q.includes('kandang')) {
-    return 'Tenang, CV Banong Farms memiliki ARMADA TOKO SENDIRI! Kami siap mengantar pesanan pakan sak-sakan dan kebutuhan peternakan Anda langsung sampai ke depan pintu kandang. Melayani rute Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan jadwal pengiriman teratur.'
-  }
+
+  // 3. Jam Operasional & Jadwal Buka
   if (q.includes('jam') || q.includes('buka') || q.includes('tutup') || q.includes('operasional') || q.includes('hari')) {
-    return 'Jam operasional toko CV Banong Farms: Buka hari Senin – Sabtu pukul 07.30 – 16.00 WIB. Hari Minggu Libur/Tutup. Untuk konsultasi atau pemesanan pakan silakan chat WhatsApp resmi kami di 0899-9192-861!'
+    return 'Jam operasional toko CV Banong Farms: Buka hari **Senin – Sabtu pukul 07.30 – 16.00 WIB**. (Hari Minggu Libur/Tutup). Untuk konsultasi atau pemesanan pakan silakan chat WhatsApp resmi kami di **0899-9192-861**!'
   }
-  if (q.includes('lokasi') || q.includes('alamat') || q.includes('dimana') || q.includes('tempat') || q.includes('pasar hewan')) {
-    return 'Toko fisik CV Banong Farms beralamat di: Depan Pasar Hewan, Sebelah Barat Pangkalan Ojek, Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163). Patokannya sangat mudah diakses kendaraan niaga maupun peternak!'
+
+  // 4. Lokasi Toko & Google Maps
+  if (q.includes('lokasi') || q.includes('alamat') || q.includes('dimana') || q.includes('tempat') || q.includes('pasar hewan') || q.includes('maps')) {
+    return 'Toko fisik CV Banong Farms beralamat di: **Depan Pasar Hewan, Sebelah Barat Pangkalan Ojek, Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163)**. Patokannya sangat strategis dan mudah diakses kendaraan niaga maupun peternak. Buka Google Maps: https://maps.app.goo.gl/AXAGnr9V4D15MyUz9'
   }
+
+  // 5. Cara Order / Pemesanan / Checkout
+  if (q.includes('pesan') || q.includes('beli') || q.includes('order') || q.includes('wa') || q.includes('whatsapp') || q.includes('kontak') || q.includes('nomor')) {
+    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol **"+ Tambah ke Keranjang"** pada produk di website ini, lalu klik checkout WhatsApp ke nomor resmi kami di **0899-9192-861**. Tim kami siap menyiapkan pesanan dan mengatur armada pengiriman ke kandang Anda!'
+  }
+
+  // 6. Obat-obatan, Vitamin & Vaksin Medion
+  if (q.includes('obat') || q.includes('vaksin') || q.includes('vitamin') || q.includes('medion') || q.includes('vita stress') || q.includes('sakit') || q.includes('neobro') || q.includes('dosis') || q.includes('nd clone') || q.includes('gumboro')) {
+    return 'Toko kami menyediakan produk farmasi dan vitamin ternak **Medion resmi lengkap**: Vita Stress, Vita Chicks, Neobro, Egg Stimulant, Tetra-Chlor, Therapy, C-Tetra, Tinolin, hingga disinfektan kandang. Kami juga memiliki izin resmi **SEDIA VAKSIN** (Medivac ND Clone, Gumboro, La Sota) dengan suhu penyimpanan dingin terstandar cold-chain!'
+  }
+
+  // 7. Bibit Ternak Unggul (DOQ, DOC, DOD)
+  if (q.includes('bibit') || q.includes('doq') || q.includes('doc') || q.includes('dod') || q.includes('puyuh') || q.includes('bebek') || q.includes('anak ayam') || q.includes('malempeng')) {
+    return 'Kami menyediakan bibit ternak unggul kualitas terseleksi: **DOQ (Day Old Quail)** bibit puyuh petelur Malempeng dengan daya tahan tinggi, **DOC ayam broiler/joper/layer**, dan **DOD bebek petelur & pedaging**. Bibit sehat, lincah, dan siap dibesarkan dengan ransum pakan New Hope terbaik!'
+  }
+
+  // 8. Pakan Ternak New Hope & Pakan Ikan / Pet Food
+  if (q.includes('pakan') || q.includes('new hope') || q.includes('hp100') || q.includes('hl83') || q.includes('hb200') || q.includes('sinindo') || q.includes('sak') || q.includes('karung') || q.includes('ecer') || q.includes('lele') || q.includes('ikan') || q.includes('kucing')) {
+    return 'CV Banong Farms adalah **Agen Resmi / Drop Shipper pakan ternak PT. New Hope Indonesia (Cirebon)**. Kami menyediakan pakan puyuh petelur unggulan New Hope HP100 (Rp 405.000/sak), pakan layer HL83 (Rp 390.000/sak), broiler HB200 (Rp 380.000/sak), pakan Sinindo KSK-36S & T78, serta pakan lele HI-PRO-VITE 781-2. Melayani pembelian grosir sak (30-50 kg) maupun eceran kiloan dengan timbangan pas!'
+  }
+
+  // 9. Sejarah & Profil Toko
   if (q.includes('sejarah') || q.includes('profil') || q.includes('tentang') || q.includes('2015') || q.includes('2022')) {
-    return 'CV Banong Farms berawal dari peternakan puyuh mandiri sejak tahun 2015. Dengan pengalaman nyata memelihara ribuan puyuh, pada tahun 2022 kami resmi mendirikan toko sarana peternakan modern dan menjadi agen drop shipper PT. New Hope Indonesia (Cirebon) guna memasok pakan berkualitas bagi peternak lokal.'
+    return 'CV Banong Farms berawal dari peternakan puyuh mandiri sejak tahun 2015. Berangkat dari pengalaman nyata di kandang, pada tahun 2022 kami resmi mendirikan toko sarana peternakan modern dan menjadi agen resmi PT. New Hope Indonesia guna memasok pakan berkualitas prima bagi peternak Ajibarang dan sekitarnya.'
   }
-  if (q.includes('pesan') || q.includes('beli') || q.includes('order') || q.includes('wa') || q.includes('whatsapp') || q.includes('kontak')) {
-    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol "+ Tambah ke Keranjang" pada produk di website ini, lalu klik checkout WhatsApp ke nomor resmi kami di 0899-9192-861. Tim kami siap mengatur armada pengiriman ke kandang Anda!'
-  }
-  if (q.includes('halo') || q.includes('hai') || q.includes('siang') || q.includes('pagi') || q.includes('sore') || q.includes('malam') || q.includes('assalam')) {
+
+  // 10. Sapaan Ramah
+  if (q.includes('halo') || q.includes('hai') || q.includes('siang') || q.includes('pagi') || q.includes('sore') || q.includes('malam') || q.includes('assalam') || q.includes('tes')) {
     return 'Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (WhatsApp: 0899-9192-861, Buka Senin-Sabtu 07.30 - 16.00 WIB). Ada yang bisa saya bantu seputar pakan New Hope, bibit DOQ/DOC, obat Medion, atau pengantaran armada ke kandang?'
   }
 
-  return `Terima kasih telah bertanya! CV Banong Farms adalah toko sarana peternakan terlengkap & agen resmi pakan PT. New Hope Indonesia di Ajibarang. Untuk pemesanan grosir sak, konsultasi penyakit unggas, atau jadwal armada antar kandang, langsung hubungi WhatsApp kami di 0899-9192-861 ya!`
+  return `Terima kasih telah bertanya! CV Banong Farms adalah toko sarana peternakan terlengkap & agen resmi pakan PT. New Hope Indonesia di Ajibarang. Untuk pemesanan grosir sak, konsultasi penyakit unggas, atau jadwal armada antar kandang, langsung hubungi WhatsApp kami di **0899-9192-861** ya!`
 }
 
 /**
@@ -323,7 +340,7 @@ Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 parag
 1. Paragraf 1: Analisis penjualan produk ${topProduct.name} dan ketersediaan stok di gudang.
 2. Paragraf 2: Rekomendasi menjaga pasokan dan melayani pesanan WhatsApp dari pembeli agar pemasukan tetap lancar.`
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
