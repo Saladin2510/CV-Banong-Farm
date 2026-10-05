@@ -1770,5 +1770,50 @@ Sistem dirancang dengan arsitektur **Dual-Engine** yang dapat dipertanggungjawab
 * **STATUS AI CHATBOT MASCOT:** 100% Siap melayani pelanggan secara cerdas (baik via Cloud Gemini API maupun Engine Heuristik Offline terintegrasi katalog live Supabase).
 * **STATUS RESPONSIVITAS:** 100% Responsif dan ergonomis di smartphone (mobile), tablet, maupun desktop, baik di Landing Page publik (Navbar kapsul presisi bebas distorsi, menu floating card dengan backdrop) maupun Dashboard Admin (off-canvas drawer, dual-view cards, grafik bersih).
 
+---
 
+## 36. Checkpoint Sesi 57: Strategi Deployment Hostinger Premium (1 Bulan) & Roadmap Migrasi Hosting Gratis (Bulan 2 - 12)
+* **Tanggal:** 05 Oktober 2026
+* **Status:** TERCATAT & SIAP EKSEKUSI
+* **Rencana Pembelian Domain & Hosting:**
+  * **Domain:** `cvbanongfarms.site` (Durasi: **1 Tahun / 12 Bulan Penuh**, Rp 17.500 tahun pertama). Hak kepemilikan domain sah milik pengguna selama 1 tahun.
+  * **Hosting:** Hostinger Paket **Premium** (Durasi: **1 Bulan**, ~Rp 109.900/bln).
+* **Alasan Pemilihan Paket:**
+  * Kodingan proyek bersifat *decoupled client-side SPA* (Vite + Vue 3).
+  * Database & autentikasi berjalan mandiri di **Supabase Cloud**.
+  * Transaksi checkout langsung dialirkan ke WhatsApp resmi CV Banong Farms.
+  * Paket Premium menyediakan penyimpanan SSD NVMe 100 GB, bandwidth tak terbatas, SSL gratis selamanya, dan akun Email Bisnis Resmi (`info@cvbanongfarms.site`), yang 100% pas dan presisi untuk evaluasi PSAJ/sekolah dan profil profesional. Fitur Node.js dan CDN bawaan paket Unlimited tidak diperlukan oleh arsitektur proyek ini.
 
+---
+
+### Prosedur Manajemen Langganan & Migrasi Hosting Gratis
+
+#### A. Cara Berhenti Berlangganan Hostinger (Mencegah Auto-Debit / Tagihan Bulan ke-2)
+1. Login ke **hPanel Hostinger** ([hpanel.hostinger.com](https://hpanel.hostinger.com)).
+2. Masuk ke menu **Tagihan / Billing** atau **Subscriptions / Langganan**.
+3. Pilih layanan **Web Hosting Premium**.
+4. Klik opsi **Nonaktifkan Perpanjangan Otomatis (Disable Auto-Renewal)**.
+5. **Hasil:** Setelah 30 hari selesai, akun hosting akan kedaluwarsa secara damai tanpa memotong saldo/kartu/e-wallet Anda.
+6. **Keamanan Database:** Database Supabase Cloud **100% AMAN**. Semua data produk (74 katalog), stok live, dan riwayat pesanan tetap utuh permanen.
+
+#### B. Cara Memperpanjang (Jika Ingin Tetap Menggunakan Hostinger)
+1. Buka hPanel Hostinger sebelum atau saat masa tenggang (30 hari setelah expired).
+2. Klik tombol **Perpanjang Layanan (Renew)**.
+3. Pilih durasi perpanjangan (1 bulan / 12 bulan) dan selesaikan pembayaran via QRIS/VA/e-Wallet.
+4. Website langsung aktif kembali tanpa perlu re-upload file kodingan.
+
+#### C. Roadmap Migrasi ke Hosting Gratis (Vercel / Cloudflare Pages) untuk Sisa Bulan 2 - 12
+Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100% gratis selama 11 bulan berikutnya:
+1. **Platform Tujuan:** **Vercel** atau **Cloudflare Pages** (keduanya gratis selamanya untuk static client-side web SPA, bandwidth besar, dan SSL otomatis).
+2. **Langkah Migrasi:**
+   * Unggah/push kode proyek ke repositori GitHub.
+   * Buat akun Vercel/Cloudflare Pages dan hubungkan dengan repositori GitHub proyek.
+   * Atur konfigurasi build di Vercel: Build Command `npm run build`, Output Directory `dist`.
+   * Masukkan Environment Variables di Vercel: `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY`.
+   * Buka menu **Settings > Domains** di Vercel, lalu tambahkan `cvbanongfarms.site`.
+3. **Mengarahkan DNS dari Hostinger ke Vercel:**
+   * Di hPanel Hostinger, masuk ke menu **Domains > cvbanongfarms.site > DNS / Nameservers**.
+   * Ubah A Record atau CNAME sesuai data yang diberikan oleh Vercel (misal: CNAME `@` atau `cname.vercel-dns.com`).
+4. **Hasil Akhir:** Website `https://cvbanongfarms.site` tetap online dan live melayani pelanggan/evaluator hingga masa aktif domain 1 tahun berakhir, dengan **biaya hosting Rp 0 (Gratis Selamanya)**.
+
+---
