@@ -22,8 +22,8 @@
                 src="/assets/logo.png" 
               />
             </a>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
               <span>Toko Pakan Ternak Grosir &amp; Ecer</span>
             </span>
           </div>
@@ -43,9 +43,9 @@
               href="https://wa.me/628999192861" 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+              class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-container text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
             >
-              <span class="material-symbols-outlined text-[16px]">chat</span>
+              <span class="material-symbols-outlined text-[16px] text-secondary-container">chat</span>
               <span>WhatsApp: 0899-9192-861</span>
             </a>
             <div class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-medium">
@@ -66,7 +66,7 @@
                 href="#tentang-kami" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Tentang Kami</span>
               </a>
               
@@ -74,7 +74,7 @@
                 href="#reputasi" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Reputasi Mutu</span>
               </a>
 
@@ -82,7 +82,7 @@
                 href="#katalog-produk" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Katalog Produk</span>
               </a>
 
@@ -90,7 +90,7 @@
                 href="#komoditas-marquee" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Produk &amp; Sarana Ternak</span>
               </a>
             </div>
@@ -102,7 +102,7 @@
                 rel="noopener noreferrer" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Pesan via WA</span>
               </a>
 
@@ -111,7 +111,7 @@
                 @click.prevent="openWhatsAppConsultation"
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors cursor-pointer"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Konsultasi</span>
               </a>
 
@@ -121,7 +121,7 @@
                 rel="noopener noreferrer" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Lokasi Maps</span>
               </a>
 
@@ -129,7 +129,7 @@
                 href="mailto:halo@banongfarms.id" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
               >
-                <span class="text-slate-400 group-hover:text-emerald-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
+                <span class="text-slate-400 group-hover:text-amber-500 transition-all transform group-hover:translate-x-1 font-mono">→</span>
                 <span>Kirim Email</span>
               </a>
             </div>
@@ -154,7 +154,7 @@
             <!-- Strip Bawah Peta -->
             <div class="p-2.5 bg-white dark:bg-[#0c1e34] flex items-center justify-between gap-2 border-t border-slate-200/80 dark:border-white/10">
               <span class="text-[11px] text-slate-700 dark:text-slate-200 font-semibold truncate flex items-center gap-1.5" title="Depan Pasar Hewan, Sebelah Barat Pangkalan Ojek Ajibarang">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                 <span>Depan Pasar Hewan Ajibarang</span>
               </span>
               <a 
@@ -176,7 +176,7 @@
       <div class="w-full py-1 lg:py-2 relative select-none flex-1 flex items-center justify-center min-h-[260px] lg:min-h-0">
         
         <!-- Background Ambient Glow Lembut -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-56 bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-56 bg-gradient-to-r from-primary/10 via-amber-500/10 to-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
         <!-- Tampilan Desktop & Tablet: Floating Organic Scattered Layout (Ukuran Proporsional & Elegan) -->
         <div class="hidden md:block relative w-full h-full min-h-[260px] lg:min-h-[300px] xl:min-h-[320px]">
@@ -200,7 +200,7 @@
                 'shadow-[0_18px_36px_-10px_rgba(0,0,0,0.12),0_8px_16px_-6px_rgba(0,0,0,0.06),inset_0_1.5px_0_rgba(255,255,255,0.95)]',
                 'dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),0_10px_20px_-6px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.15)]',
                 'group-hover:shadow-[0_26px_52px_-10px_rgba(0,0,0,0.2)] dark:group-hover:shadow-[0_28px_56px_-10px_rgba(0,0,0,0.85)]',
-                'group-hover:border-emerald-500/30 dark:group-hover:border-emerald-400/30'
+                'group-hover:border-amber-400/40 dark:group-hover:border-amber-400/30'
               ]"
             >
               <!-- Ikon Hewan / Komoditas (Proporsional: ~64px, Skala Lembut saat Hover) -->
@@ -215,7 +215,7 @@
         <div class="block md:hidden">
           <div class="flex items-center justify-between mb-2.5 px-1 text-xs text-slate-500 dark:text-slate-400">
             <span class="flex items-center gap-1.5 font-medium">
-              <span class="material-symbols-outlined text-[15px] text-emerald-500">pets</span>
+              <span class="material-symbols-outlined text-[15px] text-amber-500">pets</span>
               <span>Representasi Hewan &amp; Ternak CV Banong</span>
             </span>
           </div>

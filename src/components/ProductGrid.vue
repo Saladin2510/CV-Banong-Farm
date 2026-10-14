@@ -6,9 +6,9 @@
       
       <!-- Section Header -->
       <div class="mb-8 sm:mb-12 animate-fade-in-up">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code">
-          <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
-          <span>SARANA PETERNAKAN &amp; PAKAN TERLENGKAP</span>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 border border-slate-200 dark:border-slate-700 shadow-2xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span class="tracking-wider uppercase text-[11px] font-bold">Sarana Peternakan &amp; Pakan Terlengkap</span>
         </div>
         <div class="overflow-hidden py-1">
           <h2 class="product-skew-title font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-primary dark:text-white font-black tracking-tight origin-bottom-left will-change-transform">
@@ -50,7 +50,7 @@
               >
                 <span class="material-symbols-outlined text-[18px]">close</span>
               </button>
-              <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 font-telemetry-code bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-md shrink-0">
+              <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 font-sans bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-md shrink-0">
                 {{ filteredProducts.length }} Produk
               </span>
             </div>
@@ -58,11 +58,11 @@
 
           <!-- Sorting Dropdown -->
           <div class="flex items-center gap-2 shrink-0 self-start md:self-auto">
-            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline font-telemetry-code">Urutkan:</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline font-sans">Urutkan:</span>
             <div class="relative">
               <select
                 v-model="sortBy"
-                class="appearance-none pl-3 pr-8 py-2.5 sm:py-3 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-primary dark:focus:border-secondary-container cursor-pointer shadow-xs"
+                class="appearance-none pl-3 pr-8 py-2.5 sm:py-3 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-primary dark:focus:border-secondary-container cursor-pointer shadow-xs font-sans"
                 aria-label="Urutkan produk"
               >
                 <option value="default">Rekomendasi Toko</option>
@@ -81,7 +81,7 @@
 
         <!-- Quick Search Suggestion Tags -->
         <div class="flex items-center gap-1.5 flex-wrap text-xs">
-          <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium mr-1 flex items-center gap-1 font-telemetry-code">
+          <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium mr-1 flex items-center gap-1 font-sans">
             <span class="material-symbols-outlined text-[14px] text-secondary-container">trending_up</span>
             Populer:
           </span>

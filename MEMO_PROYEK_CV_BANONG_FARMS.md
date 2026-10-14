@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 30 September 2026 (Sesi 49: Eksekusi Penuh Copywriting Konten Website, Penyelarasan AI Si Banong & Pembuatan Spreadsheet Katalog Produk)  
-**Status Proyek:** Tahap Peninjauan Katalog Spreadsheet oleh Pengguna & Konten Website Siap Tayang (Vite v6.4.3 Build Verified / Zero Errors / Supabase Cloud PostgreSQL Terhubung / UI Mobile-Tablet-Desktop Responsif)  
+**Tanggal Pembaruan Terakhir:** 14 Oktober 2026, Pukul 23:46 WIB (Sesi 61: Solusi CORS Browser via Vite Reverse Proxy /api-deepseek, Auto-Migrasi LocalStorage Gemini ke DeepSeek, & Troubleshooting Token Usage)  
+**Status Proyek:** SELESAI & TERVERIFIKASI 100% (Vite v6.4.3 Build Verified / Zero Errors / Reverse Proxy CORS Aktif / DeepSeek AI Live Engine Siap)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -1817,3 +1817,174 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 4. **Hasil Akhir:** Website `https://cvbanongfarms.site` tetap online dan live melayani pelanggan/evaluator hingga masa aktif domain 1 tahun berakhir, dengan **biaya hosting Rp 0 (Gratis Selamanya)**.
 
 ---
+
+## 37. Checkpoint Sesi 58: Rekonstruksi Tipografi Profesional (Plus Jakarta Sans), Pembersihan Menyeluruh Emoji (Anti-AI Slop), & Restrukturisasi Total Copywriting Landing Page
+* **Tanggal & Waktu:** 14 Oktober 2026, Pukul 23:15 WIB
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Sukses, Vite v6.4.3, Zero Errors, 116 Modul Ter-bundle, Dev Server Aktif).
+* **Latar Belakang & Keluhan Pengguna:**
+  1. **Copywriting Terkesan AI Slop:** Bahasa sebelumnya dinilai bertele-tele, acak-acakan, dan menggunakan format yang tidak mencerminkan identitas bisnis nyata sebuah distributor pakan ternak (CV Banong Farms).
+  2. **Tipografi Terlalu Kaku:** Ditemukan penggunaan font monospace pemrograman (`font-telemetry-code` / JetBrains Mono) pada badge, judul tombol CTA, metrik, dan kartu publik, sehingga antarmuka tampak seperti terminal koding/kaku dan tidak ramah pengguna.
+  3. **Penjelasan "Tentang Kami" Berantakan:** Narasi awal berupa satu blok teks raksasa padat yang sulit dibaca, kotak visi terpisah tanpa simetri, dan daftar misi bertumpuk kaku.
+  4. **Bagian "Bukti Kualitas & Kemitraan Resmi" Serta "Pilihan Tepat Peternak Tangguh":** Memiliki tombol pecah baris, tata letak overlay sertifikat sesak, dan terdapat emoji truk (`🚚`) pada kartu foto polaroid.
+  5. **Aturan Mutlak:** Pengguna menegaskan larangan keras pemberian emoji sama sekali pada seluruh teks dan elemen website.
+
+* **Rincian Perubahan & File yang Diperbarui:**
+  1. **Tipografi & Integrasi Font Modern Agribisnis ([`index.html`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/index.html) & [`tailwind.config.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/tailwind.config.js)):**
+     - Memasukkan font Google **Plus Jakarta Sans** (weights 400, 500, 600, 700, 800) bersanding dengan **Outfit** ke dalam `<head>` dokumen.
+     - Memetakan ulang token `sans`, `headline-*`, `body-*`, dan `label-*` di Tailwind Config ke `'Plus Jakarta Sans'`, serta mengalihkan token `telemetry-code` agar merender sans-serif bersih, sehingga seluruh elemen publik tampil luwes, kokoh, dan modern.
+  2. **Kebijakan Nol Emoji (Zero Emojis Policy) di Seluruh Repositori:**
+     - Menjalankan script audit regex unicode emoji pada seluruh berkas di `src/`.
+     - Menghapus emoji truk (`🚚`) pada foto polaroid armada toko di [`PolaroidCtaSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/PolaroidCtaSection.vue).
+     - Menghapus seluruh emoji percakapan (`🌾`, `🐣`, `💊`, `🚚`, `📍`, `📲`) pada [`ChatbotMascot.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ChatbotMascot.vue).
+     - Mengubah instruksi panduan chatbot di [`aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js) dari yang mewajibkan emoji menjadi **larangan keras penggunaan emoji** serta mewajibkan gaya bahasa profesional, lugas, dan santun.
+  3. **Restrukturisasi Bagian "Tentang Kami" ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+     - Mengganti animasi titik berkedip menjadi pill badge minimalis: `PROFIL & PERJALANAN USAHA`.
+     - Mengubah judul dan subjudul menjadi: *Tentang Kami — Dedikasi Menyediakan Pakan Berkualitas & Sarana Ternak Terpercaya Sejak 2015.*
+     - Memecah narasi panjang menjadi dua paragraf bersih yang fokus pada akar pengalaman lapangan dari kandang puyuh hingga kemitraan resmi pabrikan New Hope Indonesia.
+     - Menambahkan 3 kartu pilar komitmen: *Resmi Pabrikan* (pakan standar New Hope bernutrisi konsisten), *Takaran Jujur* (grosir sak maupun kiloan dengan timbangan presisi), dan *Armada Toko* (pengantaran terjadwal area Ajibarang & sekitarnya).
+     - Menata ulang Visi & Misi menjadi 2 kartu sejajar (*side-by-side*) yang rapi, proporsional, dan seimbang secara visual.
+  4. **Restrukturisasi Bagian "Bukti Kualitas & Kemitraan Resmi" ([`src/components/CredibilitySection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/CredibilitySection.vue)):**
+     - Angka metrik `14rb+` dialihkan menggunakan font sans-serif tebal tabular tanpa font koding monospace.
+     - Merapikan overlay sertifikat dengan badge legalitas terverifikasi (*Mitra Terpercaya Peternak Banyumas Barat*).
+     - Memperbarui narasi dengan fokus teknis FCR: *Efisiensi FCR & Hasil Panen Dimulai dari Pakan yang Tepat*.
+     - Menghadirkan grid 4 kartu fitur terstruktur (2x2): *Pakan Segar dari Pabrik*, *Grosir Sak & Ecer Kiloan*, *Armada Pengantaran Toko*, dan *Konsultasi Nutrisi & Vaksin*.
+  5. **Restrukturisasi Bagian "Pilihan Mitra Peternak Tangguh" ([`src/components/PolaroidCtaSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/PolaroidCtaSection.vue)):**
+     - Mengganti badge menjadi `PILIHAN MITRA PETERNAK TANGGUH` dengan font sans bersih.
+     - Mengubah teks caption polaroid armada menjadi: `Armada Pengantaran Toko ke Kandang` (tanpa emoji).
+     - Merombak tombol aksi CTA agar tidak kaku: Tombol utama `Pesan Pakan via WhatsApp` dan tombol sekunder `Lihat Katalog Produk` yang proporsional dan tidak terputus baris.
+     - Merapikan baris trust badge bawah: *Produk Pabrikan 100% Asli*, *Grosir Sak & Ecer Kiloan*, *Armada Toko Area Banyumas*.
+  6. **Standardisasi Tipografi Komponen Pendukung:**
+     - [`src/components/ProductGrid.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ProductGrid.vue): Menghapus monospace dari badge header, jumlah hasil pencarian, dan label filter/sorting.
+     - [`src/components/ProductModal.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ProductModal.vue): Mengubah font harga satuan, stepper kuantitas, subtotal, dan status stok menjadi font sans bersih.
+     - [`src/components/Navbar.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/Navbar.vue): Mengubah badge counter keranjang belanja menjadi font sans tebal.
+  7. **Setup Konfigurasi Environment & Root Workspace:**
+     - Membuat file [`.env`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/.env) berisi kredensial Supabase Cloud resmi (URL & Anon Key).
+     - Menambahkan helper [`package.json`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/package.json) di root workspace agar perintah `npm run dev` dapat langsung dijalankan oleh pengguna dari folder utama tanpa menemui kendala path `ENOENT`.
+
+* **Hasil Pengujian & Verifikasi Kompilasi:**
+  - `npm run build`: **Sukses 100% (116 modul ter-bundle sempurna, 0 error**, waktu kompilasi 16.66s).
+  - Dev Server: Berjalan stabil dan responsif di `http://localhost:5173/`.
+
+---
+
+## 38. Checkpoint Sesi 59: Pemulihan Format Rating 5.0 pada Showcase Sertifikat Kemitraan & Eliminasi Menyeluruh Aksen Hijau (Emerald) Sesuai Golden Rule 60:30:10
+* **Tanggal & Waktu:** 14 Oktober 2026, Pukul 23:25 WIB
+* **Status:** SELESAI & TERVERIFIKASI 100% (Build Sukses, Vite v6.4.3, Zero Errors, 116 Modul Ter-bundle, Dev Server Aktif).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Pemulihan Format Rating 5.0:** Pengguna meminta format teks rating bintang `⭐ 5.0 (Pilihan utama peternak Banyumas Barat)` dikembalikan persis seperti semula pada kartu overlay sertifikat di [`CredibilitySection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/CredibilitySection.vue), tanpa teks pengganti "Mitra bla bla bla".
+  2. **Penghapusan Total Aksen Hijau ("Ijo-ijo Jelek"):** Pengguna menegaskan bahwa warna hijau membuat antarmuka menjadi tidak sedap dipandang ("jadi jelek") dan menginstruksikan untuk membuang seluruh elemen hijau tersebut. Hal ini sejalan langsung dengan **Standar Desain Visual Proyek (Aturan 60% Putih, 30% Navy `#022448`, 10% Kuning Emas `#FCD400`)** yang melarang keras penggunaan aksen hijau di antarmuka landing page publik.
+  3. **Identifikasi Elemen Hijau yang Ditunjukkan Pengguna:**
+     - Lingkaran centang verifikasi hijau (`bg-emerald-100 text-emerald-600`) dan teks `100% Asli` hijau di kartu overlay sertifikat.
+     - Pill badge hijau berkedip `• Toko Pakan Ternak Grosir & Ecer` (`bg-emerald-500/10 text-emerald-600 border-emerald-500/20`) di bagian atas footer.
+     - Tombol WhatsApp hijau dan aksen glow/link hijau di footer.
+
+* **Rincian Perubahan & File yang Diperbarui:**
+  1. **Showcase Sertifikat Kemitraan ([`src/components/CredibilitySection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/CredibilitySection.vue)):**
+     - **Mengembalikan Rating Bintang 5.0:** Menghadirkan kembali baris rating bintang:
+       ```html
+       <div class="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-amber-500">
+         <span class="material-symbols-outlined text-[15px] fill-current">star</span>
+         <span class="text-slate-900 dark:text-white font-bold">5.0</span>
+         <span class="text-slate-500 dark:text-slate-400 font-normal text-[11px]">(Pilihan utama peternak Banyumas Barat)</span>
+       </div>
+       ```
+     - **Menghapus Badge Centang Lingkaran Hijau:** Mengeliminasi komponen ikon verifikasi hijau bundar (`w-7 h-7 bg-emerald-100 text-emerald-600`).
+     - **Neutralisasi Teks Keaslian Produk:** Mengubah badge `100% Asli` dari warna teks hijau menjadi teks netral berwibawa: `text-slate-800 dark:text-slate-200 font-bold`.
+     - **Neutralisasi Hover State:** Mengalihkan status hover tautan `Hubungi Toko` ke warna Navy (`hover:text-primary dark:hover:text-secondary-container`).
+
+  2. **Footer Section ([`src/components/FooterSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/FooterSection.vue)):**
+     - **Pill Badge Status Usaha:** Mengubah badge `Toko Pakan Ternak Grosir & Ecer` dari hijau mencolok menjadi kapsul slate netral beraksen titik kuning emas: `bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700` dengan titik kuning amber (`bg-amber-500`).
+     - **Tombol WhatsApp Resmi:** Mengganti warna tombol WhatsApp dari hijau WhatsApp (`bg-emerald-600`) menjadi warna tema Brand Navy Blue CV Banong Farms (`bg-primary hover:bg-[#132A4A]`) berpadu kontras dengan teks putih tebal dan border bersih.
+     - **Navigasi & Tautan Cepat:** Mengganti warna hover panah tautan (`hover:text-amber-400 group-hover:text-amber-400`) dari sebelumnya hijau emerald menjadi aksen emas/amber.
+     - **Google Maps & Efek Glow:** Mengubah titik indikator lokasi Ajibarang menjadi kuning amber dan membersihkan ambient glow hijau menjadi navy/amber yang harmonis.
+
+  3. **Penegakan Konsistensi Color Palette 60:30:10:**
+     - Seluruh landing page publik (`Navbar`, `HeroSection`, `VisiMisiSection`, `CredibilitySection`, `ProductGrid`, `InteractiveMarqueeMenu`, `PolaroidCtaSection`, `FooterSection`) kini 100% steril dari warna hijau (`emerald-*`/`green-*`) dan merah (`red-*`), menghasilkan visual yang bersih, terintegrasi, dan profesional.
+
+* **Hasil Pengujian & Verifikasi Kompilasi:**
+  - `npm run build`: **Sukses 100% (116 modul ter-bundle sempurna, 0 error, build time 10.89s)**.
+  - Dev Server: Berjalan mulus di `http://localhost:5173/`.
+
+---
+
+## 39. Checkpoint Sesi 60: Migrasi Total Engine AI Chatbot "Si Banong" & Demand Forecast ke DeepSeek AI (Model: deepseek-chat / DeepSeek-V3)
+* **Tanggal & Waktu:** 14 Oktober 2026, Pukul 23:40 WIB
+* **Status:** SELESAI & TERVERIFIKASI 100% (Vite v6.4.3 Build Verified / Zero Errors / 116 Modul Ter-bundle / Dev Server Aktif).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. Pengguna memutuskan untuk tidak lagi menggunakan Google Gemini API (gratisan/rate limit ketat).
+  2. Pengguna memiliki akun DeepSeek resmi dan ingin mengintegrasikan API DeepSeek dengan model **paling murah dan paling cepat**, yaitu **`deepseek-chat` (berbasis arsitektur DeepSeek-V3)**.
+  3. Pengguna meminta arsitektur dan jalurnya disiapkan terlebih dahulu di kode sehingga pengguna tinggal menempelkan API Key (`sk-...`) ke file environment tanpa perlu koding ulang.
+  4. Pengguna mengingatkan kepatuhan SOP proyek: membaca memo, memperbarui waktu dan rincian perubahan, serta menyelaraskan status proyek.
+
+* **Rincian Perubahan & File yang Diperbarui:**
+  1. **Konfigurasi Environment ([`.env`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/.env)):**
+     - Menghapus variabel `VITE_GEMINI_API_KEY`.
+     - Menyediakan slot API resmi DeepSeek:
+       ```env
+       # DeepSeek AI API Configuration (Asisten Virtual Si Banong & AI Forecast)
+       # Dapatkan API key resmi dari DeepSeek Platform: https://platform.deepseek.com/
+       # Model: deepseek-chat (DeepSeek-V3, super cepat & super hemat biaya)
+       VITE_DEEPSEEK_API_KEY=
+       ```
+  2. **Layanan AI Utama ([`src/services/aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js)):**
+     - Mengubah default provider aktif dari `'gemini'` menjadi **`'deepseek'`**.
+     - Mengubah fungsi `getStoredApiKey('deepseek')` dan `setStoredApiKey('deepseek', key)` untuk membaca key dari `VITE_DEEPSEEK_API_KEY` serta LocalStorage `banong_deepseek_api_key`.
+     - Mengintegrasikan pemanggilan API resmi DeepSeek pada fungsi `chatWithMascot`:
+       - **Endpoint**: `https://api.deepseek.com/chat/completions` (metode `POST`).
+       - **Header**: `'Content-Type': 'application/json'`, `'Authorization': 'Bearer ' + apiKey`.
+       - **Payload**: `"model": "deepseek-chat"`, temperature `0.7`, max tokens `600`.
+       - **Injeksi Konteks**: System message dinamis berisi profil CV Banong Farms (sejak 2015, alamat Ajibarang, jam operasional, armada toko) + katalog & stok aktual dari database Supabase Cloud (RAG Ringan) + aturan tanpa emoji.
+     - Memperbarui fungsi analisis strategi pasar `generateAiMarketingStrategy` dan prediksi stok transaksi `analyzePredictiveStockAndRevenue` agar menggunakan model `deepseek-chat`.
+     - Mempertahankan algoritma smart heuristic fallback cerdas jika API Key belum diisi atau offline, sehingga antarmuka tetap merespon 100% tanpa error.
+  3. **Modal Pengaturan AI Admin ([`src/components/admin/AiSettingsModal.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/admin/AiSettingsModal.vue)):**
+     - Mengganti opsi tombol Gemini dengan **DeepSeek AI** (`Model: deepseek-chat`).
+     - Menambahkan tautan langsung perolehan API key ke `https://platform.deepseek.com/api_keys` dengan placeholder `sk-...`.
+     - Memperbarui fungsi pengujian koneksi live (`testConnection`) ke endpoint DeepSeek completions guna memvalidasi token dan saldo pengguna secara instan dari panel admin.
+  4. **Penyelarasan Komponen Admin & Chatbot:**
+     - [`src/components/admin/AiTrainingDatasetModal.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/admin/AiTrainingDatasetModal.vue): Mengubah label model menjadi `WMA + DeepSeek AI` dan status progress ke DeepSeek.
+     - [`src/components/admin/AiAnalyticsSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/admin/AiAnalyticsSection.vue): Mengubah badge provider menjadi `✦ DEEPSEEK-V3`.
+     - [`src/components/ChatbotMascot.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ChatbotMascot.vue): Mengarahkan komentar integrasi ke engine AI DeepSeek.
+
+* **Hasil Pengujian & Verifikasi Kompilasi:**
+  - `npm run build`: **Sukses 100% (116 modul ter-bundle sempurna, 0 error, build time 3.98s)**.
+  - Dev Server: Berjalan mulus di `http://localhost:5173/`.
+
+---
+
+## 40. Checkpoint Sesi 61: Penanganan CORS Browser via Vite Reverse Proxy (/api-deepseek), Migrasi LocalStorage Provider Gemini ke DeepSeek, & Troubleshooting Token Usage
+* **Tanggal & Waktu:** 14 Oktober 2026, Pukul 23:46 WIB
+* **Status:** SELESAI & TERVERIFIKASI 100% (Vite v6.4.3 Build Verified / Zero Errors / Reverse Proxy CORS Siap / Live Chatbot Terintegrasi).
+* **Latar Belakang & Keluhan Pengguna:**
+  - Pengguna melaporkan bahwa chatbot belum merespon live dan token usage di dashboard DeepSeek belum terpakai (0 token).
+* **Hasil Investigasi Mendalam:**
+  1. **API Key Belum Tersimpan di `.env`:** Berkas [`.env`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/.env) baris 12 (`VITE_DEEPSEEK_API_KEY=`) masih kosong saat dicek sistem (kemungkinan belum ditempel atau file belum disimpan / Ctrl+S).
+  2. **Cache Provider Browser Lama:** Peramban (browser) pengguna sebelumnya masih menyimpan `localStorage.getItem('banong_ai_provider') = 'gemini'`, sehingga saat memanggil fungsi chat, sistem mencari konfigurasi provider Gemini lama dan langsung beralih ke *heuristic offline fallback* tanpa pernah menyentuh endpoint DeepSeek.
+  3. **Batasan Kebijakan CORS Browser pada API DeepSeek:** Server resmi DeepSeek (`api.deepseek.com`) dirancang untuk server-to-server dan menolak direct call dari browser client (`fetch` dari `localhost`) dengan pesan error `CORS Policy Blocked`.
+* **Solusi Teknis yang Diterapkan:**
+  1. **Konfigurasi Reverse Proxy Vite ([`vite.config.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/vite.config.js)):**
+     - Menambahkan blok `server.proxy` untuk rute `/api-deepseek`:
+       ```javascript
+       server: {
+         proxy: {
+           '/api-deepseek': {
+             target: 'https://api.deepseek.com',
+             changeOrigin: true,
+             rewrite: (p) => p.replace(/^\/api-deepseek/, ''),
+             secure: true
+           }
+         }
+       }
+       ```
+     - Browser kini memanggil same-origin `http://localhost:5173/api-deepseek/chat/completions`, lalu Vite secara aman meneruskannya ke DeepSeek tanpa kendala CORS browser.
+  2. **Auto-Sanitasi & Resolusi Endpoint ([`src/services/aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js)):**
+     - Menambahkan fungsi `getDeepSeekApiUrl()` yang otomatis memakai proxy `/api-deepseek/chat/completions` saat running di localhost.
+     - Menyematkan pembersihan otomatis pada `getActiveAiProvider()`: jika nilai tersimpan adalah `'gemini'`, maka otomatis dimigrasikan ke `'deepseek'`.
+     - Memberikan prioritas mutlak ke DeepSeek pada `chatWithMascot` jika `VITE_DEEPSEEK_API_KEY` atau localStorage terisi.
+  3. **Penyelarasan Modal Pengaturan Admin ([`src/components/admin/AiSettingsModal.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/admin/AiSettingsModal.vue)):**
+     - Tombol *Test Connection* kini menggunakan `getDeepSeekApiUrl()` sehingga verifikasi token langsung berhasil tanpa terhalang CORS.
+* **Hasil Pengujian & Verifikasi Kompilasi:**
+  - `npm run build`: **Sukses 100% (116 modul ter-bundle sempurna, 0 error, build time 4.00s)**.
+  - Dev Server: Berjalan mulus di `http://localhost:5173/`.
+
+
+

@@ -241,16 +241,16 @@ const getTime = () => {
 const messages = ref([
   {
     sender: 'bot',
-    text: 'Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (Agen Resmi PT. New Hope Indonesia). Ada yang bisa saya bantu seputar pakan unggas, bibit DOQ/DOC, obat Medion, atau pengantaran armada toko ke kandang Anda hari ini? 🌾🚚',
+    text: 'Halo Peternak! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (Agen Resmi PT. New Hope Indonesia). Ada yang bisa saya bantu seputar pakan unggas, bibit DOQ/DOC, obat Medion, atau pengantaran armada toko ke kandang Anda hari ini?',
     time: getTime()
   }
 ])
 
 const quickTopics = [
-  { title: '🌾 Cek Pakan New Hope HP100' },
-  { title: '🐣 Info Bibit DOQ & DOC' },
-  { title: '💊 Obat Medion & Vaksin Resmi' },
-  { title: '🚚 Layanan Armada Toko Sendiri' }
+  { title: 'Cek Pakan New Hope HP100' },
+  { title: 'Info Bibit DOQ & DOC' },
+  { title: 'Obat Medion & Vaksin Resmi' },
+  { title: 'Layanan Pengantaran Armada Toko' }
 ]
 
 // Parser teks percakapan: Mengubah URL mentah, link WhatsApp, dan Google Maps menjadi tombol/link interaktif yang bisa diklik langsung
@@ -278,11 +278,11 @@ const formatMessageText = (text) => {
     let linkClass = 'inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 break-all cursor-pointer transition-colors'
 
     if (cleanUrl.includes('maps.app.goo.gl') || cleanUrl.includes('google.com/maps')) {
-      displayLabel = 'Buka Google Maps 📍'
+      displayLabel = 'Buka Google Maps'
       icon = 'near_me'
       linkClass = 'inline-flex items-center gap-1.5 px-3 py-1 my-1 rounded-xl bg-emerald-100/90 hover:bg-emerald-200/90 dark:bg-emerald-950/80 dark:hover:bg-emerald-900/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/80 font-bold text-[11px] shadow-xs active:scale-95 transition-all cursor-pointer no-underline'
     } else if (cleanUrl.includes('wa.me')) {
-      displayLabel = 'Chat WhatsApp Pengelola 📲'
+      displayLabel = 'Chat WhatsApp Pengelola'
       icon = 'chat'
       linkClass = 'inline-flex items-center gap-1.5 px-3 py-1 my-1 rounded-xl bg-green-100/90 hover:bg-green-200/90 dark:bg-green-950/80 dark:hover:bg-green-900/80 text-green-800 dark:text-green-300 border border-green-300 dark:border-green-700/80 font-bold text-[11px] shadow-xs active:scale-95 transition-all cursor-pointer no-underline'
     }
@@ -345,7 +345,7 @@ const sendMessage = async () => {
 
   isTyping.value = true
   try {
-    // Suntikkan data produk realtime dari adminStore ke engine AI Gemini
+    // Suntikkan data produk realtime dari adminStore ke engine AI DeepSeek (deepseek-chat)
     const liveProducts = adminStore.products.value || []
     const aiResponse = await chatWithMascot(text, messages.value, liveProducts)
     

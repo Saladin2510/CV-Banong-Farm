@@ -85,7 +85,7 @@
             <span>Keranjang</span>
             <span 
               v-if="cartStore.totalItems.value > 0"
-              class="ml-0.5 px-1.5 py-0.2 rounded-full bg-secondary-container text-primary text-[10px] font-telemetry-code font-black shadow-xs"
+              class="ml-0.5 px-1.5 py-0.2 rounded-full bg-secondary-container text-primary text-[10px] font-sans font-bold shadow-xs"
             >
               {{ cartStore.totalItems.value }}
             </span>
@@ -126,7 +126,7 @@
             <span class="material-symbols-outlined text-[19px]">shopping_cart</span>
             <span 
               v-if="cartStore.totalItems.value > 0"
-              class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary-container text-primary text-[9px] font-black flex items-center justify-center font-telemetry-code shadow-xs"
+              class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary-container text-primary text-[9px] font-bold flex items-center justify-center font-sans shadow-xs"
             >
               {{ cartStore.totalItems.value }}
             </span>

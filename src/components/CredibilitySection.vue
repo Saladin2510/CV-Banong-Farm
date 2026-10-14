@@ -19,10 +19,10 @@
         
         <!-- Sisi Kiri: Badge Pill, Judul Utama & Subjudul (Animasi Hero Slider Stagger) -->
         <div class="max-w-xl">
-          <!-- Top Breadcrumb Pill Sesuai Style Web -->
-          <div class="cred-hero-text inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code w-fit shadow-xs will-change-transform">
-            <span class="material-symbols-outlined text-[15px] text-primary dark:text-secondary-container">verified</span>
-            <span>BUKTI KUALITAS &amp; KEMITRAAN RESMI</span>
+          <!-- Top Badge Pill (Clean & Non-Stiff) -->
+          <div class="cred-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 border border-slate-200 dark:border-slate-700 shadow-2xs w-fit will-change-transform">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span class="tracking-wider uppercase text-[11px] font-bold">Kemitraan Pabrikan &amp; Standar Mutu</span>
           </div>
 
           <!-- Judul Utama: Reputasi & Legalitas Resmi -->
@@ -40,7 +40,7 @@
         <div class="flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0">
           <div class="cred-hero-text flex items-center gap-3 sm:gap-4 will-change-transform">
             <!-- Angka Metrik Besar Dinamis dengan Counter Rolling Animasi GSAP -->
-            <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-secondary-container leading-none font-telemetry-code tabular-nums">
+            <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-white leading-none tabular-nums">
               {{ counterDisplay }}
             </span>
 
@@ -74,7 +74,7 @@
           </div>
 
           <!-- Keterangan Subtitle di Bawah Angka -->
-          <span class="cred-hero-text mt-2 text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 font-telemetry-code uppercase will-change-transform">
+          <span class="cred-hero-text mt-2 text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase will-change-transform font-sans">
             Sak Pakan &amp; Sarana Ternak Tersalurkan
           </span>
         </div>
@@ -105,7 +105,7 @@
               <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent pointer-events-none"></div>
 
               <!-- Overlay Card di Bagian Bawah Gambar -->
-              <div class="cert-overlay-card absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800 will-change-transform">
+              <div class="cert-overlay-card absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800 will-change-transform">
                 <div class="flex items-start justify-between gap-3">
                   <div>
                     <h4 class="font-extrabold font-outfit text-sm sm:text-base text-primary dark:text-white leading-tight">
@@ -115,38 +115,33 @@
                       New Hope Cirebon · Bring You New Life
                     </p>
                     
-                    <!-- Rating & Jumlah Review Pelanggan -->
+                    <!-- Rating 5.0 -->
                     <div class="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-amber-500">
                       <span class="material-symbols-outlined text-[15px] fill-current">star</span>
-                      <span class="text-slate-800 dark:text-slate-200">5.0</span>
-                      <span class="text-slate-400 font-normal text-[11px]">(Pilihan utama peternak Banyumas Barat)</span>
+                      <span class="text-slate-900 dark:text-white font-bold">5.0</span>
+                      <span class="text-slate-500 dark:text-slate-400 font-normal text-[11px]">(Pilihan utama peternak Banyumas Barat)</span>
                     </div>
-                  </div>
-
-                  <!-- Badge Verifikasi Hijau -->
-                  <div class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0" title="Terverifikasi Resmi">
-                    <span class="material-symbols-outlined text-[16px]">verified</span>
                   </div>
                 </div>
 
-                <!-- Tautan Kontak & Medsos Resmi -->
+                <!-- Tautan Kontak & Jam Operasional Resmi -->
                 <div class="flex items-center gap-2.5 pt-2.5 mt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 text-[11px]">
                   <a 
                     href="https://wa.me/628999192861" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1 font-medium"
+                    class="hover:text-primary dark:hover:text-secondary-container transition-colors flex items-center gap-1 font-medium"
                   >
                     <span class="material-symbols-outlined text-[14px]">chat</span>
-                    <span>WhatsApp Toko</span>
+                    <span>Hubungi Toko</span>
                   </a>
                   <span class="text-slate-300 dark:text-slate-700">•</span>
                   <span class="text-slate-600 dark:text-slate-300 font-medium">
                     Senin–Sabtu 07.30–16.00
                   </span>
                   <span class="text-slate-300 dark:text-slate-700">•</span>
-                  <span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
-                    <span>100% Asli</span>
+                  <span class="text-slate-800 dark:text-slate-200 font-bold">
+                    100% Asli
                   </span>
                 </div>
               </div>
@@ -155,54 +150,76 @@
 
           </div>
 
-          <!-- SISI KANAN: Penjelasan Narasi & 2 Kartu Fitur Tambahan -->
-          <div class="lg:col-span-7 flex flex-col justify-between space-y-6 sm:space-y-8">
+          <!-- SISI KANAN: Penjelasan Narasi & 4 Kartu Fitur Terstruktur -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-5 sm:space-y-6">
             
             <!-- Narasi Atas: Judul & Deskripsi Mendalam Manusiawi -->
-            <div class="cred-narrative space-y-3 sm:space-y-3.5 will-change-transform">
+            <div class="cred-narrative space-y-2.5 will-change-transform">
               <h3 class="text-2xl sm:text-3xl font-black font-outfit text-primary dark:text-white tracking-tight leading-tight">
-                Keberhasilan Ternak Dimulai dari Nutrisi Pakan yang Tepat &amp; Konsisten
+                Efisiensi FCR &amp; Hasil Panen Dimulai dari Pakan yang Tepat
               </h3>
               
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                Sebagai praktisi yang memulai usaha dari kandang puyuh sejak 2015, kami menyadari betul bahwa pakan memakan lebih dari 70% biaya operasional peternak. Ketidakstabilan nutrisi pakan berakibat fatal pada penurunan produksi telur dan lambatnya pertambahan bobot daging. Itulah mengapa CV Banong Farms bermitra resmi dengan PT. New Hope Indonesia Cirebon guna menjamin pakan yang Anda terima memiliki FCR hemat dan konsistensi mutu standar pabrikan.
+                Dalam usaha peternakan unggas maupun ruminansia, pakan menyumbang lebih dari 70% total biaya operasional. Kualitas nutrisi yang tidak konsisten berisiko fatal pada penurunan produksi telur dan lambatnya pertambahan bobot harian ternak.
               </p>
               
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                Kami juga melengkapi kebutuhan kandang Anda dengan bibit unggul pilihan (DOQ puyuh, DOC ayam, DOD bebek), multivitamin Medion, vaksin resmi pencegah wabah, serta perlengkapan kandang kokoh. Seluruh produk dapat dibeli dalam kemasan karung sak 50kg maupun eceran kiloan dengan takaran timbangan yang jujur.
+                Sebagai agen resmi PT. New Hope Indonesia Cirebon, CV Banong Farms menjamin pakan yang Anda terima memiliki standar mutu pabrikan yang konsisten, protein presisi, dan rasio konversi pakan (FCR) yang hemat. Kami juga melengkapi sarana kandang dengan bibit unggul terpilih, multivitamin dan vaksin resmi dari Medion, serta timbangan takaran yang jujur.
               </p>
             </div>
 
-            <!-- 2 Kartu Pendukung di Bawah Narasi -->
-            <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 pt-1 will-change-transform">
+            <!-- 4 Kartu Fitur Terstruktur (Grid 2x2 Rapi) -->
+            <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-1 will-change-transform">
               
-              <!-- Kartu 1: Armada Toko Sendiri -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
-                <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
-                  <span class="material-symbols-outlined text-[22px]">local_shipping</span>
+              <!-- Kartu 1: Pakan Segar Pabrikan -->
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined text-[20px]">verified</span>
                 </div>
-
-                <h4 class="font-bold font-outfit text-sm sm:text-base text-primary dark:text-white mb-1.5 leading-snug">
-                  Armada Pengiriman Sendiri
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
+                  Pakan Segar dari Pabrik
                 </h4>
-
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Pengantaran langsung ke kandang Anda di Ajibarang, Cilongok, Pekuncen, dan sekitarnya tanpa repot angkut sendiri.
+                  Pasokan berkala langsung dari produsen New Hope menjamin aroma dan kualitas nutrisi tetap terjaga.
                 </p>
               </div>
 
-              <!-- Kartu 2: Pengalaman Praktisi Lapangan -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:shadow-lg transition-shadow duration-300 group will-change-transform">
-                <div class="w-10 h-10 rounded-xl bg-secondary-container/20 dark:bg-secondary-container/15 text-primary dark:text-secondary-container flex items-center justify-center mb-3">
-                  <span class="material-symbols-outlined text-[22px]">support_agent</span>
+              <!-- Kartu 2: Grosir Sak & Eceran Kiloan -->
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined text-[20px]">inventory_2</span>
                 </div>
-
-                <h4 class="font-bold font-outfit text-sm sm:text-base text-primary dark:text-white mb-1.5 leading-snug">
-                  Konsultasi Pengalaman Sejak 2015
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
+                  Grosir Sak &amp; Ecer Kiloan
                 </h4>
-
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Siap berdiskusi mengenai dosis pakan, pencegahan penyakit, jadwal vaksinasi, dan pemilihan bibit unggul yang tepat.
+                  Melayani pembelian partai sak 50kg maupun eceran kiloan dengan takaran timbangan yang akurat.
+                </p>
+              </div>
+
+              <!-- Kartu 3: Armada Toko Sendiri -->
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined text-[20px]">local_shipping</span>
+                </div>
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
+                  Armada Pengantaran Toko
+                </h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Pengantaran langsung ke kandang di Ajibarang, Cilongok, Pekuncen, dan sekitarnya tanpa repot.
+                </p>
+              </div>
+
+              <!-- Kartu 4: Konsultasi Praktisi Lapangan -->
+              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined text-[20px]">support_agent</span>
+                </div>
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
+                  Konsultasi Nutrisi &amp; Vaksin
+                </h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Diskusi terbuka seputar dosis pakan, jadwal vaksinasi, dan pencegahan penyakit bersama praktisi.
                 </p>
               </div>
 

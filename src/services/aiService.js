@@ -1,48 +1,66 @@
 /**
  * AI Service for CV Banong Farms
- * Supports Google Gemini API (gemini-1.5-flash / gemini-1.5-pro)
+ * Supports DeepSeek API (deepseek-chat / DeepSeek-V3)
  * and OpenAI API (gpt-4o-mini)
  * Includes intelligent agritech offline fallback when no API key is set.
  */
 
 // Storage keys for persistent API keys
-const GEMINI_KEY_STORAGE = 'banong_gemini_api_key'
+const DEEPSEEK_KEY_STORAGE = 'banong_deepseek_api_key'
 const OPENAI_KEY_STORAGE = 'banong_openai_api_key'
 const ACTIVE_PROVIDER_STORAGE = 'banong_ai_provider'
 
 // Default fallback key untuk memastikan AI selalu aktif
 const inMemoryApiKey = {
-  gemini: '',
+  deepseek: '',
   openai: ''
 }
 
-export function getStoredApiKey(provider = 'gemini') {
+// Endpoint resolver untuk DeepSeek (otomatis menggunakan proxy Vite saat di localhost demi mem-bypass CORS browser)
+export function getDeepSeekApiUrl() {
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return '/api-deepseek/chat/completions'
+    }
+  }
+  return 'https://api.deepseek.com/chat/completions'
+}
+
+export function getStoredApiKey(provider = 'deepseek') {
+  const actualProvider = provider === 'gemini' ? 'deepseek' : provider
   let envKey = ''
   try {
     if (typeof import.meta !== 'undefined' && import.meta.env) {
-      envKey = provider === 'gemini' ? import.meta.env.VITE_GEMINI_API_KEY : import.meta.env.VITE_OPENAI_API_KEY
+      envKey = actualProvider === 'deepseek' ? import.meta.env.VITE_DEEPSEEK_API_KEY : import.meta.env.VITE_OPENAI_API_KEY
     }
   } catch (_) {}
 
   if (typeof window !== 'undefined' && window.localStorage) {
-    const storageKey = provider === 'gemini' ? GEMINI_KEY_STORAGE : OPENAI_KEY_STORAGE
-    return localStorage.getItem(storageKey) || envKey || inMemoryApiKey[provider] || ''
+    const storageKey = actualProvider === 'deepseek' ? DEEPSEEK_KEY_STORAGE : OPENAI_KEY_STORAGE
+    return localStorage.getItem(storageKey) || envKey || inMemoryApiKey[actualProvider] || ''
   }
-  return envKey || inMemoryApiKey[provider] || ''
+  return envKey || inMemoryApiKey[actualProvider] || ''
 }
 
 export function setStoredApiKey(provider, key) {
+  const actualProvider = provider === 'gemini' ? 'deepseek' : provider
   if (typeof window !== 'undefined' && window.localStorage) {
-    const storageKey = provider === 'gemini' ? GEMINI_KEY_STORAGE : OPENAI_KEY_STORAGE
+    const storageKey = actualProvider === 'deepseek' ? DEEPSEEK_KEY_STORAGE : OPENAI_KEY_STORAGE
     localStorage.setItem(storageKey, (key || '').trim())
   }
 }
 
 export function getActiveAiProvider() {
   if (typeof window !== 'undefined' && window.localStorage) {
-    return localStorage.getItem(ACTIVE_PROVIDER_STORAGE) || 'gemini'
+    const saved = localStorage.getItem(ACTIVE_PROVIDER_STORAGE)
+    if (!saved || saved === 'gemini') {
+      localStorage.setItem(ACTIVE_PROVIDER_STORAGE, 'deepseek')
+      return 'deepseek'
+    }
+    return saved
   }
-  return 'gemini'
+  return 'deepseek'
 }
 
 export function setActiveAiProvider(provider) {
@@ -101,76 +119,75 @@ IDENTITAS & PROFIL USAHA:
 2. Jika pelanggan bertanya harga, pakan, bibit DOQ/DOC, atau obat Medion, sebutkan informasi sesuai profil dan data di atas.
 3. Sebutkan keunggulan bahwa pengiriman dapat diantar langsung ke kandang memakai ARMADA TOKO SENDIRI (area Ajibarang, Cilongok, Pekuncen, dan sekitarnya).
 4. Jika pelanggan bertanya lokasi dan jam buka: Jelaskan Depan Pasar Hewan (Sebelah Barat Pangkalan Ojek) Ajibarang, buka Senin-Sabtu 07.30 - 16.00 WIB (Minggu Libur).
-5. Gunakan sapaan hangat seperti "Halo Peternak Hebat!", "Halo Kak!", "Halo Sobat Banong!", dan sertakan emoji yang relevan (🌾, 🐣, 💊, 🚚, 😊).
+5. Gunakan sapaan yang sopan dan profesional (seperti "Halo Bapak/Ibu Peternak", "Halo Sahabat Peternak"). DILARANG KERAS menggunakan emoji sama sekali.
 6. Jangan mengarang data stok/harga di luar daftar resmi toko.`
 
   return context
 }
 
-// Daftar model Gemini dengan mekanisme multi-tier fallback otomatis
-const GEMINI_MODELS = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro']
-
 /**
  * Chat with Mascot "Si Banong" (AI Agritech Assistant)
  * Dilengkapi dengan Dynamic Knowledge Injection (Stok & Profil Toko Real-Time)
+ * Menggunakan DeepSeek-V3 (deepseek-chat) - Super cepat & paling hemat biaya
  */
 export async function chatWithMascot(userMessage, chatHistory = [], liveProducts = []) {
-  const provider = getActiveAiProvider()
-  const apiKey = getStoredApiKey(provider)
+  let provider = getActiveAiProvider()
+  if (provider === 'gemini') provider = 'deepseek'
+  let apiKey = getStoredApiKey(provider)
 
-  // 1. If Gemini API Key is available, panggil Google Gemini dengan fallback model otomatis
-  if (provider === 'gemini' && apiKey) {
+  // Prioritaskan DeepSeek jika kuncinya ada
+  const deepseekKey = getStoredApiKey('deepseek')
+  if (deepseekKey) {
+    provider = 'deepseek'
+    apiKey = deepseekKey
+  }
+
+  // 1. If DeepSeek API Key is available, panggil DeepSeek API (deepseek-chat)
+  if (provider === 'deepseek' && apiKey) {
     try {
-      const systemInstruction = buildBanongFarmContext(liveProducts)
+      const messages = [
+        {
+          role: 'system',
+          content: buildBanongFarmContext(liveProducts)
+        },
+        ...chatHistory.slice(-6).map(m => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.text
+        })),
+        { role: 'user', content: userMessage }
+      ]
 
-      const contents = chatHistory.slice(-6).map(msg => ({
-        role: msg.sender === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.text }]
-      }))
-
-      contents.push({
-        role: 'user',
-        parts: [{ text: userMessage }]
+      const url = getDeepSeekApiUrl()
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages,
+          temperature: 0.7,
+          max_tokens: 600
+        })
       })
 
-      // Loop mencoba model-model Gemini yang tersedia (prioritas kecepatan dan stabilitas)
-      for (const modelName of GEMINI_MODELS) {
-        try {
-          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents,
-              systemInstruction: {
-                parts: [{ text: systemInstruction }]
-              },
-              generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 600
-              }
-            })
-          })
-
-          if (response.ok) {
-            const data = await response.json()
-            const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
-            if (reply) {
-              return { 
-                text: reply, 
-                isLiveAi: true,
-                modelName 
-              }
-            }
-          } else if (response.status === 503) {
-            console.warn(`Model ${modelName} sedang ramai (503), mencoba model cadangan berikutnya...`)
-            continue
+      if (response.ok) {
+        const data = await response.json()
+        const reply = data.choices?.[0]?.message?.content
+        if (reply) {
+          return { 
+            text: reply, 
+            isLiveAi: true, 
+            modelName: 'deepseek-chat (DeepSeek-V3)' 
           }
-        } catch (subErr) {
-          console.warn(`Panggilan ke model ${modelName} gagal:`, subErr)
         }
+      } else {
+        const errData = await response.json().catch(() => ({}))
+        console.warn('DeepSeek API returned error:', response.status, errData)
       }
     } catch (err) {
-      console.warn('Gemini API call failed, falling back to smart heuristic:', err)
+      console.warn('DeepSeek API call failed, falling back to smart heuristic:', err)
     }
   }
 
@@ -268,7 +285,7 @@ function getHeuristicMascotReply(query, liveProducts = []) {
 
   // 2. High Specificity Intents: Pengantaran / Armada Toko
   if (q.includes('antar') || q.includes('kirim') || q.includes('ongkir') || q.includes('armada') || q.includes('delivery') || q.includes('kandang') || q.includes('pickup')) {
-    return 'Tenang, CV Banong Farms memiliki **ARMADA TOKO SENDIRI**! 🚚 Kami siap mengantar pesanan pakan sak-sakan dan kebutuhan peternakan Anda langsung sampai ke depan pintu kandang. Melayani rute Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan jadwal pengiriman sigap.'
+    return 'Tenang, CV Banong Farms memiliki **ARMADA TOKO SENDIRI**! Kami siap mengantar pesanan pakan sak-sakan dan kebutuhan peternakan Anda langsung sampai ke depan pintu kandang. Melayani rute Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan jadwal pengiriman sigap.'
   }
 
   // 3. Jam Operasional & Jadwal Buka
@@ -321,7 +338,7 @@ export async function generateAiMarketingStrategy(metrics, topProduct, inventory
   const provider = getActiveAiProvider()
   const apiKey = getStoredApiKey(provider)
 
-  if (provider === 'gemini' && apiKey && topProduct) {
+  if (provider === 'deepseek' && apiKey && topProduct) {
     try {
       const formattedRev = (metrics.totalRevenue || 0) > 0 
         ? `Rp ${Number(metrics.totalRevenue).toLocaleString('id-ID')}`
@@ -340,31 +357,37 @@ Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 parag
 1. Paragraf 1: Analisis penjualan produk ${topProduct.name} dan ketersediaan stok di gudang.
 2. Paragraf 2: Rekomendasi menjaga pasokan dan melayani pesanan WhatsApp dari pembeli agar pemasukan tetap lancar.`
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      const url = getDeepSeekApiUrl()
+      const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 500
-          }
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: 'Anda adalah Asisten Strategi Bisnis Peternakan CV Banong Farms Ajibarang.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.6,
+          max_tokens: 500
         })
       })
 
       if (response.ok) {
         const data = await response.json()
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+        const text = data.choices?.[0]?.message?.content
         if (text) {
           return {
             analysis: text,
             isLiveAi: true,
-            provider: 'Gemini 1.5 Flash'
+            provider: 'DeepSeek-V3 (deepseek-chat)'
           }
         }
       }
     } catch (err) {
-      console.warn('Gemini Strategy call failed:', err)
+      console.warn('DeepSeek Strategy call failed:', err)
     }
   }
 
@@ -617,13 +640,13 @@ export async function analyzePredictiveStockAndRevenue({ transactions = [], prod
     totalProjectedVolume
   }
 
-  // 6. Hubungi Gemini 1.5 Flash AI untuk Menyusun Narasi Keputusan Strategis
+  // 6. Hubungi DeepSeek AI (deepseek-chat) untuk Menyusun Narasi Keputusan Strategis
   const provider = getActiveAiProvider()
   const apiKey = getStoredApiKey(provider)
   let strategicAnalysis = ''
   let isLiveAi = false
 
-  if (provider === 'gemini' && apiKey) {
+  if (provider === 'deepseek' && apiKey) {
     try {
       const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
 Berikut adalah data telemetri transaksi:
@@ -636,28 +659,34 @@ Awali dengan: "Berdasarkan simulasi data penjualan ${daysCount} hari (Demo PSAJ)
 Gunakan format markdown tebal (bold **) untuk nama produk, angka pcs, nilai rupiah, dan rekomendasi tindakan (contoh: **${bestSeller.name}**, **${bestSeller.projectedDemand30Days} pcs**, **Rp ${totalHistoricRevenue.toLocaleString('id-ID')}**, **segera restok**).
 Fokuskan pada pendapatan yang didapat, stok barang di gudang, dan tindak lanjut pesanan WhatsApp.`
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      const url = getDeepSeekApiUrl()
+      const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 650
-          }
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: 'Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms Ajibarang.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.6,
+          max_tokens: 650
         })
       })
 
       if (response.ok) {
         const data = await response.json()
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+        const text = data.choices?.[0]?.message?.content
         if (text) {
           strategicAnalysis = text
           isLiveAi = true
         }
       }
     } catch (err) {
-      console.warn('Gemini 1.5 Flash training insight failed:', err)
+      console.warn('DeepSeek training insight failed:', err)
     }
   }
 

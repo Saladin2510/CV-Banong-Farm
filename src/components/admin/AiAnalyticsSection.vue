@@ -904,7 +904,7 @@ onMounted(() => {
   const provider = getActiveAiProvider()
   const key = getStoredApiKey(provider)
   if (key) {
-    aiProviderBadge.value = provider === 'gemini' ? '✦ GEMINI 1.5 FLASH' : '✦ GPT-4O MINI'
+    aiProviderBadge.value = provider === 'deepseek' ? '✦ DEEPSEEK-V3' : '✦ GPT-4O MINI'
     aiIsLive.value = true
   }
 

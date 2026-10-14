@@ -197,6 +197,16 @@ function localDatabaseApiPlugin() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(), localDatabaseApiPlugin()],
+  server: {
+    proxy: {
+      '/api-deepseek': {
+        target: 'https://api.deepseek.com',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api-deepseek/, ''),
+        secure: true
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

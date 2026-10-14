@@ -20,68 +20,97 @@
         <!-- LEFT COLUMN: Content & Vision / Mission Narrative -->
         <div class="lg:col-span-7 flex flex-col justify-center">
           
-          <!-- Live Status Pill -->
-          <div class="visi-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-secondary-container text-xs font-bold mb-3 border border-primary/20 dark:border-white/20 font-telemetry-code shadow-xs w-fit will-change-transform">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-container"></span>
-            </span>
-            <span class="tracking-wider uppercase font-semibold">
-              JEJAK LANGKAH SEJAK 2015
-            </span>
+          <!-- Section Badge Pill (Clean & Non-Stiff) -->
+          <div class="visi-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 border border-slate-200 dark:border-slate-700 shadow-2xs w-fit will-change-transform">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span class="tracking-wider uppercase text-[11px] font-bold">Profil &amp; Perjalanan Usaha</span>
           </div>
 
-          <!-- Section Title (Tegak, Bold, Bersih) -->
-          <h2 class="visi-hero-text text-3xl sm:text-4xl lg:text-5xl font-black font-outfit text-primary dark:text-secondary-container tracking-tight leading-tight mb-3 origin-bottom-left will-change-transform">
+          <!-- Section Title -->
+          <h2 class="visi-hero-text text-3xl sm:text-4xl lg:text-[44px] font-black font-outfit text-primary dark:text-white tracking-tight leading-tight mb-2.5 origin-bottom-left will-change-transform">
             Tentang Kami
           </h2>
 
-          <!-- Bold Lead Statement -->
-          <h3 class="visi-hero-text text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3 sm:mb-3.5 will-change-transform">
-            Berawal dari Kandang Puyuh 2015, Tumbuh Menjadi Pusat Sarana Peternakan Terpercaya.
+          <!-- Subtitle / Value Proposition -->
+          <h3 class="visi-hero-text text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 leading-snug mb-3 will-change-transform">
+            Dedikasi Menyediakan Pakan Berkualitas &amp; Sarana Ternak Terpercaya Sejak 2015.
           </h3>
 
-          <!-- Narrative Paragraph -->
-          <p class="visi-hero-text text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed will-change-transform">
-            Perjalanan CV Banong Farms berakar dari ketulusan dan pengalaman langsung di lapangan. Pada tahun 2015, kami memulai usaha dari budidaya ternak burung puyuh mandiri di Ajibarang. Mengalami sendiri suka duka dunia peternakan—mulai dari pentingnya efisiensi pakan pabrikan berprotein presisi, menjaga daya tahan bibit, hingga memilih obat dan perlengkapan kandang yang tepat—mendorong kami mendirikan toko fisik sarana peternakan modern pada tahun 2022. Kini, dipercaya sebagai agen resmi pakan ternak PT. New Hope Indonesia Cirebon, kami berdedikasi melayani sesama peternak di Ajibarang, Cilongok, Pekuncen, hingga luar daerah dengan pasokan prima dan armada pengiriman mandiri.
-          </p>
+          <!-- Structured Narrative (Concise, Legible, Professional Agribusiness Tone) -->
+          <div class="visi-hero-text space-y-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed will-change-transform">
+            <p>
+              CV Banong Farms didirikan atas dasar pengalaman langsung budidaya ternak di Ajibarang pada tahun 2015. Berangkat dari pemahaman teknis di lapangan mengenai pentingnya kestabilan nutrisi pakan dan daya tahan bibit unggul, kami mendirikan toko fisik sarana peternakan modern untuk melayani sesama peternak.
+            </p>
+            <p>
+              Dipercaya sebagai agen resmi pakan ternak PT. New Hope Indonesia Cirebon, kami menghadirkan pasokan pakan berstandar pabrikan, bibit unggas pilihan, obat dan multivitamin Medion, serta perlengkapan kandang lengkap yang siap diantar langsung ke lokasi peternak.
+            </p>
+          </div>
 
-          <!-- Visi & Misi Key Highlights -->
-          <div class="visi-hero-text mt-5 pt-5 sm:mt-6 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3.5 sm:space-y-4">
-            
-            <!-- Visi Card (Compact & Sleek) -->
-            <div class="visi-card p-3.5 sm:p-4 rounded-xl bg-primary/5 dark:bg-primary/20 border border-primary/20 dark:border-primary/40 will-change-transform transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/5">
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px]">visibility</span>
-                <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-white font-telemetry-code">
-                  Visi Kami
-                </span>
+          <!-- 3 Value Pillars (Compact Structured Cards) -->
+          <div class="visi-hero-text grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-4">
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 transition-all hover:border-amber-400/50">
+              <div class="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white mb-1">
+                <span class="material-symbols-outlined text-amber-500 text-[18px]">verified</span>
+                <span>Resmi Pabrikan</span>
               </div>
-              <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 italic font-medium leading-relaxed">
-                "Menjadi mitra utama peternak dalam menyediakan pakan berkualitas untuk hasil ternak yang optimal dan berkelanjutan."
+              <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                Pakan asli standar PT. New Hope Indonesia dengan nutrisi teruji dan konsisten.
               </p>
             </div>
 
-            <!-- Misi 3 Bullet Grid (Yellow Checkmark Accents) -->
-            <div class="space-y-2">
-              <div class="flex items-center gap-1.5 mb-0.5">
-                <span class="material-symbols-outlined text-secondary-container text-[16px]">flag</span>
-                <span class="text-xs uppercase font-extrabold tracking-wider text-primary dark:text-secondary-container font-telemetry-code">
-                  Misi Kami
-                </span>
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 transition-all hover:border-amber-400/50">
+              <div class="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white mb-1">
+                <span class="material-symbols-outlined text-amber-500 text-[18px]">scale</span>
+                <span>Takaran Jujur</span>
               </div>
-              <div class="grid grid-cols-1 gap-2">
+              <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                Melayani pembelian partai sak grosir maupun eceran kiloan dengan timbangan presisi.
+              </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 transition-all hover:border-amber-400/50">
+              <div class="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white mb-1">
+                <span class="material-symbols-outlined text-amber-500 text-[18px]">local_shipping</span>
+                <span>Armada Toko</span>
+              </div>
+              <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                Layanan pengantaran terjadwal ke kandang di Ajibarang, Cilongok, dan sekitarnya.
+              </p>
+            </div>
+          </div>
+
+          <!-- Visi & Misi Balanced Cards -->
+          <div class="visi-hero-text pt-2 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            
+            <!-- Visi Card -->
+            <div class="visi-card p-3.5 sm:p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 flex flex-col justify-between">
+              <div>
+                <span class="text-[11px] uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400 block mb-1">
+                  Visi Usaha
+                </span>
+                <p class="text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
+                  Menjadi mitra utama peternak dalam menyediakan pakan berkualitas tinggi dan sarana ternak terpercaya untuk hasil panen yang optimal dan berkelanjutan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Misi Card -->
+            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70">
+              <span class="text-[11px] uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
+                Misi Usaha
+              </span>
+              <div class="space-y-1.5">
                 <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                  <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                  <span>Menyediakan pakan ternak lengkap, original, dan dengan harga yang kompetitif.</span>
+                  <span class="misi-icon material-symbols-outlined text-amber-500 text-[16px] shrink-0 mt-0.5 inline-block will-change-transform">check</span>
+                  <span>Menyediakan pakan ternak pabrikan original dengan harga yang kompetitif.</span>
                 </div>
                 <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                  <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                  <span>Memberikan konsultasi gratis tentang kebutuhan nutrisi ternak.</span>
+                  <span class="misi-icon material-symbols-outlined text-amber-500 text-[16px] shrink-0 mt-0.5 inline-block will-change-transform">check</span>
+                  <span>Memberikan pendampingan nutrisi berbasis pengalaman praktisi kandang.</span>
                 </div>
                 <div class="misi-item flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 will-change-transform">
-                  <span class="misi-icon material-symbols-outlined text-secondary-container dark:text-secondary-container text-[18px] shrink-0 mt-0.5 inline-block origin-center will-change-transform">check_circle</span>
-                  <span>Menjaga stok selalu ready dan pengiriman cepat.</span>
+                  <span class="misi-icon material-symbols-outlined text-amber-500 text-[16px] shrink-0 mt-0.5 inline-block will-change-transform">check</span>
+                  <span>Memastikan kestabilan stok dan kecepatan pengantaran armada mandiri.</span>
                 </div>
               </div>
             </div>

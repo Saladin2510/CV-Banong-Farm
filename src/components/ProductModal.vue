@@ -35,7 +35,7 @@
           
           <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
             <div class="flex flex-col">
-              <span class="text-xs uppercase tracking-wider text-secondary-container font-bold font-telemetry-code">
+              <span class="text-xs uppercase tracking-wider text-secondary-container font-bold font-sans">
                 {{ product.category || 'Pakan & Sarana Ternak' }}
               </span>
               <h3 class="text-xl font-bold text-white leading-snug">
@@ -45,7 +45,7 @@
 
             <span 
               :class="[
-                'px-3 py-1 rounded-full text-xs font-semibold shadow-md shrink-0 border font-telemetry-code',
+                'px-3 py-1 rounded-full text-xs font-semibold shadow-md shrink-0 border font-sans',
                 (product.stock > 0) 
                   ? 'bg-primary/90 text-secondary-container border-blue-400/40' 
                   : 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-200 dark:border-amber-700'
@@ -66,7 +66,7 @@
           <div class="p-4 rounded-xl bg-surface-subtle dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 flex items-center justify-between">
             <div>
               <div class="text-[11px] text-on-surface-variant dark:text-slate-400">Harga Satuan:</div>
-              <div class="font-bold text-base text-primary dark:text-white font-telemetry-code">
+              <div class="font-bold text-base text-primary dark:text-white font-sans">
                 {{ formatPrice(product.price) }} / {{ product.unit || 'pcs' }}
               </div>
             </div>
@@ -86,7 +86,7 @@
                 type="number" 
                 min="1" 
                 :max="product.stock > 0 ? product.stock : 9999"
-                class="w-12 text-center font-bold text-sm bg-transparent text-primary dark:text-white focus:outline-none font-telemetry-code"
+                class="w-12 text-center font-bold text-sm bg-transparent text-primary dark:text-white focus:outline-none font-sans"
               />
               <button 
                 type="button"
@@ -101,7 +101,7 @@
           <!-- Total Calculation Row -->
           <div class="flex items-center justify-between px-1 text-sm">
             <span class="text-on-surface-variant dark:text-slate-400 font-medium">Subtotal ({{ quantity }} {{ product.unit || 'pcs' }}):</span>
-            <span class="font-extrabold text-xl text-primary dark:text-secondary-container font-telemetry-code">
+            <span class="font-extrabold text-xl text-primary dark:text-secondary-container font-sans">
               {{ formatPrice(product.price * quantity) }}
             </span>
           </div>
@@ -113,7 +113,7 @@
           >
             <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-[18px] shrink-0 mt-0.5">info</span>
             <div class="flex flex-col">
-              <span class="font-bold text-[11px] uppercase font-telemetry-code">Stok Sedang Kosong (0 {{ product.unit || 'pcs' }})</span>
+              <span class="font-bold text-[11px] uppercase font-sans">Stok Sedang Kosong (0 {{ product.unit || 'pcs' }})</span>
               <p class="text-[11px] text-amber-800 dark:text-amber-300 mt-0.5 leading-relaxed">
                 Produk tetap dapat disimpan di keranjang belanja Anda. Namun pemesanan baru dapat diproses setelah pengelola mengisi kembali stok di sistem.
               </p>

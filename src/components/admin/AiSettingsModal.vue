@@ -57,20 +57,20 @@
           <div class="grid grid-cols-2 gap-3">
             <button 
               type="button"
-              @click="selectProvider('gemini')"
+              @click="selectProvider('deepseek')"
               :class="[
                 'p-3 rounded-xl border flex flex-col items-start gap-1 transition-all text-left cursor-pointer',
-                selectedProvider === 'gemini' 
+                selectedProvider === 'deepseek' 
                   ? 'border-cc-orange bg-orange-50/50 dark:bg-orange-950/30 ring-2 ring-cc-orange/20 shadow-xs' 
                   : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0d1117] hover:border-slate-300 dark:hover:border-slate-600'
               ]"
             >
               <div class="flex items-center justify-between w-full">
-                <span class="font-bold text-xs text-slate-900 dark:text-white">Google Gemini</span>
-                <span class="material-symbols-outlined text-[16px] text-cc-orange" v-if="selectedProvider === 'gemini'">check_circle</span>
+                <span class="font-bold text-xs text-slate-900 dark:text-white">DeepSeek AI</span>
+                <span class="material-symbols-outlined text-[16px] text-cc-orange" v-if="selectedProvider === 'deepseek'">check_circle</span>
               </div>
-              <span class="text-[11px] text-[#797067] dark:text-slate-400">Model: gemini-1.5-flash</span>
-              <span class="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 font-telemetry-code">Sangat Hemat &amp; Cepat</span>
+              <span class="text-[11px] text-[#797067] dark:text-slate-400">Model: deepseek-chat</span>
+              <span class="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 font-telemetry-code">Super Cepat &amp; Paling Murah</span>
             </button>
 
             <button 
@@ -97,10 +97,10 @@
         <div>
           <div class="flex items-center justify-between mb-1.5">
             <label class="font-bold text-xs text-[#594136] dark:text-slate-300 uppercase font-telemetry-code">
-              {{ selectedProvider === 'gemini' ? 'Google Gemini API Key' : 'OpenAI API Key' }}
+              {{ selectedProvider === 'deepseek' ? 'DeepSeek API Key' : 'OpenAI API Key' }}
             </label>
             <a 
-              :href="selectedProvider === 'gemini' ? 'https://aistudio.google.com/app/apikey' : 'https://platform.openai.com/api-keys'" 
+              :href="selectedProvider === 'deepseek' ? 'https://platform.deepseek.com/api_keys' : 'https://platform.openai.com/api-keys'" 
               target="_blank" 
               rel="noopener noreferrer"
               class="text-[11px] text-cc-orange hover:underline flex items-center gap-0.5"
@@ -114,7 +114,7 @@
             <input 
               v-model="apiKeyInput"
               :type="showKey ? 'text' : 'password'"
-              :placeholder="selectedProvider === 'gemini' ? 'AIzaSy...' : 'sk-proj-...'"
+              :placeholder="selectedProvider === 'deepseek' ? 'sk-...' : 'sk-proj-...'"
               class="w-full h-11 px-3.5 pr-20 font-telemetry-code text-xs bg-slate-50 dark:bg-[#0d1117] border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cc-orange focus:ring-2 focus:ring-cc-orange/20 transition-colors"
             />
             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -194,7 +194,8 @@ import {
   getActiveAiProvider, 
   setActiveAiProvider, 
   getStoredApiKey, 
-  setStoredApiKey 
+  setStoredApiKey,
+  getDeepSeekApiUrl
 } from '../../services/aiService'
 
 const props = defineProps({
@@ -237,26 +238,30 @@ const testConnection = async () => {
   const provider = selectedProvider.value
 
   try {
-    if (provider === 'gemini') {
-      const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+    if (provider === 'deepseek') {
+      const resp = await fetch(getDeepSeekApiUrl(), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${key}`
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: 'Halo Banong, tes status token aktif.' }] }],
-          generationConfig: { maxOutputTokens: 10 }
+          model: 'deepseek-chat',
+          messages: [{ role: 'user', content: 'Halo Banong, tes status token aktif.' }],
+          max_tokens: 10
         })
       })
 
       if (resp.ok) {
         testStatus.value = {
           success: true,
-          message: 'Koneksi Google Gemini 1.5 Flash Berhasil! Token 1M siap digunakan.'
+          message: 'Koneksi DeepSeek AI (deepseek-chat) Berhasil! Token aktif & super hemat.'
         }
       } else {
         const errData = await resp.json().catch(() => ({}))
         testStatus.value = {
           success: false,
-          message: `Gagal: ${errData.error?.message || 'API Key Gemini tidak valid atau kuota habis.'}`
+          message: `Gagal: ${errData.error?.message || 'API Key DeepSeek tidak valid atau saldo habis.'}`
         }
       }
     } else {

@@ -202,7 +202,7 @@
 
               <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0d131f] border border-slate-200/80 dark:border-slate-800 flex flex-col">
                 <span class="text-slate-400 font-telemetry-code text-[10px] uppercase">Model Algoritma</span>
-                <span class="font-bold text-sm text-emerald-600 dark:text-emerald-400 mt-0.5 font-telemetry-code">WMA + Gemini AI</span>
+                <span class="font-bold text-sm text-emerald-600 dark:text-emerald-400 mt-0.5 font-telemetry-code">WMA + DeepSeek AI</span>
                 <span class="text-[10px] text-slate-400">Dual-Engine Predictor</span>
               </div>
             </div>
@@ -372,7 +372,7 @@ const handleStartTraining = async () => {
 
   await new Promise(r => setTimeout(r, 500))
   trainingPercent.value = 75
-  trainingStatusText.value = 'Mengakses Knowledge Model Gemini 1.5 Flash AI...'
+  trainingStatusText.value = 'Mengakses Model DeepSeek AI (deepseek-chat)...'
 
   try {
     const res = await adminStore.trainAiModelWithDataset(dataToTrain)
