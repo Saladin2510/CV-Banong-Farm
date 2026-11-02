@@ -2006,6 +2006,42 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
      - Remote Commit: `d8cb3cd..6b23471 main -> main`
      - Seluruh kode terkini telah aktif dan dapat langsung diakses oleh rekan kolaborator (`Saladin2510`) di GitHub.
 
+---
 
-
+## 42. Checkpoint Sesi 63: Integrasi Foto Toko Asli (Eliminasi Aset AI), Efek Triptych 3-Slice Visi-Misi, Penyempurnaan Hero Slider, & Pembuatan Activity Diagram Lengkap (Bab 2 Laporan PSAJ)
+* **Tanggal & Waktu:** 2 November 2026, Pukul 10:15 WIB
+* **Status:** SELESAI, TERVERIFIKASI 100%, & TERTULIS DI LAPORAN (Vite Production Build Sukses / Aset Triptych Selesai / Diagram Ultra-HD PNG Siap).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Migrasi Foto Nyata Toko:** Pengguna telah mengunggah website ke hosting Hostinger dan ingin meniadakan gambar buatan AI, menggantikannya dengan foto asli toko fisik CV Banong Farms di Ajibarang (`foto-foto toko/`).
+  2. **Revisi Hero Header:** Menghapus kotak alamat floating di atas hero slider, menaikkan opacity foto toko di latar belakang agar tampak lebih jelas dan elegan, serta melengkapi teks deskripsi pada slide kedua carousel ("Pakan Nutrisi Unggul").
+  3. **Efek Triptych Section Visi Misi:** Foto tampak depan toko asli (`tampak_depan_toko.png`) dipotong vertikal menjadi 3 bagian terpisah namun bersambung saat ditampilkan bersisian.
+  4. **Penyusunan Materi Laporan PSAJ (Bab 2):** Pembuatan gambar **Activity Diagram** sistem yang komprehensif beserta teks penjelasan formal akademis berformat:
+     - `Berdasarkan .........`
+     - `Gambar 2.2 Activity Diagram`
+     - `Gambar 2.2 Activity Diagram di atas menjelaskan .....`
+* **Implementasi Teknis & Solusi yang Dikerjakan:**
+  1. **Pemotongan Gambar Triptych Toko ([`scripts/slice_store.ps1`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/scripts/slice_store.ps1)):**
+     - Dibuat skrip otomatisasi PowerShell dengan pustaka `.NET System.Drawing.Bitmap` untuk memotong foto asli `tampak_depan_toko.png` (resolusi 1080x810 px) menjadi 3 irisan vertikal berdimensi masing-masing 360x810 px:
+       - `public/assets/tampak_depan_toko_slice1.png` (Irisan kiri: plang nama toko)
+       - `public/assets/tampak_depan_toko_slice2.png` (Irisan tengah: etalase & pintu masuk utama)
+       - `public/assets/tampak_depan_toko_slice3.png` (Irisan kanan: tumpukan produk & stok pakan)
+  2. **Refaktorisasi Komponen Antarmuka Vue:**
+     - [`src/components/home/HeroSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/home/HeroSection.vue):
+       - Menghapus floating address card.
+       - Meningkatkan visibilitas latar belakang foto toko dengan menaikkan *opacity* dari `opacity-40` menjadi `opacity-75` berpadu *gradient blend* halus.
+       - Menambahkan deskripsi slide ke-2: *"Pakan Nutrisi Unggul: Formulasi pakan lengkap bernutrisi tinggi untuk memaksimalkan bobot dan daya tahan ternak secara optimal."*
+     - [`src/components/home/VisiMisiSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/home/VisiMisiSection.vue):
+       - Mengintegrasikan 3 irisan foto toko asli ke dalam 3 kartu vertikal dengan offset stagger (`translate-y-4`, `-translate-y-2`, dll.) sehingga menghasilkan efek triptych modern yang menyatu.
+  3. **Generasi Activity Diagram Sistem & Penulisan Bab 2 Laporan PSAJ:**
+     - Dibuat skrip generator berbasis SVG & HTML [`generate_activity_diagram.py`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/generate_activity_diagram.py) yang di-render secara headless menggunakan Microsoft Edge menjadi gambar PNG beresolusi ultra-tinggi:
+       - Berkas gambar diagram: [`gambar_2_2_activity_diagram.png`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/gambar_2_2_activity_diagram.png) (Ukuran 503 KB) dan [`public/assets/gambar_2_2_activity_diagram.png`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/public/assets/gambar_2_2_activity_diagram.png).
+       - Kode sumber visual interaktif: [`public/assets/diagram_activity_sistem.html`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/public/assets/diagram_activity_sistem.html).
+     - **Cakupan 4 Jalur Aktivitas (*Swimlanes*):**
+       - **Swimlane 1 (Pelanggan / Pengunjung Web):** Akses landing page, eksplorasi profil toko, percabangan interaksi (Chatbot AI "Si Banong" vs Katalog Produk 74 item), pencarian/filter kategori, modal detail produk, keranjang belanja (Cart Drawer), checkout pengisian formulir & metode pengiriman armada, serta konfirmasi pemesanan ke WhatsApp Gateway.
+       - **Swimlane 2 (Sistem Frontend Vue 3 SPA):** Inisialisasi komponen, reactive search/filtering O(1), format prompt AI ke DeepSeek, persistensi keranjang via Pinia & LocalStorage, kalkulasi subtotal, dan enkripsi payload pesanan WhatsApp.
+       - **Swimlane 3 (Database & Cloud Services):** Supabase PostgREST API (data katalog), DeepSeek-V3 LLM API (inferensi kecerdasan buatan konsultasi pakan), Supabase Realtime Engine WebSocket CDC (siaran perubahan data langsung), basis data relasional PostgreSQL, dan Supabase Auth (validasi token JWT).
+       - **Swimlane 4 (Administrator Toko):** Login portal `/admin`, dashboard komando, forking aktivitas paralel (CRUD master produk, pemantauan transaksi real-time, analitik & peramalan restok AI), validasi pesanan pelanggan, pemotongan stok gudang otomatis, pembaruan rekap omzet, dan logout sesi aman.
+     - Menyusun dokumentasi naratif formal berstandar akademik Tugas Akhir / PSAJ SMK Rekayasa Perangkat Lunak untuk disalin ke naskah laporan Word/Docs.
+  4. **Pembaruan Paket Distribusi:**
+     - Hasil kompilasi produksi `npm run build` berhasil 100% tanpa error, dan paket zip siap unggah [`dist_upload.zip`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/dist_upload.zip) telah diperbarui untuk mempermudah upload ke Hostinger.
 

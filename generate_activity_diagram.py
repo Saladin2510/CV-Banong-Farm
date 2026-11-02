@@ -1,0 +1,632 @@
+import os
+import subprocess
+import shutil
+
+html_content = """<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 1280px;
+    margin: 0 auto;
+    color: #0f172a;
+  }
+
+  .diagram-wrapper {
+    width: 1240px;
+    margin: 0 auto;
+    border: 2px solid #0f172a;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  }
+
+  /* Diagram Title Bar */
+  .diagram-header {
+    background: #022448;
+    color: #ffffff;
+    padding: 15px 24px;
+    text-align: center;
+    border-bottom: 2px solid #0f172a;
+  }
+  .diagram-header h2 {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .diagram-header p {
+    font-size: 11.5px;
+    color: #fcd400;
+    margin-top: 3px;
+    font-weight: 600;
+  }
+
+  /* Swimlanes Grid */
+  .swimlanes-container {
+    display: grid;
+    grid-template-columns: 300px 320px 300px 320px;
+    background: #ffffff;
+    position: relative;
+  }
+
+  .swimlane-header {
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #334155;
+  }
+  .sw-1 { background: #eff6ff; color: #1e3a8a; }
+  .sw-2 { background: #f0fdf4; color: #14532d; }
+  .sw-3 { background: #fefce8; color: #713f12; }
+  .sw-4 { background: #faf5ff; color: #581c87; }
+
+  /* Canvas area */
+  .canvas-area {
+    position: relative;
+    width: 1240px;
+    height: 1260px;
+    background: #ffffff;
+  }
+
+  /* UML Notations */
+  .uml-start {
+    width: 26px;
+    height: 26px;
+    background: #0f172a;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .uml-end {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #0f172a;
+    background: transparent;
+    border-radius: 50%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .uml-end::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background: #0f172a;
+    border-radius: 50%;
+  }
+
+  .uml-action {
+    position: absolute;
+    border: 1.6px solid #334155;
+    border-radius: 9px;
+    background: #ffffff;
+    padding: 9px 12px;
+    font-size: 11px;
+    line-height: 1.35;
+    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.05);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .uml-action strong {
+    color: #0f172a;
+    font-size: 11.5px;
+    margin-bottom: 3px;
+    display: block;
+  }
+  .uml-action span {
+    color: #475569;
+    font-size: 10px;
+  }
+
+  .act-user { border-color: #3b82f6; border-left: 4px solid #2563eb; background: #f8fafc; }
+  .act-system { border-color: #10b981; border-left: 4px solid #059669; background: #f8fafc; }
+  .act-cloud { border-color: #f59e0b; border-left: 4px solid #d97706; background: #fffbeb; }
+  .act-admin { border-color: #8b5cf6; border-left: 4px solid #7c3aed; background: #f8fafc; }
+
+  /* Decision Diamond */
+  .uml-decision {
+    position: absolute;
+    width: 86px;
+    height: 50px;
+    border: 1.8px solid #334155;
+    background: #ffffff;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .uml-decision-text {
+    position: absolute;
+    width: 120px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+    pointer-events: none;
+  }
+
+  /* Fork / Join Bars */
+  .uml-fork {
+    position: absolute;
+    height: 6px;
+    background: #0f172a;
+    border-radius: 3px;
+  }
+
+  /* Edge Label */
+  .edge-label {
+    position: absolute;
+    font-size: 9.5px;
+    font-weight: 700;
+    background: #ffffff;
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+  }
+
+  /* Full overlay SVG */
+  svg.overlay-arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1240px;
+    height: 1260px;
+    pointer-events: none;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-wrapper">
+  <!-- Diagram Title Bar -->
+  <div class="diagram-header">
+    <h2>Gambar 2.2 Activity Diagram Sistem E-Commerce &amp; Manajemen Farm</h2>
+    <p>CV Banong Farms Ajibarang (Multi-Actor Swimlanes: Pelanggan, Frontend SPA, Cloud Database, Administrator)</p>
+  </div>
+
+  <!-- Swimlane Headers -->
+  <div class="swimlanes-container" style="border-bottom: 1.5px solid #cbd5e1;">
+    <div class="swimlane-header sw-1">👤 Pelanggan / Pengunjung</div>
+    <div class="swimlane-header sw-2">💻 Sistem Web App (Frontend SPA)</div>
+    <div class="swimlane-header sw-3">☁️ Database &amp; Cloud (Supabase)</div>
+    <div class="swimlane-header sw-4">🛡️ Administrator Toko</div>
+  </div>
+
+  <!-- Main Canvas for Diagram -->
+  <div class="canvas-area">
+    <!-- SVG Vector Arrows Layer -->
+    <svg class="overlay-arrows">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#059669" />
+        </marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+        </marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
+        </marker>
+      </defs>
+
+      <!-- SWIMLANE GUIDES (Vertical dividers) -->
+      <line x1="300" y1="0" x2="300" y2="1260" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 4" />
+      <line x1="620" y1="0" x2="620" y2="1260" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 4" />
+      <line x1="920" y1="0" x2="920" y2="1260" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 4" />
+
+      <!-- ==================== FLOW 1: PELANGGAN ==================== -->
+      <!-- Start -> Buka Web -->
+      <path d="M 150 46 L 150 68" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Buka Web -> Inisialisasi SPA (Pelanggan -> Sistem) -->
+      <path d="M 265 100 L 345 100" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Inisialisasi SPA -> Fetch Produk (Sistem -> Cloud) -->
+      <path d="M 585 100 L 660 100" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Return Realtime 74 Produk (Cloud -> Sistem) -->
+      <path d="M 780 135 L 780 160 L 465 160 L 465 180" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Render Katalog -> Eksplorasi (Sistem -> Pelanggan) -->
+      <path d="M 345 210 L 265 210" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Eksplorasi -> Decision 1 (Pilih Fitur) -->
+      <path d="M 150 244 L 150 270" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- Branch A: Chatbot AI (Left) -->
+      <path d="M 107 295 L 60 295 L 60 350 L 90 350" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Tanya Chatbot -> Forward Prompt (Pelanggan -> Sistem) -->
+      <path d="M 210 373 L 345 373" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Forward Prompt -> DeepSeek API (Sistem -> Cloud) -->
+      <path d="M 585 373 L 660 373" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- DeepSeek -> Tampilkan Respon (Cloud -> Sistem) -->
+      <path d="M 780 405 L 780 432 L 585 432" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Respon AI -> Baca Rekomendasi (Sistem -> Pelanggan) -->
+      <path d="M 345 432 L 210 432" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Chat Selesai / Lanjut Belanja -> Join bar -->
+      <path d="M 150 458 L 150 495" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- Branch B: Cari & Pesan Produk (Straight Down) -->
+      <path d="M 193 295 L 240 295 L 240 495" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- Join Bar -> Filter & Search -->
+      <path d="M 150 501 L 150 528" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Filter -> Update Filtered Grid (Pelanggan -> Sistem) -->
+      <path d="M 265 558 L 345 558" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Update Grid -> Pilih Produk (Sistem -> Pelanggan) -->
+      <path d="M 465 590 L 465 615 L 265 615" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Pilih Produk -> Buka Modal Detail -->
+      <path d="M 150 642 L 150 668" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Buka Modal -> Klik Tambah Keranjang -->
+      <path d="M 150 720 L 150 746" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Klik Tambah Keranjang -> Update CartStore (Pelanggan -> Sistem) -->
+      <path d="M 265 773 L 345 773" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Update CartStore -> Buka Sliding Cart Drawer (Sistem -> Pelanggan) -->
+      <path d="M 465 805 L 465 832 L 265 832" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Buka Drawer -> Isi Form Checkout -->
+      <path d="M 150 860 L 150 885" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Isi Form -> Klik Pesan via WhatsApp -->
+      <path d="M 150 940 L 150 965" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Klik Pesan WA -> Generate Order Payload & WA URI (Pelanggan -> Sistem) -->
+      <path d="M 265 993 L 345 993" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Generate Order -> Insert Tiket Pesanan & Potong Stok (Sistem -> Cloud) -->
+      <path d="M 585 993 L 660 993" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Insert Pesanan -> Buka WhatsApp Chat (Cloud -> Pelanggan) -->
+      <path d="M 780 1028 L 780 1060 L 265 1060" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)" />
+      <!-- WA Gateway -> End Node Pelanggan -->
+      <path d="M 150 1088 L 150 1125" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- REALTIME CDC NOTIFICATION: Cloud -> Admin Live Order -->
+      <path d="M 875 1010 L 980 1010 L 1030 635" stroke="#d97706" stroke-width="1.8" stroke-dasharray="4 3" fill="none" marker-end="url(#arrow)" />
+
+      <!-- ==================== FLOW 2: ADMINISTRATOR ==================== -->
+      <!-- Start Admin -> Buka Rute #/admin -->
+      <path d="M 1080 46 L 1080 68" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Buka #/admin -> Input Kredensial -->
+      <path d="M 1080 128 L 1080 152" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Input Kredensial -> Verifikasi Supabase Auth (Admin -> Cloud) -->
+      <path d="M 960 180 L 870 180" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Supabase Auth -> Decision Login (Cloud -> Admin) -->
+      <path d="M 780 215 L 780 240 L 1037 240 L 1080 268" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Decision Login -> Gagal [Tidak] -->
+      <path d="M 1123 293 L 1195 293 L 1195 180 L 1175 180" stroke="#dc2626" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Decision Login -> Berhasil [Ya] -->
+      <path d="M 1080 318 L 1080 345" stroke="#059669" stroke-width="1.6" fill="none" marker-end="url(#arrow-green)" />
+      <!-- Buka Command Center -> Fork Menu Admin -->
+      <path d="M 1080 405 L 1080 440" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- Fork Menu Admin (CRUD Produk / Live Order / Analitik AI) -->
+      <path d="M 985 446 L 985 490" stroke="#7c3aed" stroke-width="1.6" fill="none" marker-end="url(#arrow-purple)" />
+      <path d="M 1080 446 L 1080 490" stroke="#7c3aed" stroke-width="1.6" fill="none" marker-end="url(#arrow-purple)" />
+      <path d="M 1175 446 L 1175 490" stroke="#7c3aed" stroke-width="1.6" fill="none" marker-end="url(#arrow-purple)" />
+
+      <!-- CRUD Produk -> Sinkronisasi Realtime DB (Admin -> Cloud) -->
+      <path d="M 940 528 L 870 528" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Update DB -> Broadcast WebSocket CDC (Cloud -> Sistem) -->
+      <path d="M 660 528 L 585 528" stroke="#059669" stroke-width="1.6" stroke-dasharray="3 3" fill="none" marker-end="url(#arrow-green)" />
+
+      <!-- Terima Pesanan Masuk -> Validasi Selesai (Deal) -->
+      <path d="M 1080 562 L 1080 625" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Validasi Selesai -> Update Status Pesanan & Omzet (Admin -> Cloud) -->
+      <path d="M 960 655 L 870 655" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- Analitik AI -> Panggil Model DeepSeek PSAJ (Admin -> Cloud) -->
+      <path d="M 1175 562 L 1175 725 L 870 725" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+
+      <!-- Join Bar Menu Admin -->
+      <path d="M 985 562 L 985 790 L 1080 790" stroke="#334155" stroke-width="1.6" fill="none" />
+      <path d="M 1080 688 L 1080 790" stroke="#334155" stroke-width="1.6" fill="none" />
+      <path d="M 1175 750 L 1175 790 L 1080 790" stroke="#334155" stroke-width="1.6" fill="none" />
+
+      <!-- Join -> Selesai / Logout -->
+      <path d="M 1080 796 L 1080 830" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+      <!-- Logout -> Hapus Session & End Node Admin -->
+      <path d="M 1080 885 L 1080 925" stroke="#334155" stroke-width="1.6" fill="none" marker-end="url(#arrow)" />
+    </svg>
+
+    <!-- ============================================== -->
+    <!-- SWIMLANE 1: PELANGGAN / PENGUNJUNG ELEMENTS    -->
+    <!-- ============================================== -->
+    <!-- Start Node Pelanggan -->
+    <div class="uml-start" style="left: 137px; top: 20px;"></div>
+
+    <!-- Akses Landing Page -->
+    <div class="uml-action act-user" style="left: 35px; top: 68px; width: 230px; height: 62px;">
+      <strong>Akses Website CV Banong</strong>
+      <span>Buka URL cvbanongfarms.site via browser Desktop / Smartphone</span>
+    </div>
+
+    <!-- Eksplorasi Konten Profil -->
+    <div class="uml-action act-user" style="left: 35px; top: 180px; width: 230px; height: 64px;">
+      <strong>Eksplorasi Profil &amp; Sarana</strong>
+      <span>Tinjau Hero Section, Alamat Toko Ajibarang, Visi-Misi &amp; Mitra New Hope</span>
+    </div>
+
+    <!-- Decision: Pilih Aksi Pengunjung -->
+    <div class="uml-decision" style="left: 107px; top: 270px;"></div>
+    <div class="uml-decision-text" style="left: 90px; top: 284px;">Pilih Aksi Pengunjung?</div>
+
+    <!-- Branch A: Chatbot AI -->
+    <div class="edge-label" style="left: 10px; top: 310px;">[Tanya AI]</div>
+    <div class="uml-action act-user" style="left: 90px; top: 345px; width: 120px; height: 55px;">
+      <strong>Chatbot "Si Banong"</strong>
+      <span>Tanya pakan / rekomendasi</span>
+    </div>
+
+    <div class="uml-action act-user" style="left: 90px; top: 412px; width: 120px; height: 46px;">
+      <strong>Baca Respon AI</strong>
+      <span>Konsultasi interaktif</span>
+    </div>
+
+    <!-- Branch B Label -->
+    <div class="edge-label" style="left: 225px; top: 310px;">[Katalog Pakan]</div>
+
+    <!-- Join Bar Pelanggan -->
+    <div class="uml-fork" style="left: 45px; top: 495px; width: 210px;"></div>
+
+    <!-- Filter & Search Produk -->
+    <div class="uml-action act-user" style="left: 35px; top: 528px; width: 230px; height: 62px;">
+      <strong>Pencarian &amp; Filter Produk</strong>
+      <span>Input keyword (HP100, Medion), filter kategori, dan sortir harga/stok</span>
+    </div>
+
+    <!-- Pilih Produk -->
+    <div class="uml-action act-user" style="left: 35px; top: 600px; width: 230px; height: 44px;">
+      <strong>Pilih Produk Pakan / Ternak</strong>
+      <span>Klik kartu produk di katalog</span>
+    </div>
+
+    <!-- Modal Detail Produk -->
+    <div class="uml-action act-user" style="left: 35px; top: 668px; width: 230px; height: 52px;">
+      <strong>Modal Detail &amp; Spesifikasi</strong>
+      <span>Periksa harga, stok fisik, komposisi nutrisi, dan kemasan sak/ecer</span>
+    </div>
+
+    <!-- Tambah ke Keranjang -->
+    <div class="uml-action act-user" style="left: 35px; top: 746px; width: 230px; height: 54px;">
+      <strong>Tambah ke Keranjang</strong>
+      <span>Klik "+ Tambah ke Keranjang" &amp; atur jumlah (sak/kg/pcs)</span>
+    </div>
+
+    <!-- Buka Drawer Keranjang -->
+    <div class="uml-action act-user" style="left: 35px; top: 815px; width: 230px; height: 46px;">
+      <strong>Sliding Cart Drawer</strong>
+      <span>Periksa rekap barang &amp; atur kuantitas pesanan</span>
+    </div>
+
+    <!-- Isi Form Identitas Pemesan -->
+    <div class="uml-action act-user" style="left: 35px; top: 885px; width: 230px; height: 55px;">
+      <strong>Isi Data Pemesan</strong>
+      <span>Nama pelanggan, nomor WhatsApp aktif, &amp; alamat antar armada</span>
+    </div>
+
+    <!-- Konfirmasi Checkout WA -->
+    <div class="uml-action act-user" style="left: 35px; top: 965px; width: 230px; height: 55px;">
+      <strong>Klik "Pesan via WhatsApp"</strong>
+      <span>Konfirmasi pesanan resmi ke hotline toko</span>
+    </div>
+
+    <!-- Gateway WhatsApp Terbuka -->
+    <div class="uml-action act-user" style="left: 35px; top: 1040px; width: 230px; height: 48px; border-color: #25d366; background: #f0fdf4;">
+      <strong style="color: #166534;">WhatsApp Sesi Terbuka</strong>
+      <span>Format chat otomatis terisi rapi</span>
+    </div>
+
+    <!-- End Node Pelanggan -->
+    <div class="uml-end" style="left: 136px; top: 1125px;"></div>
+
+
+    <!-- ============================================== -->
+    <!-- SWIMLANE 2: SISTEM WEB APP (FRONTEND SPA)     -->
+    <!-- ============================================== -->
+    <!-- Render Landing Page -->
+    <div class="uml-action act-system" style="left: 345px; top: 68px; width: 240px; height: 62px;">
+      <strong>Inisialisasi Vue 3 SPA</strong>
+      <span>Mount komponen UI, GSAP ScrollTrigger &amp; Pinia reactive store</span>
+    </div>
+
+    <!-- Render Katalog 74 Produk -->
+    <div class="uml-action act-system" style="left: 345px; top: 180px; width: 240px; height: 64px;">
+      <strong>Render 74 Komoditas Toko</strong>
+      <span>Tampilkan kartu produk dengan badge stok &amp; format Rupiah</span>
+    </div>
+
+    <!-- AI Mascot Forwarding -->
+    <div class="uml-action act-system" style="left: 345px; top: 345px; width: 240px; height: 55px;">
+      <strong>Format System Prompt AI</strong>
+      <span>Injeksi profil toko fisik Banong, jam buka, dan basis data pakan</span>
+    </div>
+
+    <!-- Render AI Streaming Message -->
+    <div class="uml-action act-system" style="left: 345px; top: 412px; width: 240px; height: 46px;">
+      <strong>Render Balasan Chatbot</strong>
+      <span>Tampilkan respons konsultasi real-time</span>
+    </div>
+
+    <!-- Reaktif Filter Produk -->
+    <div class="uml-action act-system" style="left: 345px; top: 528px; width: 240px; height: 62px;">
+      <strong>Reaktif Filter &amp; Sort Engine</strong>
+      <span>Eksekusi pencarian lokal instan tanpa reload halaman</span>
+    </div>
+
+    <!-- State Cart Management -->
+    <div class="uml-action act-system" style="left: 345px; top: 746px; width: 240px; height: 58px;">
+      <strong>useCartStore Management</strong>
+      <span>Simpan item ke keranjang &amp; persistensi localStorage</span>
+    </div>
+
+    <!-- Generator Payload Pesanan & URL WA -->
+    <div class="uml-action act-system" style="left: 345px; top: 965px; width: 240px; height: 58px;">
+      <strong>Format Payload &amp; WA Encode</strong>
+      <span>Susun format rekapan pesanan (wa.me/628999192861?text=...)</span>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- SWIMLANE 3: DATABASE & CLOUD (SUPABASE)        -->
+    <!-- ============================================== -->
+    <!-- Query Produk Supabase -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 68px; width: 210px; height: 62px;">
+      <strong>PostgREST API Request</strong>
+      <span>Fetch tabel 'produk' &amp; 'kategori' melalui HTTPS aman Supabase</span>
+    </div>
+
+    <!-- Verifikasi Supabase Auth -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 152px; width: 210px; height: 62px;">
+      <strong>Supabase Auth Verifikasi</strong>
+      <span>Cek hash password &amp; terbitkan JWT Session Token</span>
+    </div>
+
+    <!-- Inferensi DeepSeek API -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 345px; width: 210px; height: 55px;">
+      <strong>DeepSeek-V3 LLM API</strong>
+      <span>Inferensi cerdas rekomendasi pakan berbasis AI</span>
+    </div>
+
+    <!-- Broadcast Realtime WebSocket -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 498px; width: 210px; height: 60px;">
+      <strong>Realtime WebSocket CDC</strong>
+      <span>Broadcast perubahan stok produk secara instan ke browser</span>
+    </div>
+
+    <!-- Update Transaksi Omzet -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 625px; width: 210px; height: 60px;">
+      <strong>Pembaruan Omzet &amp; Pesanan</strong>
+      <span>Update status tiket 'Selesai' di database Supabase</span>
+    </div>
+
+    <!-- Analitik AI PSAJ -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 698px; width: 210px; height: 54px;">
+      <strong>AI Predictive Engine</strong>
+      <span>Perhitungan prediksi demand 30 hari &amp; kebutuhan restok</span>
+    </div>
+
+    <!-- Transaksi Database & Pengurangan Stok -->
+    <div class="uml-action act-cloud" style="left: 660px; top: 965px; width: 210px; height: 60px;">
+      <strong>Insert Pesanan &amp; Potong Stok</strong>
+      <span>Simpan pesanan baru &amp; potong stok fisik secara real-time</span>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- SWIMLANE 4: ADMINISTRATOR TOKO                -->
+    <!-- ============================================== -->
+    <!-- Start Admin -->
+    <div class="uml-start" style="left: 1067px; top: 20px;"></div>
+
+    <!-- Akses Rute Admin -->
+    <div class="uml-action act-admin" style="left: 960px; top: 68px; width: 240px; height: 60px;">
+      <strong>Akses URL Portal Admin</strong>
+      <span>Buka rute khusus #/admin pada peramban terotentikasi</span>
+    </div>
+
+    <!-- Input Kredensial -->
+    <div class="uml-action act-admin" style="left: 960px; top: 152px; width: 240px; height: 56px;">
+      <strong>Input Email &amp; Password</strong>
+      <span>Kirim kredensial login admin ke sistem auth</span>
+    </div>
+
+    <!-- Decision: Login Valid? -->
+    <div class="uml-decision" style="left: 1037px; top: 268px;"></div>
+    <div class="uml-decision-text" style="left: 1020px; top: 282px;">Kredensial Valid?</div>
+
+    <div class="edge-label" style="left: 1145px; top: 275px; color: #dc2626;">[Tidak]</div>
+    <div class="edge-label" style="left: 1090px; top: 325px; color: #059669;">[Ya]</div>
+
+    <!-- Masuk CommandCenter -->
+    <div class="uml-action act-admin" style="left: 960px; top: 345px; width: 240px; height: 60px;">
+      <strong>Admin Command Center</strong>
+      <span>Masuk dashboard operasional farm CV Banong Farms</span>
+    </div>
+
+    <!-- Fork Aksi Admin -->
+    <div class="uml-fork" style="left: 955px; top: 440px; width: 250px; background: #7c3aed;"></div>
+
+    <!-- Admin Sub-Activity 1: CRUD Produk -->
+    <div class="uml-action act-admin" style="left: 940px; top: 490px; width: 85px; height: 72px;">
+      <strong style="font-size: 10.5px;">CRUD Produk</strong>
+      <span style="font-size: 9px;">Tambah/edit stok pakan, harga, foto Canvas</span>
+    </div>
+
+    <!-- Admin Sub-Activity 2: Kelola Pesanan -->
+    <div class="uml-action act-admin" style="left: 1037px; top: 490px; width: 85px; height: 72px;">
+      <strong style="font-size: 10.5px;">Live Orders</strong>
+      <span style="font-size: 9px;">Pantau order masuk real-time via WebSocket</span>
+    </div>
+
+    <!-- Admin Sub-Activity 3: Analitik AI -->
+    <div class="uml-action act-admin" style="left: 1135px; top: 490px; width: 85px; height: 72px;">
+      <strong style="font-size: 10.5px;">Analitik AI</strong>
+      <span style="font-size: 9px;">Prediksi tren stok &amp; peramalan demand</span>
+    </div>
+
+    <!-- Validasi Transaksi Deal -->
+    <div class="uml-action act-admin" style="left: 960px; top: 625px; width: 240px; height: 62px;">
+      <strong>Validasi Selesai (Deal)</strong>
+      <span>Konfirmasi pembayaran &amp; ubah status pesanan selesai</span>
+    </div>
+
+    <!-- Join Bar Admin -->
+    <div class="uml-fork" style="left: 955px; top: 790px; width: 250px; background: #7c3aed;"></div>
+
+    <!-- Logout Admin -->
+    <div class="uml-action act-admin" style="left: 960px; top: 830px; width: 240px; height: 55px;">
+      <strong>Logout Akun Admin</strong>
+      <span>Hapus token JWT sesi lokal &amp; kunci portal</span>
+    </div>
+
+    <!-- End Node Admin -->
+    <div class="uml-end" style="left: 1066px; top: 925px;"></div>
+
+  </div>
+</div>
+
+</body>
+</html>
+"""
+
+output_html = "public/assets/diagram_activity_sistem.html"
+output_png = "public/assets/gambar_2_2_activity_diagram.png"
+root_png = "gambar_2_2_activity_diagram.png"
+
+with open(output_html, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Polished HTML Activity Diagram saved at", output_html)
+
+# Capture Ultra-HD PNG screenshot using headless Edge
+edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+abs_html = os.path.abspath(output_html)
+abs_png = os.path.abspath(output_png)
+
+cmd = [
+    edge_path,
+    "--headless",
+    "--disable-gpu",
+    "--window-size=1300,1400",
+    "--force-device-scale-factor=2",
+    f"--screenshot={abs_png}",
+    f"file:///{abs_html.replace(os.sep, '/')}"
+]
+
+res = subprocess.run(cmd, capture_output=True, text=True)
+if os.path.exists(abs_png):
+    shutil.copyfile(abs_png, root_png)
+    print("Ultra-HD Activity Diagram PNG generated successfully!")
+    print("Saved to:", abs_png)
+    print("File size:", os.path.getsize(abs_png), "bytes")
