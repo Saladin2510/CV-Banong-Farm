@@ -43,32 +43,32 @@
             >
               <div class="w-full aspect-[3/4] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/polaroid-nutrisi-vitamin.jpg" 
-                  alt="Konsultasi Kebutuhan Nutrisi dan Vitamin Ternak CV Banong Farms" 
+                  src="/assets/store/obat-obatan_unggas.jpeg" 
+                  alt="Konsultasi Kebutuhan Nutrisi, Vitamin &amp; Obat Ternak Medion CV Banong Farms" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
               <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-700 font-bold tracking-wide">
-                Konsultasi Nutrisi Pakan
+                Nutrisi &amp; Obat Medion
               </div>
             </div>
 
-            <!-- Polaroid 3 (Right - Hasil Panen Ternak Berlimpah) -->
+            <!-- Polaroid 3 (Right - Stok Pakan Pabrikan Melimpah) -->
             <div 
               class="absolute top-1 sm:top-2 lg:top-4 right-1 sm:right-3 lg:right-4 w-[122px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px] bg-white p-1.5 sm:p-2.5 pb-4 sm:pb-6 rounded-xs shadow-[0_12px_28px_rgba(0,0,0,0.14)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.7)] transform rotate-[6deg] hover:rotate-[2deg] hover:scale-105 hover:z-30 transition-all duration-300 cursor-pointer z-10 border border-slate-200/90 group"
-              title="Hasil Peternakan Sehat &amp; Berkelanjutan"
+              title="Stok Pakan Pabrikan Selalu Siap"
             >
               <div class="w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/polaroid-panen-optimal.jpg" 
-                  alt="Hasil Panen dan Budidaya Unggas Mitra CV Banong Farms" 
+                  src="/assets/store/karung_2.jpeg" 
+                  alt="Stok Karungan Pakan Pabrikan PT New Hope Indonesia di Toko CV Banong Farms" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
               <div class="mt-1 sm:mt-1.5 text-center text-[9px] sm:text-[11px] text-slate-700 font-bold tracking-wide">
-                Hasil Panen Optimal
+                Stok Pakan Selalu Siap
               </div>
             </div>
 
@@ -79,8 +79,8 @@
             >
               <div class="w-full aspect-[4/3] overflow-hidden bg-slate-100">
                 <img 
-                  src="/assets/polaroid-armada-antar.jpg" 
-                  alt="Armada Pengiriman Mandiri CV Banong Farms Langsung Antar ke Kandang Peternak" 
+                  src="/assets/truk_barang.jpeg" 
+                  alt="Armada Truk Pengiriman Mandiri CV Banong Farms Langsung Antar ke Kandang Peternak" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />

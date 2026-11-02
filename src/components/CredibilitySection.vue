@@ -44,32 +44,32 @@
               {{ counterDisplay }}
             </span>
 
-            <!-- 4 Lingkaran Foto Peternak Mitra Bertumpuk (Wajah Orang / Peternak Nyata) -->
+            <!-- 4 Lingkaran Inisial Peternak Mitra Bertumpuk (Peternak Nyata) -->
             <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
-              <img 
-                src="/assets/avatar-peternak-1.jpg" 
-                alt="Peternak Ayam Petelur Mitra Banong Farms" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Bpk. Santoso (Peternak Puyuh & Layer)"
-              />
-              <img 
-                src="/assets/avatar-peternak-2.jpg" 
-                alt="Peternak & Pengusaha Ternak Mitra - Ibu Lani" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-primary text-secondary-container font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                title="Bpk. Santoso (Peternak Puyuh &amp; Layer Ajibarang)"
+              >
+                BS
+              </div>
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-blue-700 text-white font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
                 title="Ibu Lani (Peternak Mandiri Cilongok)"
-              />
-              <img 
-                src="/assets/avatar-peternak-3.jpg" 
-                alt="Peternak Muda Mitra Banong Farms" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Mas Dimas (Peternak Bebek & Broiler)"
-              />
-              <img 
-                src="/assets/avatar-peternak-4.jpg" 
-                alt="Peternak Senior Banyumas" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+              >
+                IL
+              </div>
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-amber-500 text-slate-950 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                title="Mas Dimas (Peternak Bebek &amp; Broiler)"
+              >
+                MD
+              </div>
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-slate-800 text-amber-400 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
                 title="Bpk. Haryanto (Peternak Senior Pekuncen)"
-              />
+              >
+                BH
+              </div>
             </div>
           </div>
 
@@ -96,9 +96,9 @@
               class="cert-card-frame relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
             >
               <img 
-                src="/assets/sertifikat-kemitraan-resmi.jpg" 
-                alt="Sertifikat Distributor Resmi PT New Hope Indonesia - CV Banong Farms" 
-                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-top will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
+                src="/assets/store/banner.jpeg" 
+                alt="Banner Toko & Kemitraan PT New Hope Indonesia - CV Banong Farms" 
+                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
               <!-- Gradient Vignette Lembut di Bagian Bawah Gambar -->

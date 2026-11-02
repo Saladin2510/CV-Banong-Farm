@@ -182,7 +182,7 @@ export const supabaseApi = {
             unit: p.unit || 'pcs',
             soldCount: Number(p.sold_count) || 0,
             icon: p.icon || 'eco',
-            image: p.image_url || '/assets/product-fertilizer.png',
+            image: p.image_url || '/assets/store/karung_1.jpeg',
             description: p.description || ''
           }
         })

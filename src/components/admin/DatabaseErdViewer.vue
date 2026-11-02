@@ -480,7 +480,7 @@ CREATE TABLE produk (
     stok INT NOT NULL DEFAULT 0,
     stok_maksimal INT NOT NULL DEFAULT 5000,
     jumlah_terjual INT NOT NULL DEFAULT 0,
-    url_gambar TEXT DEFAULT '/assets/product-fertilizer.png'
+    url_gambar TEXT DEFAULT '/assets/store/karung_1.jpeg'
 );
 
 -- 5. TABEL: pesanan
@@ -640,7 +640,7 @@ const tableSchemas = [
       { name: 'stok', type: 'INTEGER', key: 'DEFAULT', desc: 'Kapasitas stok fisik saat ini (otomatis berkurang saat order)' },
       { name: 'stok_maksimal', type: 'INTEGER', key: 'DEFAULT', desc: 'Kapasitas maksimal tampung gudang/kolam (Default: 5000)' },
       { name: 'jumlah_terjual', type: 'INTEGER', key: 'DEFAULT', desc: 'Akumulasi total kuantitas produk yang telah terjual' },
-      { name: 'url_gambar', type: 'TEXT', key: 'DEFAULT', desc: "Tautan gambar atau Base64 foto produk (Default: '/assets/product-fertilizer.png')" }
+      { name: 'url_gambar', type: 'TEXT', key: 'DEFAULT', desc: "Tautan gambar atau Base64 foto produk (Default: '/assets/store/karung_1.jpeg')" }
     ]
   },
   {
