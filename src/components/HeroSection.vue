@@ -172,13 +172,14 @@ const slides = [
     badge: 'TOKO FISIK & KANTOR PUSAT · AJIBARANG',
     titleHighlight: 'Toko CV Banong Farms,',
     titleRest: 'Pusat Sarana Peternakan & Pakan Berkualitas.',
-    description: 'Pusat pakan pabrikan berstandar internasional dari PT. New Hope Indonesia. Menyediakan pakan komplit broiler, layer, bebek, puyuh, pakan ikan, bibit unggul, hingga vitamin Medion resmi.'
+    description: 'Kunjungi toko fisik modern kami langsung di Depan Pasar Hewan Ajibarang. Melayani pakan pabrikan PT. New Hope Indonesia, pakan ikan & burung, bibit unggas pilihan, obat Medion resmi, serta antar armada ke kandang.'
   },
   {
     image: '/assets/gudang.jpeg',
     badge: 'MITRA RESMI PT. NEW HOPE INDONESIA · CIREBON',
     titleHighlight: 'Pakan Nutrisi Unggul,',
-    titleRest: 'Ternak Tumbuh Sehat & Maksimal.'
+    titleRest: 'Ternak Tumbuh Sehat & Maksimal.',
+    description: 'Pusat pakan pabrikan berstandar internasional dari PT. New Hope Indonesia. Menyediakan pakan komplit broiler, layer, bebek, puyuh, hingga pakan ikan dengan FCR hemat dan nutrisi teruji.'
   },
   {
     image: '/assets/store/obat-obatan_unggas.jpeg',
