@@ -132,36 +132,36 @@
 
           <div class="grid grid-cols-3 gap-3 sm:gap-4 items-center relative z-10">
             
-            <!-- Column 1: Gudang Distribusi Pakan Ternak CV Banong Farms -->
+            <!-- Column 1: Tampak Depan Toko CV Banong Farms (Bagian Kiri) -->
             <div class="triptych-col triptych-col-1 flex flex-col gap-3 will-change-transform">
               <div class="triptych-frame triptych-frame-1 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/gudang.jpeg" 
-                  alt="Gudang Distribusi Pakan Ternak CV Banong Farms Ajibarang"
+                  src="/assets/tampak_depan_toko_slice1.png" 
+                  alt="Tampak Depan Toko CV Banong Farms (Bagian Kiri)"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
               </div>
             </div>
 
-            <!-- Column 2: Toko Fisik CV Banong Farms Ajibarang (Center elevated) -->
+            <!-- Column 2: Tampak Depan Toko CV Banong Farms (Bagian Tengah - Pintu Masuk) -->
             <div class="triptych-col triptych-col-2 flex flex-col gap-3 will-change-transform -mt-2 sm:-mt-4">
               <div class="triptych-frame triptych-frame-2 h-[310px] sm:h-[410px] lg:h-[470px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/tampak_depan_toko.png" 
-                  alt="Toko Fisik Sarana Peternakan CV Banong Farms Ajibarang"
+                  src="/assets/tampak_depan_toko_slice2.png" 
+                  alt="Tampak Depan Toko CV Banong Farms (Bagian Tengah)"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
               </div>
             </div>
 
-            <!-- Column 3: Pengiriman & Logistik Pakan Armada Toko -->
+            <!-- Column 3: Tampak Depan Toko CV Banong Farms (Bagian Kanan - Stok Pakan) -->
             <div class="triptych-col triptych-col-3 flex flex-col gap-3 will-change-transform">
               <div class="triptych-frame triptych-frame-3 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
                 <img 
-                  src="/assets/loading_barang.jpeg" 
-                  alt="Aktivitas Pengiriman & Logistik Pakan CV Banong Farms"
+                  src="/assets/tampak_depan_toko_slice3.png" 
+                  alt="Tampak Depan Toko CV Banong Farms (Bagian Kanan)"
                   class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
                   loading="lazy"
                 />
