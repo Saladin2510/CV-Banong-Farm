@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 15 Oktober 2026, Pukul 00:08 WIB (Sesi 62: Keberhasilan Push ke GitHub Kolaborasi Saladin2510/CV-Banong-Farm dengan Akun wilwildandindun, Working Tree 100% Bersih & Sinkron)  
-**Status Proyek:** SELESAI & TERSINKRONISASI KE GITHUB (Branch main Updated: Commit 6b23471 / 27 Objects Pushed / Supabase Cloud Aktif / DeepSeek AI Siap / Zero Build Errors)  
+**Tanggal Pembaruan Terakhir:** 3 November 2026, Pukul 08:16 WIB (Sesi 64: Pembersihan Secret GitHub Push Protection, Penyusunan 6 Activity Diagram Bab 2 & Tabel Deployment Bab 3, serta Migrasi Nomor WhatsApp Resmi ke 085726080086)  
+**Status Proyek:** SELESAI & TERSINKRONISASI KE GITHUB (Branch main Updated: Commit 0f1ebe2 / Supabase Cloud Aktif / DeepSeek AI Siap / Zero Build Errors)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -17,7 +17,7 @@
 * **Design Rule:** **Strict 60% : 30% : 10% Color System**
 * **State Management:** Reactive Stores (`useAdminStore.js` dan `useCartStore.js`) dengan persistensi `localStorage`
 * **Database Backend:** Supabase Cloud PostgreSQL 24/7 + WebSocket Real-time Replication
-* **Nomor WhatsApp Resmi Admin:** **`08999192861`** (Format URL: `https://wa.me/628999192861`)
+* **Nomor WhatsApp Resmi Admin:** **`085726080086`** (Format URL: `https://wa.me/6285726080086`)
 * **Tautan Google Maps Resmi Farm:** **`https://maps.app.goo.gl/AXAGnr9V4D15MyUz9`** (Koordinat Ajibarang: `-7.4065147, 109.0743739`)
 
 
@@ -2045,3 +2045,39 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   4. **Pembaruan Paket Distribusi:**
      - Hasil kompilasi produksi `npm run build` berhasil 100% tanpa error, dan paket zip siap unggah [`dist_upload.zip`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/dist_upload.zip) telah diperbarui untuk mempermudah upload ke Hostinger.
 
+
+---
+
+## 43. Checkpoint Sesi 64: Resolusi Permanen GitHub Push Protection (Sanitasi Build Vite), Pembuatan 6 Activity Diagram per Use Case (Gambar 2.2 – 2.7), Naskah Deployment (Tabel 3.2), & Migrasi Nomor WhatsApp Resmi ke 085726080086
+* **Tanggal & Waktu:** 3 November 2026, Pukul 08:16 WIB
+* **Status:** SELESAI, TERVERIFIKASI 100%, & TERSINKRONISASI KE GITHUB (`origin/main` Updated).
+* **Rincian Pekerjaan & Perubahan yang Dilakukan:**
+  1. **Resolusi Penolakan GitHub Push Protection (`GH013: Push cannot contain secrets`):**
+     - **Akar Masalah:** Pemanggilan objek `import.meta.env` secara utuh pada [`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js#L34) menyebabkan Vite saat `npm run build` menyalin nilai `VITE_DEEPSEEK_API_KEY` dari `.env` ke dalam bundel statis `dist/assets/index-*.js` yang ikut ter-commit.
+     - **Solusi Permanen:** Membersihkan riwayat 5 commit lokal dengan `git filter-branch` serta mengubah pengecekan di `aiService.js` baris 34 menjadi `if (import.meta.env.DEV)` sehingga saat mode produksi (`vite build`), blok pembacaan `.env` dieliminasi otomatis (*dead-code elimination*) dan bundel `dist/` 100% steril dari API key.
+  2. **Pembuatan 6 Activity Diagram Sesuai Use Case Diagram (Gambar 2.2 s.d. Gambar 2.7) & Penjelasan Ringkas 1 Paragraf:**
+     - Menyusun 6 gambar *Activity Diagram* terpisah di [`public/assets/activity_diagrams/`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/public/assets/activity_diagrams) yang mengacu langsung pada **Gambar 2.1 Use Case Diagram** dan alur aktual aplikasi:
+       - **Gambar 2.2:** Activity Diagram Melakukan Pemesanan dan Melihat Katalog Produk (Pelanggan) — `gambar_2_2_activity_pemesanan_katalog.png`
+       - **Gambar 2.3:** Activity Diagram Menggunakan AI Chatbot (Pelanggan) — `gambar_2_3_activity_ai_chatbot.png`
+       - **Gambar 2.4:** Activity Diagram Melakukan Login (Admin) — `gambar_2_4_activity_login_admin.png`
+       - **Gambar 2.5:** Activity Diagram Melihat Data / Riwayat Pemesanan (Admin) — `gambar_2_5_activity_data_pemesanan.png`
+       - **Gambar 2.6:** Activity Diagram Melihat Analitik AI Marketing (Admin) — `gambar_2_6_activity_analitik_ai.png`
+       - **Gambar 2.7:** Activity Diagram Mengelola Data Produk & Stok (Admin) — `gambar_2_7_activity_kelola_produk_stok.png`
+     - Menyusun narasi laporan dengan format **Pendahuluan → Gambar → Penjelasan** dalam 1 paragraf ringkas (4 kalimat mengalir dan mudah dipahami tanpa poin-poin).
+  3. **Penyusunan Sub-Bab D. Deployment & Tabel 3.2 Informasi Akses Produk:**
+     - Menyusun penjelasan akses aplikasi di domain produksi `https://cvbanongfarms.site` (Hostinger Web Hosting + Supabase Cloud), tautan repositori `https://github.com/Saladin2510/CV-Banong-Farm`, serta akun peragaan uji coba publik dan Admin Command Center (`admin@banongfarms.com` / `admin12345`).
+  4. **Migrasi Menyeluruh Nomor WhatsApp Resmi ke `085726080086` & Perbaikan Sapaan Otomatis:**
+     - Mengganti seluruh nomor tujuan WhatsApp dari `08999192861` menjadi **`085726080086`** (`6285726080086` / `0857-2608-0086`) pada:
+       - [`src/components/PolaroidCtaSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/PolaroidCtaSection.vue)
+       - [`src/components/Navbar.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/Navbar.vue)
+       - [`src/components/FooterSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/FooterSection.vue)
+       - [`src/components/CredibilitySection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/CredibilitySection.vue)
+       - [`src/components/CartDrawer.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/CartDrawer.vue)
+       - [`src/components/ChatbotMascot.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/ChatbotMascot.vue)
+       - [`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js)
+       - [`src/components/admin/WhatsAppLiveFeed.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/admin/WhatsAppLiveFeed.vue)
+       - [`src/services/supabaseClient.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/supabaseClient.js)
+       - [`src/stores/useAdminStore.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/stores/useAdminStore.js)
+     - Mengganti kalimat chat otomatis WhatsApp menjadi sapaan yang lebih sopan dan santun: *"Selamat pagi/siang/sore Admin CV Banong Farms, mohon izin bertanya mengenai ketersediaan stok dan informasi pemesanan produk sarana peternakan. Terima kasih."*
+  5. **Build Produksi & Pengemasan Ulang Distribusi:**
+     - Menjalankan `npm run build` (sukses 100%, 0 error) dan memperbarui [`dist_upload.zip`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/dist_upload.zip).
