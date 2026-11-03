@@ -49,55 +49,28 @@
               </span>
             </div>
 
-<<<<<<< HEAD
-            <!-- 4 Lingkaran Foto Peternak Mitra Bertumpuk (Ring Emas & Navy) -->
-            <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
-              <img 
-                src="/assets/avatar-peternak-1.jpg" 
-                alt="Peternak Ayam Petelur Mitra Banong Farms" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-secondary-container object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Bpk. Santoso (Peternak Puyuh & Layer)"
-              />
-              <img 
-                src="/assets/avatar-peternak-2.jpg" 
-                alt="Peternak & Pengusaha Ternak Mitra - Ibu Lani" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Ibu Lani (Peternak Mandiri Cilongok)"
-              />
-              <img 
-                src="/assets/avatar-peternak-3.jpg" 
-                alt="Peternak Muda Mitra Banong Farms" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-secondary-container object-cover shadow-xs hover:scale-110 will-change-transform"
-                title="Mas Dimas (Peternak Bebek & Broiler)"
-              />
-              <img 
-                src="/assets/avatar-peternak-4.jpg" 
-                alt="Peternak Senior Banyumas" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary object-cover shadow-xs hover:scale-110 will-change-transform"
-=======
             <!-- 4 Lingkaran Inisial Peternak Mitra Bertumpuk (Peternak Nyata) -->
             <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
               <div 
-                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-primary text-secondary-container font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-secondary-container bg-primary text-secondary-container font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
                 title="Bpk. Santoso (Peternak Puyuh &amp; Layer Ajibarang)"
               >
                 BS
               </div>
               <div 
-                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-blue-700 text-white font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary bg-blue-700 text-white font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
                 title="Ibu Lani (Peternak Mandiri Cilongok)"
               >
                 IL
               </div>
               <div 
-                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-amber-500 text-slate-950 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-secondary-container bg-amber-500 text-slate-950 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
                 title="Mas Dimas (Peternak Bebek &amp; Broiler)"
               >
                 MD
               </div>
               <div 
-                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-slate-800 text-amber-400 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
->>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary bg-slate-800 text-amber-400 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
                 title="Bpk. Haryanto (Peternak Senior Pekuncen)"
               >
                 BH

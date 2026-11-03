@@ -83,7 +83,7 @@ function localDatabaseApiPlugin() {
                 unit: body.unit || 'kg',
                 soldCount: 0,
                 icon: body.icon || 'eco',
-                image: body.image || '/assets/product-fertilizer.png',
+                image: body.image || '/assets/store/karung_1.jpeg',
                 description: body.description || 'Komoditas segar CV Banong Farms.'
               }
               db.products.unshift(newProduct)
@@ -197,6 +197,9 @@ function localDatabaseApiPlugin() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(), localDatabaseApiPlugin()],
+  optimizeDeps: {
+    entries: ['index.html'],
+  },
   server: {
     proxy: {
       '/api-deepseek': {

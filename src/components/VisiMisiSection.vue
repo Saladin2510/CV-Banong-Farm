@@ -69,7 +69,7 @@
             <!-- Main Hero Image Frame -->
             <div class="hero-load-image relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 aspect-[4/3] sm:aspect-[16/11]">
               <img 
-                src="/assets/tentang-toko-modern.jpg" 
+                src="/assets/tampak_depan_toko.png" 
                 alt="Toko Sarana Peternakan Modern CV Banong Farms Ajibarang"
                 class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700 ease-out"
                 loading="eager"
@@ -212,7 +212,7 @@
             <!-- Primary Backing Frame (Gudang Pakan Modern) -->
             <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 dark:border-slate-800 aspect-[4/3] bg-slate-100 dark:bg-slate-800">
               <img 
-                src="/assets/tentang-gudang-pakan.jpg" 
+                src="/assets/gudang.jpeg" 
                 alt="Gudang Distribusi Pakan Ternak New Hope CV Banong Farms"
                 class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 ease-out"
                 loading="lazy"
@@ -222,7 +222,7 @@
             <!-- Smaller Front Layered Frame (Armada Antar Toko) -->
             <div class="absolute bottom-0 right-0 w-3/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#070D1E] aspect-[4/3] bg-slate-200 dark:bg-slate-700">
               <img 
-                src="/assets/polaroid-armada-antar.jpg" 
+                src="/assets/truk_barang.jpeg" 
                 alt="Armada Pengiriman Kandang Banong Farms"
                 class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 ease-out"
                 loading="lazy"
@@ -332,7 +332,6 @@
           <!-- Key Principles of the Vision (Kuning Emas Logo) -->
           <div class="space-y-3.5">
             
-<<<<<<< HEAD
             <div class="flex items-start gap-3">
               <div class="w-5 h-5 rounded-full bg-secondary-container text-primary flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                 <svg class="w-3.5 h-3.5 stroke-[3]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -368,53 +367,17 @@
             <!-- Primary Backing Frame (Kawasan Kandang Unggas Alami) -->
             <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 dark:border-slate-800 aspect-[4/3] bg-slate-100 dark:bg-slate-800">
               <img 
-                src="/assets/tentang-kandang-unggas.jpg" 
+                src="/assets/gudang2.jpeg" 
                 alt="Budidaya Unggas dan Ternak Sehat CV Banong Farms"
                 class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 ease-out"
                 loading="lazy"
               />
-=======
-            <!-- Column 1: Tampak Depan Toko CV Banong Farms (Bagian Kiri) -->
-            <div class="triptych-col triptych-col-1 flex flex-col gap-3 will-change-transform">
-              <div class="triptych-frame triptych-frame-1 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
-                <img 
-                  src="/assets/tampak_depan_toko_slice1.png" 
-                  alt="Tampak Depan Toko CV Banong Farms (Bagian Kiri)"
-                  class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-            <!-- Column 2: Tampak Depan Toko CV Banong Farms (Bagian Tengah - Pintu Masuk) -->
-            <div class="triptych-col triptych-col-2 flex flex-col gap-3 will-change-transform -mt-2 sm:-mt-4">
-              <div class="triptych-frame triptych-frame-2 h-[310px] sm:h-[410px] lg:h-[470px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
-                <img 
-                  src="/assets/tampak_depan_toko_slice2.png" 
-                  alt="Tampak Depan Toko CV Banong Farms (Bagian Tengah)"
-                  class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-            <!-- Column 3: Tampak Depan Toko CV Banong Farms (Bagian Kanan - Stok Pakan) -->
-            <div class="triptych-col triptych-col-3 flex flex-col gap-3 will-change-transform">
-              <div class="triptych-frame triptych-frame-3 h-[280px] sm:h-[380px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/60 dark:border-slate-800 bg-slate-200 dark:bg-slate-800 group relative will-change-transform">
-                <img 
-                  src="/assets/tampak_depan_toko_slice3.png" 
-                  alt="Tampak Depan Toko CV Banong Farms (Bagian Kanan)"
-                  class="triptych-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 will-change-transform" 
-                  loading="lazy"
-                />
-              </div>
->>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
             </div>
 
             <!-- Smaller Front Layered Frame (Pemeriksaan Kualitas Unggas) -->
             <div class="absolute bottom-0 left-0 w-3/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#070D1E] aspect-[4/3] bg-slate-200 dark:bg-slate-700">
               <img 
-                src="/assets/visi-farmer-check.jpg" 
+                src="/assets/loading_barang_orang.jpeg" 
                 alt="Pemeriksaan Rutin Kesehatan Unggas dan Telur"
                 class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 ease-out"
                 loading="lazy"

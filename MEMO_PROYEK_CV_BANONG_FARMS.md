@@ -1,13 +1,7 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-<<<<<<< HEAD
-**Tanggal Pembaruan Terakhir:** 03 November 2026, Pukul 08:32 WIB (Sesi 72: Koreksi Pemicu Animasi Roulette Menjadi Scroll-Driven Murni Saat Scroll ke Bawah & Kalibrasi Presisi Em-Based Angka)  
-**Status Proyek:** AKTIF & SIAP SIDANG/DEMO (Pure Viewport Scroll Trigger via IntersectionObserver + Zero-Clipping Em-Based Alignment + Zero Orange/Amber)  
-=======
-**Tanggal Pembaruan Terakhir:** 3 November 2026, Pukul 08:16 WIB (Sesi 64: Pembersihan Secret GitHub Push Protection, Penyusunan 6 Activity Diagram Bab 2 & Tabel Deployment Bab 3, serta Migrasi Nomor WhatsApp Resmi ke 085726080086)  
-**Status Proyek:** SELESAI & TERSINKRONISASI KE GITHUB (Branch main Updated: Commit 0f1ebe2 / Supabase Cloud Aktif / DeepSeek AI Siap / Zero Build Errors)  
->>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
+**Tanggal Pembaruan Terakhir:** 03 November 2026, Pukul 14:35 WIB (Sesi 73: Penyatuan Kolaborasi Tim `Saladin2510` & `wilwildandindun` — Penggabungan Layout Editorial & Roulette Baru dengan Foto Asli Toko, Lampiran Produk Chatbot AI, dan Nomor WhatsApp Resmi `0857-2608-0086`)  
+**Status Proyek:** AKTIF, SINKRON KOLABORASI TIM & SIAP SIDANG/DEMO (Zero Merge Conflicts / Vite Dev & Build 100% Bersih / Foto Asli Toko + Layout Editorial Baru Menyatu)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
-
 ---
 
 ## 1. Identitas & Tech Stack Proyek
@@ -2013,7 +2007,6 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 
 ---
 
-<<<<<<< HEAD
 ## 42. Checkpoint Sesi 63: Pelatihan Model AI Chatbot (Logika Harga Termurah Bebas Halusinasi), Lampiran Produk Interaktif (Clickable Product Cards), dan Penegakan Guardrails Privasi Bisnis
 * **Tanggal & Waktu:** 02 November 2026, Pukul 10:35 WIB
 * **Status:** SELESAI & AKTIF (Chatbot Si Banong Terintegrasi DeepSeek-V3 + Interactive Cards + Zero Hallucinations + Strict Privacy Guardrails).
@@ -2319,8 +2312,8 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 
 
 
-=======
-## 42. Checkpoint Sesi 63: Integrasi Foto Toko Asli (Eliminasi Aset AI), Efek Triptych 3-Slice Visi-Misi, Penyempurnaan Hero Slider, & Pembuatan Activity Diagram Lengkap (Bab 2 Laporan PSAJ)
+
+## 52. Checkpoint Sesi 63 (Cabang Saladin2510): Integrasi Foto Toko Asli (Eliminasi Aset AI), Efek Triptych 3-Slice Visi-Misi, Penyempurnaan Hero Slider, & Pembuatan Activity Diagram Lengkap (Bab 2 Laporan PSAJ)
 * **Tanggal & Waktu:** 2 November 2026, Pukul 10:15 WIB
 * **Status:** SELESAI, TERVERIFIKASI 100%, & TERTULIS DI LAPORAN (Vite Production Build Sukses / Aset Triptych Selesai / Diagram Ultra-HD PNG Siap).
 * **Latar Belakang & Permintaan Pengguna:**
@@ -2356,12 +2349,11 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
      - Menyusun dokumentasi naratif formal berstandar akademik Tugas Akhir / PSAJ SMK Rekayasa Perangkat Lunak untuk disalin ke naskah laporan Word/Docs.
   4. **Pembaruan Paket Distribusi:**
      - Hasil kompilasi produksi `npm run build` berhasil 100% tanpa error, dan paket zip siap unggah [`dist_upload.zip`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/dist_upload.zip) telah diperbarui untuk mempermudah upload ke Hostinger.
->>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
 
 
 ---
 
-## 43. Checkpoint Sesi 64: Resolusi Permanen GitHub Push Protection (Sanitasi Build Vite), Pembuatan 6 Activity Diagram per Use Case (Gambar 2.2 – 2.7), Naskah Deployment (Tabel 3.2), & Migrasi Nomor WhatsApp Resmi ke 085726080086
+## 53. Checkpoint Sesi 64 (Cabang Saladin2510): Resolusi Permanen GitHub Push Protection (Sanitasi Build Vite), Pembuatan 6 Activity Diagram per Use Case (Gambar 2.2 – 2.7), Naskah Deployment (Tabel 3.2), & Migrasi Nomor WhatsApp Resmi ke 085726080086
 * **Tanggal & Waktu:** 3 November 2026, Pukul 08:16 WIB
 * **Status:** SELESAI, TERVERIFIKASI 100%, & TERSINKRONISASI KE GITHUB (`origin/main` Updated).
 * **Rincian Pekerjaan & Perubahan yang Dilakukan:**
@@ -2394,3 +2386,25 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
      - Mengganti kalimat chat otomatis WhatsApp menjadi sapaan yang lebih sopan dan santun: *"Selamat pagi/siang/sore Admin CV Banong Farms, mohon izin bertanya mengenai ketersediaan stok dan informasi pemesanan produk sarana peternakan. Terima kasih."*
   5. **Build Produksi & Pengemasan Ulang Distribusi:**
      - Menjalankan `npm run build` (sukses 100%, 0 error) dan memperbarui [`dist_upload.zip`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/dist_upload.zip).
+
+---
+
+## 54. Checkpoint Sesi 73 (Penyatuan Kolaborasi Tim `Saladin2510` & `wilwildandindun`): Resolusi Merge Conflict, Penggabungan Layout Editorial Baru + Foto Toko Asli, & Sinkronisasi Nomor WhatsApp `0857-2608-0086`
+* **Tanggal & Waktu:** 03 November 2026, Pukul 14:35 WIB
+* **Status:** SELESAI, BEBAS KONFLIK 100%, & TERKOMPILASI BERSIH (`✓ 114 modules transformed`, 0 tanda `<<<<<<< HEAD`).
+* **Catatan Penting untuk Kolaborator (`wilwildandindun` & `Saladin2510`):**
+  Pada sesi ini dilakukan penyelarasan hasil kerja dari kedua kolaborator setelah *merge commit* `fe252cb` (`feat: update perubahan dari kolaborator`), di mana sebelumnya masih tersisa penanda konflik Git (`<<<<<<< HEAD`) yang menyebabkan error pada `npm run dev`. Seluruh keunggulan dari kedua belah pihak telah digabungkan tanpa ada fitur yang dikorbankan:
+  1. **[`src/components/VisiMisiSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/VisiMisiSection.vue) (Layout Baru `wilwildandindun` + Foto Toko Asli `Saladin2510`):**
+     - **Tata Letak Dipertahankan:** Menggunakan desain baru buatan `wilwildandindun` secara utuh (*About Hero Section* dengan lencana stempel berputar & kartu FCR, *Company Overview* dengan 4 Statistik *Roulette Slot Reel* saat di-scroll, seksi *Misi* 2 bingkai berlapis, seksi *Visi* 2 bingkai berlapis, dan 3 Kartu *Nilai Integritas*).
+     - **Aset Gambar Diperbarui ke Foto Asli Toko:** Karena gambar stok lama (`tentang-toko-modern.jpg`, `tentang-gudang-pakan.jpg`, `polaroid-armada-antar.jpg`, `tentang-kandang-unggas.jpg`, `visi-farmer-check.jpg`) sudah dihapus dan diganti foto dokumentasi nyata CV Banong Farms, ke-5 bingkai gambar pada layout baru tersebut kini diarahkan ke foto asli:
+       * Hero Tentang Kami: `/assets/tampak_depan_toko.png`
+       * Misi (Bingkai Utama & Depan): `/assets/gudang.jpeg` & `/assets/truk_barang.jpeg`
+       * Visi (Bingkai Utama & Depan): `/assets/gudang2.jpeg` & `/assets/loading_barang_orang.jpeg`
+  2. **[`src/components/CredibilitySection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/CredibilitySection.vue) (Desain Kartu Baru `wilwildandindun` + Avatar Inisial & Banner Asli `Saladin2510`):**
+     - Mempertahankan desain kontainer dan 4 kartu fitur selang-seling Navy & Kuning Emas Logo (`#fcd400`) dari `wilwildandindun`.
+     - Menggunakan 4 lingkaran avatar inisial peternak mitra (`BS`, `IL`, `MD`, `BH`) dan foto `/assets/store/banner.jpeg` agar tidak ada *broken image* dari file `avatar-peternak-1..4.jpg` yang telah dihapus.
+  3. **[`src/components/ChatbotMascot.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/ChatbotMascot.vue) & [`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js) (Kartu Produk Interaktif AI `wilwildandindun` + Nomor WA Baru `Saladin2510`):**
+     - Mempertahankan penuh logika deteksi harga termurah, *guardrails* privasi bisnis, dan struktur pengembalian objek `{ text, products }` untuk menampilkan kartu lampiran produk interaktif di dalam chat buatan `wilwildandindun`.
+     - Memperbarui seluruh nomor WhatsApp di dalam prompt, guardrails, dan fallback AI ke nomor resmi terbaru **`0857-2608-0086`** (`6285726080086`).
+  4. **[`vite.config.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/vite.config.js) (Perbaikan Dependency Scanner Vite):**
+     - Menambahkan konfigurasi `optimizeDeps: { entries: ['index.html'] }` agar saat `npm run dev` dijalankan, Vite hanya memindai `index.html` utama dan tidak gagal akibat memindai file HTML diagram laporan di `public/assets/` atau prototipe di `stitch_*/`.
