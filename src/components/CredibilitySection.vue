@@ -267,16 +267,27 @@ onMounted(() => {
   ctx = gsap.context(() => {
     // 1. MASTER ENTRANCE REVEAL TIMELINE (Terkoordinasi Saat Seksi Masuk Viewport)
     // start: 'top 75%' - Mengalir alami, 100% bebas dari scroll-lock atau pinning tersendat
-    const entranceTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: credSectionRef.value,
-        start: 'top 75%',
-        toggleActions: 'play none none reset'
-      }
-    })
+    const entranceTl = gsap.timeline({ paused: true })
 
-    // (a) Kinetic Staggered Reveal Gaya Hero Slider pada Header Kiri & Metrik Kanan
-    // (y: 40px -> 0, opacity: 0 -> 1, duration: 1.0s, stagger: 0.1s, ease: 'power3.out')
+    const attachBiDirectionalTrigger = (tl, trigger, startPos = 'top 75%') => {
+      ScrollTrigger.create({
+        trigger,
+        start: startPos,
+        end: 'bottom top',
+        onEnter: () => tl.restart(),
+        onLeave: () => tl.pause(0),
+        onEnterBack: () => tl.restart()
+      })
+      ScrollTrigger.create({
+        trigger,
+        start: 'top bottom',
+        onLeaveBack: () => tl.pause(0)
+      })
+      if (ScrollTrigger.isInViewport(trigger, 0.15)) {
+        tl.play()
+      }
+    }
+
     entranceTl.from('.cred-hero-text', {
       y: 40,
       opacity: 0,
@@ -342,6 +353,8 @@ onMounted(() => {
       duration: 0.65,
       ease: 'power3.out'
     }, '-=0.45')
+
+    attachBiDirectionalTrigger(entranceTl, credSectionRef.value, 'top 75%')
 
 
     // 2. CONTINUOUS SCROLL PARALLAX (Tersinkronisasi 1:1 dengan Lenis, Tanpa Tabrakan Properti)

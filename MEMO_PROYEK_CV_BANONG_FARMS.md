@@ -2463,3 +2463,33 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
      - Menata tag kata kunci populer (`New Hope HP100`, `Layer HL83`, `DOQ Puyuh`, dll.) dengan chip pill yang rapi, border halus, dan penanda ikon `trending_up` yang jelas.
   5. **Verifikasi Build Produksi:**
      - `npm run build` sukses 100% tanpa error, dan berkas output distribusi di `dist/` ter-update dengan aset produksi terbaru.
+
+
+---
+
+## 57. Checkpoint Sesi 76 (Penyempurnaan Arsitektur GSAP Bi-Directional ScrollTrigger): Eliminasi Bug 'Elemen Hilang Setengah Saat Scroll Naik' & Animasi Halus Dua Arah
+* **Tanggal & Waktu:** 03 November 2026, Pukul 23:20 WIB
+* **Status:** SELESAI, BEBAS BUG 100%, & TERVERIFIKASI PRODUKSI (`✓ 114 modules transformed`, 0 error console).
+* **Investigasi Akar Masalah ("Tiba-Tiba Hilang Setengah Saat Scroll Naik"):**
+  - Pada sesi sebelumnya, `toggleActions` dikonfigurasi sebagai `'play none none reset'`.
+  - Hal ini menyebabkan bug visual yang fatal saat scroll naik:
+    1. Nilai ke-4 (`onLeaveBack: reset`) terpicu di titik `start: 'top 85%'`. Pada koordinat ini, **85% area elemen masih berada di dalam layar pengguna**. Pemanggilan `reset()` seketika memaksa elemen kembali ke titik nol (`opacity: 0, y: 35`) tanpa transisi/durasi. Akibatnya, elemen tampak *"tiba-tiba langsung hilang setengahnya"* di depan mata pengguna.
+    2. Nilai ke-3 (`onEnterBack: none`) menyebabkan ketiadaan animasi masuk saat pengguna melakukan scroll naik ke seksi di atasnya (*"pas aku scroll ke atas tuh gak ada animasinya"*).
+* **Solusi Arsitektur Bi-Directional ScrollTrigger (Dual-Edge Off-Screen Reset):**
+  Diterapkan pola `attachBiDirectionalTrigger` standar industri pada seluruh 5 komponen landing page:
+  1. **Animasi Masuk Dua Arah Mulus:**
+     - `onEnter`: `tl.restart()` saat scroll turun memasuki viewport dari bawah.
+     - `onEnterBack`: `tl.restart()` saat scroll naik memasuki viewport dari atas.
+  2. **Proteksi Anti-Hilang di Dalam Layar (Zero Sudden Disappearance):**
+     - Parameter `onLeaveBack` pada trigger utama sengaja dikosongkan (`none`) sehingga elemen yang sedang terlihat di layar **TIDAK AKAN PERNAH** terputus atau hilang setengahnya saat pengguna melakukan scroll naik-turun.
+  3. **Reset Bersih HANYA Saat 100% di Luar Layar (Off-Screen):**
+     - Sisi Atas: Reset (`tl.pause(0)`) hanya berjalan pada `onLeave` di titik `end: 'bottom top'`, yaitu ketika batas bawah elemen telah 100% melintasi batas atas viewport.
+     - Sisi Bawah: Reset (`tl.pause(0)`) hanya berjalan pada trigger kedua di titik `start: 'top bottom'`, yaitu ketika batas atas elemen telah 100% berada di bawah layar monitor.
+* **Komponen yang Telah Diperbarui:**
+  1. [`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue) (Kelima timeline: Hero Tentang Kami, Overview Roulette, Misi Kami, Visi Kami, dan Nilai Integritas).
+  2. [`src/components/CredibilitySection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/CredibilitySection.vue) (Entrance timeline & rolling ticker counter 14rb+).
+  3. [`src/components/InteractiveMarqueeMenu.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/InteractiveMarqueeMenu.vue) (Staggered entrance marquee baris komoditas).
+  4. [`src/components/PolaroidCtaSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/PolaroidCtaSection.vue) (Fan-out 3 kartu polaroid & CTA buttons).
+  5. [`src/components/ProductGrid.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ProductGrid.vue) (Judul skew, badge sarana peternakan, dan kartu katalog).
+* **Verifikasi Build:**
+  - `npm run build` sukses 100% tanpa kendala.

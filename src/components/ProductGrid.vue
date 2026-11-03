@@ -429,39 +429,52 @@ watch(currentPage, () => {
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // 1. Kinetic Typography Skew Reveal untuk Judul Katalog
-    gsap.from('.product-skew-title', {
+    // 1. Kinetic Typography & Header Badge Timeline
+    const headerTl = gsap.timeline({ paused: true })
+    headerTl.from('.product-skew-title', {
       y: 55,
       skewY: 6,
       opacity: 0,
       duration: 1.1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#katalog-produk',
-        start: 'top 85%',
-        toggleActions: 'play none none reset'
-      }
+      ease: 'power3.out'
     })
-
-    // 2. Reveal untuk Section Header Badge
-    gsap.from('#katalog-produk .max-w-container-max > div > .inline-flex', {
+    .from('#katalog-produk .max-w-container-max > div > .inline-flex', {
       y: 25,
       opacity: 0,
       duration: 0.85,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#katalog-produk',
-        start: 'top 85%',
-        toggleActions: 'play none none reset'
+      ease: 'power2.out'
+    }, '-=0.85')
+
+    // 2. Bi-Directional Trigger untuk Header & Cards
+    ScrollTrigger.create({
+      trigger: '#katalog-produk',
+      start: 'top 85%',
+      end: 'bottom top',
+      onEnter: () => {
+        headerTl.restart()
+        animateCards()
+      },
+      onLeave: () => {
+        headerTl.pause(0)
+      },
+      onEnterBack: () => {
+        headerTl.restart()
+        animateCards()
       }
     })
 
-    // 3. Cascading reveal kartu produk setiap kali di-scroll dari atas
     ScrollTrigger.create({
       trigger: '#katalog-produk',
-      start: 'top 82%',
-      onEnter: () => animateCards()
+      start: 'top bottom',
+      onLeaveBack: () => {
+        headerTl.pause(0)
+      }
     })
+
+    if (ScrollTrigger.isInViewport('#katalog-produk', 0.15)) {
+      headerTl.play()
+      animateCards()
+    }
   })
 })
 

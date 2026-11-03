@@ -182,13 +182,26 @@ onMounted(async () => {
   await nextTick()
 
   ctx = gsap.context(() => {
-    const ctaTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ctaSectionRef.value,
-        start: 'top 80%',
-        toggleActions: 'play none none reset'
+    const ctaTl = gsap.timeline({ paused: true })
+
+    const attachBiDirectionalTrigger = (tl, trigger, startPos = 'top 80%') => {
+      ScrollTrigger.create({
+        trigger,
+        start: startPos,
+        end: 'bottom top',
+        onEnter: () => tl.restart(),
+        onLeave: () => tl.pause(0),
+        onEnterBack: () => tl.restart()
+      })
+      ScrollTrigger.create({
+        trigger,
+        start: 'top bottom',
+        onLeaveBack: () => tl.pause(0)
+      })
+      if (ScrollTrigger.isInViewport(trigger, 0.15)) {
+        tl.play()
       }
-    })
+    }
 
     // 1. Mobile Header Reveal (Jika layar mobile/tablet)
     ctaTl.from('.cta-mobile-item', {

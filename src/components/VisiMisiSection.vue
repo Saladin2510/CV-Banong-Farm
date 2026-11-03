@@ -579,16 +579,60 @@ onMounted(async () => {
   await nextTick()
 
   ctx = gsap.context(() => {
+    // Helper Bi-Directional Trigger:
+    // - Mulus saat scroll TURUN (onEnter) & scroll NAIK (onEnterBack)
+    // - HANYA reset saat elemen BENAR-BENAR 100% SUDAH DI LUAR LAYAR (tidak pernah hilang setengah saat terlihat)
+    const attachBiDirectionalTrigger = (
+      tl,
+      triggerSelector,
+      startPos = 'top 85%',
+      onEnterAction = null,
+      onEnterBackAction = null,
+      onResetAction = null
+    ) => {
+      // (a) Trigger utama viewport: aktif saat masuk dari bawah (scroll down) & masuk dari atas (scroll up)
+      ScrollTrigger.create({
+        trigger: triggerSelector,
+        start: startPos,
+        end: 'bottom top',
+        onEnter: () => {
+          tl.restart()
+          if (onEnterAction) onEnterAction()
+        },
+        onLeave: () => {
+          // 100% sudah di atas viewport (off-screen)
+          tl.pause(0)
+          if (onResetAction) onResetAction()
+        },
+        onEnterBack: () => {
+          // Re-entering dari atas saat scroll NAIK
+          tl.restart()
+          if (onEnterBackAction) onEnterBackAction()
+        }
+        // onLeaveBack sengaja tidak didefinisikan di sini agar elemen TIDAK TIBA-TIBA HILANG di tengah layar!
+      })
+
+      // (b) Trigger reset dasar layar: HANYA reset saat puncak elemen benar-benar sudah berada di bawah layar (100% off-screen)
+      ScrollTrigger.create({
+        trigger: triggerSelector,
+        start: 'top bottom',
+        onLeaveBack: () => {
+          tl.pause(0)
+          if (onResetAction) onResetAction()
+        }
+      })
+
+      // Cek awal jika sudah terlihat saat refresh/load langsung
+      if (ScrollTrigger.isInViewport(triggerSelector, 0.15)) {
+        tl.play()
+        if (onEnterAction) onEnterAction()
+      }
+    }
+
     // =========================================================================
     // 1. BAGIAN A: ABOUT HERO SECTION ("Tentang Kami" Pertama)
     // =========================================================================
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.about-hero-block',
-        start: 'top 85%',
-        toggleActions: 'play none none reset'
-      }
-    })
+    const heroTl = gsap.timeline({ paused: true })
 
     heroTl.from('.hero-load-item', {
       y: 35,
@@ -619,18 +663,12 @@ onMounted(async () => {
       ease: 'back.out(1.6)'
     }, '-=0.5')
 
+    attachBiDirectionalTrigger(heroTl, '.about-hero-block', 'top 85%')
+
     // =========================================================================
     // 2. BAGIAN B: COMPANY OVERVIEW & ROULETTE STATISTIK
     // =========================================================================
-    const overviewTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.about-overview-block',
-        start: 'top 86%',
-        toggleActions: 'play none none reset',
-        onEnter: () => triggerRouletteSpin(),
-        onLeaveBack: () => resetRouletteWhenAbove()
-      }
-    })
+    const overviewTl = gsap.timeline({ paused: true })
 
     overviewTl.from('.overview-statement', {
       y: 28,
@@ -646,16 +684,19 @@ onMounted(async () => {
       ease: 'power3.out'
     }, '-=0.45')
 
+    attachBiDirectionalTrigger(
+      overviewTl,
+      '.about-overview-block',
+      'top 86%',
+      () => triggerRouletteSpin(),
+      () => triggerRouletteSpin(),
+      () => resetRouletteWhenAbove()
+    )
+
     // =========================================================================
     // 3. BAGIAN C: MISI KAMI (Layered Visual Left + Checklist Right)
     // =========================================================================
-    const missionTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.about-mission-block',
-        start: 'top 82%',
-        toggleActions: 'play none none reset'
-      }
-    })
+    const missionTl = gsap.timeline({ paused: true })
 
     missionTl.from('.mission-main-img', {
       x: -40,
@@ -694,16 +735,12 @@ onMounted(async () => {
       ease: 'back.out(2)'
     }, '<')
 
+    attachBiDirectionalTrigger(missionTl, '.about-mission-block', 'top 82%')
+
     // =========================================================================
     // 4. BAGIAN D: VISI KAMI (Content Left + Layered Visual Right)
     // =========================================================================
-    const visionTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.about-vision-block',
-        start: 'top 82%',
-        toggleActions: 'play none none reset'
-      }
-    })
+    const visionTl = gsap.timeline({ paused: true })
 
     visionTl.from('.vision-text-item', {
       y: 28,
@@ -742,16 +779,12 @@ onMounted(async () => {
       ease: 'back.out(1.4)'
     }, '-=0.55')
 
+    attachBiDirectionalTrigger(visionTl, '.about-vision-block', 'top 82%')
+
     // =========================================================================
     // 5. BAGIAN E: NILAI INTEGRITAS / CORE VALUES (Terakhir - Bebas CSS Conflict)
     // =========================================================================
-    const valuesTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.about-values-block',
-        start: 'top 88%',
-        toggleActions: 'play none none reset'
-      }
-    })
+    const valuesTl = gsap.timeline({ paused: true })
 
     valuesTl.from('.values-header-item', {
       y: 24,
@@ -767,6 +800,8 @@ onMounted(async () => {
       stagger: 0.14,
       ease: 'power3.out'
     }, '-=0.35')
+
+    attachBiDirectionalTrigger(valuesTl, '.about-values-block', 'top 88%')
   }, sectionRef.value)
 
   setTimeout(() => {

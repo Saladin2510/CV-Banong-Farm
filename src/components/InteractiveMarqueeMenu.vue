@@ -209,18 +209,33 @@ let ctx = null
 onMounted(() => {
   ctx = gsap.context(() => {
     // Staggered Entrance untuk 5 Baris Marquee saat masuk layar
-    gsap.from('.marquee-row-entry', {
+    const marqueeEntranceTl = gsap.timeline({ paused: true })
+    marqueeEntranceTl.from('.marquee-row-entry', {
       y: 32,
       opacity: 0,
       duration: 0.75,
       stagger: 0.1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: marqueeSectionRef.value,
-        start: 'top 84%',
-        toggleActions: 'play none none reset'
-      }
+      ease: 'power3.out'
     })
+
+    ScrollTrigger.create({
+      trigger: marqueeSectionRef.value,
+      start: 'top 84%',
+      end: 'bottom top',
+      onEnter: () => marqueeEntranceTl.restart(),
+      onLeave: () => marqueeEntranceTl.pause(0),
+      onEnterBack: () => marqueeEntranceTl.restart()
+    })
+
+    ScrollTrigger.create({
+      trigger: marqueeSectionRef.value,
+      start: 'top bottom',
+      onLeaveBack: () => marqueeEntranceTl.pause(0)
+    })
+
+    if (ScrollTrigger.isInViewport(marqueeSectionRef.value, 0.15)) {
+      marqueeEntranceTl.play()
+    }
 
     const speedObj = { rate: 1 }
 
