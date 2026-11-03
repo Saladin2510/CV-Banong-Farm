@@ -332,7 +332,7 @@ const filteredOrders = computed(() => {
 })
 
 const formatWaNumber = (phone) => {
-  if (!phone) return '628999192861'
+  if (!phone) return '6285726080086'
   let clean = phone.replace(/\D/g, '')
   if (clean.startsWith('0')) clean = '62' + clean.slice(1)
   return clean

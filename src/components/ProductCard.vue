@@ -5,11 +5,11 @@
     <!-- Product Image & Stock Badge -->
     <div class="relative w-full aspect-square overflow-hidden bg-surface-container-low dark:bg-slate-900 cursor-pointer" @click="$emit('select', product)">
       <img 
-        :src="product.image || '/assets/product-fertilizer.png'" 
+        :src="product.image || '/assets/store/karung_1.jpeg'" 
         :alt="product.title || product.name" 
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         loading="lazy"
-        @error="$event.target.src = '/assets/product-fertilizer.png'"
+        @error="$event.target.src = '/assets/store/karung_1.jpeg'"
       />
       
       <!-- Dynamic Stock Pill (60-30-10 Palette) -->

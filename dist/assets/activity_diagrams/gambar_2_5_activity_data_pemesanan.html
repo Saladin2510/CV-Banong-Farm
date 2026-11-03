@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 16px;
+    width: 920px;
+    margin: 0 auto;
+    color: #111827;
+  }
+  .diagram-frame {
+    width: 880px;
+    margin: 0 auto;
+    border: 2px solid #1f2937;
+    background: #ffffff;
+  }
+  .title-bar {
+    background: #f3f4f6;
+    border-bottom: 2px solid #1f2937;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-headers {
+    display: grid;
+    grid-template-columns: 380px 496px;
+    border-bottom: 2px solid #1f2937;
+    background: #f9fafb;
+  }
+  .swimlane-header {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-header:first-child {
+    border-right: 2px solid #1f2937;
+  }
+  .canvas {
+    position: relative;
+    width: 876px;
+    background: #ffffff;
+  }
+  .lane-divider {
+    position: absolute;
+    left: 380px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1f2937;
+    z-index: 1;
+  }
+  .start-node {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #111827;
+    z-index: 3;
+  }
+  .end-node {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #111827;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .end-node::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111827;
+  }
+  .act-node {
+    position: absolute;
+    border: 1.8px solid #1f2937;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .act-node strong {
+    font-weight: 700;
+    font-size: 11.5px;
+    display: block;
+  }
+  .act-node span {
+    font-size: 10.2px;
+    color: #374151;
+    margin-top: 2px;
+  }
+  .diamond {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1.8px solid #1f2937;
+    background: #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+  }
+  .guard-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    background: #ffffff;
+    padding: 1px 4px;
+    border: 1px solid #9ca3af;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  svg.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 876px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="diagram-frame">
+    <div class="title-bar">Activity Diagram Melihat Data / Riwayat Pemesanan</div>
+    <div class="swimlane-headers">
+      <div class="swimlane-header">Admin</div>
+      <div class="swimlane-header">Sistem Website CV Banong Farms</div>
+    </div>
+    <div class="canvas" style="height: 780px;">
+      <div class="lane-divider"></div>
+      
+        <svg class="arrows">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1f2937" />
+    </marker>
+  </defs>
+
+          <!-- Start -> A1 -->
+          <path d="M 190 42 L 190 70" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A1 -> A2 -->
+          <path d="M 190 124 L 190 155" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A2 -> S1 -->
+          <path d="M 310 183 L 455 183" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S1 -> S2 -->
+          <path d="M 630 212 L 630 248" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S2 -> A3 -->
+          <path d="M 455 278 L 310 278" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A3 -> Decision -->
+          <path d="M 190 310 L 190 360" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Hanya Lihat Riwayat] (Down-Left to End) -->
+          <path d="M 163 387 L 75 387 L 75 720 L 604 720" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Validasi Selesai (Deal)] -->
+          <path d="M 217 387 L 340 387 L 340 455 L 455 455" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Batalkan Pesanan] -->
+          <path d="M 190 414 L 190 565 L 455 565" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S3 (Deal) & S4 (Batal) -> S_Sync -->
+          <path d="M 805 455 L 840 455 L 840 666 L 805 666" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 805 565 L 840 565" stroke="#1f2937" stroke-width="1.6" fill="none"/>
+          <!-- S_Sync -> End -->
+          <path d="M 630 692 L 630 707" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+        </svg>
+
+        <div class="start-node" style="left: 178px; top: 18px;"></div>
+
+        <div class="act-node" style="left: 70px; top: 70px; width: 240px; height: 54px;">
+          <strong>Melakukan Login Admin («include»)</strong>
+          <span>Otentikasi sesi JWT ke Command Center</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 155px; width: 240px; height: 56px;">
+          <strong>Membuka Menu "Pesanan WhatsApp"</strong>
+          <span>Memilih tab Manajemen &amp; Validasi Pesanan WA</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 155px; width: 350px; height: 56px;">
+          <strong>Mengambil Data Tabel pesanan &amp; detail_pesanan</strong>
+          <span>Query riwayat transaksi &amp; langganan WebSocket Realtime</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 248px; width: 350px; height: 58px;">
+          <strong>Menampilkan Daftar &amp; Riwayat Pesanan</strong>
+          <span>Kartu pemesan, item produk, total tagihan, &amp; status</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 250px; width: 240px; height: 58px;">
+          <strong>Memfilter &amp; Memeriksa Data Pesanan</strong>
+          <span>Filter tab Semua, Menunggu Konfirmasi, atau Selesai</span>
+        </div>
+
+        <div class="diamond" style="left: 171px; top: 368px;"></div>
+        <div class="guard-label" style="left: 48px; top: 360px;">[Selesai Melihat]</div>
+        <div class="guard-label" style="left: 230px; top: 365px;">[Klik Validasi Selesai]</div>
+        <div class="guard-label" style="left: 198px; top: 430px;">[Klik Batalkan]</div>
+
+        <div class="act-node" style="left: 455px; top: 425px; width: 350px; height: 62px;">
+          <strong>Potong Stok Gudang &amp; Set Status "Selesai"</strong>
+          <span>Kurangi stok di tabel produk &amp; catat ke laporan omzet</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 535px; width: 350px; height: 58px;">
+          <strong>Ubah Status Menjadi "Dibatalkan"</strong>
+          <span>Batalkan pesanan tanpa mengurangi stok produk</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 640px; width: 350px; height: 52px;">
+          <strong>Perbarui Tampilan Riwayat &amp; Notifikasi Toast</strong>
+          <span>Sinkronisasi status transaksi secara real-time</span>
+        </div>
+
+        <div class="end-node" style="left: 617px; top: 707px;"></div>
+        
+    </div>
+  </div>
+</body>
+</html>

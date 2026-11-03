@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 16px;
+    width: 920px;
+    margin: 0 auto;
+    color: #111827;
+  }
+  .diagram-frame {
+    width: 880px;
+    margin: 0 auto;
+    border: 2px solid #1f2937;
+    background: #ffffff;
+  }
+  .title-bar {
+    background: #f3f4f6;
+    border-bottom: 2px solid #1f2937;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-headers {
+    display: grid;
+    grid-template-columns: 380px 496px;
+    border-bottom: 2px solid #1f2937;
+    background: #f9fafb;
+  }
+  .swimlane-header {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-header:first-child {
+    border-right: 2px solid #1f2937;
+  }
+  .canvas {
+    position: relative;
+    width: 876px;
+    background: #ffffff;
+  }
+  .lane-divider {
+    position: absolute;
+    left: 380px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1f2937;
+    z-index: 1;
+  }
+  .start-node {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #111827;
+    z-index: 3;
+  }
+  .end-node {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #111827;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .end-node::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111827;
+  }
+  .act-node {
+    position: absolute;
+    border: 1.8px solid #1f2937;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .act-node strong {
+    font-weight: 700;
+    font-size: 11.5px;
+    display: block;
+  }
+  .act-node span {
+    font-size: 10.2px;
+    color: #374151;
+    margin-top: 2px;
+  }
+  .diamond {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1.8px solid #1f2937;
+    background: #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+  }
+  .guard-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    background: #ffffff;
+    padding: 1px 4px;
+    border: 1px solid #9ca3af;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  svg.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 876px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="diagram-frame">
+    <div class="title-bar">Activity Diagram Menggunakan AI Chatbot</div>
+    <div class="swimlane-headers">
+      <div class="swimlane-header">Pelanggan</div>
+      <div class="swimlane-header">Sistem Website CV Banong Farms</div>
+    </div>
+    <div class="canvas" style="height: 720px;">
+      <div class="lane-divider"></div>
+      
+        <svg class="arrows">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1f2937" />
+    </marker>
+  </defs>
+
+          <!-- Start -> A1 -->
+          <path d="M 190 45 L 190 75" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A1 -> S1 -->
+          <path d="M 310 103 L 455 103" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S1 -> A2 -->
+          <path d="M 630 135 L 630 185 L 310 185" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A2 -> S2 -->
+          <path d="M 190 218 L 190 265 L 455 265" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S2 -> Decision -->
+          <path d="M 630 298 L 630 340" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision Left (DeepSeek API) -->
+          <path d="M 603 367 L 520 367 L 520 420" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision Right (Fallback Lokal) -->
+          <path d="M 657 367 L 745 367 L 745 420" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Both -> S4 (Format Balasan) -->
+          <path d="M 520 482 L 520 515 L 630 515 L 630 540" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 745 482 L 745 515 L 630 515" stroke="#1f2937" stroke-width="1.6" fill="none"/>
+          <!-- S4 -> A3 -->
+          <path d="M 455 570 L 310 570" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A3 -> End -->
+          <path d="M 190 600 L 190 650" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+        </svg>
+
+        <div class="start-node" style="left: 178px; top: 20px;"></div>
+
+        <div class="act-node" style="left: 70px; top: 75px; width: 240px; height: 56px;">
+          <strong>Menekan Tombol Widget Chatbot</strong>
+          <span>Membuka ikon mengambang "Asisten AI Si Banong"</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 75px; width: 350px; height: 58px;">
+          <strong>Menampilkan Jendela Obrolan &amp; Topik Cepat</strong>
+          <span>Pesan sambutan awal &amp; tombol Quick Topic Pills</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 158px; width: 240px; height: 60px;">
+          <strong>Memilih Topik Cepat / Mengetik Pertanyaan</strong>
+          <span>Konsultasi pakan, stok, harga, atau lokasi &amp; klik Kirim</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 235px; width: 350px; height: 62px;">
+          <strong>Injeksi Konteks Profil Toko &amp; Stok Supabase</strong>
+          <span>Menampilkan indikator mengetik &amp; menyusun konteks RAG</span>
+        </div>
+
+        <div class="diamond" style="left: 611px; top: 348px;"></div>
+        <div class="guard-label" style="left: 470px; top: 342px;">[API DeepSeek Aktif]</div>
+        <div class="guard-label" style="left: 672px; top: 342px;">[Mode Offline / Fallback]</div>
+
+        <div class="act-node" style="left: 425px; top: 420px; width: 195px; height: 62px;">
+          <strong>Request ke DeepSeek-V3</strong>
+          <span>Panggil model deepseek-chat via endpoint API</span>
+        </div>
+
+        <div class="act-node" style="left: 645px; top: 420px; width: 200px; height: 62px;">
+          <strong>Smart Heuristic Fallback</strong>
+          <span>Pencocokan cerdas berbasis data katalog lokal</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 540px; width: 350px; height: 58px;">
+          <strong>Memformat &amp; Menampilkan Jawaban AI</strong>
+          <span>Merender balasan teks rapi pada ruang obrolan</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 540px; width: 240px; height: 58px;">
+          <strong>Membaca Jawaban Konsultasi AI</strong>
+          <span>Menerima rekomendasi produk, stok, &amp; harga</span>
+        </div>
+
+        <div class="end-node" style="left: 177px; top: 650px;"></div>
+        
+    </div>
+  </div>
+</body>
+</html>

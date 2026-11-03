@@ -6,6 +6,7 @@
     @touchend="handleTouchEnd"
     @mousedown="handleMouseDown"
     @mouseup="handleMouseUp"
+    @wheel="handleWheel"
   >
     <!-- Background Slides (Stacked Pre-Rendered Layers with Smooth Opacity Crossfade - NO Stretching) -->
     <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -16,8 +17,8 @@
         :style="{ backgroundImage: `url('${slide.image}')` }"
         :class="currentSlide === idx ? 'opacity-100 z-0' : 'opacity-0 -z-10'"
       ></div>
-      <!-- Gradient Dark Scrim Overlay (Permanent, zero flicker) -->
-      <div class="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-black/60 backdrop-brightness-90 z-[1]"></div>
+      <!-- Lighter Gradient Scrim Overlay: Foto tampak depan & background terlihat sangat jelas & terang, teks tetap terbaca tajam -->
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/75 via-primary/45 to-black/20 z-[1]"></div>
     </div>
 
     <!-- Hero Content Container (Responsive Layout with In-Flow Dots & Clean Spacing) -->
@@ -35,7 +36,7 @@
           :class="currentSlide === idx ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0'"
         >
           <!-- Live Status Pill -->
-          <div class="hero-reveal-item inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-surface-pure/15 backdrop-blur-md mb-3 md:mb-space-16 border border-white/15 shadow-md">
+          <div class="hero-reveal-item inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full bg-surface-pure/20 dark:bg-navy-dark/60 backdrop-blur-md mb-3 md:mb-space-16 border border-white/25 shadow-md">
             <span class="relative flex h-2.5 w-2.5">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary-container"></span>
@@ -45,8 +46,8 @@
             </span>
           </div>
 
-          <!-- Dynamic Slide Typography -->
-          <h1 class="hero-reveal-item font-display-hero text-[28px] xs:text-[32px] sm:text-[42px] md:text-display-hero text-on-primary font-extrabold tracking-tight leading-[1.15] md:leading-none drop-shadow-lg">
+          <!-- Dynamic Slide Typography with High Contrast Drop Shadow -->
+          <h1 class="hero-reveal-item font-display-hero text-[28px] xs:text-[32px] sm:text-[42px] md:text-display-hero text-on-primary font-extrabold tracking-tight leading-[1.15] md:leading-none drop-shadow-[0_4px_16px_rgba(2,36,72,0.95)]">
             <span class="text-secondary-container">
               {{ slide.titleHighlight }}
             </span><br/>
@@ -55,7 +56,7 @@
             </span>
           </h1>
 
-          <p class="hero-reveal-item mt-3 md:mt-4 font-body-lg text-xs sm:text-base md:text-body-lg text-primary-fixed max-w-xl leading-relaxed text-slate-100 drop-shadow">
+          <p class="hero-reveal-item mt-3 md:mt-4 font-body-lg text-xs sm:text-base md:text-body-lg text-primary-fixed max-w-xl leading-relaxed text-slate-100 drop-shadow-[0_2px_8px_rgba(2,36,72,0.9)]">
             {{ slide.description }}
           </p>
         </div>
@@ -73,7 +74,7 @@
 
         <a 
           href="#tentang-kami" 
-          class="inline-flex items-center justify-center gap-1.5 px-4 sm:px-space-24 py-3 sm:py-4 rounded-full bg-surface-pure/15 hover:bg-surface-pure/25 text-surface-pure font-label-md text-xs md:text-label-md backdrop-blur-md transition-all transform hover:-translate-y-0.5 border border-white/20 shadow-md"
+          class="inline-flex items-center justify-center gap-1.5 px-4 sm:px-space-24 py-3 sm:py-4 rounded-full bg-surface-pure/20 hover:bg-surface-pure/30 text-surface-pure font-label-md text-xs md:text-label-md backdrop-blur-md transition-all transform hover:-translate-y-0.5 border border-white/25 shadow-md"
         >
           <span class="material-symbols-outlined text-[16px] md:text-[18px]">verified</span>
           <span>Pengalaman Sejak 2015</span>
@@ -96,26 +97,26 @@
             ]"
           ></button>
         </div>
-        <span class="text-[11px] sm:text-xs font-mono text-slate-300 font-bold ml-1 tracking-wider">
+        <span class="text-[11px] sm:text-xs font-mono text-slate-300 font-bold ml-1 tracking-wider drop-shadow">
           0{{ currentSlide + 1 }} / 0{{ slides.length }}
         </span>
       </div>
 
       <!-- Metric Counter Strip (Responsive 3-Column Grid on Mobile, Flex on Desktop) -->
-      <div class="hero-reveal-item mt-4 sm:mt-5 pt-3.5 sm:pt-5 grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-8 border-t border-surface-pure/20 w-full max-w-3xl">
+      <div class="hero-reveal-item mt-4 sm:mt-5 pt-3.5 sm:pt-5 grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-8 border-t border-surface-pure/25 w-full max-w-3xl">
         <div class="min-w-0">
-          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-secondary-container truncate sm:overflow-visible">Mitra Resmi</div>
-          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible">PT. New Hope Cirebon</div>
+          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-secondary-container truncate sm:overflow-visible drop-shadow">Mitra Resmi</div>
+          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible text-slate-200">PT. New Hope Cirebon</div>
         </div>
         <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
         <div class="min-w-0">
-          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-surface-pure truncate sm:overflow-visible">Grosir &amp; Ecer</div>
-          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible">Sak &amp; Kiloan Pas</div>
+          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-surface-pure truncate sm:overflow-visible drop-shadow">Grosir &amp; Ecer</div>
+          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible text-slate-200">Sak &amp; Kiloan Pas</div>
         </div>
         <div class="hidden sm:block w-px h-8 bg-surface-pure/20"></div>
         <div class="min-w-0">
-          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-surface-pure truncate sm:overflow-visible">Armada Sendiri</div>
-          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible">Kirim Ajibarang dsk</div>
+          <div class="font-headline-lg text-xs xs:text-sm sm:text-headline-lg font-bold text-surface-pure truncate sm:overflow-visible drop-shadow">Armada Sendiri</div>
+          <div class="font-label-sm text-[9px] xs:text-[10px] sm:text-label-sm text-primary-fixed leading-tight truncate sm:overflow-visible text-slate-200">Kirim Ajibarang dsk</div>
         </div>
       </div>
     </div>
@@ -164,23 +165,31 @@ const currentSlide = ref(0)
 let timer = null
 let ctx = null
 
+// Slides Definition: Tampak Depan Toko dijadikan slide pertama dengan visual terang & jelas
 const slides = [
   {
-    image: '/assets/hero-bg.png',
+    image: '/assets/tampak_depan_toko.png',
+    badge: 'TOKO FISIK & KANTOR PUSAT · AJIBARANG',
+    titleHighlight: 'Toko CV Banong Farms,',
+    titleRest: 'Pusat Sarana Peternakan & Pakan Berkualitas.',
+    description: 'Kunjungi toko fisik modern kami langsung di Depan Pasar Hewan Ajibarang. Melayani pakan pabrikan PT. New Hope Indonesia, pakan ikan & burung, bibit unggas pilihan, obat Medion resmi, serta antar armada ke kandang.'
+  },
+  {
+    image: '/assets/gudang.jpeg',
     badge: 'MITRA RESMI PT. NEW HOPE INDONESIA · CIREBON',
     titleHighlight: 'Pakan Nutrisi Unggul,',
     titleRest: 'Ternak Tumbuh Sehat & Maksimal.',
     description: 'Pusat pakan pabrikan berstandar internasional dari PT. New Hope Indonesia. Menyediakan pakan komplit broiler, layer, bebek, puyuh, hingga pakan ikan dengan FCR hemat dan nutrisi teruji.'
   },
   {
-    image: '/assets/hero-bg2.jpg',
+    image: '/assets/store/obat-obatan_unggas.jpeg',
     badge: 'BIBIT UNGGUL, OBAT & ALAT KANDANG',
     titleHighlight: 'Sedia DOQ, DOC, DOD,',
     titleRest: 'Hingga Vaksin & Vitamin Medion Lengkap.',
     description: 'Bibit unggas sehat berdaya tahan tinggi, vitamin Medion, antibiotik resmi, serta perlengkapan kandang lengkap. Solusi satu pintu sarana produksi peternakan modern di Ajibarang.'
   },
   {
-    image: '/assets/hero-bg3.jpg',
+    image: '/assets/truk_barang.jpeg',
     badge: 'ARMADA TOKO SENDIRI · GROSIR & ECER',
     titleHighlight: 'Dari Pengalaman Nyata di Kandang,',
     titleRest: 'Siap Kirim Langsung ke Kandang Anda.',
@@ -203,7 +212,32 @@ const goToSlide = (index) => {
 
 const resetTimer = () => {
   if (timer) clearInterval(timer)
-  timer = setInterval(nextSlide, 6000)
+  timer = setInterval(nextSlide, 6500)
+}
+
+// Wheel Scroll Support (Navigasi slide via wheel mouse)
+let wheelLock = false
+const handleWheel = (e) => {
+  if (wheelLock) return
+
+  const isDown = e.deltaY > 30 || e.deltaX > 30
+  const isUp = e.deltaY < -30 || e.deltaX < -30
+
+  if (isDown) {
+    if (currentSlide.value < slides.length - 1) {
+      nextSlide()
+      resetTimer()
+      wheelLock = true
+      setTimeout(() => { wheelLock = false }, 650)
+    }
+  } else if (isUp) {
+    if (currentSlide.value > 0) {
+      prevSlide()
+      resetTimer()
+      wheelLock = true
+      setTimeout(() => { wheelLock = false }, 650)
+    }
+  }
 }
 
 // Swipe / Geser support for touch and mouse
@@ -234,7 +268,7 @@ const handleMouseUp = (e) => {
 
 const checkSwipe = (start, end) => {
   const diff = start - end
-  const threshold = 40 // minimum 40px drag to slide
+  const threshold = 40
   if (diff > threshold) {
     nextSlide()
     resetTimer()

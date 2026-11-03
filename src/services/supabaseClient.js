@@ -182,7 +182,7 @@ export const supabaseApi = {
             unit: p.unit || 'pcs',
             soldCount: Number(p.sold_count) || 0,
             icon: p.icon || 'eco',
-            image: p.image_url || '/assets/product-fertilizer.png',
+            image: p.image_url || '/assets/store/karung_1.jpeg',
             description: p.description || ''
           }
         })
@@ -493,7 +493,7 @@ export const supabaseApi = {
       const { data: newOrder, error } = await client.from('pesanan').insert([{
         kode_pesanan: orderCode,
         nama_pelanggan: customer,
-        no_whatsapp: phone || '08999192861',
+        no_whatsapp: phone || '085726080086',
         alamat_pelanggan: address || 'Ajibarang, Banyumas',
         total_harga: totalPrice,
         status: 'Menunggu Konfirmasi'

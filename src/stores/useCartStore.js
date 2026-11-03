@@ -128,7 +128,7 @@ export function useCartStore() {
         category: live.category || 'Pakan Ternak',
         price: currentPrice,
         unit: live.unit || live.satuan || 'pcs',
-        image: live.image || live.url_gambar || '/assets/product-fertilizer.png',
+        image: live.image || live.url_gambar || '/assets/store/karung_1.jpeg',
         stock: currentStock,
         qty: addQty
       })

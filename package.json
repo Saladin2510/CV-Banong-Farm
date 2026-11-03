@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:zip": "vite build && python scripts/package_dist.py",
+    "zip": "python scripts/package_dist.py",
     "preview": "vite preview"
   },
   "dependencies": {

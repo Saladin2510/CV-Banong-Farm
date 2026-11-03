@@ -167,7 +167,7 @@
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-slate-500 dark:text-slate-400">Tujuan:</span>
-                <span class="font-semibold text-slate-800 dark:text-slate-200">WA Pengelola (08999192861)</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200">WA Pengelola (085726080086)</span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-slate-500 dark:text-slate-400">Pemesan:</span>
@@ -392,7 +392,7 @@
             <form @submit.prevent="handleOpenWhatsApp" class="flex flex-col gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white uppercase font-telemetry-code">
                 <span>Formulir Pemesanan</span>
-                <span class="text-primary dark:text-secondary-container font-medium">WhatsApp Pengelola: 08999192861</span>
+                <span class="text-primary dark:text-secondary-container font-medium">WhatsApp Pengelola: 085726080086</span>
               </div>
 
               <!-- Nama -->
@@ -602,9 +602,9 @@ const handleOpenWhatsApp = () => {
   })
   waText += `----------------------------------------\n`
   waText += `*TOTAL PEMBAYARAN: ${formatPrice(totalAmount)}*\n\n`
-  waText += `Halo Admin CV Banong Farms (08999192861), saya telah mengisi formulir pemesanan di website. Mohon info ketersediaan stok & proses pengirimannya. Terima kasih!`
+  waText += `Selamat pagi/siang/sore Admin CV Banong Farms (085726080086), berikut rincian pesanan saya melalui website. Mohon informasi ketersediaan stok serta proses pengirimannya. Terima kasih.`
 
-  const adminPhone = '628999192861' // Nomor resmi CV Banong Farms
+  const adminPhone = '6285726080086' // Nomor resmi CV Banong Farms
   const waUrl = `https://wa.me/${adminPhone}?text=${encodeURIComponent(waText)}`
 
   // Simpan data sementara ke state lokal (TANPA ke database)

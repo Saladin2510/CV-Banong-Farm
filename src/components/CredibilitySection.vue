@@ -49,6 +49,7 @@
               </span>
             </div>
 
+<<<<<<< HEAD
             <!-- 4 Lingkaran Foto Peternak Mitra Bertumpuk (Ring Emas & Navy) -->
             <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
               <img 
@@ -73,8 +74,34 @@
                 src="/assets/avatar-peternak-4.jpg" 
                 alt="Peternak Senior Banyumas" 
                 class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary object-cover shadow-xs hover:scale-110 will-change-transform"
+=======
+            <!-- 4 Lingkaran Inisial Peternak Mitra Bertumpuk (Peternak Nyata) -->
+            <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-primary text-secondary-container font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                title="Bpk. Santoso (Peternak Puyuh &amp; Layer Ajibarang)"
+              >
+                BS
+              </div>
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-blue-700 text-white font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                title="Ibu Lani (Peternak Mandiri Cilongok)"
+              >
+                IL
+              </div>
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-amber-500 text-slate-950 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+                title="Mas Dimas (Peternak Bebek &amp; Broiler)"
+              >
+                MD
+              </div>
+              <div 
+                class="cred-avatar inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] bg-slate-800 text-amber-400 font-black text-xs sm:text-sm shadow-xs hover:scale-110 transition-transform cursor-pointer will-change-transform font-mono"
+>>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
                 title="Bpk. Haryanto (Peternak Senior Pekuncen)"
-              />
+              >
+                BH
+              </div>
             </div>
           </div>
 
@@ -101,9 +128,9 @@
               class="cert-card-frame relative w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 group shadow-lg will-change-transform"
             >
               <img 
-                src="/assets/sertifikat-kemitraan-resmi.jpg" 
-                alt="Sertifikat Distributor Resmi PT New Hope Indonesia - CV Banong Farms" 
-                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-top will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
+                src="/assets/store/banner.jpeg" 
+                alt="Banner Toko & Kemitraan PT New Hope Indonesia - CV Banong Farms" 
+                class="cert-inner-img w-full h-[340px] sm:h-[400px] lg:h-[460px] object-cover object-center will-change-transform transition-transform duration-500 group-hover:scale-[1.02]"
               />
 
               <!-- Gradient Vignette Lembut di Bagian Bawah Gambar -->
@@ -143,7 +170,7 @@
                 <!-- Tautan Kontak & Jam Operasional Resmi -->
                 <div class="flex items-center gap-2.5 pt-2.5 mt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 text-[11px]">
                   <a 
-                    href="https://wa.me/628999192861" 
+                    href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     class="hover:text-primary dark:hover:text-secondary-container transition-colors flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400"

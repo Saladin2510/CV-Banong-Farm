@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 16px;
+    width: 920px;
+    margin: 0 auto;
+    color: #111827;
+  }
+  .diagram-frame {
+    width: 880px;
+    margin: 0 auto;
+    border: 2px solid #1f2937;
+    background: #ffffff;
+  }
+  .title-bar {
+    background: #f3f4f6;
+    border-bottom: 2px solid #1f2937;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-headers {
+    display: grid;
+    grid-template-columns: 380px 496px;
+    border-bottom: 2px solid #1f2937;
+    background: #f9fafb;
+  }
+  .swimlane-header {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-header:first-child {
+    border-right: 2px solid #1f2937;
+  }
+  .canvas {
+    position: relative;
+    width: 876px;
+    background: #ffffff;
+  }
+  .lane-divider {
+    position: absolute;
+    left: 380px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1f2937;
+    z-index: 1;
+  }
+  .start-node {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #111827;
+    z-index: 3;
+  }
+  .end-node {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #111827;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .end-node::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111827;
+  }
+  .act-node {
+    position: absolute;
+    border: 1.8px solid #1f2937;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .act-node strong {
+    font-weight: 700;
+    font-size: 11.5px;
+    display: block;
+  }
+  .act-node span {
+    font-size: 10.2px;
+    color: #374151;
+    margin-top: 2px;
+  }
+  .diamond {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1.8px solid #1f2937;
+    background: #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+  }
+  .guard-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    background: #ffffff;
+    padding: 1px 4px;
+    border: 1px solid #9ca3af;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  svg.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 876px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="diagram-frame">
+    <div class="title-bar">Activity Diagram Mengelola Data Produk & Stok</div>
+    <div class="swimlane-headers">
+      <div class="swimlane-header">Admin</div>
+      <div class="swimlane-header">Sistem Website CV Banong Farms</div>
+    </div>
+    <div class="canvas" style="height: 800px;">
+      <div class="lane-divider"></div>
+      
+        <svg class="arrows">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1f2937" />
+    </marker>
+  </defs>
+
+          <!-- Start -> A1 -->
+          <path d="M 190 42 L 190 70" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A1 -> A2 -->
+          <path d="M 190 124 L 190 155" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A2 -> S1 -->
+          <path d="M 310 183 L 455 183" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S1 -> A3 -->
+          <path d="M 630 214 L 630 250 L 310 250" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A3 -> Decision -->
+          <path d="M 190 280 L 190 330" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Tambah Produk] -->
+          <path d="M 217 357 L 330 357 L 330 400 L 455 400" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Ubah / Isi Stok] -->
+          <path d="M 190 384 L 190 490 L 455 490" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Hapus Produk] -->
+          <path d="M 163 357 L 85 357 L 85 580 L 455 580" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S2, S3, S4 -> S5 (Sync Realtime) -->
+          <path d="M 805 400 L 840 400 L 840 668 L 805 668" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 805 490 L 840 490" stroke="#1f2937" stroke-width="1.6" fill="none"/>
+          <path d="M 805 580 L 840 580" stroke="#1f2937" stroke-width="1.6" fill="none"/>
+          <!-- S5 -> End -->
+          <path d="M 630 698 L 630 738" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+        </svg>
+
+        <div class="start-node" style="left: 178px; top: 18px;"></div>
+
+        <div class="act-node" style="left: 70px; top: 70px; width: 240px; height: 54px;">
+          <strong>Melakukan Login Admin («include»)</strong>
+          <span>Otentikasi sesi JWT ke Command Center</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 155px; width: 240px; height: 56px;">
+          <strong>Membuka Menu "Kelola Produk"</strong>
+          <span>Mengakses modul ProductCrudTable</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 155px; width: 350px; height: 58px;">
+          <strong>Menampilkan Tabel 74 Produk &amp; Status Stok</strong>
+          <span>Daftar produk, harga, rasio stok, &amp; filter "Perlu Diisi Stok"</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 222px; width: 240px; height: 56px;">
+          <strong>Mencari Produk / Memilih Aksi Kelola</strong>
+          <span>Filter kategori atau pilih tombol Tambah / Ubah / Hapus</span>
+        </div>
+
+        <div class="diamond" style="left: 171px; top: 338px;"></div>
+        <div class="guard-label" style="left: 230px; top: 335px;">[Tambah Produk Baru]</div>
+        <div class="guard-label" style="left: 198px; top: 415px;">[Ubah Data / Isi Stok]</div>
+        <div class="guard-label" style="left: 55px; top: 335px;">[Hapus Produk]</div>
+
+        <div class="act-node" style="left: 455px; top: 370px; width: 350px; height: 60px;">
+          <strong>Input Form Produk Baru &amp; INSERT ke Supabase</strong>
+          <span>Kompresi foto via HTML5 Canvas &amp; simpan ke tabel produk</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 460px; width: 350px; height: 60px;">
+          <strong>Edit Stok / Harga Produk &amp; UPDATE ke Supabase</strong>
+          <span>Perbarui jumlah stok gudang, harga satuan, atau detail item</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 550px; width: 350px; height: 60px;">
+          <strong>Konfirmasi Hapus &amp; DELETE dari Supabase</strong>
+          <span>Hapus data produk terpilih dari tabel produk di database</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 640px; width: 350px; height: 58px;">
+          <strong>Sinkronisasi Real-time ke Tabel &amp; Katalog Publik</strong>
+          <span>Perbarui tampilan inventaris admin &amp; katalog pelanggan</span>
+        </div>
+
+        <div class="end-node" style="left: 617px; top: 738px;"></div>
+        
+    </div>
+  </div>
+</body>
+</html>

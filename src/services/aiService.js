@@ -31,7 +31,7 @@ export function getStoredApiKey(provider = 'deepseek') {
   const actualProvider = provider === 'gemini' ? 'deepseek' : provider
   let envKey = ''
   try {
-    if (typeof import.meta !== 'undefined' && import.meta.env) {
+    if (import.meta.env.DEV) {
       envKey = actualProvider === 'deepseek' ? import.meta.env.VITE_DEEPSEEK_API_KEY : import.meta.env.VITE_OPENAI_API_KEY
     }
   } catch (_) {}
@@ -83,7 +83,7 @@ IDENTITAS & PROFIL USAHA:
 - Sejarah Usaha: Berdiri sejak tahun 2015 berawal dari budidaya ternak puyuh mandiri. Berkat pengalaman lapangan tersebut, pada tahun 2022 resmi mendirikan toko fisik modern sarana peternakan yang berkembang pesat hingga sekarang.
 - Lokasi Toko Fisik: Depan Pasar Hewan (Sebelah Barat Pangkalan Ojek), Ajibarang, Kabupaten Banyumas, Jawa Tengah (Kode Pos: 53163).
 - Google Maps: https://maps.app.goo.gl/AXAGnr9V4D15MyUz9
-- Kontak WhatsApp Resmi: 0899-9192-861 (Tautan: https://wa.me/628999192861)
+- Kontak WhatsApp Resmi: 0857-2608-0086 (Tautan: https://wa.me/6285726080086)
 - Jam Operasional Toko: Buka Senin – Sabtu pukul 07.30 – 16.00 WIB. (Hari Minggu Libur / Tutup).
 - Wilayah Layanan & Pengiriman: Melayani wilayah Ajibarang, Cilongok, Pekuncen, hingga pengiriman luar daerah langsung diantar ke lokasi kandang peternak menggunakan ARMADA TOKO SENDIRI (mobil pickup & truk toko).
 - Sistem Penjualan: Melayani pembelian partai besar grosir sak (karungan 30–50 kg) dengan harga agen bersaing, maupun eceran kiloan dengan timbangan digital pas presisi.
@@ -97,7 +97,7 @@ IDENTITAS & PROFIL USAHA:
   * Vaksin Resmi Terlisensi: Medivac ND Clone 45, Medivac Gumboro, Medivac La Sota (suhu dingin terjaga standar cold chain).
   * Peralatan Kandang: Tempat pakan gantung, nipple drinker puyuh/ayam, tempat minum otomatis, sprayer disinfektan.
 - Karakter Si Banong: Ramah, bersahabat, solutif, santun khas Banyumas, berwawasan luas seputar manajemen pemeliharaan unggas, ransum pakan New Hope, pencegahan penyakit, dan jadwal vaksinasi.
-- Alur Pemesanan: Pelanggan dapat memilih produk di Katalog Website, klik "+ Tambah ke Keranjang", lalu checkout via WhatsApp ke 0899-9192-861 untuk konfirmasi jadwal kirim armada toko.\n\n`
+- Alur Pemesanan: Pelanggan dapat memilih produk di Katalog Website, klik "+ Tambah ke Keranjang", lalu checkout via WhatsApp ke 0857-2608-0086 untuk konfirmasi jadwal kirim armada toko.\n\n`
 
   context += `DATA STOK & HARGA PRODUK TERKINI (DATABASE REALTIME):\n`
   if (Array.isArray(products) && products.length > 0) {
@@ -474,6 +474,7 @@ function getHeuristicMascotReply(query, liveProducts = []) {
       const unit = matchedProduct.unit || matchedProduct.satuan || 'pcs'
       const stock = Number(matchedProduct.stock !== undefined ? matchedProduct.stock : (matchedProduct.stok || 0))
 
+<<<<<<< HEAD
       const statusText = stock > 0 
         ? `saat ini stoknya **TERSEDIA (${stock} ${unit})** dengan harga **Rp ${price} / ${unit}**`
         : `stok saat ini sedang **HABIS (0 ${unit})** karena sedang menunggu pasokan berikutnya. Harga normalnya **Rp ${price} / ${unit}**`
@@ -481,6 +482,12 @@ function getHeuristicMascotReply(query, liveProducts = []) {
       return {
         text: `Halo Sahabat Peternak! Untuk produk **${name}**, ${statusText}. Bapak/Ibu bisa langsung klik lampiran produk di bawah untuk melihat detail atau memasukkannya ke keranjang belanja!`,
         products: [matchedProduct]
+=======
+      if (stock > 0) {
+        return `Halo Kak! Untuk produk **${name}**, saat ini stoknya **TERSEDIA (${stock} ${unit})** dengan harga **Rp ${price} / ${unit}**. Kakak bisa langsung tambahkan ke keranjang belanja di atas atau pesan via WhatsApp pengelola di **0857-2608-0086** ya!`
+      } else {
+        return `Halo Kak! Untuk produk **${name}**, stok saat ini sedang **HABIS (0 ${unit})** karena sedang menunggu pasokan kiriman pabrik/breeder berikutnya. Harga normalnya adalah **Rp ${price} / ${unit}**. Kakak bisa hubungi WhatsApp kami di **0857-2608-0086** untuk info jadwal restok atau booking barang!`
+>>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
       }
     }
   }
@@ -495,10 +502,14 @@ function getHeuristicMascotReply(query, liveProducts = []) {
 
   // 7. Jam Operasional & Jadwal Buka
   if (q.includes('jam') || q.includes('buka') || q.includes('tutup') || q.includes('operasional') || q.includes('hari')) {
+<<<<<<< HEAD
     return {
       text: 'Jam operasional toko CV Banong Farms: Buka hari **Senin – Sabtu pukul 07.30 – 16.00 WIB**. (Hari Minggu Libur/Tutup). Untuk konsultasi atau pemesanan pakan silakan chat WhatsApp resmi kami di **0899-9192-861**!',
       products: []
     }
+=======
+    return 'Jam operasional toko CV Banong Farms: Buka hari **Senin – Sabtu pukul 07.30 – 16.00 WIB**. (Hari Minggu Libur/Tutup). Untuk konsultasi atau pemesanan pakan silakan chat WhatsApp resmi kami di **0857-2608-0086**!'
+>>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
   }
 
   // 8. Lokasi Toko & Google Maps
@@ -511,10 +522,14 @@ function getHeuristicMascotReply(query, liveProducts = []) {
 
   // 9. Cara Order / Pemesanan / Checkout
   if (q.includes('pesan') || q.includes('beli') || q.includes('order') || q.includes('wa') || q.includes('whatsapp') || q.includes('kontak') || q.includes('nomor')) {
+<<<<<<< HEAD
     return {
       text: 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol **"+ Tambah ke Keranjang"** pada produk di website ini, lalu klik checkout WhatsApp ke nomor resmi kami di **0899-9192-861**. Tim kami siap menyiapkan pesanan dan mengatur armada pengiriman ke kandang Anda!',
       products: []
     }
+=======
+    return 'Untuk pemesanan mudah dan cepat, Anda bisa klik tombol **"+ Tambah ke Keranjang"** pada produk di website ini, lalu klik checkout WhatsApp ke nomor resmi kami di **0857-2608-0086**. Tim kami siap menyiapkan pesanan dan mengatur armada pengiriman ke kandang Anda!'
+>>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
   }
 
   // 10. Obat-obatan, Vitamin & Vaksin Medion
@@ -554,6 +569,7 @@ function getHeuristicMascotReply(query, liveProducts = []) {
 
   // 14. Sapaan Ramah
   if (q.includes('halo') || q.includes('hai') || q.includes('siang') || q.includes('pagi') || q.includes('sore') || q.includes('malam') || q.includes('assalam') || q.includes('tes')) {
+<<<<<<< HEAD
     return {
       text: 'Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (WhatsApp: 0899-9192-861, Buka Senin-Sabtu 07.30 - 16.00 WIB). Ada yang bisa saya bantu seputar pakan New Hope, bibit DOQ/DOC, obat Medion, atau pengantaran armada ke kandang?',
       products: []
@@ -564,6 +580,12 @@ function getHeuristicMascotReply(query, liveProducts = []) {
     text: 'Terima kasih telah bertanya! CV Banong Farms adalah toko sarana peternakan terlengkap & agen resmi pakan PT. New Hope Indonesia di Ajibarang. Untuk pemesanan grosir sak, konsultasi penyakit unggas, atau jadwal armada antar kandang, langsung hubungi WhatsApp kami di **0899-9192-861** ya!',
     products: []
   }
+=======
+    return 'Halo Peternak Hebat! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (WhatsApp: 0857-2608-0086, Buka Senin-Sabtu 07.30 - 16.00 WIB). Ada yang bisa saya bantu seputar pakan New Hope, bibit DOQ/DOC, obat Medion, atau pengantaran armada ke kandang?'
+  }
+
+  return `Terima kasih telah bertanya! CV Banong Farms adalah toko sarana peternakan terlengkap & agen resmi pakan PT. New Hope Indonesia di Ajibarang. Untuk pemesanan grosir sak, konsultasi penyakit unggas, atau jadwal armada antar kandang, langsung hubungi WhatsApp kami di **0857-2608-0086** ya!`
+>>>>>>> e55a44cb53341012a6cc415356aceb73a496eb28
 }
 
 /**

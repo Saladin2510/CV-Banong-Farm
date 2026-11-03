@@ -516,7 +516,7 @@ async function syncWithSupabaseDatabase() {
                 unit: newP.satuan || newP.unit || 'kg',
                 soldCount: Number(newP.jumlah_terjual ?? newP.sold_count) || 0,
                 icon: 'eco',
-                image: newP.url_gambar || newP.image_url || '/assets/product-fertilizer.png',
+                image: newP.url_gambar || newP.image_url || '/assets/store/karung_1.jpeg',
                 description: newP.deskripsi || newP.description || ''
               })
             }
@@ -840,7 +840,7 @@ async function createCustomerOrderFromCart({ customerName, phone, address, items
   const newOrder = {
     id: orderCode,
     customer: customerName || 'Pelanggan Keranjang Web',
-    phone: phone || '08999192861',
+    phone: phone || '085726080086',
     address: address || '',
     productId: items[0].id,
     productName: productSummary,
@@ -1010,7 +1010,7 @@ async function addProduct(data) {
     unit: data.unit || 'kg',
     soldCount: 0,
     icon: data.icon || 'eco',
-    image: data.image || '/assets/product-fertilizer.png',
+    image: data.image || '/assets/store/karung_1.jpeg',
     description: data.description || 'Komoditas organik segar harian dari peternakan CV Banong Farms Ajibarang.'
   }
 
