@@ -2493,3 +2493,18 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   5. [`src/components/ProductGrid.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ProductGrid.vue) (Judul skew, badge sarana peternakan, dan kartu katalog).
 * **Verifikasi Build:**
   - `npm run build` sukses 100% tanpa kendala.
+
+
+---
+
+## 58. Checkpoint Sesi 77 (Bugfix Pemicu Polaroid CTA Section di Atas Footer): Pengaktifan Kembali Animasi Polaroid CTA
+* **Tanggal & Waktu:** 03 November 2026, Pukul 23:25 WIB
+* **Status:** SELESAI & AKTIF (Vite HMR Live, `✓ 114 modules transformed`).
+* **Akar Masalah:**
+  - Pada pembaruan sebelumnya, timeline `ctaTl` di [`src/components/PolaroidCtaSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/PolaroidCtaSection.vue) telah dikonfigurasi dengan `{ paused: true }` dan fungsi pembungkus `attachBiDirectionalTrigger` sudah dibuat, namun pemanggilan eksekusi `attachBiDirectionalTrigger(ctaTl, ctaSectionRef.value, 'top 80%')` belum terpasang.
+  - Akibatnya, timeline `ctaTl` tertahan di `progress: 0` (`opacity: 0`), sehingga seksi CTA tepat di atas footer sempat terlihat putih kosong / hilang.
+* **Perbaikan:**
+  - Memanggil `attachBiDirectionalTrigger(ctaTl, ctaSectionRef.value, 'top 80%')` di akhir inisialisasi timeline.
+  - Seksi Polaroid CTA (3 foto polaroid fan-out, judul CTA, tombol WhatsApp/Katalog, dan 3 pill garansi) kini kembali tampil dan beranimasi mulus saat di-scroll naik maupun turun.
+* **Verifikasi Build:**
+  - `npm run build` berhasil 100% (5.03s, 0 error).

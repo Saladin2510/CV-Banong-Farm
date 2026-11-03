@@ -262,6 +262,8 @@ onMounted(async () => {
       ease: 'back.out(1.4)'
     }, '-=0.4')
 
+    attachBiDirectionalTrigger(ctaTl, ctaSectionRef.value, 'top 80%')
+
     // 4. Parallax Multi-Plane Lembut pada Foto Polaroid saat Di-scroll (Desktop)
     ScrollTrigger.matchMedia({
       '(min-width: 768px)': () => {
