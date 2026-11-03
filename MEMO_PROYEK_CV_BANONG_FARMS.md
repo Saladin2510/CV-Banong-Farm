@@ -2439,3 +2439,27 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
      - **[`src/components/InteractiveMarqueeMenu.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/InteractiveMarqueeMenu.vue):** Menambahkan animasi GSAP staggered reveal pada ke-5 baris marquee komoditas saat masuk ke viewport, berpadu dengan akselerasi kecepatan berbasis scroll velocity.
      - **[`src/components/PolaroidCtaSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/PolaroidCtaSection.vue):** Menambahkan timeline GSAP ScrollTrigger lengkap di mana 3 kartu foto Polaroid menyebar (*fan-out* dengan `back.out`) dari tengah + efek *multi-plane scroll parallax*, diikuti staggered reveal pada teks headline, tombol CTA WhatsApp/Katalog, dan 3 pill *trust badges*. (Seksi `FooterSection.vue` sengaja dibiarkan statis tanpa GSAP sesuai instruksi pengguna).
      - **Mode Animasi Scroll Berulang Permanen (	oggleActions: 'play none none reset'):** Seluruh timeline GSAP ScrollTrigger pada VisiMisiSection.vue, CredibilitySection.vue, ProductGrid.vue, InteractiveMarqueeMenu.vue, dan PolaroidCtaSection.vue dikonfigurasi agar tidak hanya berjalan sekali saat halaman di-refresh (once: false), melainkan otomatis berputar kembali setiap kali pengguna melakukan scroll naik lalu scroll turun kembali memasuki masing-masing seksi.
+
+
+---
+
+## 56. Checkpoint Sesi 75 (Perapian UI/UX Hub Filter & Pencarian Katalog Produk): Eliminasi Horizontal Scrollbar Abu-Abu Windows, Penyelarasan Search & Sort Toolbar, Chip Populer Rapi, dan Responsivitas Tab Kategori Desktop/Mobile
+* **Tanggal & Waktu:** 03 November 2026, Pukul 23:05 WIB
+* **Status:** SELESAI, BEBAS ERROR, & BUILD PRODUKSI BERHASIL 100% (`✓ 114 modules transformed`).
+* **Rincian Perbaikan:**
+  1. **Eliminasi Scrollbar Horizontal Abu-Abu Windows (`src/style.css`):**
+     - Menambahkan utilitas global `.no-scrollbar` dan `.scrollbar-none` dengan aturan lengkap (`-ms-overflow-style: none`, `scrollbar-width: none`, dan `::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }`).
+     - Menghapus track scrollbar abu-abu tebal yang sebelumnya memotong bagian bawah tab kategori pada browser Chrome/Windows.
+  2. **Penyelarasan Search Bar & Dropdown Urutkan (`src/components/ProductGrid.vue`):**
+     - Menghilangkan celah kosong raksasa (*void gap*) di antara input pencarian dan dropdown urutkan di layar monitor lebar (`flex-1` responsif).
+     - Menyamakan tinggi (*height*) dan radius sudut (`h-12 sm:h-13 rounded-2xl`) antara kotak input pencarian dan dropdown pengurutan.
+     - Menyematkan ikon `swap_vert` dan prefix label `Urutkan:` di dalam kotak dropdown agar terlihat rapi dan elegan.
+     - Merapikan badge `{{ filteredProducts.length }} Produk` di sisi kanan input agar tidak bertabrakan dengan teks pencarian maupun tombol hapus (*close*).
+  3. **Penyempurnaan Tab Kategori Produk Tanpa Terpotong (`src/components/ProductGrid.vue`):**
+     - Menambahkan `md:flex-wrap` sehingga pada layar laptop/desktop seluruh 6 tab kategori terlihat utuh, rapi, dan tidak lagi terpotong (`Alat & Perleng...`).
+     - Pada layar smartphone/mobile, tab tetap dapat digeser secara halus (*smooth horizontal swipe*) tanpa memunculkan scrollbar kaku.
+     - Menambahkan ikon visual untuk setiap kategori (`grid_view`, `grain`, `egg`, `medication`, `pets`, `handyman`) serta badge angka jumlah produk yang proporsional.
+  4. **Perapian Chip Kata Kunci Pencarian Populer (`src/components/ProductGrid.vue`):**
+     - Menata tag kata kunci populer (`New Hope HP100`, `Layer HL83`, `DOQ Puyuh`, dll.) dengan chip pill yang rapi, border halus, dan penanda ikon `trending_up` yang jelas.
+  5. **Verifikasi Build Produksi:**
+     - `npm run build` sukses 100% tanpa error, dan berkas output distribusi di `dist/` ter-update dengan aset produksi terbaru.

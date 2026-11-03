@@ -23,24 +23,24 @@
       <!-- Search Bar & Filter Controls -->
       <div class="mb-6 sm:mb-8 space-y-3.5 animate-fade-in">
         <!-- Main Search Bar Row -->
-        <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           
           <!-- Search Input Box -->
-          <div class="relative flex-1 max-w-2xl">
-            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-[22px] pointer-events-none">
+          <div class="relative flex-1 group">
+            <span class="material-symbols-outlined absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary dark:group-focus-within:text-secondary-container text-[22px] transition-colors pointer-events-none">
               search
             </span>
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Cari pakan (HP100, HL83), bibit (DOQ, DOC), obat Medion, merk..."
-              class="w-full pl-11 pr-28 py-3 sm:py-3.5 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 text-xs sm:text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-primary dark:focus:border-secondary-container focus:ring-4 focus:ring-primary/10 dark:focus:ring-secondary-container/10 transition-all shadow-xs"
+              placeholder="Cari pakan (HP100, HL83), bibit, obat Medion, merk..."
+              class="w-full h-12 sm:h-13 pl-11 sm:pl-12 pr-28 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 text-xs sm:text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-primary dark:focus:border-secondary-container focus:ring-4 focus:ring-primary/10 dark:focus:ring-secondary-container/10 transition-all shadow-xs"
               @keydown.esc="clearSearch"
               aria-label="Cari pakan atau sarana peternakan"
             />
             
             <!-- Clear Button & Result Count Badge -->
-            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+            <div class="absolute right-2.5 sm:right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
               <button
                 v-if="searchQuery"
                 @click="clearSearch"
@@ -50,76 +50,91 @@
               >
                 <span class="material-symbols-outlined text-[18px]">close</span>
               </button>
-              <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 font-sans bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-md shrink-0">
+              <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 font-sans bg-slate-100 dark:bg-slate-700/70 px-2.5 py-1 rounded-xl shrink-0 border border-slate-200/60 dark:border-slate-600/60 shadow-2xs">
                 {{ filteredProducts.length }} Produk
               </span>
             </div>
           </div>
 
           <!-- Sorting Dropdown -->
-          <div class="flex items-center gap-2 shrink-0 self-start md:self-auto">
-            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline font-sans">Urutkan:</span>
-            <div class="relative">
-              <select
-                v-model="sortBy"
-                class="appearance-none pl-3 pr-8 py-2.5 sm:py-3 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-primary dark:focus:border-secondary-container cursor-pointer shadow-xs font-sans"
-                aria-label="Urutkan produk"
-              >
-                <option value="default">Rekomendasi Toko</option>
-                <option value="price-asc">Harga: Terendah → Tertinggi</option>
-                <option value="price-desc">Harga: Tertinggi → Terendah</option>
-                <option value="stock-desc">Stok Terbanyak</option>
-                <option value="name-asc">Nama Produk (A - Z)</option>
-              </select>
-              <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">
-                expand_more
-              </span>
+          <div class="relative shrink-0 sm:w-60 md:w-64">
+            <div class="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none text-slate-400 dark:text-slate-500">
+              <span class="material-symbols-outlined text-[19px]">swap_vert</span>
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 font-sans hidden sm:inline">Urutkan:</span>
             </div>
+            <select
+              v-model="sortBy"
+              class="w-full h-12 sm:h-13 appearance-none pl-9 sm:pl-22 pr-9 rounded-2xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700/80 focus:outline-none focus:border-primary dark:focus:border-secondary-container focus:ring-4 focus:ring-primary/10 dark:focus:ring-secondary-container/10 cursor-pointer shadow-xs font-sans transition-all"
+              aria-label="Urutkan produk"
+            >
+              <option value="default">Rekomendasi Toko</option>
+              <option value="price-asc">Harga: Terendah → Tertinggi</option>
+              <option value="price-desc">Harga: Tertinggi → Terendah</option>
+              <option value="stock-desc">Stok Terbanyak</option>
+              <option value="name-asc">Nama Produk (A - Z)</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">
+              expand_more
+            </span>
           </div>
 
         </div>
 
         <!-- Quick Search Suggestion Tags -->
-        <div class="flex items-center gap-1.5 flex-wrap text-xs">
-          <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium mr-1 flex items-center gap-1 font-sans">
-            <span class="material-symbols-outlined text-[14px] text-secondary-container">trending_up</span>
-            Populer:
-          </span>
-          <button
-            v-for="tag in quickSearchTags"
-            :key="tag"
-            @click="applyQuickTag(tag)"
-            type="button"
-            :class="[
-              'px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer active:scale-95 shadow-2xs',
-              searchQuery.toLowerCase() === tag.toLowerCase()
-                ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary font-bold shadow-xs'
-                : 'bg-white dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700/80'
-            ]"
-          >
-            {{ tag }}
-          </button>
+        <div class="flex items-center gap-2 flex-wrap text-xs pt-0.5">
+          <div class="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400 shrink-0 font-sans mr-0.5">
+            <span class="material-symbols-outlined text-[15px] text-amber-500 dark:text-secondary-container">trending_up</span>
+            <span>Populer:</span>
+          </div>
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <button
+              v-for="tag in quickSearchTags"
+              :key="tag"
+              @click="applyQuickTag(tag)"
+              type="button"
+              :class="[
+                'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-[11px] sm:text-xs font-medium transition-all duration-150 cursor-pointer active:scale-95 shadow-2xs border',
+                searchQuery.toLowerCase() === tag.toLowerCase()
+                  ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary font-bold border-primary dark:border-secondary-container shadow-xs'
+                  : 'bg-white dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/80 border-slate-200/90 dark:border-slate-700/80 hover:border-slate-300'
+              ]"
+            >
+              {{ tag }}
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Category Filter Tabs (Scrollable on Mobile) -->
-      <div class="flex items-center gap-2 mb-8 sm:mb-12 overflow-x-auto pb-2.5 scrollbar-none overscroll-x-contain -mx-4 px-4 sm:mx-0 sm:px-0 animate-fade-in">
-        <button
-          v-for="cat in categories"
-          :key="cat.id"
-          @click="setCategory(cat.id)"
-          :class="[
-            'px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm transition-all duration-200 whitespace-nowrap active:scale-95 shrink-0 shadow-xs cursor-pointer',
-            selectedCategory === cat.id
-              ? 'bg-primary dark:bg-secondary-container text-white dark:text-primary font-bold shadow-md translate-y-[-1px]'
-              : 'bg-surface-container-low dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 font-medium'
-          ]"
-        >
-          {{ cat.name }}
-          <span class="ml-1 text-[11px] opacity-75">
-            ({{ getCategoryCount(cat.id) }})
-          </span>
-        </button>
+      <!-- Category Filter Tabs (Scrollable on Mobile, Wrapped cleanly on Desktop, NO ugly scrollbar) -->
+      <div class="mb-8 sm:mb-12 animate-fade-in">
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 md:flex-wrap no-scrollbar scrollbar-none overscroll-x-contain -mx-4 px-4 sm:mx-0 sm:px-0">
+          <button
+            v-for="cat in categories"
+            :key="cat.id"
+            @click="setCategory(cat.id)"
+            :class="[
+              'inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap active:scale-95 shrink-0 cursor-pointer shadow-xs border',
+              selectedCategory === cat.id
+                ? 'bg-primary text-white border-primary shadow-md shadow-primary/20 dark:bg-secondary-container dark:text-primary dark:border-secondary-container dark:shadow-secondary-container/20 translate-y-[-1px]'
+                : 'bg-white dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border-slate-200/90 dark:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-700/60 hover:border-slate-300 dark:hover:border-slate-600'
+            ]"
+          >
+            <span class="material-symbols-outlined text-[18px]" :class="selectedCategory === cat.id ? 'opacity-100' : 'text-slate-400 dark:text-slate-500'">
+              {{ cat.icon }}
+            </span>
+            <span>{{ cat.name }}</span>
+            <span
+              :class="[
+                'px-1.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-tight',
+                selectedCategory === cat.id
+                  ? 'bg-white/20 dark:bg-primary/20 text-white dark:text-primary'
+                  : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+              ]"
+            >
+              {{ getCategoryCount(cat.id) }}
+            </span>
+          </button>
+        </div>
       </div>
 
       <!-- Empty / Syncing State -->
@@ -275,12 +290,12 @@ const applyQuickTag = (tag) => {
 }
 
 const categories = [
-  { id: 'all', name: 'Semua Produk' },
-  { id: 'pakan', name: 'Pakan Ternak & Unggas' },
-  { id: 'bibit', name: 'Bibit Unggul (DOQ/DOC/DOD)' },
-  { id: 'obat', name: 'Obat, Vitamin & Vaksin' },
-  { id: 'ikan_pet', name: 'Pakan Ikan & Pet Food' },
-  { id: 'alat', name: 'Alat & Perlengkapan Kandang' }
+  { id: 'all', name: 'Semua Produk', icon: 'grid_view' },
+  { id: 'pakan', name: 'Pakan Ternak & Unggas', icon: 'grain' },
+  { id: 'bibit', name: 'Bibit Unggul (DOQ/DOC/DOD)', icon: 'egg' },
+  { id: 'obat', name: 'Obat, Vitamin & Vaksin', icon: 'medication' },
+  { id: 'ikan_pet', name: 'Pakan Ikan & Pet Food', icon: 'pets' },
+  { id: 'alat', name: 'Alat & Perlengkapan Kandang', icon: 'handyman' }
 ]
 
 const matchesCategory = (p, catId) => {
