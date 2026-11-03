@@ -41,7 +41,7 @@
           <div 
             v-if="isChatOpen"
             data-lenis-prevent
-            class="mb-3 w-[calc(100vw-28px)] max-w-[360px] sm:w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[460px] max-h-[78vh] sm:h-[480px] z-40 transition-colors"
+            class="mb-3 w-[calc(100vw-28px)] max-w-[390px] sm:w-[410px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/40 dark:border-slate-700/80 overflow-hidden flex flex-col h-[520px] max-h-[82vh] z-40 transition-colors"
           >
             <!-- Header -->
             <div class="bg-primary dark:bg-slate-950 text-on-primary p-3.5 sm:p-4 flex items-center justify-between border-b dark:border-slate-800">
@@ -58,7 +58,7 @@
               </div>
               <button 
                 @click="isChatOpen = false" 
-                class="text-surface-pure/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors"
+                class="text-surface-pure/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Tutup Obrolan"
               >
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -66,15 +66,16 @@
             </div>
 
             <!-- Chat Messages Container -->
-            <div class="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-sm" ref="messagesContainer">
+            <div class="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3.5 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-sm" ref="messagesContainer">
               <div 
                 v-for="(msg, idx) in messages" 
                 :key="idx" 
                 :class="[
-                  'flex flex-col max-w-[88%] sm:max-w-[85%]',
-                  msg.sender === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'
+                  'flex flex-col',
+                  msg.sender === 'user' ? 'ml-auto items-end max-w-[85%]' : 'mr-auto items-start max-w-[96%]'
                 ]"
               >
+                <!-- Text Bubble -->
                 <div 
                   :class="[
                     'p-2.5 sm:p-3 rounded-2xl text-xs leading-relaxed shadow-xs backdrop-blur-md break-words',
@@ -84,6 +85,90 @@
                   ]"
                   v-html="formatMessageText(msg.text)"
                 ></div>
+
+                <!-- Interactive Attached Product Cards (Bisa Diklik & Tambah Keranjang Langsung) -->
+                <div 
+                  v-if="msg.products && msg.products.length > 0" 
+                  class="mt-2 w-full flex flex-col gap-1.5"
+                >
+                  <div class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary dark:text-secondary-container font-telemetry-code px-0.5">
+                    <span class="material-symbols-outlined text-[14px]">local_mall</span>
+                    <span>Lampiran Produk Resmi:</span>
+                  </div>
+
+                  <div class="flex flex-col gap-2">
+                    <div 
+                      v-for="prod in msg.products" 
+                      :key="prod.id"
+                      @click="handleProductClick(prod)"
+                      class="bg-white/95 dark:bg-[#111928] rounded-xl p-2.5 border border-slate-200 dark:border-slate-800 hover:border-secondary-container dark:hover:border-secondary-container shadow-xs hover:shadow-md transition-all flex flex-col gap-2 group cursor-pointer backdrop-blur-md"
+                    >
+                      <div class="flex items-center gap-2.5">
+                        <img 
+                          :src="prod.image || prod.url_gambar || '/assets/store/banner.jpeg'" 
+                          :alt="prod.name || prod.title"
+                          class="w-12 h-12 rounded-lg object-cover border border-slate-100 dark:border-slate-800 shrink-0 group-hover:scale-105 transition-transform"
+                          @error="$event.target.src = '/assets/store/banner.jpeg'"
+                        />
+                        <div class="flex-1 min-w-0">
+                          <div class="flex items-center gap-1.5">
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold truncate">
+                              {{ prod.category || prod.category_name || 'Sarana Ternak' }}
+                            </span>
+                            <span 
+                              :class="[
+                                'text-[9px] px-1.5 py-0.2 rounded font-bold font-telemetry-code',
+                                (prod.stock ?? prod.stok ?? 0) > 0 
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400' 
+                                  : 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400'
+                              ]"
+                            >
+                              {{ (prod.stock ?? prod.stok ?? 0) > 0 ? 'Ready' : 'Habis' }}
+                            </span>
+                          </div>
+                          <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5 group-hover:text-primary dark:group-hover:text-secondary-container transition-colors">
+                            {{ prod.name || prod.title }}
+                          </h4>
+                          <div class="text-[11px] font-extrabold text-primary dark:text-secondary-container font-telemetry-code mt-0.5">
+                            Rp {{ Number(prod.price || prod.harga || 0).toLocaleString('id-ID') }}
+                            <span class="text-[9px] font-normal text-slate-500">/ {{ prod.unit || prod.satuan || 'pcs' }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Action Buttons -->
+                      <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-100 dark:border-slate-800/80">
+                        <button 
+                          type="button"
+                          @click.stop="handleProductClick(prod)"
+                          class="flex-1 py-1.5 px-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-bold transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                          title="Buka Spesifikasi Produk"
+                        >
+                          <span class="material-symbols-outlined text-[13px]">visibility</span>
+                          <span>Lihat Detail</span>
+                        </button>
+                        <button 
+                          type="button"
+                          @click.stop="handleAddToCart(prod)"
+                          :class="[
+                            'py-1.5 px-2.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs active:scale-95',
+                            addedProductId === prod.id 
+                              ? 'bg-emerald-600 text-white' 
+                              : 'bg-primary hover:bg-primary-container text-white'
+                          ]"
+                          title="Tambahkan ke Keranjang Belanja"
+                        >
+                          <span class="material-symbols-outlined text-[13px]">
+                            {{ addedProductId === prod.id ? 'check' : 'add_shopping_cart' }}
+                          </span>
+                          <span>{{ addedProductId === prod.id ? 'Tersimpan!' : '+ Keranjang' }}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Meta Timestamp & Live AI Badge -->
                 <div class="flex items-center gap-1.5 mt-1 px-1">
                   <span class="text-[10px] text-on-surface-variant dark:text-slate-400">
                     {{ msg.time }}
@@ -238,19 +323,39 @@ const getTime = () => {
   return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 }
 
+const emit = defineEmits(['open-product'])
+const addedProductId = ref(null)
+
+const handleProductClick = (product) => {
+  if (!product) return
+  emit('open-product', product)
+}
+
+const handleAddToCart = (product) => {
+  if (!product) return
+  cartStore.addToCart(product, 1)
+  addedProductId.value = product.id
+  setTimeout(() => {
+    if (addedProductId.value === product.id) {
+      addedProductId.value = null
+    }
+  }, 1600)
+}
+
 const messages = ref([
   {
     sender: 'bot',
     text: 'Halo Peternak! Saya Si Banong, asisten toko sarana peternakan CV Banong Farms Ajibarang (Agen Resmi PT. New Hope Indonesia). Ada yang bisa saya bantu seputar pakan unggas, bibit DOQ/DOC, obat Medion, atau pengantaran armada toko ke kandang Anda hari ini?',
-    time: getTime()
+    time: getTime(),
+    products: []
   }
 ])
 
 const quickTopics = [
-  { title: 'Cek Pakan New Hope HP100' },
-  { title: 'Info Bibit DOQ & DOC' },
-  { title: 'Obat Medion & Vaksin Resmi' },
-  { title: 'Layanan Pengantaran Armada Toko' }
+  { title: 'Pakan Unggas Termurah' },
+  { title: 'Pakan Kucing Cat Choize' },
+  { title: 'Pakan New Hope HP100' },
+  { title: 'Pengantaran Armada Toko' }
 ]
 
 // Parser teks percakapan: Mengubah URL mentah, link WhatsApp, dan Google Maps menjadi tombol/link interaktif yang bisa diklik langsung
@@ -352,6 +457,7 @@ const sendMessage = async () => {
     messages.value.push({
       sender: 'bot',
       text: aiResponse.text,
+      products: aiResponse.products || [],
       isLiveAi: aiResponse.isLiveAi,
       time: getTime()
     })
@@ -359,6 +465,7 @@ const sendMessage = async () => {
     messages.value.push({
       sender: 'bot',
       text: 'Halo Kak! Untuk informasi harga, ketersediaan stok pakan, bibit, atau obat terbaru, Kakak bisa langsung chat hotline WhatsApp resmi CV Banong Farms di 0899-9192-861 (Ajibarang, Banyumas). Kami siap melayani Senin – Sabtu pukul 07.30 - 16.00 WIB (Hari Minggu Libur)!',
+      products: [],
       time: getTime()
     })
   } finally {

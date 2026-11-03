@@ -7,7 +7,7 @@
       <!-- Section Header -->
       <div class="mb-8 sm:mb-12 animate-fade-in-up">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 border border-slate-200 dark:border-slate-700 shadow-2xs">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
           <span class="tracking-wider uppercase text-[11px] font-bold">Sarana Peternakan &amp; Pakan Terlengkap</span>
         </div>
         <div class="overflow-hidden py-1">

@@ -13,7 +13,7 @@
       <div class="block lg:hidden text-center sm:text-left mb-7 sm:mb-9">
         <!-- Badge Pill -->
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 border border-slate-200 dark:border-slate-700 shadow-2xs w-fit mx-auto sm:mx-0">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
           <span class="tracking-wider uppercase text-[11px] font-bold">Pilihan Mitra Peternak Tangguh</span>
         </div>
 
@@ -100,7 +100,7 @@
           <div class="hidden lg:block">
             <!-- Badge Pill -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 sm:mb-4 border border-slate-200 dark:border-slate-700 shadow-2xs w-fit">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
               <span class="tracking-wider uppercase text-[11px] font-bold">Pilihan Mitra Peternak Tangguh</span>
             </div>
 
@@ -118,12 +118,12 @@
 
           <!-- Action Buttons Group (Hubungi WhatsApp & Lihat Katalog) -->
           <div class="mt-6 sm:mt-7 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-3 sm:gap-4">
-            <!-- Primary Button: Hubungi Toko via WhatsApp -->
+            <!-- Primary Button: Hubungi Toko via WhatsApp (Kuning Logo CV Banong Farms) -->
             <a 
               href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20memesan%20pakan/bibit/obat%20ternak."
               target="_blank" 
               rel="noopener noreferrer" 
-              class="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer font-sans"
+              class="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-xl bg-secondary-container hover:bg-accent-hover text-primary font-extrabold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer font-sans"
             >
               <span>Pesan Pakan via WhatsApp</span>
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -141,15 +141,15 @@
           <!-- Trust Badges Row -->
           <div class="mt-7 pt-5 sm:mt-8 sm:pt-6 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3 text-xs text-slate-700 dark:text-slate-300 font-sans">
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">verified</span>
+              <span class="material-symbols-outlined text-secondary-container drop-shadow-[0_1px_1px_rgba(2,36,72,0.15)] dark:drop-shadow-none text-[16px] shrink-0">verified</span>
               <span class="font-medium">Produk Pabrikan 100% Asli</span>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">inventory_2</span>
+              <span class="material-symbols-outlined text-secondary-container drop-shadow-[0_1px_1px_rgba(2,36,72,0.15)] dark:drop-shadow-none text-[16px] shrink-0">inventory_2</span>
               <span class="font-medium">Grosir Sak &amp; Ecer Kiloan</span>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-              <span class="material-symbols-outlined text-amber-500 text-[16px] shrink-0">local_shipping</span>
+              <span class="material-symbols-outlined text-secondary-container drop-shadow-[0_1px_1px_rgba(2,36,72,0.15)] dark:drop-shadow-none text-[16px] shrink-0">local_shipping</span>
               <span class="font-medium">Armada Toko Area Banyumas</span>
             </div>
           </div>

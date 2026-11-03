@@ -19,10 +19,10 @@
         
         <!-- Sisi Kiri: Badge Pill, Judul Utama & Subjudul (Animasi Hero Slider Stagger) -->
         <div class="max-w-xl">
-          <!-- Top Badge Pill (Clean & Non-Stiff) -->
-          <div class="cred-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3 border border-slate-200 dark:border-slate-700 shadow-2xs w-fit will-change-transform">
-            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-            <span class="tracking-wider uppercase text-[11px] font-bold">Kemitraan Pabrikan &amp; Standar Mutu</span>
+          <!-- Top Badge Pill (Brand Navy & Gold Accent) -->
+          <div class="cred-hero-text inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 dark:bg-primary/30 text-primary dark:text-secondary-container text-xs font-semibold mb-3 border border-primary/20 dark:border-secondary-container/30 shadow-2xs w-fit will-change-transform">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+            <span class="tracking-wider uppercase text-[11px] font-bold font-telemetry-code">Kemitraan Pabrikan &amp; Standar Mutu</span>
           </div>
 
           <!-- Judul Utama: Reputasi & Legalitas Resmi -->
@@ -40,34 +40,39 @@
         <div class="flex flex-col items-start lg:items-end shrink-0 pt-2 lg:pt-0">
           <div class="cred-hero-text flex items-center gap-3 sm:gap-4 will-change-transform">
             <!-- Angka Metrik Besar Dinamis dengan Counter Rolling Animasi GSAP -->
-            <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-white leading-none tabular-nums">
-              {{ counterDisplay }}
-            </span>
+            <div class="flex flex-col items-start lg:items-end">
+              <span class="text-4xl sm:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-primary dark:text-white leading-none tabular-nums">
+                {{ counterDisplay }}
+              </span>
+              <span class="mt-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-primary font-black text-[9px] uppercase font-telemetry-code tracking-wider shadow-2xs">
+                ● Terverifikasi Lapangan
+              </span>
+            </div>
 
-            <!-- 4 Lingkaran Foto Peternak Mitra Bertumpuk (Wajah Orang / Peternak Nyata) -->
+            <!-- 4 Lingkaran Foto Peternak Mitra Bertumpuk (Ring Emas & Navy) -->
             <div class="flex -space-x-2.5 sm:-space-x-3 p-0.5 items-center">
               <img 
                 src="/assets/avatar-peternak-1.jpg" 
                 alt="Peternak Ayam Petelur Mitra Banong Farms" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-secondary-container object-cover shadow-xs hover:scale-110 will-change-transform"
                 title="Bpk. Santoso (Peternak Puyuh & Layer)"
               />
               <img 
                 src="/assets/avatar-peternak-2.jpg" 
                 alt="Peternak & Pengusaha Ternak Mitra - Ibu Lani" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary object-cover shadow-xs hover:scale-110 will-change-transform"
                 title="Ibu Lani (Peternak Mandiri Cilongok)"
               />
               <img 
                 src="/assets/avatar-peternak-3.jpg" 
                 alt="Peternak Muda Mitra Banong Farms" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-secondary-container object-cover shadow-xs hover:scale-110 will-change-transform"
                 title="Mas Dimas (Peternak Bebek & Broiler)"
               />
               <img 
                 src="/assets/avatar-peternak-4.jpg" 
                 alt="Peternak Senior Banyumas" 
-                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-white dark:ring-[#070D1E] object-cover shadow-xs hover:scale-110 will-change-transform"
+                class="cred-avatar inline-block w-9 h-9 sm:w-11 sm:h-11 rounded-full ring-2 ring-primary object-cover shadow-xs hover:scale-110 will-change-transform"
                 title="Bpk. Haryanto (Peternak Senior Pekuncen)"
               />
             </div>
@@ -81,8 +86,8 @@
 
       </div>
 
-      <!-- 2. Kontainer Kartu Utama (Clean Card Selaras dengan Desain Web & Referensi) -->
-      <div class="bg-white dark:bg-[#0c1a30] rounded-3xl p-5 sm:p-8 lg:p-10 shadow-md dark:shadow-2xl border border-slate-200/90 dark:border-slate-800">
+      <!-- 2. Kontainer Kartu Utama (Dengan Top Brand Ribbon Navy & Gold) -->
+      <div class="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/60 to-white dark:from-[#0c1a30] dark:via-[#091527] dark:to-[#071120] rounded-3xl p-5 sm:p-8 lg:p-10 shadow-xl border border-slate-200/90 dark:border-slate-800 before:absolute before:top-0 before:inset-x-0 before:h-1.5 before:bg-gradient-to-r before:from-primary before:via-secondary-container before:to-primary">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           <!-- SISI KIRI: Showcase Banner Resmi Kemitraan New Hope -->
@@ -105,9 +110,14 @@
               <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent pointer-events-none"></div>
 
               <!-- Overlay Card di Bagian Bawah Gambar -->
-              <div class="cert-overlay-card absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg border border-white/40 dark:border-slate-800 will-change-transform">
+              <div class="cert-overlay-card absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/95 dark:bg-[#070D1E]/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-xl border border-primary/20 dark:border-secondary-container/30 will-change-transform">
                 <div class="flex items-start justify-between gap-3">
                   <div>
+                    <div class="flex items-center gap-1.5 mb-1">
+                      <span class="px-2 py-0.5 rounded bg-primary text-secondary-container font-black text-[9px] font-telemetry-code uppercase tracking-wider">
+                        Kemitraan Resmi
+                      </span>
+                    </div>
                     <h4 class="font-extrabold font-outfit text-sm sm:text-base text-primary dark:text-white leading-tight">
                       Agen Resmi PT. New Hope Indonesia
                     </h4>
@@ -115,10 +125,16 @@
                       New Hope Cirebon · Bring You New Life
                     </p>
                     
-                    <!-- Rating 5.0 -->
-                    <div class="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-amber-500">
-                      <span class="material-symbols-outlined text-[15px] fill-current">star</span>
-                      <span class="text-slate-900 dark:text-white font-bold">5.0</span>
+                    <!-- Rating 5.0 with Golden Stars (Warna Kuning Emas Logo) -->
+                    <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold">
+                      <div class="flex items-center text-secondary-container drop-shadow-[0_1px_1px_rgba(2,36,72,0.15)] dark:drop-shadow-none">
+                        <span class="material-symbols-outlined text-[15px] fill-current">star</span>
+                        <span class="material-symbols-outlined text-[15px] fill-current">star</span>
+                        <span class="material-symbols-outlined text-[15px] fill-current">star</span>
+                        <span class="material-symbols-outlined text-[15px] fill-current">star</span>
+                        <span class="material-symbols-outlined text-[15px] fill-current">star</span>
+                      </div>
+                      <span class="text-slate-900 dark:text-white font-extrabold text-xs">5.0</span>
                       <span class="text-slate-500 dark:text-slate-400 font-normal text-[11px]">(Pilihan utama peternak Banyumas Barat)</span>
                     </div>
                   </div>
@@ -130,7 +146,7 @@
                     href="https://wa.me/628999192861" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    class="hover:text-primary dark:hover:text-secondary-container transition-colors flex items-center gap-1 font-medium"
+                    class="hover:text-primary dark:hover:text-secondary-container transition-colors flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400"
                   >
                     <span class="material-symbols-outlined text-[14px]">chat</span>
                     <span>Hubungi Toko</span>
@@ -140,7 +156,7 @@
                     Senin–Sabtu 07.30–16.00
                   </span>
                   <span class="text-slate-300 dark:text-slate-700">•</span>
-                  <span class="text-slate-800 dark:text-slate-200 font-bold">
+                  <span class="px-1.5 py-0.5 rounded bg-primary text-secondary-container font-black text-[9px] font-telemetry-code uppercase">
                     100% Asli
                   </span>
                 </div>
@@ -150,7 +166,7 @@
 
           </div>
 
-          <!-- SISI KANAN: Penjelasan Narasi & 4 Kartu Fitur Terstruktur -->
+          <!-- SISI KANAN: Penjelasan Narasi & 4 Kartu Fitur Terstruktur (Alternating Navy & Gold) -->
           <div class="lg:col-span-7 flex flex-col justify-between space-y-5 sm:space-y-6">
             
             <!-- Narasi Atas: Judul & Deskripsi Mendalam Manusiawi -->
@@ -168,12 +184,12 @@
               </p>
             </div>
 
-            <!-- 4 Kartu Fitur Terstruktur (Grid 2x2 Rapi) -->
+            <!-- 4 Kartu Fitur Terstruktur (Alternating Navy & Golden Yellow Brand Palette) -->
             <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-1 will-change-transform">
               
-              <!-- Kartu 1: Pakan Segar Pabrikan -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+              <!-- Kartu 1: Pakan Segar Pabrikan (Brand Navy Accent) -->
+              <div class="cred-feature-card bg-gradient-to-br from-blue-50/70 via-white to-white dark:from-[#0d2238] dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-primary border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+                <div class="w-10 h-10 rounded-xl bg-primary text-secondary-container flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">verified</span>
                 </div>
                 <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
@@ -184,9 +200,9 @@
                 </p>
               </div>
 
-              <!-- Kartu 2: Grosir Sak & Eceran Kiloan -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+              <!-- Kartu 2: Grosir Sak & Eceran Kiloan (Golden Yellow Accent) -->
+              <div class="cred-feature-card bg-gradient-to-br from-secondary-container/15 via-white to-white dark:from-[#211e0e]/50 dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-secondary-container border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+                <div class="w-10 h-10 rounded-xl bg-secondary-container text-primary flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">inventory_2</span>
                 </div>
                 <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
@@ -197,9 +213,9 @@
                 </p>
               </div>
 
-              <!-- Kartu 3: Armada Toko Sendiri -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+              <!-- Kartu 3: Armada Toko Sendiri (Brand Navy Accent) -->
+              <div class="cred-feature-card bg-gradient-to-br from-blue-50/70 via-white to-white dark:from-[#0d2238] dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-primary border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+                <div class="w-10 h-10 rounded-xl bg-primary text-secondary-container flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">local_shipping</span>
                 </div>
                 <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">
@@ -210,9 +226,9 @@
                 </p>
               </div>
 
-              <!-- Kartu 4: Konsultasi Praktisi Lapangan -->
-              <div class="cred-feature-card bg-slate-50 dark:bg-[#071120] rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800/80 shadow-xs hover:border-amber-400/50 transition-colors">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2.5">
+              <!-- Kartu 4: Konsultasi Praktisi Lapangan (Golden Yellow Accent) -->
+              <div class="cred-feature-card bg-gradient-to-br from-secondary-container/15 via-white to-white dark:from-[#211e0e]/50 dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-secondary-container border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+                <div class="w-10 h-10 rounded-xl bg-secondary-container text-primary flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">support_agent</span>
                 </div>
                 <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 leading-snug">

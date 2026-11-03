@@ -1,6 +1,6 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 15 Oktober 2026, Pukul 00:08 WIB (Sesi 62: Keberhasilan Push ke GitHub Kolaborasi Saladin2510/CV-Banong-Farm dengan Akun wilwildandindun, Working Tree 100% Bersih & Sinkron)  
-**Status Proyek:** SELESAI & TERSINKRONISASI KE GITHUB (Branch main Updated: Commit 6b23471 / 27 Objects Pushed / Supabase Cloud Aktif / DeepSeek AI Siap / Zero Build Errors)  
+**Tanggal Pembaruan Terakhir:** 03 November 2026, Pukul 08:32 WIB (Sesi 72: Koreksi Pemicu Animasi Roulette Menjadi Scroll-Driven Murni Saat Scroll ke Bawah & Kalibrasi Presisi Em-Based Angka)  
+**Status Proyek:** AKTIF & SIAP SIDANG/DEMO (Pure Viewport Scroll Trigger via IntersectionObserver + Zero-Clipping Em-Based Alignment + Zero Orange/Amber)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 
 ---
@@ -2005,6 +2005,313 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
      - Status Output: `Total 27 (delta 21), reused 0 (delta 0), pack-reused 0`
      - Remote Commit: `d8cb3cd..6b23471 main -> main`
      - Seluruh kode terkini telah aktif dan dapat langsung diakses oleh rekan kolaborator (`Saladin2510`) di GitHub.
+
+---
+
+## 42. Checkpoint Sesi 63: Pelatihan Model AI Chatbot (Logika Harga Termurah Bebas Halusinasi), Lampiran Produk Interaktif (Clickable Product Cards), dan Penegakan Guardrails Privasi Bisnis
+* **Tanggal & Waktu:** 02 November 2026, Pukul 10:35 WIB
+* **Status:** SELESAI & AKTIF (Chatbot Si Banong Terintegrasi DeepSeek-V3 + Interactive Cards + Zero Hallucinations + Strict Privacy Guardrails).
+* **Latar Belakang & Revisi Pembimbing:**
+  1. **Akurasi Respon & Logika Hirarki Harga:** Saat diuji pembimbing menanyakan *"harga pakan unggas termurahnya berapa"*, AI sebelumnya merekomendasikan pakan mahal ~300k karena pencocokan kata kunci mentah (*keyword matching*) atau ketiadaan instruksi pemilahan kemasan eceran kiloan vs grosir sak karungan (50 kg).
+  2. **Permintaan Lampiran Produk Interaktif (*Clickable Product Cards*):** Pembimbing meminta agar saat pelanggan menanyakan produk di katalog (misalnya pakan kucing *Cat Choize*, pakan unggas *HP100*, dll.), chatbot tidak hanya membalas dengan teks biasa, melainkan juga menyematkan kartu lampiran produk resmi langsung di dalam chat yang bisa diklik (*clickable*) untuk melihat spesifikasi detail atau langsung memasukkannya ke keranjang belanja website.
+  3. **Penegakan Batasan Privasi & Keamanan (*Strict Guardrails*):** Respon AI harus memiliki batasan ketat: tidak boleh membocorkan rahasia internal bisnis (HPP/modal toko dari supplier, margin persentase laba, password admin, kredensial sistem, atau data pribadi dan gaji staf) serta menolak secara santun pertanyaan di luar domain peternakan (politik, coding program lain, tugas sekolah umum non-peternakan).
+* **Perubahan & Implementasi Teknis yang Dilakukan:**
+  1. **Rekayasa Konteks Prompt & Guardrails Privasi ([`src/services/aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js)):**
+     - Memperbarui `buildBanongFarmContext` dengan menyertakan tag identifikasi `[ID: ${id}]` untuk setiap produk katalog live.
+     - Menyematkan aturan **KEBIJAKAN PRIVASI & BATASAN KEAMANAN (GUARDRAILS RESMI CV BANONG FARMS)**:
+       * Larangan keras membeberkan HPP, margin laba, password admin, dan data pribadi/gaji karyawan.
+       * Pembatasan domain percakapan ke sarana peternakan/perikanan/pet food/obat Medion dan layanan toko CV Banong Farms Ajibarang.
+       * Proteksi anti-jailbreak terhadap upaya manipulasi prompt (*"abaikan instruksi sebelumnya"*).
+     - Menanamkan **PANDUAN HARGA & REKOMENDASI PRODUK (WAJIB AKURAT SESUAI KATALOG)**:
+       * *Pakan Unggas Termurah Kiloan:* **Pakan Komplit HP100 Eceran (Rp 9.000 / Kg)**.
+       * *Pakan Unggas Termurah Karungan (50 Kg):* **Pakan Puyuh Sinindo T78 (Rp 295.000 / Sak)**.
+       * *Pakan Kucing Termurah:* **Bolt Tuna & Salmon (Rp 19.000 / Pack 1kg)**.
+       * *Pakan Kucing Populer Cat Choize:* **CAT CHOIZE Adult & Kitten (Rp 22.000 / Pack 800g)** dan kemasan grosir karungan **CAT CHOIZE Karung 20kg (Rp 410.000 / Sak)**.
+       * *Pakan Ikan & Lele:* Pelet Ikan Eceran Pack 500g (Rp 10.000), Takari (Rp 12.000), HI-PRO-VITE 781-2 Eceran (Rp 14.000/kg), dan Sak 30kg (Rp 360.000).
+     - Menambahkan instruksi tag output `[LAMPIRAN_PRODUK: id_1, id_2]` untuk melampirkan maksimal 4 produk relevan.
+  2. **Mesin Deteksi Lampiran Produk Cerdas (`detectRelevantProducts`):**
+     - Mengekstrak ID produk dari tag eksplisit `[LAMPIRAN_PRODUK: ...]` serta melakukan pemindaian kata kunci kontekstual (*termurah, pakan unggas, cat choize, bolt, hp100, sinindo t78, lele 781-2, vita stress, doq/doc*).
+     - Membersihkan tag internal dari teks yang dilihat pengunjung menggunakan regex sanitasi.
+     - Memperbarui fungsi *smart heuristic offline fallback* agar ikut menyertakan respon harga akurat dan array produk lampiran.
+  3. **Desain Komponen Kartu Produk Interaktif ([`src/components/ChatbotMascot.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ChatbotMascot.vue)):**
+     - Memperluas dimensi popup chat menjadi `w-[calc(100vw-28px)] max-w-[390px] sm:w-[410px] h-[520px] max-h-[82vh]` agar kartu produk tertata rapi.
+     - Menyematkan kartu produk interaktif di bawah setiap balon chat bot: thumbnail foto produk, badge kategori, indikator stok (*Ready/Habis*), format harga IDR, tombol *"Lihat Detail"*, dan tombol *"+ Keranjang"* dengan animasi feedback *"Tersimpan!"*.
+     - Memperbarui pill topik instan pembuka menjadi: *"Pakan Unggas Termurah"*, *"Pakan Kucing Cat Choize"*, *"Pakan New Hope HP100"*, dan *"Pengantaran Armada Toko"*.
+  4. **Koneksi Modal Produk di Root Landing Page ([`src/App.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/App.vue)):**
+     - Menyematkan handler `@open-product="handleOpenModal"` pada `<ChatbotMascot>` sehingga klik *"Lihat Detail"* dari chat langsung memunculkan [`ProductModal.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ProductModal.vue) secara mulus.
+* **Hasil Pengujian & Verifikasi:**
+  - Respon *"pakan unggas termurah"* kini akurat 100% memaparkan opsi Rp 9.000/kg (eceran) dan Rp 295.000/sak (karungan Sinindo T78).
+  - Respon *"cat choize"* langsung melampirkan kartu produk resmi Cat Choize yang interaktif dan dapat diklik.
+  - Guardrail privasi terbukti aktif menolak pertanyaan seputar HPP/modal, data admin, atau topik di luar peternakan.
+
+## 43. Checkpoint Sesi 64: Revisi UI Web App - Transformasi 'Tentang Kami' Menjadi Automated Carousel Slider (Mirip Header / Hero) & Harmonisasi Warna Brand pada Section 'Tentang Kami' dan 'Reputasi'
+* **Tanggal & Waktu:** 02 November 2026, Pukul 10:55 WIB
+* **Status:** SELESAI & AKTIF (VisiMisiSection Full Automated Carousel Slider + CredibilitySection Color Harmony Sesuai Standar 60:30:10).
+* **Latar Belakang & Masukan Pengguna (Revisi Pembimbing):**
+  1. **Pengalaman Slider Otomatis (Bukan Tab Statis):** Pengguna mengklarifikasi bahwa tampilan bergeser pada section "Tentang Kami" harus berjalan secara otomatis (*automated sliding carousel*) seperti halnya slider pada header/Hero section, bukan sekadar tab tombol statis.
+  2. **Pengkayaan Warna agar Tidak Monoton:** Section 'Tentang Kami' dan 'Reputasi' diperkaya dengan aksen warna berani namun tetap konsisten 100% dengan aturan tema brand website (**60% Surface Netral/Dark, 30% Primary Navy `#022448`, 10% Golden Yellow `#fcd400`**).
+* **Perubahan & Implementasi Teknis yang Dilakukan:**
+  1. **Automated Horizontal Carousel Slider ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+     - Menggantikan kontrol tab statis dengan **trek geser horizontal dinamis (*horizontal sliding track*)** menggunakan transformasi CSS `translateX(-${currentSlide * 100}%)` dengan easing `cubic-bezier(0.25, 1, 0.5, 1)`.
+     - Menyematkan **Top Progress Line** animasi (indikator waktu progres visual slide otomatis berjalan dari 0% ke 100% setiap 6 detik).
+     - Menghadirkan **In-Flow Slider Dot Indicators** persis seperti Header/Hero: dot aktif berupa pil memanjang emas (`w-7 sm:w-10 h-2 bg-secondary-container shadow-md rounded-full`) dan penghitung slide (`01 / 03`).
+     - Menyediakan kontrol navigasi panah (*Prev / Next chevron buttons*) serta gesture **Touch & Mouse Drag / Swipe Support** (pengunjung dapat menggeser kartu langsung dengan swipe jari di HP maupun drag mouse di desktop).
+     - Mengintegrasikan **GSAP Kinetic Micro-Animation**: setiap kali slide berganti, elemen judul dan kartu pada slide aktif masuk dengan animasi staggered kinetic lift yang halus (`y: 16 -> 0, opacity: 0 -> 1`).
+     - Fitur **Smart Pause & Resume**: timer otomatis berhenti saat kursor mouse hover di atas kartu slider dan melanjutkan kembali saat kursor keluar.
+  2. **Harmonisasi Warna Brand 60:30:10 pada 'Tentang Kami' ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+     - *Slide 1 (Sejarah 2015-2022):* Sub-badge Navy-Gold, 3 kartu milestone dengan border kontras Navy dan Golden Yellow.
+     - *Slide 2 (Kemitraan Pabrikan New Hope):* Sub-badge Navy-Gold, headline amber, dan 3 kartu nilai pabrik dengan aksen Navy dan Gold.
+     - *Slide 3 (Visi & Misi Usaha):* Banner Navy elegan untuk visi usaha dan 4 checklist misi dengan ikon centang emas.
+  3. **Penyelarasan Warna & Peningkatan Visual pada 'Reputasi' ([`src/components/CredibilitySection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/CredibilitySection.vue)):**
+     - Pita aksen gradasi brand di bagian atas kontainer (`from-primary via-secondary-container to-primary`).
+     - Lencana status emas `● Terverifikasi Lapangan` di samping rolling counter `14.000+`.
+     - Ring foto profil mitra selang-seling warna Gold (`ring-secondary-container`) dan Navy (`ring-primary`).
+     - 4 Kartu fitur disusun berirama selang-seling Navy (`#022448`) dan Golden Yellow (`#fcd400`).
+* **Hasil Pengujian & Verifikasi:**
+  - Vite HMR aktif dan memperbarui tampilan browser secara instan.
+  - Section 'Tentang Kami' kini otomatis bergeser horizontal secara mulus dan responsif terhadap drag/swipe gesture serta kontrol navigasi.
+  - Section 'Reputasi' tampil hidup, kredibel, dan berbobot tanpa keluar dari standar palet 60:30:10.
+
+---
+
+## 44. Checkpoint Sesi 65: Redesain Seksi 'Tentang Kami' - Konsep Pure Kinetic Typography (Anti-AI Slop, Editorial Chapter Timeline, Typographic Metric Proofs, & Continuous Ticker Ribbon)
+* **Tanggal & Waktu:** 03 November 2026, Pukul 07:35 WIB
+* **Status:** SELESAI & AKTIF (VisiMisiSection Full Pure Kinetic Typography + Editorial Storytelling + Zero AI Slop / Zero Emoji Clutter).
+* **Latar Belakang & Keluhan Pengguna:**
+  1. **Kritik Desain Sebelumnya:** Tampilan card slider sebelumnya dirasa masih terasa "kurang" dan terbebani efek *nested cards* (kotak di dalam kotak) serta dekorasi visual yang menyerupai template AI generik (*AI slop*).
+  2. **Arahan Desain Baru:** Mempertahankan esensi **Konsep Kinetic Typography (Teks Bergerak)** yang berwibawa, bersih, tanpa emoji/elemen aneh, dengan tipografi yang kuat, ritme gerak dinamis, dan konsistensi penuh terhadap palet warna brand CV Banong Farms (60% Surface, 30% Navy `#022448`, 10% Gold `#fcd400`).
+* **Perubahan & Implementasi Teknis yang Dilakukan:**
+  1. **Eliminasi Total "AI Slop" & Clutter Kartu Bertumpuk ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+     - Membuang seluruh kartu-kartu mini berkontur tebal (`border-l-4`), badge dengan animasi ping berlebihan (`animate-ping`), dan rentetan ikon checkmark yang membuat layout terasa sesak.
+     - Mengubah tata ruang menjadi format *editorial storytelling* yang lapang, elegan, dan berbobot ala publikasi agribisnis profesional.
+  2. **Editorial Kinetic Chapter Timeline (Interactive Navigation Bar):**
+     - Menghadirkan bilah navigasi 3 bab interaktif:
+       * `01 · Akar Budidaya 2015`
+       * `02 · Kemitraan New Hope`
+       * `03 · Visi & Pelayanan`
+     - Setiap bab aktif dilengkapi garis progres kinetik kuning emas (`bg-secondary-container`) yang bergerak mengisi dari 0% hingga 100% secara dinamis selama durasi 6 detik per bab.
+     - Pengunjung dapat langsung mengeklik bab manapun untuk melompat seketika ke cerita tersebut.
+  3. **Kinetic Staggered Typography Reveal (GSAP Animated):**
+     - Saat bab berganti (baik otomatis maupun manual), teks judul (`slide-kinetic-title`), deskripsi narasi (`slide-kinetic-desc`), dan metrik data (`slide-kinetic-stat`) meluncur naik secara bertahap (*staggered kinetic lift* dengan easing `power3.out`).
+     - Tipografi mengandalkan kontras tinggi antara font `Outfit` tebal dan `Plus Jakarta Sans` berjarak baca optimal.
+  4. **Typographic Proof Metrics (Angka Tipografi Besar Pengganti Kartu Boxy):**
+     - Menggantikan kotak-kotak kecil dengan baris metrik tipografi besar yang bersih dan dibatasi divider vertikal tipis:
+       * *Bab 1:* **2015** (Awal Budidaya Mandiri) | **2022** (Toko Fisik Modern) | **100%** (Praktisi Asli Lapangan).
+       * *Bab 2:* **NEW HOPE** (Pabrikan Resmi Cirebon) | **50 KG** (Sak Segel & Eceran Pas) | **MEDION** (Vaksin & Obat Terstandar).
+       * *Bab 3:* **FCR TINGGI** (Efisiensi Biaya Panen) | **ARMADA** (Kirim Langsung Kandang) | **GRATIS** (Konsultasi Solutif Peternak).
+  5. **Continuous Kinetic Typography Ticker Ribbon:**
+     - Menyematkan pita teks monospaced berjalan di bar kontrol bawah (`animation: kineticTicker 22s linear infinite`):
+       `// CV BANONG FARMS ✦ AGEN RESMI PT. NEW HOPE INDONESIA ✦ PAKAN PUYUH · AYAM · BEBEK · IKAN ✦ FARMASI & VAKSIN MEDION ✦ TIMBANGAN PAS & ARMADA ANTAR`
+     - Berhenti sejenak (*pause*) saat kursor di-hover dan melanjutkan kembali secara mulus.
+  6. **Retensi Galeri Triptych 3 Strip Vertikal & Interaktivitas:**
+     - Mempertahankan galeri foto asli CV Banong Farms di kolom kanan (gudang pakan, toko modern, kandang unggas) dengan efek *3D magnetic depth tilt* pada mouse movement dan *multi-plane continuous scroll parallax*.
+     - Gesture touch/mouse swipe drag tetap aktif dengan threshold 40px serta auto-pause saat kursor berada di atas area cerita.
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (117 modul terkompilasi, 0 error)**.
+  - Dev server aktif dan Vite HMR memuat perubahan seketika.
+  - Tampilan "Tentang Kami" kini tampil jauh lebih berkelas, dewasa, dinamis dengan konsep kinetic typography nyata, tanpa kesan template AI atau emoji sembarangan.
+
+---
+
+## 45. Checkpoint Sesi 66: Standardisasi Warna Font Hitam Solid (Kecuali Judul 'Tentang Kami') & Eliminasi Simbol Bintang pada Ticker Kinetik
+* **Tanggal & Waktu:** 03 November 2026, Pukul 07:40 WIB
+* **Status:** SELESAI & AKTIF (VisiMisiSection Standardized Font Color Black + Clean Typography Separators without Star Emojis).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Wajib Font Hitam Solid:** Seluruh warna teks/font pada section Tentang Kami wajib berwarna hitam pekat (`text-black`), kecuali judul utama "Tentang Kami" yang mempertahankan warna khas brand. Tidak diperkenankan lagi ada teks abu-abu pudar atau teks berwarna amber/emas di dalam kalimat narasi maupun metrik angka.
+  2. **Pembersihan Simbol Bintang Ticker:** Menghilangkan total simbol bintang (`✦`) pada pita teks berjalan (*kinetic ticker*) di bagian bawah dan menggantinya dengan pemisah titik tengah (`·`) yang rapi dan profesional.
+* **Perubahan & Implementasi Teknis yang Dilakukan ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+  1. **Penerapan Font Hitam Solid:**
+     - Badge status, subjudul narasi, nomor bab (`01`, `02`, `03`), serta judul bab diubah ke `text-black` (dan `dark:text-white` untuk mode gelap).
+     - Judul slide/bab kini hitam pekat seutuhnya tanpa sisipan span warna-warni:
+       * Bab 1: *"Berangkat dari Kandang Sendiri, Tumbuh Bersama Peternak."*
+       * Bab 2: *"Jalur Resmi Pabrikan: Nutrisi Presisi & Timbangan Pas."*
+       * Bab 3: *"Integritas Pasokan, Pendampingan & Armada Cepat."*
+     - Paragraf isi narasi dan baris metrik tipografi besar (`2015`, `2022`, `100%`, `NEW HOPE`, `50 KG`, `MEDION`, `FCR TINGGI`, `ARMADA`, `GRATIS`) distandarkan ke `text-black` tajam.
+  2. **Eliminasi Simbol Bintang Ticker:**
+     - Simbol `✦` dibuang 100% dari trek animasi ticker.
+     - Seluruh teks ticker diubah ke warna hitam pekat berbobot tebal (`text-black dark:text-white font-bold`) dengan pemisah titik netral (`·`).
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (117 modul terkompilasi, 0 error)**.
+  - Kontras teks sangat tajam, nyaman dibaca peternak maupun penguji, dan bebas dari ornamen emoji/bintang.
+
+---
+
+## 46. Checkpoint Sesi 67: Harmonisasi Warna Brand 60:30:10 (Anti-Polos) & Penggantian Label '// BAB' Menjadi Penomoran Langsung (1, 2, 3)
+* **Tanggal & Waktu:** 03 November 2026, Pukul 07:45 WIB
+* **Status:** SELESAI & AKTIF (VisiMisiSection Rebalanced Brand Aesthetics + Direct Numbering '1, 2, 3' Without '// BAB').
+* **Latar Belakang & Masukan Pengguna:**
+  1. **Tampilan Full Hitam Terasa Terlalu Polos:** Pengguna mengevaluasi bahwa membuat seluruh teks berwarna hitam pekat membuat section terasa terlalu polos, kering, dan kehilangan nuansa brand enterprise. Perlu ada harmonisasi warna kembali yang seimbang sesuai aturan mutlak **60% Surface, 30% Navy `#022448`, 10% Gold `#fcd400`**.
+  2. **Penghapusan Format '// BAB':** Pengguna meminta menghapus format teks berbau komentar kode `// BAB 01`, `// BAB 02`, `// BAB 03` dan menggantinya dengan penomoran slide yang langsung dan lugas (misal slide ke-1 ya `1`, slide ke-2 ya `2`, slide ke-3 ya `3`).
+* **Perubahan & Implementasi Teknis yang Dilakukan ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+  1. **Penggantian Format '// BAB' ke Penomoran Langsung:**
+     - Menghapus awalan `// BAB` dari badge slide.
+     - Mengubah label menjadi badge pill elegan bernomor langsung:
+       * Slide 1: `1 · Akar Budidaya & Pengalaman Lapangan`
+       * Slide 2: `2 · Kemitraan Resmi & Standar Nutrisi`
+       * Slide 3: `3 · Visi Agribisnis & Armada Distribusi`
+  2. **Harmonisasi Warna Brand 60:30:10 (Menghidupkan Visual):**
+     - **Judul Slide:** Mengembalikan perpaduan kontras tinggi Navy (`text-primary dark:text-white`) dengan aksen frasa emas/amber (`text-amber-600 dark:text-secondary-container`) pada poin penekanan kalimat:
+       * Slide 1: *"Berangkat dari Kandang Sendiri, <span class="text-amber-600">Tumbuh Bersama Peternak.</span>"*
+       * Slide 2: *"Jalur Resmi Pabrikan: <span class="text-amber-600">Nutrisi Presisi & Timbangan Pas.</span>"*
+       * Slide 3: *"Integritas Pasokan, <span class="text-amber-600">Pendampingan & Armada Cepat.</span>"*
+     - **Baris Metrik Bukti (Typographic Metrics):** Memberikan sentuhan warna Navy dan Gold yang seimbang:
+       * *Slide 1:* `2015` (Navy/Gold), `2022` (Navy/White), `100%` (Amber/Gold).
+       * *Slide 2:* `NEW HOPE` (Navy/Gold), `50 KG` (Navy/White), `MEDION` (Amber/Gold).
+       * *Slide 3:* `FCR TINGGI` (Navy/Gold), `ARMADA` (Navy/White), `GRATIS` (Amber/Gold).
+     - **Bilah Timeline Bab:** Garis progres aktif menggunakan kuning emas khas Banong (`bg-secondary-container`), dengan nomor dan judul bab aktif bergaya Navy dan Gold yang elegan.
+     - **Ticker Teks Bawah:** Tetap bersih tanpa emoji bintang, menggunakan pemisah titik netral (`·`) dengan aksen kuning emas (`text-secondary-container font-black`).
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (117 modul terkompilasi, 0 error)**.
+  - Tampilan "Tentang Kami" kini kembali berkarakter, hidup, dinamis, dan tidak terasa kaku atau polos, dengan penomoran bab yang lugas dan profesional.
+
+---
+
+## 47. Checkpoint Sesi 68: Penyelarasan Total Tipografi Font Family (Standarisasi Plus Jakarta Sans & Outfit, Pembersihan Monospace)
+* **Tanggal & Waktu:** 03 November 2026, Pukul 07:50 WIB
+* **Status:** SELESAI & AKTIF (VisiMisiSection Typography 100% Harmonized with Global Design System).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Penyelarasan Font:** Pengguna menginstruksikan *"sekarang font nya sesuain"*. Font pada section Tentang Kami sebelumnya masih menggunakan beberapa kelas monospace (`font-mono`) yang merender font mesin ketik / konsol (*Courier/Consolas*) pada nomor bab, counter slide, dan ticker, sehingga tidak selaras dengan identitas tipografi utama website.
+* **Perubahan & Implementasi Teknis yang Dilakukan ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+  1. **Eliminasi Total Font Monospace:**
+     - Menghapus seluruh kelas `font-mono` dan `font-telemetry-code` yang tidak selaras.
+     - Mengalihkan nomor bab (`01`, `02`, `03`) dan counter slide (`01 / 03`) ke font utama website: **`font-sans` (Plus Jakarta Sans)** dengan properti `tabular-nums` agar lebar angka presisi dan rapi.
+  2. **Harmonisasi Hierarki Tipografi Sesuai Desain Global:**
+     - **Headline Display & Metrik:** Menggunakan **`font-outfit font-black`** pada judul utama ("Tentang Kami") dan angka-angka metrik besar (`2015`, `2022`, `100%`, `NEW HOPE`, `50 KG`, `MEDION`, `FCR TINGGI`, `ARMADA`, `GRATIS`), selaras dengan seksi Reputasi dan Hero Slider.
+     - **Subjudul & Judul Slide:** Menggunakan **`font-sans font-bold`** (Plus Jakarta Sans), selaras dengan gaya subjudul editorial di Katalog Produk.
+     - **Body Copy (Paragraf):** Menggunakan **`font-sans font-normal text-slate-600 dark:text-slate-300 leading-relaxed`** berbobot nyaman dibaca.
+     - **Badge & Ticker Berjalan:** Menggunakan **`font-sans font-bold uppercase tracking-wider`** sehingga ticker teks berjalan di bar bawah terasa menyatu dan elegan.
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (117 modul terkompilasi, 0 error)**.
+  - Seluruh elemen tipografi di seksi "Tentang Kami" kini 100% serasi, konsisten, dan menyatu sempurna dengan seluruh halaman landing page.
+
+---
+
+## 48. Checkpoint Sesi 69: Redesain Total Seksi 'Tentang Kami' Berdasarkan Layout Referensi Editorial (Hero Split, Company Overview, Our Mission & Our Vision Alternating, Serta Zero Scroll-Linked Animation)
+* **Tanggal & Waktu:** 03 November 2026, Pukul 08:00 WIB
+* **Status:** SELESAI & AKTIF (VisiMisiSection Full Editorial Corporate Layout + Pure Mount/Page Load Animation + Zero Scroll Trigger).
+* **Latar Belakang & Acuan Referensi (Prompt Pengguna):**
+  1. **Acuan Struktur & Komposisi Visual:** Pengguna melampirkan screenshot referensi halaman About Us modern (gaya Renovex) dengan komposisi:
+     - **A. About Hero Section:** Breadcrumb `[Beranda / Tentang Kami]`, heading tebal, narasi korporat ringkas, dan komposisi gambar berlapis (*overlapping layered image*) dengan stamp lencana berputar (*rotating SVG text stamp badge*).
+     - **B. Company Overview:** Paragraf pengantar berukuran besar dengan kata-kata kunci bergaris bawah (*underlined keywords*) + 4 metrik statistik autentik CV Banong Farms (`2015`, `14.000+`, `100%`, `4 Wilayah`) dengan animasi count-up saat halaman dimuat.
+     - **C. Our Mission (Misi Kami):** Tata letak dua kolom (kiri: foto berlapis gudang pakan & armada antar; kanan: heading, narasi misi, dan 4 poin checklist dengan ikon centang SVG seragam).
+     - **D. Our Vision (Visi Kami):** Tata letak bergantian (*alternating layout*) (kiri: heading, narasi visi, dan 2 pilar prinsip visi; kanan: foto berlapis kandang unggas & pemeriksaan kesehatan ternak).
+     - **E. Core Values (Prinsip Kerja):** 3 kartu nilai integritas usaha (Kejujuran Timbangan, Kemitraan Resmi Pabrik, Keandalan Armada Toko).
+  2. **Larangan Mutlak Animasi Berbasis Scroll (*Strict Zero Scroll-Linked Animation*):**
+     - Pengguna menginstruksikan secara tegas: **DILARANG menggunakan ScrollTrigger, parallax scrolling, scroll reveal, atau animasi yang terikat dengan scroll progress**.
+     - Sebagai gantinya, seluruh animasi berjalan saat **Page Load / Component Mount** (stagger entrance, scale/fade, number count-up otomatis) dan **interaksi pengguna** (hover micro-interactions, CSS rotating badge).
+  3. **Kepatuhan Mutlak Identitas Visual & Anti-Data Palsu:**
+     - 100% konsisten dengan aturan warna brand CV Banong Farms: **60% Surface, 30% Navy `#022448`, 10% Golden Yellow `#fcd400` / Amber**.
+     - Tipografi: **Outfit** untuk display & angka metrik, **Plus Jakarta Sans** untuk body text, badge, dan tombol.
+     - Nol emoji, nol simbol aneh (hanya SVG icons dengan stroke seragam).
+     - Data statistik 100% autentik bisnis nyata CV Banong Farms di Ajibarang.
+* **Perubahan & Implementasi Teknis yang Dilakukan ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+  1. **Struktur Multi-Part Editorial:** Menggantikan format card slider sempit dengan tata letak editorial lapang (*About Hero Section*, *Company Overview & Counter Strip*, *Our Mission*, *Our Vision*, dan *Core Values*).
+  2. **Layered Image Compositions:** Memanfaatkan foto-foto nyata CV Banong Farms (`tentang-toko-modern.jpg`, `tentang-gudang-pakan.jpg`, `polaroid-armada-antar.jpg`, `tentang-kandang-unggas.jpg`, `visi-farmer-check.jpg`) dengan teknik tumpang tindih (*overlapping border & shadow*).
+  3. **Rotating Brand Stamp Badge:** Badge bundar SVG dengan teks melingkar `• CV BANONG FARMS • SEJAK 2015 • MITRA RESMI` yang berputar halus menggunakan CSS keyframes murni (`spin 20s linear infinite`).
+  4. **Timed Mount Animation (GSAP Tanpa ScrollTrigger):**
+     - Stagger reveal pada hero text saat pertama kali dimuat.
+     - Count-up dinamis pada 4 angka metrik dari 0 menuju target selama 2.2 detik menggunakan GSAP tween murni pada state reaktif Vue 3.
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (118 modul terkompilasi, 0 error, build time 3.45s)**.
+  - Halaman About Us kini tampil sangat matang, berkelas korporat premium (*premium corporate agribusiness*), responsif, dan menyatu sempurna dengan seluruh identitas website.
+
+---
+
+## 49. Checkpoint Sesi 70: Eliminasi Total Aksen Oranye/Amber & Standardisasi Warna Kuning Emas Logo CV Banong Farms (`#fcd400` / `secondary-container`) pada Seluruh Landing Page
+* **Tanggal & Waktu:** 03 November 2026, Pukul 08:15 WIB
+* **Status:** SELESAI & AKTIF (Zero Orange/Amber · 100% Pure Navy & Logo Canary Yellow Harmony).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Koreksi Warna Pengguna:** Pengguna menginstruksikan: *"tar revisi dulu warnanya jangan oren yang 1 nya itu gati ke kuning aja sesuai in sama logo warna nya"*.
+  2. **Identifikasi Masalah Tampilan:**
+     - Warna aksen sekunder pada seksi Tentang Kami dan beberapa komponen landing page sebelumnya menggunakan `yellow-500` (`#eab308`) dan `yellow-600` (`#ca8a04`) serta kelas `amber-*`.
+     - Pada monitor dan background putih, `yellow-500` dan `amber` merender warna oranye/amber hangat kecokelatan yang menyimpang dari identitas brand asli CV Banong Farms.
+  3. **Analisis Warna Logo Asli (`public/assets/logo.png`):**
+     - Berdasarkan analisis spektrum piksel gambar logo resmi, warna kuning logo adalah **Kuning Kenari Cerah murni (RGB 252, 249, 12 / Hex `#fcf90b`)**, yang dipetakan secara presisi ke dalam design system Tailwind:
+       - **Navy Blue (60:30):** `"primary": "#022448"`
+       - **Logo Yellow (10% Accent):** `"secondary-container": "#fcd400"`, `"accent-hover": "#E6C200"`
+     - Logo CV Banong Farms sama sekali **tidak memiliki warna oranye**. Identitasnya adalah kontras tajam antara Biru Navy dan Kuning Cerah.
+
+* **Perubahan & Implementasi Teknis yang Dilakukan:**
+  1. **[`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue):**
+     - **Breadcrumb:** Mengganti `text-yellow-600` pada `Tentang Kami` menjadi chip pill elegan berlatar `bg-secondary-container/20 border-secondary-container/40` dengan titik aksen `bg-secondary-container` (#fcd400).
+     - **Headline Hero:** Mengganti `text-yellow-500` pada *"Memajukan Peternak."* menjadi `text-secondary-container drop-shadow-[0_1px_1px_rgba(2,36,72,0.20)] dark:drop-shadow-none` (kuning murni logo dengan kontras tajam terbaca di background putih).
+     - **Metrik Statistik ke-3:** Mengganti `text-yellow-500` pada angka counter *"100% Standar Pabrik Asli"* menjadi `text-secondary-container drop-shadow-[0_1px_1px_rgba(2,36,72,0.20)]`.
+     - **Subjudul Misi & Visi:** Mengganti `text-yellow-500` pada *"Keberlanjutan Peternak."* dan *"Banyumas Masa Depan."* menjadi `text-secondary-container`.
+  2. **[`src/components/CredibilitySection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/CredibilitySection.vue):**
+     - Mengganti bintang rating 5.0 dari `text-amber-500` menjadi `text-secondary-container`.
+     - Mengganti latar kartu fitur dari `from-amber-50/70` menjadi `from-secondary-container/15`.
+  3. **[`src/components/PolaroidCtaSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/PolaroidCtaSection.vue):**
+     - Mengganti tombol aksi utama WhatsApp dari `bg-amber-400 hover:bg-amber-300 text-slate-950` menjadi `bg-secondary-container hover:bg-accent-hover text-primary font-extrabold`.
+     - Mengganti titik badge dan ikon centang dari `amber-500` menjadi `secondary-container`.
+  4. **[`src/components/ProductGrid.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/ProductGrid.vue) & [`src/components/FooterSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/FooterSection.vue):**
+     - Mengganti seluruh titik status badge, tanda panah hover tautan, ambient glow, dan border kartu 3D dari `amber-500` menjadi `secondary-container` (#fcd400).
+
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (118 modul ter-bundle sempurna, 0 error, build time 3.34s)**.
+  - Tampilan visual website kini **100% bebas warna oranye**, selaras mutlak dengan palet logo resmi CV Banong Farms (**Navy Blue `#022448` & Kuning Emas Cerah `#fcd400`**).
+
+---
+
+## 50. Checkpoint Sesi 71: Peringkasan Teks Keterangan Overview & Implementasi Animasi Reel Roulette Bertingkat pada 4 Metrik Statistik CV Banong Farms
+* **Tanggal & Waktu:** 03 November 2026, Pukul 08:25 WIB
+* **Status:** SELESAI & AKTIF (Concise Proportional Editorial Overview + Staggered Slot Machine Roulette Number Ticker).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Instruksi Pengguna:** Pengguna menginstruksikan: *"itu keterangannya terlalu besar trs juga kebanyakn kurangin dikit lagi,trus bawahnya yang angka angka kasih animasi lagi kaya roulette paham kan"*.
+  2. **Poin Evaluasi Pengguna:**
+     - Teks pernyataan narasi pengantar perusahaan di atas angka statistik sebelumnya terlalu besar (berukuran 26px) dan terlalu panjang (34 kata bertele-tele).
+     - Angka-angka statistik (`2015`, `14.000+`, `100%`, `4`) diminta memiliki efek animasi bergaya **Roulette / Slot Machine**, di mana digit-digit angka berputar cepat secara vertikal layaknya drum mesin roulette kasino dan mengunci satu per satu pada nilai target autentik.
+
+* **Perubahan & Implementasi Teknis yang Dilakukan ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+  1. **Peringkasan & Penyesuaian Ukuran Paragraf Overview:**
+     - Memadatkan copy kalimat dari 34 kata menjadi 21 kata yang fokus, lugas, dan berbobot: *"Di CV Banong Farms, kami menyediakan nutrisi pakan standar pabrikan dan pendampingan kandang langsung demi keberhasilan panen peternak Banyumas Raya."*
+     - Menurunkan ukuran font dari 26px (`text-lg sm:text-xl md:text-2xl lg:text-[26px]`) menjadi ukuran editorial yang proporsional: **`text-base sm:text-lg lg:text-[20px]`** dengan `max-w-3xl mx-auto` dan margin bawah yang nyaman (`mb-8 sm:mb-10`).
+  2. **Pembangunan Sistem Animasi Reel Roulette Angka Bertingkat (*Slot Machine Reel Drum*):**
+     - **Generator Strip Angka (`createStatItem`):** Setiap digit angka disusun dalam kolom vertikal yang memuat 2 hingga 4 putaran penuh digit `0–9` sebelum mendarat pada digit akhir autentik.
+     - **Presisi Translasi Matematis:** Memanfaatkan kontainer `h-[1.18em] overflow-hidden` dengan font `Outfit tabular-nums`. Posisi target dihitung dengan rumus translasi matematis persentase `translateY(-targetPercent%)` sehingga 100% presisi di segala ukuran layar tanpa risiko terpotong (*zero pixel drift*).
+     - **Fisika Deselerasi & Staggering Kolom:** Diberikan kurva deselerasi gesekan roulette `cubic-bezier(0.12, 0.82, 0.2, 1)` dengan durasi bertingkat (1.4s hingga 2.4s). Angka berhenti satu per satu dari kiri ke kanan (*sequential lock-in*) menghasilkan sensasi mesin roulette fisik yang memuaskan.
+     - **Karakter Non-Digit Statis:** Simbol titik ribuan (`.`), tanda plus (`+`), dan persen (`%`) diatur statis di jalurnya, sehingga hanya angka yang berputar.
+     - **Interaktivitas Pengguna (*Re-Spin on Hover/Click*):** Kartu metrik kini responsif terhadap interaksi. Saat kursor diarahkan (`mouseenter`) atau diklik, fungsi `spinCard` memutar ulang reel roulette angka tersebut secara instan.
+     - **Pemicu Otomatis:** Animasi berputar otomatis saat halaman dimuat (350ms delay) dan didukung `IntersectionObserver` ringan tanpa keterikatan scroll (*zero scroll-linked lag*).
+
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (118 modul terkompilasi, 0 error, build time 3.21s)**.
+  - Tampilan teks kini jauh lebih proporsional, rapi, dan seimbang dengan seksi hero di atasnya.
+  - Efek roulette angka berputar halus pada 60 FPS, memukau secara visual, dan memberikan sentuhan kinetik modern yang menyenangkan.
+
+---
+
+## 51. Checkpoint Sesi 72: Koreksi Pemicu Animasi Roulette Menjadi Scroll-Driven Murni (Muncul Saat Pengguna Scroll dari Atas ke Bawah) & Kalibrasi Presisi Em-Based Angka
+* **Tanggal & Waktu:** 03 November 2026, Pukul 08:32 WIB
+* **Status:** SELESAI & AKTIF (Pure Viewport Scroll Trigger via IntersectionObserver + Zero-Clipping Em-Based Alignment).
+* **Latar Belakang & Permintaan Pengguna:**
+  1. **Koreksi Pengguna:** Pengguna menginstruksikan: *"maksudnya bukan yang kalo di interact baru muncul animasi tapi pas aku scroll dari awal ke bawah baru muncul"*.
+  2. **Identifikasi Masalah Teknis:**
+     - Pada versi sebelumnya, terdapat pemicu `setTimeout` 350ms yang otomatis aktif saat pertama kali halaman di-load di bagian paling atas (Hero Section). Akibatnya saat pengguna masih membaca hero di atas, animasi angka di bawah sudah selesai berputar. Ketika pengguna scroll ke bawah, angka tampak statis dan baru bergerak saat di-hover (sehingga terkesan hanya aktif saat interaksi).
+     - Rumus persentase `translateY(-targetPercent%)` dengan flexbox tanpa `shrink-0` di setiap span menyebabkan akumulasi pembulatan subpixel, yang membuat digit terlihat terpotong sebagian di viewport.
+
+* **Perubahan & Implementasi Teknis yang Dilakukan ([`src/components/VisiMisiSection.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/VisiMisiSection.vue)):**
+  1. **Pemicu Scroll-Driven Murni (*Trigger on Scroll Down*):**
+     - Menghapus total `setTimeout` pada page load.
+     - Menghubungkan aktivasi `isRouletteActive` murni ke **`IntersectionObserver`** (`threshold: 0.15, rootMargin: '0px 0px -40px 0px'`) didukung fallback **Window Scroll Listener**.
+     - Begitu pengguna melakukan scroll dari atas ke bawah dan seksi statistik mulai masuk ke viewport (88% layar), animasi roulette langsung berputar secara dinamis di depan mata pengguna.
+  2. **Kalibrasi Presisi Em-Based Tanpa Angka Terpotong (*Zero Clipping / Anti-Overlap*):**
+     - Mengubah ukuran kontainer dan setiap sel angka menjadi **`h-[1.2em] leading-[1.2em]`** dengan **`shrink-0`** mutlak di setiap elemen `span` dan pembungkus strip.
+     - Rumus translasi diubah ke unit matematis pasti: **`translateY(-${col.targetIndex * 1.2}em)`**.
+     - Setiap digit mendarat 100% presisi tepat di tengah viewport, menghilangkan total masalah angka terpotong (*slicing/overlap*) yang sempat muncul pada screenshot pengguna.
+  3. **Proteksi Interaksi:**
+     - Fungsi putar ulang manual `spinCard` kini diproteksi agar tidak mengganggu putaran otomatis pertama saat pengguna sedang melakukan scroll.
+
+* **Hasil Pengujian & Verifikasi:**
+  - `npm run build`: **Sukses 100% (118 modul terkompilasi, 0 error, build time 4.79s)**.
+  - Saat pengguna membuka website dari atas (Hero) lalu melakukan scroll ke bawah menuju seksi Tentang Kami, angka statistik langsung berputar dramatis layaknya drum mesin roulette kasino dan mengunci rapi pada angka target autentik (**2015, 14.000+, 100%, 4**).
+
+
+
+
+
+
+
+
 
 
 

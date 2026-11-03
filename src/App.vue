@@ -46,7 +46,7 @@
       <FooterSection />
 
       <!-- 4. Floating AI Chatbot Mascot Widget -->
-      <ChatbotMascot />
+      <ChatbotMascot @open-product="handleOpenModal" />
 
       <!-- 5. Interactive Product Checkout Modal -->
       <ProductModal 
