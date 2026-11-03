@@ -120,7 +120,7 @@
           <div class="mt-6 sm:mt-7 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-3 sm:gap-4">
             <!-- Primary Button: Hubungi Toko via WhatsApp -->
             <a 
-              href="https://wa.me/628999192861?text=Halo%20Admin%20CV%20Banong%20Farms,%20saya%20ingin%20memesan%20pakan/bibit/obat%20ternak."
+              href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih."
               target="_blank" 
               rel="noopener noreferrer" 
               class="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer font-sans"

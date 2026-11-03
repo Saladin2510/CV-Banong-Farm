@@ -93,7 +93,7 @@
 
           <!-- CTA Hubungi kami Button (Golden Yellow 10% Accent) -->
           <a 
-            href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20bertanya%20mengenai%20produk%20dan%20layanan" 
+            href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." 
             target="_blank" 
             rel="noopener noreferrer"
             class="inline-flex items-center justify-center px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-secondary-container text-primary hover:bg-accent-hover active:scale-95 transition-all text-xs sm:text-sm font-bold shadow-sm hover:shadow-md whitespace-nowrap"
@@ -180,7 +180,7 @@
 
           <div class="pt-2.5 mt-1 border-t border-slate-200/70 dark:border-white/15 flex items-center justify-between gap-2.5">
             <a 
-              href="https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20bertanya%20mengenai%20produk%20dan%20layanan" 
+              href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." 
               target="_blank" 
               class="flex-1 text-center py-2.5 px-3 rounded-full bg-secondary-container text-primary font-bold text-xs shadow-md hover:bg-accent-hover active:scale-95 transition-all truncate"
             >

@@ -493,7 +493,7 @@ export const supabaseApi = {
       const { data: newOrder, error } = await client.from('pesanan').insert([{
         kode_pesanan: orderCode,
         nama_pelanggan: customer,
-        no_whatsapp: phone || '08999192861',
+        no_whatsapp: phone || '085726080086',
         alamat_pelanggan: address || 'Ajibarang, Banyumas',
         total_harga: totalPrice,
         status: 'Menunggu Konfirmasi'

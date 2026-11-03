@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 16px;
+    width: 920px;
+    margin: 0 auto;
+    color: #111827;
+  }
+  .diagram-frame {
+    width: 880px;
+    margin: 0 auto;
+    border: 2px solid #1f2937;
+    background: #ffffff;
+  }
+  .title-bar {
+    background: #f3f4f6;
+    border-bottom: 2px solid #1f2937;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-headers {
+    display: grid;
+    grid-template-columns: 380px 496px;
+    border-bottom: 2px solid #1f2937;
+    background: #f9fafb;
+  }
+  .swimlane-header {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-header:first-child {
+    border-right: 2px solid #1f2937;
+  }
+  .canvas {
+    position: relative;
+    width: 876px;
+    background: #ffffff;
+  }
+  .lane-divider {
+    position: absolute;
+    left: 380px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1f2937;
+    z-index: 1;
+  }
+  .start-node {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #111827;
+    z-index: 3;
+  }
+  .end-node {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #111827;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .end-node::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111827;
+  }
+  .act-node {
+    position: absolute;
+    border: 1.8px solid #1f2937;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .act-node strong {
+    font-weight: 700;
+    font-size: 11.5px;
+    display: block;
+  }
+  .act-node span {
+    font-size: 10.2px;
+    color: #374151;
+    margin-top: 2px;
+  }
+  .diamond {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1.8px solid #1f2937;
+    background: #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+  }
+  .guard-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    background: #ffffff;
+    padding: 1px 4px;
+    border: 1px solid #9ca3af;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  svg.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 876px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="diagram-frame">
+    <div class="title-bar">Activity Diagram Melakukan Login</div>
+    <div class="swimlane-headers">
+      <div class="swimlane-header">Admin</div>
+      <div class="swimlane-header">Sistem Website CV Banong Farms</div>
+    </div>
+    <div class="canvas" style="height: 680px;">
+      <div class="lane-divider"></div>
+      
+        <svg class="arrows">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1f2937" />
+    </marker>
+  </defs>
+
+          <!-- Start -> A1 -->
+          <path d="M 190 45 L 190 78" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A1 -> S1 -->
+          <path d="M 310 106 L 455 106" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S1 -> A2 -->
+          <path d="M 630 135 L 630 190 L 310 190" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A2 -> S2 -->
+          <path d="M 190 222 L 190 275 L 455 275" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S2 -> Decision -->
+          <path d="M 630 305 L 630 355" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision [Tidak Valid] -> S_Err -> A2 -->
+          <path d="M 657 382 L 755 382 L 755 430" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 755 486 L 755 510 L 850 510 L 850 190 L 310 190" stroke="#1f2937" stroke-width="1.4" stroke-dasharray="4 3" fill="none"/>
+          <!-- Decision [Valid] -> S3 -->
+          <path d="M 603 382 L 535 382 L 535 535" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S3 -> End -->
+          <path d="M 630 595 L 630 632" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+        </svg>
+
+        <div class="start-node" style="left: 178px; top: 20px;"></div>
+
+        <div class="act-node" style="left: 70px; top: 78px; width: 240px; height: 56px;">
+          <strong>Menekan Tombol Portal Admin</strong>
+          <span>Mengakses halaman Admin dari Navbar Website</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 78px; width: 350px; height: 56px;">
+          <strong>Menampilkan Halaman Login Admin</strong>
+          <span>Merender formulir Portal Otentikasi Supabase</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 162px; width: 240px; height: 60px;">
+          <strong>Mengisi Email &amp; Kata Sandi Admin</strong>
+          <span>Input kredensial &amp; klik "Masuk ke Command Center"</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 246px; width: 350px; height: 58px;">
+          <strong>Memverifikasi Kredensial ke Supabase Auth</strong>
+          <span>Panggil fungsi signInWithPassword(email, password)</span>
+        </div>
+
+        <div class="diamond" style="left: 611px; top: 363px;"></div>
+        <div class="guard-label" style="left: 495px; top: 358px;">[Kredensial Valid]</div>
+        <div class="guard-label" style="left: 668px; top: 358px;">[Tidak Valid]</div>
+
+        <div class="act-node" style="left: 660px; top: 430px; width: 180px; height: 56px;">
+          <strong>Tampilkan Pesan Error</strong>
+          <span>Notifikasi "Akses Ditolak: Email/sandi salah"</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 535px; width: 350px; height: 60px;">
+          <strong>Simpan Token JWT &amp; Buka Command Center</strong>
+          <span>Aktifkan sesi admin &amp; tampilkan Dashboard Utama</span>
+        </div>
+
+        <div class="end-node" style="left: 617px; top: 632px;"></div>
+        
+    </div>
+  </div>
+</body>
+</html>

@@ -127,7 +127,7 @@
                 <!-- Tautan Kontak & Jam Operasional Resmi -->
                 <div class="flex items-center gap-2.5 pt-2.5 mt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 text-[11px]">
                   <a 
-                    href="https://wa.me/628999192861" 
+                    href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     class="hover:text-primary dark:hover:text-secondary-container transition-colors flex items-center gap-1 font-medium"

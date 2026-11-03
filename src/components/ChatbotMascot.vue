@@ -290,9 +290,9 @@ const formatMessageText = (text) => {
     return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="${linkClass}"><span>${displayLabel}</span><span class="material-symbols-outlined text-[13px]">${icon}</span></a>${trail}`
   })
 
-  // 4. Deteksi nomor WhatsApp resmi jika belum terbungkus link (misal: 0899-9192-861 atau 08999192861)
-  formatted = formatted.replace(/(?<!href="[^"]*|">)(0899[- ]?9192[- ]?861)/g, (match) => {
-    return `<a href="https://wa.me/628999192861" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 cursor-pointer transition-colors" title="Klik untuk chat WhatsApp">${match} <span class="material-symbols-outlined text-[13px]">chat</span></a>`
+  // 4. Deteksi nomor WhatsApp resmi jika belum terbungkus link (misal: 0857-2608-0086 atau 085726080086)
+  formatted = formatted.replace(/(?<!href="[^"]*|">)(0857[- ]?2608[- ]?0086)/g, (match) => {
+    return `<a href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 cursor-pointer transition-colors" title="Klik untuk chat WhatsApp">${match} <span class="material-symbols-outlined text-[13px]">chat</span></a>`
   })
 
   // 5. Parse Markdown Bold: **text**
@@ -358,7 +358,7 @@ const sendMessage = async () => {
   } catch (e) {
     messages.value.push({
       sender: 'bot',
-      text: 'Halo Kak! Untuk informasi harga, ketersediaan stok pakan, bibit, atau obat terbaru, Kakak bisa langsung chat hotline WhatsApp resmi CV Banong Farms di 0899-9192-861 (Ajibarang, Banyumas). Kami siap melayani Senin – Sabtu pukul 07.30 - 16.00 WIB (Hari Minggu Libur)!',
+      text: 'Halo Kak! Untuk informasi harga, ketersediaan stok pakan, bibit, atau obat terbaru, Kakak bisa langsung chat hotline WhatsApp resmi CV Banong Farms di 0857-2608-0086 (Ajibarang, Banyumas). Kami siap melayani Senin – Sabtu pukul 07.30 - 16.00 WIB (Hari Minggu Libur)!',
       time: getTime()
     })
   } finally {

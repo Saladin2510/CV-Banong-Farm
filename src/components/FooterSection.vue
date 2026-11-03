@@ -40,13 +40,13 @@
           <!-- WhatsApp & Jam Operasional -->
           <div class="mt-3.5 flex flex-wrap items-center gap-2.5 text-xs">
             <a 
-              href="https://wa.me/628999192861" 
+              href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." 
               target="_blank" 
               rel="noopener noreferrer" 
               class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-container text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
             >
               <span class="material-symbols-outlined text-[16px] text-secondary-container">chat</span>
-              <span>WhatsApp: 0899-9192-861</span>
+              <span>WhatsApp: 0857-2608-0086</span>
             </a>
             <div class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-medium">
               <span class="material-symbols-outlined text-[15px] text-slate-500">schedule</span>
@@ -97,7 +97,7 @@
 
             <div class="flex flex-col space-y-2.5">
               <a 
-                href="https://wa.me/628999192861" 
+                href="https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20bertanya%20mengenai%20ketersediaan%20stok%20dan%20informasi%20pemesanan%20produk%20sarana%20peternakan.%20Terima%20kasih." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 class="group flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition-colors"
@@ -526,7 +526,7 @@ const animalTiles = [
 ]
 
 const openWhatsAppConsultation = () => {
-  window.open('https://wa.me/628999192861?text=Halo%20CV%20Banong%20Farms,%20saya%20ingin%20berkonsultasi%20mengenai%20pakan%20ternak,%20bibit,%20dan%20obat%20vitamin.', '_blank')
+  window.open('https://wa.me/6285726080086?text=Selamat%20pagi%2Fsiang%2Fsore%20Admin%20CV%20Banong%20Farms%2C%20mohon%20izin%20berkonsultasi%20mengenai%20kebutuhan%20pakan%20ternak%2C%20bibit%2C%20dan%20obat%20vitamin.%20Terima%20kasih.', '_blank')
 }
 </script>
 

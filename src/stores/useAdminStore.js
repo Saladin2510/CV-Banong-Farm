@@ -840,7 +840,7 @@ async function createCustomerOrderFromCart({ customerName, phone, address, items
   const newOrder = {
     id: orderCode,
     customer: customerName || 'Pelanggan Keranjang Web',
-    phone: phone || '08999192861',
+    phone: phone || '085726080086',
     address: address || '',
     productId: items[0].id,
     productName: productSummary,

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 16px;
+    width: 920px;
+    margin: 0 auto;
+    color: #111827;
+  }
+  .diagram-frame {
+    width: 880px;
+    margin: 0 auto;
+    border: 2px solid #1f2937;
+    background: #ffffff;
+  }
+  .title-bar {
+    background: #f3f4f6;
+    border-bottom: 2px solid #1f2937;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-headers {
+    display: grid;
+    grid-template-columns: 380px 496px;
+    border-bottom: 2px solid #1f2937;
+    background: #f9fafb;
+  }
+  .swimlane-header {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-header:first-child {
+    border-right: 2px solid #1f2937;
+  }
+  .canvas {
+    position: relative;
+    width: 876px;
+    background: #ffffff;
+  }
+  .lane-divider {
+    position: absolute;
+    left: 380px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1f2937;
+    z-index: 1;
+  }
+  .start-node {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #111827;
+    z-index: 3;
+  }
+  .end-node {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #111827;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .end-node::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111827;
+  }
+  .act-node {
+    position: absolute;
+    border: 1.8px solid #1f2937;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .act-node strong {
+    font-weight: 700;
+    font-size: 11.5px;
+    display: block;
+  }
+  .act-node span {
+    font-size: 10.2px;
+    color: #374151;
+    margin-top: 2px;
+  }
+  .diamond {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1.8px solid #1f2937;
+    background: #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+  }
+  .guard-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    background: #ffffff;
+    padding: 1px 4px;
+    border: 1px solid #9ca3af;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  svg.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 876px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="diagram-frame">
+    <div class="title-bar">Activity Diagram Melihat Analitik AI Marketing</div>
+    <div class="swimlane-headers">
+      <div class="swimlane-header">Admin</div>
+      <div class="swimlane-header">Sistem Website CV Banong Farms</div>
+    </div>
+    <div class="canvas" style="height: 770px;">
+      <div class="lane-divider"></div>
+      
+        <svg class="arrows">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1f2937" />
+    </marker>
+  </defs>
+
+          <!-- Start -> A1 -->
+          <path d="M 190 42 L 190 70" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A1 -> A2 -->
+          <path d="M 190 124 L 190 155" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A2 -> S1 -->
+          <path d="M 310 183 L 455 183" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S1 -> S2 -->
+          <path d="M 630 212 L 630 248" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S2 -> A3 -->
+          <path d="M 455 278 L 310 278" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A3 -> Decision -->
+          <path d="M 190 310 L 190 360" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Filter Periode Grafik] -->
+          <path d="M 217 387 L 345 387 L 345 430 L 455 430" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Klik Analisis Strategi AI] -->
+          <path d="M 190 414 L 190 520 L 455 520" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision -> [Unggah CSV / Demo 30 Hari] -->
+          <path d="M 163 387 L 85 387 L 85 610 L 455 610" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S3, S4, S5 -> End -->
+          <path d="M 805 430 L 840 430 L 840 710 L 643 710" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 805 520 L 840 520" stroke="#1f2937" stroke-width="1.6" fill="none"/>
+          <path d="M 805 610 L 840 610" stroke="#1f2937" stroke-width="1.6" fill="none"/>
+        </svg>
+
+        <div class="start-node" style="left: 178px; top: 18px;"></div>
+
+        <div class="act-node" style="left: 70px; top: 70px; width: 240px; height: 54px;">
+          <strong>Melakukan Login Admin («include»)</strong>
+          <span>Otentikasi sesi JWT ke Command Center</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 155px; width: 240px; height: 56px;">
+          <strong>Membuka Menu "Analitik AI"</strong>
+          <span>Mengakses modul AiAnalyticsSection</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 155px; width: 350px; height: 56px;">
+          <strong>Mengolah Data Transaksi &amp; Prediksi WMA</strong>
+          <span>Kalkulasi Weighted Moving Average &amp; tren produk terlaris</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 248px; width: 350px; height: 60px;">
+          <strong>Merender Grafik Chart.js &amp; Insight Strategi AI</strong>
+          <span>Grafik perkiraan penjualan, kartu strategi, &amp; 3 kartu proyeksi</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 250px; width: 240px; height: 58px;">
+          <strong>Melihat Grafik &amp; Metrik Prediksi AI</strong>
+          <span>Memantau akurasi prediksi, stok gudang, &amp; omzet</span>
+        </div>
+
+        <div class="diamond" style="left: 171px; top: 368px;"></div>
+        <div class="guard-label" style="left: 232px; top: 365px;">[Pilih Periode 7H/30H/1T]</div>
+        <div class="guard-label" style="left: 198px; top: 445px;">[Klik Analisis AI]</div>
+        <div class="guard-label" style="left: 42px; top: 362px;">[Latih Dataset CSV]</div>
+
+        <div class="act-node" style="left: 455px; top: 400px; width: 350px; height: 58px;">
+          <strong>Memperbarui Grafik Perkiraan Penjualan</strong>
+          <span>Render ulang kurva penjualan riil vs proyeksi (+19,4%)</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 490px; width: 350px; height: 60px;">
+          <strong>Generate Strategi Marketing via DeepSeek-V3</strong>
+          <span>Kirim konteks produk terlaris ke deepseek-chat &amp; tampilkan saran</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 580px; width: 350px; height: 60px;">
+          <strong>Proses Dataset Transaksi CSV / Demo 30 Hari</strong>
+          <span>Hitung ulang proyeksi kebutuhan stok &amp; pendapatan bulan depan</span>
+        </div>
+
+        <div class="end-node" style="left: 617px; top: 697px;"></div>
+        
+    </div>
+  </div>
+</body>
+</html>
