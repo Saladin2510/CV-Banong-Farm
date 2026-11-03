@@ -359,14 +359,14 @@ function broadcastUpdate(toastData = null) {
     localStorage.setItem(STORAGE_STAFF_KEY, JSON.stringify(staffList.value))
     
     if (syncChannel) {
-      syncChannel.postMessage({
+      syncChannel.postMessage(JSON.parse(JSON.stringify({
         type: 'SYNC_STATE',
         products: products.value,
         orders: whatsappOrders.value,
         chartMap: dailyChartMap.value,
         staff: staffList.value,
         toast: toastData
-      })
+      })))
     }
   } catch (e) {
     console.error('Failed to persist state:', e)

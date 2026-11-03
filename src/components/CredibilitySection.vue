@@ -188,7 +188,7 @@
             <div class="cred-feature-grid grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-1 will-change-transform">
               
               <!-- Kartu 1: Pakan Segar Pabrikan (Brand Navy Accent) -->
-              <div class="cred-feature-card bg-gradient-to-br from-blue-50/70 via-white to-white dark:from-[#0d2238] dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-primary border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+              <div class="cred-feature-card bg-gradient-to-br from-blue-50/70 via-white to-white dark:from-[#0d2238] dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-primary border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-shadow duration-300">
                 <div class="w-10 h-10 rounded-xl bg-primary text-secondary-container flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">verified</span>
                 </div>
@@ -201,7 +201,7 @@
               </div>
 
               <!-- Kartu 2: Grosir Sak & Eceran Kiloan (Golden Yellow Accent) -->
-              <div class="cred-feature-card bg-gradient-to-br from-secondary-container/15 via-white to-white dark:from-[#211e0e]/50 dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-secondary-container border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+              <div class="cred-feature-card bg-gradient-to-br from-secondary-container/15 via-white to-white dark:from-[#211e0e]/50 dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-secondary-container border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-shadow duration-300">
                 <div class="w-10 h-10 rounded-xl bg-secondary-container text-primary flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">inventory_2</span>
                 </div>
@@ -214,7 +214,7 @@
               </div>
 
               <!-- Kartu 3: Armada Toko Sendiri (Brand Navy Accent) -->
-              <div class="cred-feature-card bg-gradient-to-br from-blue-50/70 via-white to-white dark:from-[#0d2238] dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-primary border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+              <div class="cred-feature-card bg-gradient-to-br from-blue-50/70 via-white to-white dark:from-[#0d2238] dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-primary border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-shadow duration-300">
                 <div class="w-10 h-10 rounded-xl bg-primary text-secondary-container flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">local_shipping</span>
                 </div>
@@ -227,7 +227,7 @@
               </div>
 
               <!-- Kartu 4: Konsultasi Praktisi Lapangan (Golden Yellow Accent) -->
-              <div class="cred-feature-card bg-gradient-to-br from-secondary-container/15 via-white to-white dark:from-[#211e0e]/50 dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-secondary-container border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-all">
+              <div class="cred-feature-card bg-gradient-to-br from-secondary-container/15 via-white to-white dark:from-[#211e0e]/50 dark:to-[#071120] rounded-2xl p-4 border-l-4 border-l-secondary-container border border-slate-200/80 dark:border-slate-800/90 shadow-2xs hover:shadow-md transition-shadow duration-300">
                 <div class="w-10 h-10 rounded-xl bg-secondary-container text-primary flex items-center justify-center mb-2.5 shadow-xs">
                   <span class="material-symbols-outlined text-[20px]">support_agent</span>
                 </div>
@@ -271,7 +271,7 @@ onMounted(() => {
       scrollTrigger: {
         trigger: credSectionRef.value,
         start: 'top 75%',
-        toggleActions: 'play none none none'
+        toggleActions: 'play none none reset'
       }
     })
 
@@ -340,7 +340,7 @@ onMounted(() => {
       opacity: 0,
       stagger: 0.12,
       duration: 0.65,
-      ease: 'back.out(1.15)'
+      ease: 'power3.out'
     }, '-=0.45')
 
 

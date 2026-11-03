@@ -23,7 +23,7 @@
         @mouseenter="activeRow = idx"
         @mouseleave="activeRow = null"
         @click="activeRow = idx"
-        class="relative w-full py-6 sm:py-8 lg:py-10 cursor-pointer group transition-colors duration-200"
+        class="marquee-row-entry relative w-full py-6 sm:py-8 lg:py-10 cursor-pointer group transition-colors duration-200 will-change-transform"
         :class="[
           idx < rows.length - 1 ? 'border-b border-dashed border-slate-200/90 dark:border-slate-800/90' : ''
         ]"
@@ -208,6 +208,20 @@ let ctx = null
 
 onMounted(() => {
   ctx = gsap.context(() => {
+    // Staggered Entrance untuk 5 Baris Marquee saat masuk layar
+    gsap.from('.marquee-row-entry', {
+      y: 32,
+      opacity: 0,
+      duration: 0.75,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: marqueeSectionRef.value,
+        start: 'top 84%',
+        toggleActions: 'play none none reset'
+      }
+    })
+
     const speedObj = { rate: 1 }
 
     const updatePlaybackRate = (rate) => {

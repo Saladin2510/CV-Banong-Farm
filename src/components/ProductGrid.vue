@@ -162,7 +162,7 @@
       <div
         v-else
         ref="productGridRef"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-9"
+        class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8"
       >
         <div
           v-for="product in paginatedProducts"
@@ -374,7 +374,8 @@ const animateCards = () => {
         duration: 0.85,
         stagger: 0.15,
         ease: 'power3.out',
-        overwrite: 'auto'
+        overwrite: 'auto',
+        clearProps: 'opacity,transform'
       }
     )
   })
@@ -423,12 +424,12 @@ onMounted(() => {
       scrollTrigger: {
         trigger: '#katalog-produk',
         start: 'top 85%',
-        toggleActions: 'play none none none'
+        toggleActions: 'play none none reset'
       }
     })
 
     // 2. Reveal untuk Section Header Badge
-    gsap.from('#katalog-produk .max-w-container-max > .mb-10 > .inline-flex', {
+    gsap.from('#katalog-produk .max-w-container-max > div > .inline-flex', {
       y: 25,
       opacity: 0,
       duration: 0.85,
@@ -436,15 +437,14 @@ onMounted(() => {
       scrollTrigger: {
         trigger: '#katalog-produk',
         start: 'top 85%',
-        toggleActions: 'play none none none'
+        toggleActions: 'play none none reset'
       }
     })
 
-    // 3. Cascading 50px reveal kartu produk saat pertama kali masuk viewport
+    // 3. Cascading reveal kartu produk setiap kali di-scroll dari atas
     ScrollTrigger.create({
       trigger: '#katalog-produk',
-      start: 'top 78%',
-      once: true,
+      start: 'top 82%',
       onEnter: () => animateCards()
     })
   })
