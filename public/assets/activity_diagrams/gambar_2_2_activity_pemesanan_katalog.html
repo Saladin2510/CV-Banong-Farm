@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body {
+    background-color: #ffffff;
+    padding: 16px;
+    width: 920px;
+    margin: 0 auto;
+    color: #111827;
+  }
+  .diagram-frame {
+    width: 880px;
+    margin: 0 auto;
+    border: 2px solid #1f2937;
+    background: #ffffff;
+  }
+  .title-bar {
+    background: #f3f4f6;
+    border-bottom: 2px solid #1f2937;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-headers {
+    display: grid;
+    grid-template-columns: 380px 496px;
+    border-bottom: 2px solid #1f2937;
+    background: #f9fafb;
+  }
+  .swimlane-header {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .swimlane-header:first-child {
+    border-right: 2px solid #1f2937;
+  }
+  .canvas {
+    position: relative;
+    width: 876px;
+    background: #ffffff;
+  }
+  .lane-divider {
+    position: absolute;
+    left: 380px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1f2937;
+    z-index: 1;
+  }
+  .start-node {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #111827;
+    z-index: 3;
+  }
+  .end-node {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #111827;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .end-node::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111827;
+  }
+  .act-node {
+    position: absolute;
+    border: 1.8px solid #1f2937;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .act-node strong {
+    font-weight: 700;
+    font-size: 11.5px;
+    display: block;
+  }
+  .act-node span {
+    font-size: 10.2px;
+    color: #374151;
+    margin-top: 2px;
+  }
+  .diamond {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1.8px solid #1f2937;
+    background: #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+  }
+  .guard-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    background: #ffffff;
+    padding: 1px 4px;
+    border: 1px solid #9ca3af;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  svg.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 876px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="diagram-frame">
+    <div class="title-bar">Activity Diagram Melakukan Pemesanan dan Melihat Katalog Produk</div>
+    <div class="swimlane-headers">
+      <div class="swimlane-header">Pelanggan</div>
+      <div class="swimlane-header">Sistem Website CV Banong Farms</div>
+    </div>
+    <div class="canvas" style="height: 900px;">
+      <div class="lane-divider"></div>
+      
+        <svg class="arrows">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1f2937" />
+    </marker>
+  </defs>
+
+          <!-- Start -> A1 -->
+          <path d="M 190 42 L 190 65" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A1 -> S1 -->
+          <path d="M 310 92 L 455 92" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S1 -> A2 -->
+          <path d="M 630 122 L 630 165 L 310 165" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A2 -> S2 -->
+          <path d="M 190 195 L 190 230 L 455 230" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S2 -> A3 -->
+          <path d="M 630 260 L 630 305 L 310 305" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A3 -> S3 -->
+          <path d="M 190 338 L 190 375 L 455 375" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S3 -> A4 -->
+          <path d="M 520 404 L 520 438 L 310 438" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A4 -> Decision -->
+          <path d="M 310 465 L 603 465" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision [Stok 0 / Tidak Valid] -> S_Warn -> A4 -->
+          <path d="M 657 465 L 755 465 L 755 520" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 755 572 L 755 595 L 190 595 L 190 485" stroke="#1f2937" stroke-width="1.4" stroke-dasharray="4 3" fill="none" marker-end="url(#arrow)"/>
+          <!-- Decision [Valid & Stok Tersedia] -> S4 -->
+          <path d="M 630 492 L 630 625" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S4 -> A5 -->
+          <path d="M 455 655 L 310 655" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- A5 -> S5 -->
+          <path d="M 190 690 L 190 745 L 455 745" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+          <!-- S5 -> End -->
+          <path d="M 630 780 L 630 835" stroke="#1f2937" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+        </svg>
+
+        <div class="start-node" style="left: 178px; top: 18px;"></div>
+
+        <div class="act-node" style="left: 70px; top: 65px; width: 240px; height: 54px;">
+          <strong>Membuka Halaman Utama Website</strong>
+          <span>Mengakses bagian Katalog Produk</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 65px; width: 350px; height: 56px;">
+          <strong>Mengambil &amp; Menampilkan Katalog 74 Produk</strong>
+          <span>Query tabel produk Supabase &amp; status stok real-time</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 138px; width: 240px; height: 56px;">
+          <strong>Mencari / Memfilter Kategori Produk</strong>
+          <span>Pencarian kata kunci, kategori, atau urutan harga</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 202px; width: 350px; height: 56px;">
+          <strong>Menampilkan Hasil Filter Produk</strong>
+          <span>Menyajikan kartu produk sesuai kriteria &amp; sisa stok</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 278px; width: 240px; height: 58px;">
+          <strong>Memilih Produk &amp; Tambah ke Keranjang</strong>
+          <span>Menentukan jumlah barang pada Modal / Kartu Produk</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 348px; width: 350px; height: 56px;">
+          <strong>Menyimpan Keranjang &amp; Hitung Subtotal</strong>
+          <span>Persistensi state keranjang (localStorage) &amp; total harga</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 425px; width: 240px; height: 60px;">
+          <strong>Mengisi Formulir Pemesanan di Keranjang</strong>
+          <span>Input Nama, No. WhatsApp, Alamat &amp; klik Lanjut ke WA</span>
+        </div>
+
+        <div class="diamond" style="left: 611px; top: 446px;"></div>
+        <div class="guard-label" style="left: 664px; top: 442px;">[Stok 0 / Kosong]</div>
+        <div class="guard-label" style="left: 530px; top: 505px;">[Stok Tersedia &amp; Valid]</div>
+
+        <div class="act-node" style="left: 670px; top: 520px; width: 180px; height: 52px;">
+          <strong>Tampilkan Peringatan</strong>
+          <span>Proteksi stok habis / lengkapi form</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 625px; width: 350px; height: 60px;">
+          <strong>Buat Kode Tiket (#BNG-XXXX) &amp; Buka WhatsApp</strong>
+          <span>Format teks rincian pesanan &amp; arahkan ke WA 08999192861</span>
+        </div>
+
+        <div class="act-node" style="left: 70px; top: 625px; width: 240px; height: 64px;">
+          <strong>Kirim Pesan WA &amp; Klik Konfirmasi di Web</strong>
+          <span>Menekan tombol "Ya, Saya Sudah Kirim ke WhatsApp"</span>
+        </div>
+
+        <div class="act-node" style="left: 455px; top: 715px; width: 350px; height: 64px;">
+          <strong>Simpan ke Tabel pesanan &amp; detail_pesanan</strong>
+          <span>Status "Menunggu Konfirmasi", kosongkan keranjang &amp; tampilkan bukti</span>
+        </div>
+
+        <div class="end-node" style="left: 617px; top: 835px;"></div>
+        
+    </div>
+  </div>
+</body>
+</html>
