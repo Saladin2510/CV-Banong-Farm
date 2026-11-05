@@ -2471,3 +2471,18 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   3. Unggah file `dist.zip`.
   4. Klik kanan file `dist.zip` -> pilih **Extract**. Pastikan berkas diekstrak langsung di dalam `public_html/` sehingga `index.html` dan `.htaccess` berada tepat di level root `public_html/`.
   5. Hapus file `dist.zip` setelah diekstrak. Website CV Banong Farms langsung aktif dan dapat diakses publik.
+
+---
+
+## 62. Checkpoint Sesi 81 (Pembuatan Diagram Flowchart Sistem untuk Laporan PSAJ): `flowchart-user.png` & `flowchart-admin.png`
+* **Tanggal & Waktu:** 05 November 2026, Pukul 09:06 WIB
+* **Status:** SELESAI & TERSEDIA DI FOLDER ASSETS (`public/assets/flowcharts/`).
+* **Kebutuhan Pengguna:**
+  - Pengguna membutuhkan dua gambar diagram alir (*Flowchart*) standar akademik untuk kelengkapan dokumen Laporan PSAJ, yaitu `flowchart-user` (alur pelanggan) dan `flowchart-admin` (alur administrator).
+* **Spesifikasi & Desain Diagram (Standar ISO 5807):**
+  - Dirender pada resolusi tinggi 2x Retina DPI menggunakan mesin *vector SVG* + *Headless Chromium* agar teks dan garis tajam saat dicetak pada laporan dokumen Word/PDF.
+  - Menggunakan simbol standar Flowchart: *Terminator* (Kapsul Mulai/Selesai), *Input/Output Data* (Jajar Genjang), *Process* (Persegi Panjang), dan *Decision* (Belah Ketupat), lengkap dengan legenda simbol di bagian bawah.
+  - **1. `flowchart-user.png` ([`public/assets/flowcharts/flowchart-user.png`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/public/assets/flowcharts/flowchart-user.png)):**
+    Memvisualisasikan alur pelanggan mulai dari membuka *Landing Page*, sinkronisasi katalog 74 produk pakan dari Supabase, percabangan konsultasi melalui *AI Smart Chatbot*, pencarian & validasi ketersediaan stok (`> 0`), pengaturan kuantiti di *Cart Drawer*, pengisian & validasi formulir *Checkout*, penyimpanan pesanan berstatus *Pending* ke Supabase, hingga *redirect* rincian pesanan otomatis ke WhatsApp Admin.
+  - **2. `flowchart-admin.png` ([`public/assets/flowcharts/flowchart-admin.png`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/public/assets/flowcharts/flowchart-admin.png)):**
+    Memvisualisasikan alur administrator mulai dari akses rute `/#/admin`, input kredensial & validasi otentikasi Supabase Auth, pemuatan *Command Center*, pemilihan 4 menu operasional paralel (**Manajemen Produk CRUD**, **Verifikasi Pesanan WA & Potong Stok Otomatis**, **Analitik Prediktif AI Usaha [AI-02 s/d AI-06]**, serta **Manajemen Staf & 7 Tabel Database**), hingga proses *Logout* penghapusan sesi JWT.
