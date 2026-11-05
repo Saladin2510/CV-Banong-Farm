@@ -2455,3 +2455,19 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   - `src/components/admin/AdminLoginView.vue`
 * **Verifikasi Build:**
   - `npm run build` sukses 100% (0 error).
+
+---
+
+## 61. Checkpoint Sesi 80 (Kompilasi Build Produksi & Pemaketan Dist Hostinger): Siap Unggah ke File Manager Hostinger
+* **Tanggal & Waktu:** 05 November 2026, Pukul 08:46 WIB
+* **Status:** SELESAI & SIAP DEPLOY (`✓ built in 10.76s`, `dist.zip` siap diunggah).
+* **Rincian Hasil Build (`/dist`):**
+  - Seluruh modul Vue 3 + Tailwind CSS + GSAP + Chart.js telah terkompilasi, diminifikasi, dan dioptimalkan ke folder `dist/`.
+  - **Konfigurasi Hostinger Included:** Berkas `dist/.htaccess` secara otomatis tersertakan di root `dist/` untuk menangani *Single Page Application (SPA) Client Routing*, kompresi GZIP, *browser caching*, dan *security headers* pada web server Apache / LiteSpeed Hostinger.
+  - **Paket ZIP Siap Unggah:** Dibuat berkas arsip `dist.zip` (27 MB) di root repositori proyek. Pengguna dapat langsung mengunggah file `dist.zip` ini ke direktori `public_html/` di File Manager hPanel Hostinger, lalu mengekstraknya (*Extract*) dengan sekali klik.
+* **Instruksi Deployment Hostinger:**
+  1. Masuk ke **hPanel Hostinger** -> Buka menu **File Manager**.
+  2. Masuk ke direktori domain tujuan (biasanya `public_html/`).
+  3. Unggah file `dist.zip`.
+  4. Klik kanan file `dist.zip` -> pilih **Extract**. Pastikan berkas diekstrak langsung di dalam `public_html/` sehingga `index.html` dan `.htaccess` berada tepat di level root `public_html/`.
+  5. Hapus file `dist.zip` setelah diekstrak. Website CV Banong Farms langsung aktif dan dapat diakses publik.
