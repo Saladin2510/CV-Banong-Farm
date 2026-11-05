@@ -1,5 +1,5 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 03 November 2026, Pukul 14:35 WIB (Sesi 73: Penyatuan Kolaborasi Tim `Saladin2510` & `wilwildandindun` — Penggabungan Layout Editorial & Roulette Baru dengan Foto Asli Toko, Lampiran Produk Chatbot AI, dan Nomor WhatsApp Resmi `0857-2608-0086`)  
+**Tanggal Pembaruan Terakhir:** 05 November 2026, Pukul 08:32 WIB (Sesi 78: Redesain Total Login Portal Admin Minimalis Terpusat — Pembuangan Animasi Kanan, Zero AI Slop, Tipografi Editorial, dan Palet Resmi Banong Emas & Navy)  
 **Status Proyek:** AKTIF, SINKRON KOLABORASI TIM & SIAP SIDANG/DEMO (Zero Merge Conflicts / Vite Dev & Build 100% Bersih / Foto Asli Toko + Layout Editorial Baru Menyatu)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 ---
@@ -2508,3 +2508,28 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   - Seksi Polaroid CTA (3 foto polaroid fan-out, judul CTA, tombol WhatsApp/Katalog, dan 3 pill garansi) kini kembali tampil dan beranimasi mulus saat di-scroll naik maupun turun.
 * **Verifikasi Build:**
   - `npm run build` berhasil 100% (5.03s, 0 error).
+
+---
+
+## 59. Checkpoint Sesi 78 (Redesain Total Halaman Login Administrator Minimalis Terpusat)
+* **Tanggal & Waktu:** 05 November 2026, Pukul 08:32 WIB
+* **Status:** SELESAI, REVISE-READY & BUILD 100% CLEAN (`dist` bundle 3.30s).
+* **Latar Belakang & Evaluasi:**
+  - Desain login lama berkesan *"AI slop"* dengan kartu kecil mengambang di ruang kosong, aksen hijau cyber neon yang tidak sesuai brand Banong Farms, serta badge berlebihan seperti *"PORTAL OTENTIKASI SUPABASE"* dan *"ENKRIPSI JWT 256-BIT"*.
+  - Sesuai arahan pengguna, elemen animasi kanvas di sisi kanan dibuang total agar antarmuka menjadi fokus, tenang, sangat cepat, dan bebas beban CPU/GPU.
+* **Penerapan Arsitektur Baru (Minimalist Focused Layout & Identitas CV Banong Farms):**
+  1. **Layout Terpusat Elegan (*Focused Clean SaaS Card*):**
+     - Header Brand: Logo resmi CV Banong Farms (`/assets/logo.png`) berdampingan dengan wordmark tipografi `CV BANONG FARMS` dan tombol cepat *"&larr; Ke Website"*.
+     - Headline Editorial: *"Kelola Operasional Peternakan, Lebih Cerdas"* dengan aksen gradien emas Banong Yellow (`#fcd400` ke `#e6c200`) dan subteks profesional tanpa jargon fiktif.
+     - Input Form: Input Email Administrator dan Kata Sandi dengan toggle visibilitas ikon mata yang elegan, field berlatar obsidian gelap `#0B132B` dengan border halus `#1e293b` dan ring focus kuning emas.
+     - Opsi Login: Checkbox *"Ingat saya"* dan tautan *"Lupa kata sandi?"* langsung ke WhatsApp Help Desk resmi `0857-2608-0086`.
+     - Tombol Aksi Utama: Tombol emas gradien khas Banong Farms (`from-[#fcd400] to-[#e6c200]` teks navy `#022448` tebal) dengan feedback loading spinner reaktif.
+     - Footer: Copyright resmi 2026 yang tenang dan bersih.
+     - **Bebas Total dari Segala Emoji Aneh, Badge Sci-Fi, Maupun Animasi Berat.**
+  2. **Performa & Kepatuhan Warna:**
+     - 100% patuh pada palet identitas Banong Farms: Obsidian Dark `#050B17`, Navy `#022448`, dan Golden Yellow `#fcd400`. Warna hijau neon dan merah dibuang.
+     - Tidak ada loop animasi canvas, pemuatan instan (0% lag).
+* **File yang Diperbarui:**
+  - [`src/components/admin/AdminLoginView.vue`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/components/admin/AdminLoginView.vue)
+* **Verifikasi Build:**
+  - `npm run build` sukses 100% (3.30s, 0 error).
