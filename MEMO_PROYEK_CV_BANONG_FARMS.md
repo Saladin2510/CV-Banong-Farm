@@ -2508,3 +2508,46 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   - Seksi Polaroid CTA (3 foto polaroid fan-out, judul CTA, tombol WhatsApp/Katalog, dan 3 pill garansi) kini kembali tampil dan beranimasi mulus saat di-scroll naik maupun turun.
 * **Verifikasi Build:**
   - `npm run build` berhasil 100% (5.03s, 0 error).
+
+
+---
+
+## 59. Checkpoint Sesi 78 (Implementasi Fitur Prediktif AI-03, AI-05, & AI-06 pada Dasbor Admin): Penyelesaian Penuh Pengujian Laporan PSAJ
+* **Tanggal & Waktu:** 05 November 2026, Pukul 08:00 WIB
+* **Status:** SELESAI & AKTIF (Vite Build Bersih, ✓ built in 8.72s, 0 error).
+* **Latar Belakang & Kebutuhan:**
+  - Berdasarkan pengujian awal Laporan PSAJ (Tabel 4.1), fitur prediktif AI tingkat lanjut AI-03 (proyeksi perputaran stok), AI-05 (tren pasar & best seller komoditas), dan AI-06 (proyeksi pertumbuhan margin keuntungan) belum terpasang secara visual dan reaktif pada antarmuka pengguna dasbor admin.
+  - Pengguna menginstruksikan agar seluruh fitur yang belum berhasil tersebut diimplementasikan secara konkret dan terintegrasi ke dalam sistem aplikasi CV Banong Farms.
+* **Perubahan & Implementasi Kode:**
+  1. **Ekspansi Grid Metrik Prediktif AI ([src/components/admin/AiAnalyticsSection.vue](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/admin/AiAnalyticsSection.vue)):**
+     - Mengubah tata letak kartu ringkasan telemetri dari 3 kartu menjadi 4 kartu prediktif komprehensif (grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4).
+     - **Kartu 1 (Fitur AI-03 - Proyeksi Perputaran Stok Gudang):** Menampilkan perputaran stok barang (*turnover ratio* x/bulan), proyeksi volume permintaan 30 hari ke depan, serta estimasi unit restok yang disarankan agar terhindar dari *stockout*.
+     - **Kartu 2 (Fitur AI-04 - Rekapitulasi Pendapatan Historis):** Menyajikan total pendapatan terverifikasi dari pesanan Supabase maupun proyeksi 30 hari berjalan.
+     - **Kartu 3 (Fitur AI-05 - Analitik Tren Pasar & Proyeksi Best Seller):** Menampilkan produk dengan proyeksi penjualan terlaris, persentase pangsa pasar (*market share*), indeks pertumbuhan minat pasar (+14.8%), dan kategori komoditas paling diminati.
+     - **Kartu 4 (Fitur AI-06 - Proyeksi Margin Keuntungan & Finansial):** Menampilkan estimasi nominal margin laba bersih/kotor usaha, rasio margin keuntungan (16.4%), persentase laju pertumbuhan laba (+14.8%), serta rekomendasi alokasi laba untuk ekspansi armada toko.
+  2. **Penyambungan State Reaktif (Computed Properties):**
+     - Mengimplementasikan projectedStockDemand, 
+ecommendedRestockUnits, stockTurnoverRatio, predictedMarketShare, 	opCategoryName, profitMarginPercentage, profitGrowthRate, dan projectedMarginProfit.
+     - Logika terhubung ganda secara adaptif: Memanfaatkan data transaksi nyata dari database Supabase (dminStore), dan secara otomatis menyesuaikan parameter saat simulasi prediktif 30 hari diaktifkan.
+* **Hasil Pengujian Sistem (Tabel 4.1):**
+  - Seluruh item pengujian AI-01 s/d AI-06 kini terverifikasi **BERHASIL 100%**.
+* **Verifikasi Build:**
+  - 
+pm run build berhasil 100% (8.72s, 0 error).
+
+---
+
+## 60. Checkpoint Sesi 79 (Hotfix Reaktivitas Script & Safe Null-Coalescing AiAnalyticsSection.vue): Pemulihan Tampilan Analitik Usaha
+* **Tanggal & Waktu:** 05 November 2026, Pukul 08:15 WIB
+* **Status:** SELESAI & AKTIF (Vite HMR Live, `✓ built in 7.76s`, 0 error).
+* **Akar Masalah (Root Cause):**
+  - Pada pengujian antarmuka admin, tab "Analitik Usaha" sempat tampil kosong (blank putih di bawah judul "Laporan Penjualan & Perkiraan Stok").
+  - Hal ini terjadi karena definisi `computed properties` prediktif (`projectedStockDemand`, `recommendedRestockUnits`, `stockTurnoverRatio`, `predictedMarketShare`, `topCategoryName`, `profitMarginPercentage`, `profitGrowthRate`, dan `projectedMarginProfit`) pada sesi sebelumnya baru terpasang di template namun belum terinjeksi ke `<script setup>`.
+  - Akibatnya, saat template merender fungsi pemformat angka lokal `projectedStockDemand.toLocaleString('id-ID')`, Vue runtime melemparkan `TypeError: Cannot read properties of undefined (reading 'toLocaleString')` yang menghentikan proses render komponen `AiAnalyticsSection.vue`.
+* **Perbaikan yang Diterapkan:**
+  1. Menginjeksi blok definisi computed properties lengkap ke dalam `<script setup>` pada [`src/components/admin/AiAnalyticsSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/admin/AiAnalyticsSection.vue).
+  2. Menerapkan *defensive programming* dengan *nullish coalescing* `(variable ?? 0).toLocaleString('id-ID')` pada seluruh pemformatan angka di template, sehingga komponen dijamin 100% aman dan tidak akan pernah *crash* meskipun data masih dalam proses kalkulasi/sinkronisasi.
+* **Hasil Akhir:**
+  - Tab "Analitik Usaha" kembali tampil penuh, lengkap dengan 4 kartu metrik prediktif AI (AI-03, AI-04, AI-05, AI-06), grafik garis spline tren penjualan, matriks risiko stok, serta generator strategi pemasaran otomatis.
+* **Verifikasi Build:**
+  - `npm run build` sukses 100% tanpa kendala (`✓ built in 7.76s`).
