@@ -36,11 +36,17 @@ export function getStoredApiKey(provider = 'deepseek') {
       : (import.meta.env?.VITE_OPENAI_API_KEY || '')
   } catch (_) {}
 
+  const fallbackKey = envKey || inMemoryApiKey[actualProvider] || inMemoryApiKey.deepseek || ''
+
   if (typeof window !== 'undefined' && window.localStorage) {
     const storageKey = actualProvider === 'deepseek' ? DEEPSEEK_KEY_STORAGE : OPENAI_KEY_STORAGE
-    return localStorage.getItem(storageKey) || envKey || inMemoryApiKey[actualProvider] || ''
+    const stored = (localStorage.getItem(storageKey) || '').trim()
+    // Pastikan hanya gunakan nilai localStorage jika berformat API key valid (diawali sk- dan panjang cukup)
+    if (stored && stored.startsWith('sk-') && stored.length > 20) {
+      return stored
+    }
   }
-  return envKey || inMemoryApiKey[actualProvider] || ''
+  return fallbackKey
 }
 
 export function setStoredApiKey(provider, key) {
@@ -288,19 +294,10 @@ function cleanAiResponseText(rawText = '') {
  * Menggunakan DeepSeek-V3 (deepseek-chat) - Super cepat & paling hemat biaya
  */
 export async function chatWithMascot(userMessage, chatHistory = [], liveProducts = []) {
-  let provider = getActiveAiProvider()
-  if (provider === 'gemini') provider = 'deepseek'
-  let apiKey = getStoredApiKey(provider)
+  // Selalu prioritaskan DeepSeek API dengan fallback in-memory yang sudah teruji
+  const apiKey = getStoredApiKey('deepseek') || inMemoryApiKey.deepseek
 
-  // Prioritaskan DeepSeek jika kuncinya ada
-  const deepseekKey = getStoredApiKey('deepseek')
-  if (deepseekKey) {
-    provider = 'deepseek'
-    apiKey = deepseekKey
-  }
-
-  // 1. If DeepSeek API Key is available, panggil DeepSeek API (deepseek-chat)
-  if (provider === 'deepseek' && apiKey) {
+  if (apiKey) {
     try {
       const messages = [
         {
@@ -315,6 +312,8 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
       ]
 
       const url = getDeepSeekApiUrl()
+      console.log('[Si Banong AI] Mengirim pesan ke DeepSeek API via:', url)
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -333,6 +332,7 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
         const data = await response.json()
         const reply = data.choices?.[0]?.message?.content
         if (reply) {
+          console.log('[Si Banong AI] Berhasil menerima respon live dari DeepSeek!')
           const cleanText = cleanAiResponseText(reply)
           const attachedProducts = detectRelevantProducts(userMessage, reply, liveProducts)
           return { 
@@ -344,10 +344,10 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
         }
       } else {
         const errData = await response.json().catch(() => ({}))
-        console.warn('DeepSeek API returned error:', response.status, errData)
+        console.error('[Si Banong AI] DeepSeek API error:', response.status, errData)
       }
     } catch (err) {
-      console.warn('DeepSeek API call failed, falling back to smart heuristic:', err)
+      console.error('[Si Banong AI] Panggilan fetch DeepSeek gagal:', err)
     }
   }
 
