@@ -2458,7 +2458,30 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 
 ---
 
-## 62. Checkpoint Sesi 81 (Bugfix Resolusi API Key DeepSeek pada Web Online Production & Smart Intent Pakan Ayam)
+## 61. Checkpoint Sesi 80 (Kompilasi Build Produksi & Pemaketan Dist Hostinger): Siap Unggah ke File Manager Hostinger
+* **Tanggal & Waktu:** 05 November 2026, Pukul 08:46 WIB
+* **Status:** SELESAI & SIAP DEPLOY (`✓ built in 10.76s`, `dist.zip` siap diunggah).
+* **Rincian Hasil Build (`/dist`):**
+  - Seluruh modul Vue 3 + Tailwind CSS + GSAP + Chart.js telah terkompilasi, diminifikasi, dan dioptimalkan ke folder `dist/`.
+  - **Konfigurasi Hostinger Included:** Berkas `dist/.htaccess` secara otomatis tersertakan di root `dist/` untuk menangani *Single Page Application (SPA) Client Routing*, kompresi GZIP, *browser caching*, dan *security headers* pada web server Apache / LiteSpeed Hostinger.
+  - **Paket ZIP Siap Unggah:** Dibuat berkas arsip `dist.zip` (27 MB) di root repositori proyek. Pengguna dapat langsung mengunggah file `dist.zip` ini ke direktori `public_html/` di File Manager hPanel Hostinger, lalu mengekstraknya (*Extract*) dengan sekali klik.
+
+---
+
+## 62. Checkpoint Sesi 81 (Pembuatan Diagram Flowchart Sistem untuk Laporan PSAJ): `flowchart-user.png` & `flowchart-admin.png`
+* **Tanggal & Waktu:** 05 November 2026, Pukul 09:06 WIB
+* **Status:** SELESAI & TERSEDIA DI FOLDER ASSETS (`public/assets/flowcharts/`).
+* **Kebutuhan Pengguna:**
+  - Pengguna membutuhkan dua gambar diagram alir (*Flowchart*) standar akademik untuk kelengkapan dokumen Laporan PSAJ, yaitu `flowchart-user` (alur pelanggan) dan `flowchart-admin` (alur administrator).
+* **Spesifikasi & Desain Diagram (Standar ISO 5807):**
+  - Dirender pada resolusi tinggi 2x Retina DPI menggunakan mesin *vector SVG* + *Headless Chromium* agar teks dan garis tajam saat dicetak pada laporan dokumen Word/PDF.
+  - Menggunakan simbol standar Flowchart: *Terminator* (Kapsul Mulai/Selesai), *Input/Output Data* (Jajar Genjang), *Process* (Persegi Panjang), dan *Decision* (Belah Ketupat), lengkap dengan legenda simbol di bagian bawah.
+  - **1. `flowchart-user.png`:** Memvisualisasikan alur pelanggan mulai dari membuka *Landing Page*, sinkronisasi katalog 74 produk pakan dari Supabase, percabangan konsultasi melalui *AI Smart Chatbot*, pencarian & validasi ketersediaan stok (`> 0`), pengaturan kuantiti di *Cart Drawer*, pengisian & validasi formulir *Checkout*, penyimpanan pesanan berstatus *Pending* ke Supabase, hingga *redirect* rincian pesanan otomatis ke WhatsApp Admin.
+  - **2. `flowchart-admin.png`:** Memvisualisasikan alur administrator mulai dari akses rute `/#/admin`, input kredensial & validasi otentikasi Supabase Auth, pemuatan *Command Center*, pemilihan 4 menu operasional paralel (**Manajemen Produk CRUD**, **Verifikasi Pesanan WA & Potong Stok Otomatis**, **Analitik Prediktif AI Usaha [AI-02 s/d AI-06]**, serta **Manajemen Staf & 7 Tabel Database**), hingga proses *Logout* penghapusan sesi JWT.
+
+---
+
+## 63. Checkpoint Sesi 82 (Bugfix Resolusi API Key DeepSeek pada Web Online Production & Smart Intent Pakan Ayam)
 * **Tanggal & Waktu:** 10 November 2026, Pukul 11:50 WIB
 * **Status:** SELESAI, PERMANEN AKTIF & BUILD 100% CLEAN.
 * **Akar Masalah (Root Cause) Chatbot Menjawab Template:**
@@ -2470,6 +2493,6 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   2. **In-Memory Hard Fallback Key:** Memasang kunci API DeepSeek resmi langsung pada `inMemoryApiKey.deepseek` sehingga chatbot dijamin 100% selalu terhubung ke LLM DeepSeek-V3 meskipun hosting tidak membaca file `.env`.
   3. **Peningkatan Intent Detection Pakan Ayam & Typo Tolerance:** Menambahkan penanganan kueri pakan ayam/unggas (HL83 & HB200) dengan toleransi typo kata *"pkan"* pada `detectRelevantProducts` dan `getHeuristicMascotReply`.
 * **File yang Diperbarui:**
-  - [`src/services/aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js)
+  - `src/services/aiService.js`
 * **Verifikasi Build:**
-  - `npm run build` sukses 100% (12.23s, 0 error).
+  - `npm run build:zip` sukses 100% (paket `dist_upload.zip` terkompilasi segar).
