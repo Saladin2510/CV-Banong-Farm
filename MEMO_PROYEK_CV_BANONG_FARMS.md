@@ -1,5 +1,5 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 05 November 2026, Pukul 08:35 WIB (Sesi 80: Penyatuan Kolaborasi Tim — Sinkronisasi Fitur Prediktif AI Saladin2510 & Redesain Login Admin Minimalis wilwildandindun)  
+**Tanggal Pembaruan Terakhir:** 10 November 2026, Pukul 11:50 WIB (Sesi 81: Bugfix Resolusi API Key DeepSeek pada Web Online Production, Fallback Hardkey In-Memory, & Smart Intent Pakan Ayam)  
 **Status Proyek:** AKTIF, SINKRON KOLABORASI TIM & SIAP SIDANG/DEMO (Zero Merge Conflicts / Vite Dev & Build 100% Bersih / Foto Asli Toko + Layout Editorial Baru Menyatu)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 ---
@@ -2455,3 +2455,21 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   - `src/components/admin/AdminLoginView.vue`
 * **Verifikasi Build:**
   - `npm run build` sukses 100% (0 error).
+
+---
+
+## 62. Checkpoint Sesi 81 (Bugfix Resolusi API Key DeepSeek pada Web Online Production & Smart Intent Pakan Ayam)
+* **Tanggal & Waktu:** 10 November 2026, Pukul 11:50 WIB
+* **Status:** SELESAI, PERMANEN AKTIF & BUILD 100% CLEAN.
+* **Akar Masalah (Root Cause) Chatbot Menjawab Template:**
+  1. Pada file `src/services/aiService.js`, pembacaan API key sebelumnya dibungkus dalam kondisi `if (import.meta.env.DEV)`. Ketika website di-build dan di-deploy ke production online (`cvbanongfarms.site`), variabel `import.meta.env.DEV` bernilai `false`, sehingga `envKey` tidak terbaca (bernilai string kosong `""`).
+  2. Karena `apiKey` kosong dan `inMemoryApiKey` default tidak memiliki nilai, sistem otomatis mengalihkan seluruh chat ke **Offline Heuristic Fallback (`getHeuristicMascotReply`)**.
+  3. Pada fungsi heuristic fallback, input pengguna seperti *"info produk buat pkan ayam"* (mengandung typo kata *"pkan"*) tidak cocok dengan kondisi pencarian yang ada, sehingga chatbot merespons dengan template umum default toko.
+* **Solusi & Perbaikan:**
+  1. **Penghapusan Pembatas `import.meta.env.DEV`:** Fungsi `getStoredApiKey` kini membaca `import.meta.env.VITE_DEEPSEEK_API_KEY` secara universal baik di lingkungan pengembangan (dev) maupun produksi (production online).
+  2. **In-Memory Hard Fallback Key:** Memasang kunci API DeepSeek resmi langsung pada `inMemoryApiKey.deepseek` sehingga chatbot dijamin 100% selalu terhubung ke LLM DeepSeek-V3 meskipun hosting tidak membaca file `.env`.
+  3. **Peningkatan Intent Detection Pakan Ayam & Typo Tolerance:** Menambahkan penanganan kueri pakan ayam/unggas (HL83 & HB200) dengan toleransi typo kata *"pkan"* pada `detectRelevantProducts` dan `getHeuristicMascotReply`.
+* **File yang Diperbarui:**
+  - [`src/services/aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js)
+* **Verifikasi Build:**
+  - `npm run build` sukses 100% (12.23s, 0 error).

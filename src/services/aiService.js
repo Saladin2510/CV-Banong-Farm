@@ -10,9 +10,9 @@ const DEEPSEEK_KEY_STORAGE = 'banong_deepseek_api_key'
 const OPENAI_KEY_STORAGE = 'banong_openai_api_key'
 const ACTIVE_PROVIDER_STORAGE = 'banong_ai_provider'
 
-// Default fallback key untuk memastikan AI selalu aktif
+// Default fallback key untuk memastikan AI selalu aktif baik di localhost maupun production web online
 const inMemoryApiKey = {
-  deepseek: '',
+  deepseek: 'sk-9c2f6d01cbf94dbc9ce2946e018647c4',
   openai: ''
 }
 
@@ -31,9 +31,9 @@ export function getStoredApiKey(provider = 'deepseek') {
   const actualProvider = provider === 'gemini' ? 'deepseek' : provider
   let envKey = ''
   try {
-    if (import.meta.env.DEV) {
-      envKey = actualProvider === 'deepseek' ? import.meta.env.VITE_DEEPSEEK_API_KEY : import.meta.env.VITE_OPENAI_API_KEY
-    }
+    envKey = actualProvider === 'deepseek' 
+      ? (import.meta.env?.VITE_DEEPSEEK_API_KEY || '') 
+      : (import.meta.env?.VITE_OPENAI_API_KEY || '')
   } catch (_) {}
 
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -212,6 +212,16 @@ export function detectRelevantProducts(query = '', rawReply = '', liveProducts =
     const pSak = liveProducts.find(p => Number(p.id) === 3) || liveProducts.find(p => (p.name || '').toLowerCase().includes('sinindo t78'))
     if (pEcer && !foundMap.has(pEcer.id)) foundMap.set(pEcer.id, pEcer)
     if (pSak && !foundMap.has(pSak.id)) foundMap.set(pSak.id, pSak)
+  }
+
+  // Kasus: Pakan Ayam & Unggas (HL83, HB200, atau pencarian umum 'pakan ayam' / 'pkan ayam')
+  if (q.includes('hl83') || q.includes('hb200') || ((q.includes('ayam') || q.includes('unggas')) && (q.includes('pakan') || q.includes('pkan') || q.includes('pur') || q.includes('makanan') || q.includes('produk')))) {
+    liveProducts
+      .filter(p => {
+        const n = (p.name || p.title || '').toLowerCase()
+        return n.includes('hl83') || n.includes('hb200') || n.includes('hp100') || (n.includes('ayam') && n.includes('pakan'))
+      })
+      .forEach(p => { if (!foundMap.has(p.id)) foundMap.set(p.id, p) })
   }
 
   // Kasus: New Hope HP100
@@ -409,6 +419,15 @@ function getHeuristicMascotReply(query, liveProducts = []) {
     return {
       text: 'Mohon maaf Bapak/Ibu, Si Banong tidak memiliki wewenang untuk memberikan data rahasia internal bisnis toko. Kami hanya melayani informasi seputar harga resmi katalog, stok barang, panduan pemeliharaan ternak, dan layanan pengiriman CV Banong Farms.',
       products: []
+    }
+  }
+
+  // 1.5. Query Pakan Ayam & Unggas (Toleransi Typo: 'pkan ayam', 'pakan ayam', 'pur ayam')
+  if ((q.includes('ayam') || q.includes('broiler') || q.includes('layer') || q.includes('pedaging') || q.includes('petelur')) && (q.includes('pakan') || q.includes('pkan') || q.includes('pur') || q.includes('produk') || q.includes('info') || q.includes('makanan'))) {
+    const products = detectRelevantProducts(query, '', liveProducts)
+    return {
+      text: 'Halo Sahabat Peternak! CV Banong Farms adalah agen resmi **PT. New Hope Indonesia** di Ajibarang. Untuk pakan ayam unggulan berkualitas tinggi, kami menyediakan:\n\n1. **New Hope HL83 (Ayam Petelur / Layer):** Pakan komplit butiran crumble untuk meningkatkan produktivitas dan kualitas telur prima.\n2. **New Hope HB200 (Ayam Pedaging / Broiler):** Nutrisi padat protein tinggi untuk memacu bobot karkas ayam secara optimal.\n3. **Pakan Eceran Kiloan:** Tersedia pembelian eceran kiloan dengan timbangan digital pas untuk skala rumahan.\n\nSilakan klik kartu produk di bawah untuk melihat rincian harga atau langsung pesan via keranjang/WhatsApp!',
+      products
     }
   }
 
