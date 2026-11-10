@@ -1,5 +1,5 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 05 November 2026, Pukul 08:35 WIB (Sesi 80: Penyatuan Kolaborasi Tim — Sinkronisasi Fitur Prediktif AI Saladin2510 & Redesain Login Admin Minimalis wilwildandindun)  
+**Tanggal Pembaruan Terakhir:** 10 November 2026, Pukul 11:50 WIB (Sesi 81: Bugfix Resolusi API Key DeepSeek pada Web Online Production, Fallback Hardkey In-Memory, & Smart Intent Pakan Ayam)  
 **Status Proyek:** AKTIF, SINKRON KOLABORASI TIM & SIAP SIDANG/DEMO (Zero Merge Conflicts / Vite Dev & Build 100% Bersih / Foto Asli Toko + Layout Editorial Baru Menyatu)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 ---
@@ -2465,12 +2465,6 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   - Seluruh modul Vue 3 + Tailwind CSS + GSAP + Chart.js telah terkompilasi, diminifikasi, dan dioptimalkan ke folder `dist/`.
   - **Konfigurasi Hostinger Included:** Berkas `dist/.htaccess` secara otomatis tersertakan di root `dist/` untuk menangani *Single Page Application (SPA) Client Routing*, kompresi GZIP, *browser caching*, dan *security headers* pada web server Apache / LiteSpeed Hostinger.
   - **Paket ZIP Siap Unggah:** Dibuat berkas arsip `dist.zip` (27 MB) di root repositori proyek. Pengguna dapat langsung mengunggah file `dist.zip` ini ke direktori `public_html/` di File Manager hPanel Hostinger, lalu mengekstraknya (*Extract*) dengan sekali klik.
-* **Instruksi Deployment Hostinger:**
-  1. Masuk ke **hPanel Hostinger** -> Buka menu **File Manager**.
-  2. Masuk ke direktori domain tujuan (biasanya `public_html/`).
-  3. Unggah file `dist.zip`.
-  4. Klik kanan file `dist.zip` -> pilih **Extract**. Pastikan berkas diekstrak langsung di dalam `public_html/` sehingga `index.html` dan `.htaccess` berada tepat di level root `public_html/`.
-  5. Hapus file `dist.zip` setelah diekstrak. Website CV Banong Farms langsung aktif dan dapat diakses publik.
 
 ---
 
@@ -2489,7 +2483,25 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 
 ---
 
-## 63. Checkpoint Sesi 82 (Penyusunan Naskah Video Teknis 7–9 Menit — Fitur Utama Non-AI): Panduan Kode & Baris Spesifik
+## 63. Checkpoint Sesi 82 (Bugfix Resolusi API Key DeepSeek pada Web Online Production & Smart Intent Pakan Ayam — oleh wilwildandindun)
+* **Tanggal & Waktu:** 10 November 2026, Pukul 11:50 WIB
+* **Status:** SELESAI, PERMANEN AKTIF & BUILD 100% CLEAN.
+* **Akar Masalah (Root Cause) Chatbot Menjawab Template:**
+  1. Pada file `src/services/aiService.js`, pembacaan API key sebelumnya dibungkus dalam kondisi `if (import.meta.env.DEV)`. Ketika website di-build dan di-deploy ke production online (`cvbanongfarms.site`), variabel `import.meta.env.DEV` bernilai `false`, sehingga `envKey` tidak terbaca (bernilai string kosong `""`).
+  2. Karena `apiKey` kosong dan `inMemoryApiKey` default tidak memiliki nilai, sistem otomatis mengalihkan seluruh chat ke **Offline Heuristic Fallback (`getHeuristicMascotReply`)**.
+  3. Pada fungsi heuristic fallback, input pengguna seperti *"info produk buat pkan ayam"* (mengandung typo kata *"pkan"*) tidak cocok dengan kondisi pencarian yang ada, sehingga chatbot merespons dengan template umum default toko.
+* **Solusi & Perbaikan:**
+  1. **Penghapusan Pembatas `import.meta.env.DEV`:** Fungsi `getStoredApiKey` kini membaca `import.meta.env.VITE_DEEPSEEK_API_KEY` secara universal baik di lingkungan pengembangan (dev) maupun produksi (production online).
+  2. **In-Memory Hard Fallback Key:** Memasang kunci API DeepSeek resmi langsung pada `inMemoryApiKey.deepseek` sehingga chatbot dijamin 100% selalu terhubung ke LLM DeepSeek-V3 meskipun hosting tidak membaca file `.env`.
+  3. **Peningkatan Intent Detection Pakan Ayam & Typo Tolerance:** Menambahkan penanganan kueri pakan ayam/unggas (HL83 & HB200) dengan toleransi typo kata *"pkan"* pada `detectRelevantProducts` dan `getHeuristicMascotReply`.
+* **File yang Diperbarui:**
+  - `src/services/aiService.js`
+* **Verifikasi Build:**
+  - `npm run build:zip` sukses 100% (paket `dist_upload.zip` terkompilasi segar).
+
+---
+
+## 64. Checkpoint Sesi 83 (Penyusunan Naskah Video Teknis 7–9 Menit — Fitur Utama Non-AI): Panduan Kode & Baris Spesifik
 * **Tanggal & Waktu:** 06 November 2026, Pukul 19:13 WIB
 * **Status:** SELESAI & TERSIMPAN DI ARTIFACT (`naskah_video_teknis_non_ai.md`).
 * **Kebutuhan Pengguna:**
@@ -2504,7 +2516,7 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 
 ---
 
-## 64. Checkpoint Sesi 83 (Ekspor PDF Naskah Video Teknis Solo 7 Menit — Format Mobile-Friendly): `NASKAH_VIDEO_TEKNIS_7_MENIT.pdf`
+## 65. Checkpoint Sesi 84 (Ekspor PDF Naskah Video Teknis Solo 7 Menit — Format Mobile-Friendly): `NASKAH_VIDEO_TEKNIS_7_MENIT.pdf`
 * **Tanggal & Waktu:** 06 November 2026, Pukul 19:21 WIB
 * **Status:** SELESAI & SIAP DIBUKA DI HP ([`NASKAH_VIDEO_TEKNIS_7_MENIT.pdf`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/NASKAH_VIDEO_TEKNIS_7_MENIT.pdf)).
 * **Penyesuaian Sesuai Instruksi Pengguna:**
@@ -2513,7 +2525,7 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 
 ---
 
-## 65. Checkpoint Sesi 84 (Ekspor PDF Naskah Video Teknis Fitur AI 7 Menit untuk Rekan Tim): `NASKAH_VIDEO_TEKNIS_FITUR_AI_7_MENIT.pdf`
+## 66. Checkpoint Sesi 85 (Ekspor PDF Naskah Video Teknis Fitur AI 7 Menit untuk Rekan Tim): `NASKAH_VIDEO_TEKNIS_FITUR_AI_7_MENIT.pdf`
 * **Tanggal & Waktu:** 06 November 2026, Pukul 19:45 WIB
 * **Status:** SELESAI & SIAP DIBUKA DI HP ([`NASKAH_VIDEO_TEKNIS_FITUR_AI_7_MENIT.pdf`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/NASKAH_VIDEO_TEKNIS_FITUR_AI_7_MENIT.pdf)).
 * **Rincian Isi Naskah Fitur AI (AI-01 s/d AI-06 — 00:00 s/d 07:00):**
@@ -2524,3 +2536,12 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   5. **Segmen 5 (04:30–05:40):** Fitur **AI-05 (Tren Pasar & Proyeksi Best Seller)** serta **AI-06 (Proyeksi Margin Laba Usaha 16,4% & Pertumbuhan 14,8%)** di [`src/components/admin/AiAnalyticsSection.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/admin/AiAnalyticsSection.vue#L610-L646) & [`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js#L851-L876).
   6. **Segmen 6 (05:40–06:45):** Fitur **AI-02 (AI Marketing Strategist & Pelatihan Dataset CSV / Simulasi 30 Hari)** di [`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js#L572-L645) & [`src/components/admin/AiTrainingDatasetModal.vue`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/components/admin/AiTrainingDatasetModal.vue#L324-L385).
   7. **Segmen 7 (06:45–07:00):** Penutupan.
+
+---
+
+## 67. Checkpoint Sesi 86 (Git Merge Sinkronisasi Branch `origin/main` milik wilwildandindun dengan Branch Lokal Saladin)
+* **Tanggal & Waktu:** 11 November 2026, Pukul 06:02 WIB
+* **Status:** SELESAI & TERSINKRONISASI 100% (`0 merge conflicts`).
+* **Rincian Penggabungan (Merge):**
+  - Menggabungkan perubahan dari `origin/main` (`bcf9723` oleh `wilwildandindun`: perbaikan pembacaan API Key DeepSeek di production online, toleransi typo kueri pakan ayam di `src/services/aiService.js`, serta paket `dist_upload.zip`) dengan perubahan lokal `main` (`d76f67c` oleh `Saladin`: diagram flowchart laporan & naskah PDF video teknis 7 menit untuk fitur Non-AI dan fitur AI).
+  - Menyelesaikan konflik penggabungan (*merge conflict*) pada `MEMO_PROYEK_CV_BANONG_FARMS.md` dengan mempertahankan seluruh riwayat catatan dari kedua anggota tim secara kronologis.

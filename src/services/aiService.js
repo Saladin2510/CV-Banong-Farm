@@ -10,9 +10,9 @@ const DEEPSEEK_KEY_STORAGE = 'banong_deepseek_api_key'
 const OPENAI_KEY_STORAGE = 'banong_openai_api_key'
 const ACTIVE_PROVIDER_STORAGE = 'banong_ai_provider'
 
-// Default fallback key untuk memastikan AI selalu aktif
+// Default fallback key untuk memastikan AI selalu aktif baik di localhost maupun production web online
 const inMemoryApiKey = {
-  deepseek: '',
+  deepseek: 'sk-9c2f6d01cbf94dbc9ce2946e018647c4',
   openai: ''
 }
 
@@ -31,16 +31,22 @@ export function getStoredApiKey(provider = 'deepseek') {
   const actualProvider = provider === 'gemini' ? 'deepseek' : provider
   let envKey = ''
   try {
-    if (import.meta.env.DEV) {
-      envKey = actualProvider === 'deepseek' ? import.meta.env.VITE_DEEPSEEK_API_KEY : import.meta.env.VITE_OPENAI_API_KEY
-    }
+    envKey = actualProvider === 'deepseek' 
+      ? (import.meta.env?.VITE_DEEPSEEK_API_KEY || '') 
+      : (import.meta.env?.VITE_OPENAI_API_KEY || '')
   } catch (_) {}
+
+  const fallbackKey = envKey || inMemoryApiKey[actualProvider] || inMemoryApiKey.deepseek || ''
 
   if (typeof window !== 'undefined' && window.localStorage) {
     const storageKey = actualProvider === 'deepseek' ? DEEPSEEK_KEY_STORAGE : OPENAI_KEY_STORAGE
-    return localStorage.getItem(storageKey) || envKey || inMemoryApiKey[actualProvider] || ''
+    const stored = (localStorage.getItem(storageKey) || '').trim()
+    // Pastikan hanya gunakan nilai localStorage jika berformat API key valid (diawali sk- dan panjang cukup)
+    if (stored && stored.startsWith('sk-') && stored.length > 20) {
+      return stored
+    }
   }
-  return envKey || inMemoryApiKey[actualProvider] || ''
+  return fallbackKey
 }
 
 export function setStoredApiKey(provider, key) {
@@ -214,6 +220,16 @@ export function detectRelevantProducts(query = '', rawReply = '', liveProducts =
     if (pSak && !foundMap.has(pSak.id)) foundMap.set(pSak.id, pSak)
   }
 
+  // Kasus: Pakan Ayam & Unggas (HL83, HB200, atau pencarian umum 'pakan ayam' / 'pkan ayam')
+  if (q.includes('hl83') || q.includes('hb200') || ((q.includes('ayam') || q.includes('unggas')) && (q.includes('pakan') || q.includes('pkan') || q.includes('pur') || q.includes('makanan') || q.includes('produk')))) {
+    liveProducts
+      .filter(p => {
+        const n = (p.name || p.title || '').toLowerCase()
+        return n.includes('hl83') || n.includes('hb200') || n.includes('hp100') || (n.includes('ayam') && n.includes('pakan'))
+      })
+      .forEach(p => { if (!foundMap.has(p.id)) foundMap.set(p.id, p) })
+  }
+
   // Kasus: New Hope HP100
   if (q.includes('hp100') || r.includes('hp100')) {
     liveProducts
@@ -278,19 +294,10 @@ function cleanAiResponseText(rawText = '') {
  * Menggunakan DeepSeek-V3 (deepseek-chat) - Super cepat & paling hemat biaya
  */
 export async function chatWithMascot(userMessage, chatHistory = [], liveProducts = []) {
-  let provider = getActiveAiProvider()
-  if (provider === 'gemini') provider = 'deepseek'
-  let apiKey = getStoredApiKey(provider)
+  // Selalu prioritaskan DeepSeek API dengan fallback in-memory yang sudah teruji
+  const apiKey = getStoredApiKey('deepseek') || inMemoryApiKey.deepseek
 
-  // Prioritaskan DeepSeek jika kuncinya ada
-  const deepseekKey = getStoredApiKey('deepseek')
-  if (deepseekKey) {
-    provider = 'deepseek'
-    apiKey = deepseekKey
-  }
-
-  // 1. If DeepSeek API Key is available, panggil DeepSeek API (deepseek-chat)
-  if (provider === 'deepseek' && apiKey) {
+  if (apiKey) {
     try {
       const messages = [
         {
@@ -305,6 +312,8 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
       ]
 
       const url = getDeepSeekApiUrl()
+      console.log('[Si Banong AI] Mengirim pesan ke DeepSeek API via:', url)
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -323,6 +332,7 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
         const data = await response.json()
         const reply = data.choices?.[0]?.message?.content
         if (reply) {
+          console.log('[Si Banong AI] Berhasil menerima respon live dari DeepSeek!')
           const cleanText = cleanAiResponseText(reply)
           const attachedProducts = detectRelevantProducts(userMessage, reply, liveProducts)
           return { 
@@ -334,10 +344,10 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
         }
       } else {
         const errData = await response.json().catch(() => ({}))
-        console.warn('DeepSeek API returned error:', response.status, errData)
+        console.error('[Si Banong AI] DeepSeek API error:', response.status, errData)
       }
     } catch (err) {
-      console.warn('DeepSeek API call failed, falling back to smart heuristic:', err)
+      console.error('[Si Banong AI] Panggilan fetch DeepSeek gagal:', err)
     }
   }
 
@@ -409,6 +419,15 @@ function getHeuristicMascotReply(query, liveProducts = []) {
     return {
       text: 'Mohon maaf Bapak/Ibu, Si Banong tidak memiliki wewenang untuk memberikan data rahasia internal bisnis toko. Kami hanya melayani informasi seputar harga resmi katalog, stok barang, panduan pemeliharaan ternak, dan layanan pengiriman CV Banong Farms.',
       products: []
+    }
+  }
+
+  // 1.5. Query Pakan Ayam & Unggas (Toleransi Typo: 'pkan ayam', 'pakan ayam', 'pur ayam')
+  if ((q.includes('ayam') || q.includes('broiler') || q.includes('layer') || q.includes('pedaging') || q.includes('petelur')) && (q.includes('pakan') || q.includes('pkan') || q.includes('pur') || q.includes('produk') || q.includes('info') || q.includes('makanan'))) {
+    const products = detectRelevantProducts(query, '', liveProducts)
+    return {
+      text: 'Halo Sahabat Peternak! CV Banong Farms adalah agen resmi **PT. New Hope Indonesia** di Ajibarang. Untuk pakan ayam unggulan berkualitas tinggi, kami menyediakan:\n\n1. **New Hope HL83 (Ayam Petelur / Layer):** Pakan komplit butiran crumble untuk meningkatkan produktivitas dan kualitas telur prima.\n2. **New Hope HB200 (Ayam Pedaging / Broiler):** Nutrisi padat protein tinggi untuk memacu bobot karkas ayam secara optimal.\n3. **Pakan Eceran Kiloan:** Tersedia pembelian eceran kiloan dengan timbangan digital pas untuk skala rumahan.\n\nSilakan klik kartu produk di bawah untuk melihat rincian harga atau langsung pesan via keranjang/WhatsApp!',
+      products
     }
   }
 
