@@ -10,9 +10,10 @@ const DEEPSEEK_KEY_STORAGE = 'banong_deepseek_api_key'
 const OPENAI_KEY_STORAGE = 'banong_openai_api_key'
 const ACTIVE_PROVIDER_STORAGE = 'banong_ai_provider'
 
-// Default fallback key untuk memastikan AI selalu aktif baik di localhost maupun production web online
+// Default fallback key (Kosongkan demi keamanan agar tidak bocor ke GitHub)
+// API Key resmi dimasukkan via file .env lokal saat build atau via menu Pengaturan AI di Dashboard Admin
 const inMemoryApiKey = {
-  deepseek: 'sk-9c2f6d01cbf94dbc9ce2946e018647c4',
+  deepseek: '',
   openai: ''
 }
 
