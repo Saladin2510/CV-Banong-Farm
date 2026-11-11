@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Naskah Video Teknis Fitur AI (7 Menit) - CV Banong Farms</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+  }
+  body {
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .header-banner {
+    background: #0F2537;
+    color: #FFFFFF;
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    border-left: 6px solid #FACC15;
+  }
+  .header-banner h1 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+  }
+  .header-banner p {
+    font-size: 12px;
+    color: #E2E8F0;
+  }
+  .prep-box {
+    background: #FEF9C3;
+    border: 1.5px solid #F59E0B;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  .prep-box strong {
+    color: #92400E;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12.5px;
+  }
+  .prep-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .file-pill {
+    background: #FFFFFF;
+    border: 1px solid #D97706;
+    color: #0F172A;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: Consolas, monospace;
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .segment {
+    border: 1.5px solid #CBD5E1;
+    border-radius: 10px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .segment-header {
+    background: #1E3A5F;
+    color: #FFFFFF;
+    padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .segment-title {
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+  .time-badge {
+    background: #FACC15;
+    color: #0F2537;
+    font-weight: 800;
+    font-size: 11.5px;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+  .action-bar {
+    background: #EFF6FF;
+    border-bottom: 1px solid #BFDBFE;
+    padding: 7px 14px;
+    font-size: 12px;
+    color: #1E3A8A;
+  }
+  .code-ref {
+    font-family: Consolas, monospace;
+    background: #DBEAFE;
+    color: #1E40AF;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .script-body {
+    padding: 11px 15px;
+    background: #FFFFFF;
+  }
+  .script-body p {
+    margin-bottom: 8px;
+    font-size: 13.5px;
+    color: #1E293B;
+  }
+  .script-body p:last-child {
+    margin-bottom: 0;
+  }
+  .hl {
+    background: #FEF08A;
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+  .code-inline {
+    font-family: Consolas, monospace;
+    font-weight: 700;
+    color: #0F2537;
+    background: #F1F5F9;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid #CBD5E1;
+    font-size: 12.5px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <h1>NASKAH VIDEO TEKNIS FITUR AI (7 MENIT) — CV BANONG FARMS</h1>
+    <p>Fokus: Penjelasan Kode 6 Fitur Kecerdasan Buatan (AI-01 s/d AI-06) • Format Mudah Dibaca di HP</p>
+  </div>
+
+  <div class="prep-box">
+    <strong>📌 PERSIAPAN SEBELUM REKAM: Buka 5 Tab File Ini Berurutan di VS Code Anda:</strong>
+    <div class="prep-list">
+      <span class="file-pill">1. src/services/aiService.js</span>
+      <span class="file-pill">2. src/components/ChatbotMascot.vue</span>
+      <span class="file-pill">3. src/components/admin/AiAnalyticsSection.vue</span>
+      <span class="file-pill">4. src/components/admin/AiTrainingDatasetModal.vue</span>
+      <span class="file-pill">5. src/components/admin/AiSettingsModal.vue</span>
+    </div>
+  </div>
+
+  <!-- SEGMEN 1 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 1: Pembukaan &amp; Arsitektur Mesin AI Multi-Provider</span>
+      <span class="time-badge">00:00 – 01:00 (1 Menit)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/services/aiService.js (Baris 9–66)</span> lalu sekilas <span class="code-ref">src/components/admin/AiSettingsModal.vue (Baris 232–290)</span>
+    </div>
+    <div class="script-body">
+      <p>"Assalamualaikum warahmatullahi wabarakatuh. Pada video teknis ini, saya akan menjelaskan arsitektur kode dari 6 fitur utama <strong>Kecerdasan Buatan (AI-01 sampai AI-06)</strong> pada aplikasi web <strong>CV Banong Farms Ajibarang</strong>."</p>
+      <p>"Seluruh kecerdasan buatan pada aplikasi ini berpusat pada modul layanan <span class="code-inline">src/services/aiService.js</span>. Pada <span class="hl">baris 9 sampai 66</span>, sistem mendukung arsitektur <strong>Multi-Provider LLM</strong>, yaitu integrasi API <strong>DeepSeek-V3</strong> dan <strong>OpenAI GPT-4o Mini</strong> yang dikelola melalui fungsi <span class="code-inline">getActiveAiProvider()</span> dan <span class="code-inline">getStoredApiKey()</span>."</p>
+      <p>"Pengaturan kunci API ini dihubungkan ke antarmuka <span class="code-inline">src/components/admin/AiSettingsModal.vue</span> pada <span class="hl">baris 232 sampai 290</span> melalui fungsi <span class="code-inline">testConnection()</span>. Selain itu, sistem dilengkapi mesin <em>Heuristic Fallback</em> lokal, sehingga fitur AI tetap berjalan responsif 100% meskipun tanpa koneksi API eksternal."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 2 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 2: Fitur AI-01 — AI Smart Chatbot 24 Jam &amp; Rekomendasi Produk</span>
+      <span class="time-badge">01:00 – 02:15 (1 Menit 15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/components/ChatbotMascot.vue (Baris 438–468)</span> lalu <span class="code-ref">src/services/aiService.js (Baris 77–395)</span>
+    </div>
+    <div class="script-body">
+      <p>"Kita masuk ke fitur pertama yaitu <strong>AI-01: AI Smart Chatbot 24 Jam</strong> di halaman pelanggan. Antarmuka komponennya berada di <span class="code-inline">src/components/ChatbotMascot.vue</span>."</p>
+      <p>"Saat pelanggan mengetik pertanyaan dan menekan kirim, fungsi <span class="code-inline">sendMessage()</span> di <span class="hl">baris 438 sampai 468</span> mengambil data produk <em>real-time</em> dari <span class="code-inline">adminStore.products</span> lalu memanggil fungsi <span class="code-inline">chatWithMascot()</span>."</p>
+      <p>"Di dalam <span class="code-inline">src/services/aiService.js</span> <span class="hl">baris 77 sampai 160</span>, fungsi <span class="code-inline">buildBanongFarmContext()</span> menyuntikkan seluruh katalog 74 produk pakan beserta harga dan sisa stok terkini ke dalam <em>System Prompt</em> AI. Lalu pada <span class="hl">baris 165 sampai 265</span>, fungsi <span class="code-inline">detectRelevantProducts()</span> memindai balasan AI dan melampirkan kartu produk yang relevan secara otomatis agar pelanggan bisa langsung menekan tombol <strong>Beli</strong> dari dalam ruang chat."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 3 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 3: Fitur AI-03 — Proyeksi Perputaran Stok Gudang &amp; Restok</span>
+      <span class="time-badge">02:15 – 03:30 (1 Menit 15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/services/aiService.js (Baris 768–848)</span> lalu <span class="code-ref">src/components/admin/AiAnalyticsSection.vue (Baris 584–607)</span>
+    </div>
+    <div class="script-body">
+      <p>"Selanjutnya kita beralih ke Dashboard Admin untuk membahas fitur <strong>AI-03: Proyeksi Tingkat Perputaran Stok Barang 30 Hari ke Depan</strong>."</p>
+      <p>"Rumus pemodelan datanya berada di <span class="code-inline">src/services/aiService.js</span> pada fungsi <span class="code-inline">analyzePredictiveStockAndRevenue()</span> di <span class="hl">baris 768 sampai 848</span>. Di <span class="hl">baris 824 sampai 828</span>, sistem menghitung <em>Average Daily Sales (ADS)</em> atau rata-rata penjualan harian, lalu mengalikannya dengan 30 hari dan faktor musiman agribisnis sebesar <span class="code-inline">1.14</span> (pertumbuhan 14%) untuk mendapatkan <span class="code-inline">projectedDemand30Days</span> serta <span class="code-inline">daysUntilStockout</span>."</p>
+      <p>"Hasil tersebut ditampilkan secara reaktif di <span class="code-inline">src/components/admin/AiAnalyticsSection.vue</span> pada <span class="hl">baris 584 sampai 607</span> melalui computed <span class="code-inline">projectedStockDemand</span>, rekomendasi unit restok <span class="code-inline">recommendedRestockUnits</span>, dan rasio perputaran stok <span class="code-inline">stockTurnoverRatio</span>."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 4 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 4: Fitur AI-04 — Rekapitulasi Pendapatan &amp; Grafik Prediktif</span>
+      <span class="time-badge">03:30 – 04:30 (1 Menit)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/components/admin/AiAnalyticsSection.vue (Baris 567–580 &amp; 822–934)</span>
+    </div>
+    <div class="script-body">
+      <p>"Fitur berikutnya adalah <strong>AI-04: Laporan Rekapitulasi Pendapatan Historis Terintegrasi</strong> di <span class="code-inline">src/components/admin/AiAnalyticsSection.vue</span>."</p>
+      <p>"Di <span class="hl">baris 567 sampai 580</span>, computed <span class="code-inline">verifiedOrdersCount</span>, <span class="code-inline">totalSoldVolume</span>, dan <span class="code-inline">averageOrderValue</span> mengolah seluruh transaksi yang telah terverifikasi di database Supabase secara otomatis."</p>
+      <p>"Untuk memvisualisasikan trennya, fungsi <span class="code-inline">initChart()</span> di <span class="hl">baris 822 sampai 934</span> merender grafik <em>Continuous Spline Curve</em> menggunakan <strong>Chart.js</strong>. Grafik ini menampilkan dua kurva sekaligus: garis oranye tebal untuk <strong>Alur Permintaan Aktual</strong> (<span class="hl">baris 842</span>) dan garis putus-putus untuk <strong>Model Prediksi AI</strong> (<span class="hl">baris 859</span>)."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 5 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 5: Fitur AI-05 &amp; AI-06 — Tren Best Seller &amp; Proyeksi Margin Laba</span>
+      <span class="time-badge">04:30 – 05:40 (1 Menit 10 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/components/admin/AiAnalyticsSection.vue (Baris 610–646)</span> &amp; <span class="code-ref">src/services/aiService.js (Baris 851–876)</span>
+    </div>
+    <div class="script-body">
+      <p>"Masuk ke fitur <strong>AI-05 (Analitik Tren Pasar &amp; Proyeksi Best Seller)</strong> serta <strong>AI-06 (Proyeksi Pertumbuhan Margin Keuntungan Usaha)</strong>."</p>
+      <p>"Untuk <strong>AI-05</strong>: pada <span class="code-inline">aiService.js</span> <span class="hl">baris 851 sampai 860</span>, sistem mengurutkan komoditas dengan proyeksi serapan tertinggi sebagai <span class="code-inline">bestSeller</span>. Lalu di <span class="code-inline">AiAnalyticsSection.vue</span> <span class="hl">baris 610 sampai 624</span>, computed <span class="code-inline">predictedMarketShare</span> menghitung persentase pangsa pasar produk tersebut terhadap total volume komoditas."</p>
+      <p>"Untuk <strong>AI-06</strong>: pada <span class="code-inline">aiService.js</span> <span class="hl">baris 862 sampai 876</span> dan <span class="code-inline">AiAnalyticsSection.vue</span> <span class="hl">baris 627 sampai 646</span>, fungsi <span class="code-inline">profitMarginPercentage</span>, <span class="code-inline">profitGrowthRate</span>, dan <span class="code-inline">projectedMarginProfit</span> mengolah omzet transaksi harian dengan standar margin kotor agribisnis sebesar <strong>16,4%</strong> dan proyeksi pertumbuhan <strong>14,8%</strong> sebagai landasan keputusan strategis toko."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 6 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 6: Fitur AI-02 — AI Marketing Strategist &amp; Simulasi Dataset 30 Hari</span>
+      <span class="time-badge">05:40 – 06:45 (1 Menit 5 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/services/aiService.js (Baris 572–645)</span> lalu <span class="code-ref">src/components/admin/AiTrainingDatasetModal.vue (Baris 324–385)</span>
+    </div>
+    <div class="script-body">
+      <p>"Fitur keenam adalah <strong>AI-02: AI Marketing Analytics &amp; Rekomendasi Strategi Pemasaran Otomatis</strong>."</p>
+      <p>"Pada <span class="code-inline">src/services/aiService.js</span> <span class="hl">baris 572 sampai 645</span>, fungsi <span class="code-inline">generateAiMarketingStrategy()</span> mengirimkan metrik omzet, produk terlaris, dan daftar stok kritis ke model AI untuk menghasilkan rekomendasi strategi promosi konkret. Fungsi ini dipanggil melalui <span class="code-inline">handleGenerateStrategy()</span> di <span class="code-inline">AiAnalyticsSection.vue</span> <span class="hl">baris 949</span>."</p>
+      <p>"Selain itu, pada <span class="code-inline">AiAnalyticsSection.vue</span> <span class="hl">baris 526 sampai 548</span> (<span class="code-inline">handleQuick30DaysDemo</span>) dan <span class="code-inline">src/components/admin/AiTrainingDatasetModal.vue</span> <span class="hl">baris 324 sampai 385</span>, admin dapat mengunggah file CSV transaksi atau menyalakan saklar <strong>Simulasi Prediktif 30 Hari</strong> untuk melatih ulang model AI secara instan."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 7 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 7: Penutup</span>
+      <span class="time-badge">06:45 – 07:00 (15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Tampilkan halaman Analitik Usaha (4 Kartu Prediktif AI &amp; Grafik) di Browser
+    </div>
+    <div class="script-body">
+      <p>"Demikian penjelasan teknis mengenai arsitektur kode dan keenam fitur Kecerdasan Buatan (AI-01 sampai AI-06) pada aplikasi web CV Banong Farms Ajibarang. Terima kasih atas perhatiannya, wassalamualaikum warahmatullahi wabarakatuh."</p>
+    </div>
+  </div>
+
+</body>
+</html>

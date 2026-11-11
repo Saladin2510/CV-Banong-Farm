@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Naskah Video Teknis 7 Menit - CV Banong Farms</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+  }
+  body {
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .header-banner {
+    background: #0F2537;
+    color: #FFFFFF;
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    border-left: 6px solid #FACC15;
+  }
+  .header-banner h1 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+  }
+  .header-banner p {
+    font-size: 12px;
+    color: #E2E8F0;
+  }
+  .prep-box {
+    background: #FEF9C3;
+    border: 1.5px solid #F59E0B;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  .prep-box strong {
+    color: #92400E;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12.5px;
+  }
+  .prep-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .file-pill {
+    background: #FFFFFF;
+    border: 1px solid #D97706;
+    color: #0F172A;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: Consolas, monospace;
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .segment {
+    border: 1.5px solid #CBD5E1;
+    border-radius: 10px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .segment-header {
+    background: #1E3A5F;
+    color: #FFFFFF;
+    padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .segment-title {
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+  .time-badge {
+    background: #FACC15;
+    color: #0F2537;
+    font-weight: 800;
+    font-size: 11.5px;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+  .action-bar {
+    background: #EFF6FF;
+    border-bottom: 1px solid #BFDBFE;
+    padding: 7px 14px;
+    font-size: 12px;
+    color: #1E3A8A;
+  }
+  .code-ref {
+    font-family: Consolas, monospace;
+    background: #DBEAFE;
+    color: #1E40AF;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .script-body {
+    padding: 11px 15px;
+    background: #FFFFFF;
+  }
+  .script-body p {
+    margin-bottom: 8px;
+    font-size: 13.5px;
+    color: #1E293B;
+  }
+  .script-body p:last-child {
+    margin-bottom: 0;
+  }
+  .hl {
+    background: #FEF08A;
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+  .code-inline {
+    font-family: Consolas, monospace;
+    font-weight: 700;
+    color: #0F2537;
+    background: #F1F5F9;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid #CBD5E1;
+    font-size: 12.5px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <h1>NASKAH VIDEO TEKNIS (SOLO 7 MENIT) — CV BANONG FARMS</h1>
+    <p>Fokus: Penjelasan Kode &amp; 6 Fungsi Utama Non-AI (KF-01 s/d KF-06) • Format Mudah Dibaca di HP</p>
+  </div>
+
+  <div class="prep-box">
+    <strong>📌 PERSIAPAN SEBELUM REKAM: Buka 6 Tab File Ini Berurutan di VS Code Anda:</strong>
+    <div class="prep-list">
+      <span class="file-pill">1. src/App.vue</span>
+      <span class="file-pill">2. src/services/supabaseClient.js</span>
+      <span class="file-pill">3. src/components/ProductGrid.vue</span>
+      <span class="file-pill">4. src/components/ProductCard.vue</span>
+      <span class="file-pill">5. src/stores/useCartStore.js</span>
+      <span class="file-pill">6. src/components/CartDrawer.vue</span>
+      <span class="file-pill">7. src/components/admin/AdminLoginView.vue</span>
+      <span class="file-pill">8. src/stores/useAdminStore.js</span>
+    </div>
+  </div>
+
+  <!-- SEGMEN 1 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 1: Pembukaan &amp; Koneksi Database Cloud</span>
+      <span class="time-badge">00:00 – 01:00 (1 Menit)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/App.vue (Baris 1–30)</span> lalu pindah ke <span class="code-ref">src/services/supabaseClient.js (Baris 52–75 &amp; 979)</span>
+    </div>
+    <div class="script-body">
+      <p>"Assalamualaikum warahmatullahi wabarakatuh. Pada video teknis ini, saya akan mempresentasikan arsitektur kode dan 6 fungsi utama operasional dari aplikasi web <strong>CV Banong Farms Ajibarang</strong>."</p>
+      <p>"Aplikasi ini dibangun dengan <strong>Vue 3 Composition API</strong>, <strong>Tailwind CSS</strong>, dan database <strong>PostgreSQL Supabase</strong>."</p>
+      <p>"Pertama, pada file <span class="code-inline">src/App.vue</span> di <span class="hl">baris 3 sampai 26</span>, kita memisahkan dua tampilan utama menggunakan state <span class="code-inline">currentView</span>: yaitu halaman publik pelanggan dan halaman <strong>Dashboard Admin</strong> yang dikunci oleh penjaga autentikasi <span class="code-inline">adminStore.isAuthenticated</span>."</p>
+      <p>"Untuk koneksi database, kita buka <span class="code-inline">src/services/supabaseClient.js</span>. Di <span class="hl">baris 52 sampai 75</span>, fungsi <span class="code-inline">getSupabase()</span> menghubungkan aplikasi ke server cloud Supabase. Lalu di bagian bawah pada <span class="hl">baris 979 sampai 998</span>, fungsi <span class="code-inline">subscribeRealtime()</span> membuka jalur WebSocket real-time agar perubahan stok atau pesanan langsung tampil otomatis tanpa refresh halaman."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 2 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 2: Fitur KF-01 — Katalog 74 Produk, Filter, &amp; Validasi Stok</span>
+      <span class="time-badge">01:00 – 02:15 (1 Menit 15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/components/ProductGrid.vue (Baris 301–374)</span> lalu <span class="code-ref">src/components/ProductCard.vue (Baris 15–75)</span>
+    </div>
+    <div class="script-body">
+      <p>"Masuk ke fungsi utama pertama yaitu <strong>KF-01: Katalog Produk Real-Time</strong>. Data 74 produk pakan diambil dari database melalui fungsi <span class="code-inline">getProducts()</span> di <span class="code-inline">supabaseClient.js</span> <span class="hl">baris 117</span>."</p>
+      <p>"Di file <span class="code-inline">src/components/ProductGrid.vue</span> pada <span class="hl">baris 328 sampai 365</span>, terdapat computed property <span class="code-inline">filteredProducts</span>. Kode ini bekerja secara reaktif menyaring produk berdasarkan 3 hal sekaligus: filter kategori ternak di <span class="hl">baris 301</span>, pencarian kata kunci di <span class="hl">baris 331</span>, dan pengurutan harga di <span class="hl">baris 351</span>. Lalu di <span class="hl">baris 371</span>, fungsi <span class="code-inline">paginatedProducts</span> membatasi 12 produk per halaman agar website tetap ringan."</p>
+      <p>"Selanjutnya di <span class="code-inline">src/components/ProductCard.vue</span> <span class="hl">baris 15 sampai 22</span>, sistem mengecek sisa stok (<span class="code-inline">product.stock &gt; 0</span>). Jika stok habis, status otomatis berubah menjadi <strong>Stok Habis</strong> dan tombol tambah keranjang di <span class="hl">baris 66</span> otomatis terkunci."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 3 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 3: Fitur KF-02 — Sistem Keranjang Belanja Reaktif</span>
+      <span class="time-badge">02:15 – 03:15 (1 Menit)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/stores/useCartStore.js (Baris 30–136)</span>
+    </div>
+    <div class="script-body">
+      <p>"Fungsi utama kedua adalah <strong>KF-02: Keranjang Belanja</strong> yang berada di <span class="code-inline">src/stores/useCartStore.js</span>."</p>
+      <p>"Di <span class="hl">baris 30 sampai 73</span>, terdapat fungsi <span class="code-inline">syncCartWithLiveProducts()</span> yang memastikan harga dan batas stok di dalam keranjang pelanggan selalu sinkron dengan database terbaru."</p>
+      <p>"Saat pembeli klik tambah produk, fungsi <span class="code-inline">addToCart()</span> di <span class="hl">baris 111 sampai 136</span> dijalankan. Di <span class="hl">baris 123</span>, rumus <span class="code-inline">Math.min(existing.qty + addQty, currentStock)</span> mencegah pembeli memesan melebihi stok fisik di gudang. Total belanja dihitung otomatis oleh <span class="code-inline">totalPrice</span> di <span class="hl">baris 90</span> dan disimpan ke <span class="code-inline">localStorage</span> di <span class="hl">baris 76</span>."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 4 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 4: Fitur KF-03 — Checkout Database &amp; Redirect WhatsApp</span>
+      <span class="time-badge">03:15 – 04:30 (1 Menit 15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/components/CartDrawer.vue (Baris 561–668)</span>
+    </div>
+    <div class="script-body">
+      <p>"Fungsi utama ketiga adalah <strong>KF-03: Formulir Pemesanan &amp; Integrasi WhatsApp</strong> di <span class="code-inline">src/components/CartDrawer.vue</span>."</p>
+      <p>"Ketika pembeli mengisi Nama, Nomor WA, dan Alamat lalu menekan tombol pesan, fungsi <span class="code-inline">handleOpenWhatsApp()</span> di <span class="hl">baris 561 sampai 627</span> dieksekusi. Di <span class="hl">baris 574</span>, sistem membuat kode unik pesanan berawalan <span class="code-inline">BNG-</span> diikuti 4 angka unik."</p>
+      <p>"Di <span class="hl">baris 591 sampai 608</span>, daftar belanjaan diformat menjadi teks rapi dan diarahkan ke tautan <span class="code-inline">wa.me/6285726080086</span> milik Admin CV Banong Farms."</p>
+      <p>"Bersamaan dengan itu, fungsi <span class="code-inline">handleConfirmOrderSent()</span> di <span class="hl">baris 636 sampai 668</span> menyimpan pesanan tersebut ke tabel <span class="code-inline">pesanan</span> dan <span class="code-inline">detail_pesanan</span> di database Supabase melalui fungsi <span class="code-inline">createOrder()</span> pada <span class="code-inline">supabaseClient.js</span> <span class="hl">baris 487</span> dengan status awal <strong>Pending</strong>."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 5 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 5: Fitur KF-04 — Otentikasi Login Admin (Supabase Auth)</span>
+      <span class="time-badge">04:30 – 05:30 (1 Menit)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/components/admin/AdminLoginView.vue (Baris 179–200)</span>
+    </div>
+    <div class="script-body">
+      <p>"Sekarang kita masuk ke sisi pengelola melalui fungsi keempat yaitu <strong>KF-04: Portal Login Admin</strong> di <span class="code-inline">src/components/admin/AdminLoginView.vue</span>."</p>
+      <p>"Saat admin menekan tombol masuk, fungsi <span class="code-inline">handleLogin()</span> di <span class="hl">baris 179</span> memanggil <span class="code-inline">adminStore.loginAdmin()</span> yang menjalankan fungsi autentikasi di <span class="code-inline">supabaseClient.js</span> <span class="hl">baris 777 sampai 810</span>."</p>
+      <p>"Pada <span class="hl">baris 782</span>, sistem memverifikasi email dan password menggunakan <span class="code-inline">client.auth.signInWithPassword()</span> dari <strong>Supabase Auth</strong>. Selain itu, fungsi <span class="code-inline">checkAuthSession()</span> di <span class="code-inline">useAdminStore.js</span> <span class="hl">baris 78</span> memeriksa token JWT aktif, sehingga halaman dashboard aman dari akses tanpa izin."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 6 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 6: Fitur KF-05 &amp; KF-06 — CRUD Produk &amp; Potong Stok Otomatis</span>
+      <span class="time-badge">05:30 – 06:45 (1 Menit 15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Buka <span class="code-ref">src/stores/useAdminStore.js (Baris 896–1118)</span>
+    </div>
+    <div class="script-body">
+      <p>"Di dalam Dashboard Admin, terdapat dua fungsi utama terakhir yaitu <strong>KF-05 (CRUD Katalog Produk)</strong> dan <strong>KF-06 (Validasi Pesanan WhatsApp &amp; Potong Stok Otomatis)</strong> yang berpusat di <span class="code-inline">src/stores/useAdminStore.js</span>."</p>
+      <p>"Untuk <strong>KF-05 (Kelola Produk)</strong>: fungsi <span class="code-inline">addProduct()</span> di <span class="hl">baris 995</span> menangani tambah produk baru ke Supabase, fungsi <span class="code-inline">updateProduct()</span> di <span class="hl">baris 1045</span> untuk mengubah harga atau isi ulang stok gudang, dan fungsi <span class="code-inline">deleteProduct()</span> di <span class="hl">baris 1093</span> untuk menghapus produk."</p>
+      <p>"Sedangkan untuk <strong>KF-06 (Manajemen Pesanan WA)</strong> berada di fungsi <span class="code-inline">validateOrder()</span> pada <span class="hl">baris 896 sampai 962</span>. Ketika admin memvalidasi pesanan WhatsApp dan menekan tombol <strong>Selesai</strong>: di <span class="hl">baris 908 sampai 911</span> stok barang di gudang otomatis terpotong (<span class="code-inline">prod.stock - deductQty</span>), jumlah terjual bertambah, dan di <span class="hl">baris 936</span> fungsi <span class="code-inline">completeOrder()</span> menyimpan perubahan stok tersebut secara permanen ke database Supabase."</p>
+    </div>
+  </div>
+
+  <!-- SEGMEN 7 -->
+  <div class="segment">
+    <div class="segment-header">
+      <span class="segment-title">SEGMEN 7: Penutup</span>
+      <span class="time-badge">06:45 – 07:00 (15 Detik)</span>
+    </div>
+    <div class="action-bar">
+      🖥️ <strong>Aksi Layar:</strong> Tampilkan kembali halaman Dashboard Admin / Landing Page di Browser
+    </div>
+    <div class="script-body">
+      <p>"Demikian penjelasan kode dan keenam fungsi utama dari sistem informasi web CV Banong Farms Ajibarang. Semoga penjelasan ini memberikan gambaran jelas mengenai alur kerja teknis aplikasi kami. Terima kasih, wassalamualaikum warahmatullahi wabarakatuh."</p>
+    </div>
+  </div>
+
+</body>
+</html>
