@@ -19,6 +19,19 @@
 </IfModule>
 
 # ==============================================================================
+# Protect Sensitive Files & Server Secrets (Strict Access Denial)
+# ==============================================================================
+<FilesMatch "^(\.env.*|\.git.*|api-secret.*\.php|.*\.secret\.php|.*\.log|package.*\.json|composer\.(json|lock))$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# ==============================================================================
 # Security Headers
 # ==============================================================================
 <IfModule mod_headers.c>

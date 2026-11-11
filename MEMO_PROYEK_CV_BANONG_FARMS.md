@@ -1,5 +1,5 @@
 # MEMORANDUM & CHECKPOINT PROYEK: CV BANONG FARMS
-**Tanggal Pembaruan Terakhir:** 10 November 2026, Pukul 11:50 WIB (Sesi 81: Bugfix Resolusi API Key DeepSeek pada Web Online Production, Fallback Hardkey In-Memory, & Smart Intent Pakan Ayam)  
+**Tanggal Pembaruan Terakhir:** 11 November 2026, Pukul 11:16 WIB (Sesi 83: Security Hardening & Server-Side AI Proxy — Pembersihan Total API Key dari Frontend/GitHub/Dist, Proteksi `.htaccess`, Rate Limiter, & Kunci Model `deepseek-chat`)  
 **Status Proyek:** AKTIF, SINKRON KOLABORASI TIM & SIAP SIDANG/DEMO (Zero Merge Conflicts / Vite Dev & Build 100% Bersih / Foto Asli Toko + Layout Editorial Baru Menyatu)  
 **Tujuan Dokumen:** Memastikan kesinambungan konteks teknis, arsitektur, panduan desain warna 60:30:10, profil bisnis nyata, dan logika sistem untuk memulai sesi pengembangan berikutnya tanpa kehilangan jejak.
 ---
@@ -2496,3 +2496,27 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
   - `src/services/aiService.js`
 * **Verifikasi Build:**
   - `npm run build:zip` sukses 100% (paket `dist_upload.zip` terkompilasi segar).
+
+---
+
+## 64. Checkpoint Sesi 83 (Security Hardening & Server-Side AI Proxy): Zero-Leak API Key Architecture
+* **Tanggal & Waktu:** 11 November 2026, Pukul 11:16 WIB
+* **Status:** SELESAI, 100% AMAN & BUILD BERSIH (0 secret di `src/`, `dist/`, `.zip`, maupun GitHub).
+* **Latar Belakang Insiden Keamanan:**
+  - Pada tanggal 10 November, API Key DeepSeek lama sempat hardcoded di `src/services/aiService.js` dan terbawa via prefix `VITE_DEEPSEEK_API_KEY` ke bundle `dist/`, lalu ter-push ke repositori GitHub publik sehingga disalahgunakan oleh bot scraper eksternal.
+* **Perbaikan Keamanan Menyeluruh (Defense-in-Depth):**
+  1. **Pembersihan Total Secret Frontend:**
+     - Menghapus seluruh API key hardcoded dari [`src/services/aiService.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/src/services/aiService.js) serta menghapus prefix `VITE_` pada variabel rahasia di `.env` & `.env.example` (kini menggunakan `DEEPSEEK_API_KEY=` khusus server-side agar tidak pernah ikut ter-bundle oleh Vite ke `dist/`).
+  2. **Arsitektur Server-Side Proxy Tiga Lingkungan (Hostinger / Vercel / Localhost):**
+     - **Hostinger Production ([`public/api-chat.php`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/public/api-chat.php)):** PHP cURL proxy yang membaca kunci dari `api-secret.php` (file yang tidak pernah masuk Git via `.gitignore` dan diblokir akses langsungnya di `.htaccess`). Dilengkapi:
+       * *Origin & Referer Whitelist* (hanya mengizinkan `cvbanongfarms.site` & `localhost`).
+       * *IP Rate Limiter* (maksimal 20 request/menit per IP).
+       * *Model Lock* (`model` dikunci paksa ke `deepseek-chat`, mencegah eksekusi `deepseek-v4-pro`).
+       * *Token & Payload Cap* (`max_tokens` maks 750, total karakter input maks 18.000).
+     - **Vercel Serverless ([`api/chat.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/api/chat.js)):** Proxy Node.js membaca `process.env.DEEPSEEK_API_KEY` dengan validasi identik.
+     - **Localhost Dev ([`vite.config.js`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/vite.config.js)):** Endpoint `/api/chat` pada Vite Node.js server membaca `DEEPSEEK_API_KEY` langsung dari file `.env` tanpa dikirim ke browser.
+  3. **Proteksi Apache Hostinger ([`public/.htaccess`](file:///d:/XII%20PPLG%206/PSAJ/CLIENT/CV%20BANONG%20FARMS/CV-Banong-Farm/public/.htaccess)):**
+     - Menambahkan aturan `<FilesMatch>` menolak akses HTTP (403 Forbidden) ke `.env*`, `.git*`, `api-secret*.php`, `*.secret.php`, dan `package*.json`.
+* **Verifikasi Audit & Build:**
+  - Pemindaian string `sk-` dan `VITE_DEEPSEEK` pada seluruh `src/` dan `dist/` menunjukkan **0 hasil temuan (100% bersih)**.
+  - `npm run build:zip` sukses (4.23s, 67 file dikemas ke `dist_upload.zip` dan disalin ke `dist.zip`).

@@ -14,6 +14,10 @@ node_modules/
 .env
 .env.*
 !.env.example
+api-secret.php
+public/api-secret.php
+dist/api-secret.php
+*.secret.php
 
 # Editor directories and files
 .vscode/*

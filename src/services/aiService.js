@@ -1,22 +1,22 @@
 /**
  * AI Service for CV Banong Farms
- * Supports DeepSeek API (deepseek-chat / DeepSeek-V3)
- * and OpenAI API (gpt-4o-mini)
- * Includes intelligent agritech offline fallback when no API key is set.
+ * Mengutamakan Server-Side Proxy (/api-chat.php di Hostinger & /api/chat di Vite/Vercel)
+ * agar API Key DeepSeek 100% tersembunyi di server dan TIDAK PERNAH bocor ke GitHub/Browser.
+ * Dilengkapi fallback heuristik cerdas jika server proxy belum dikonfigurasi.
  */
 
-// Storage keys for persistent API keys
+// Storage keys opsional untuk override manual admin via modal pengaturan lokal
 const DEEPSEEK_KEY_STORAGE = 'banong_deepseek_api_key'
 const OPENAI_KEY_STORAGE = 'banong_openai_api_key'
 const ACTIVE_PROVIDER_STORAGE = 'banong_ai_provider'
 
-// Default fallback key untuk memastikan AI selalu aktif baik di localhost maupun production web online
+// Dikosongkan demi keamanan mutlak (JANGAN pernah menaruh secret API key di kode frontend!)
 const inMemoryApiKey = {
-  deepseek: 'sk-9c2f6d01cbf94dbc9ce2946e018647c4',
+  deepseek: '',
   openai: ''
 }
 
-// Endpoint resolver untuk DeepSeek (otomatis menggunakan proxy Vite saat di localhost demi mem-bypass CORS browser)
+// Endpoint resolver untuk tes koneksi manual admin via modal pengaturan
 export function getDeepSeekApiUrl() {
   if (typeof window !== 'undefined') {
     const host = window.location.hostname
@@ -29,24 +29,53 @@ export function getDeepSeekApiUrl() {
 
 export function getStoredApiKey(provider = 'deepseek') {
   const actualProvider = provider === 'gemini' ? 'deepseek' : provider
-  let envKey = ''
-  try {
-    envKey = actualProvider === 'deepseek' 
-      ? (import.meta.env?.VITE_DEEPSEEK_API_KEY || '') 
-      : (import.meta.env?.VITE_OPENAI_API_KEY || '')
-  } catch (_) {}
-
-  const fallbackKey = envKey || inMemoryApiKey[actualProvider] || inMemoryApiKey.deepseek || ''
-
   if (typeof window !== 'undefined' && window.localStorage) {
     const storageKey = actualProvider === 'deepseek' ? DEEPSEEK_KEY_STORAGE : OPENAI_KEY_STORAGE
     const stored = (localStorage.getItem(storageKey) || '').trim()
-    // Pastikan hanya gunakan nilai localStorage jika berformat API key valid (diawali sk- dan panjang cukup)
     if (stored && stored.startsWith('sk-') && stored.length > 20) {
       return stored
     }
   }
-  return fallbackKey
+  return inMemoryApiKey[actualProvider] || ''
+}
+
+/**
+ * Helper aman memanggil Server-Side AI Proxy (Hostinger PHP / Vercel / Vite Dev)
+ * API Key hanya ada di sisi server sehingga aman dari GitHub scraper & Inspect Element.
+ */
+async function callSecureServerAiProxy(messages, temperature = 0.7, maxTokens = 600) {
+  const host = typeof window !== 'undefined' ? window.location.hostname : ''
+  const isLocal = host === 'localhost' || host === '127.0.0.1'
+  const isVercel = host.endsWith('.vercel.app')
+
+  const endpoints = isLocal || isVercel ? ['/api/chat'] : ['/api-chat.php', '/api/chat']
+  const payload = JSON.stringify({
+    messages,
+    temperature,
+    max_tokens: maxTokens
+  })
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+      })
+
+      const contentType = response.headers.get('content-type') || ''
+      if (response.ok && contentType.includes('application/json')) {
+        const data = await response.json()
+        const reply = data?.choices?.[0]?.message?.content
+        if (reply) {
+          return reply
+        }
+      }
+    } catch (_) {
+      // Coba endpoint berikutnya jika tidak tersedia
+    }
+  }
+  return null
 }
 
 export function setStoredApiKey(provider, key) {
@@ -294,31 +323,41 @@ function cleanAiResponseText(rawText = '') {
  * Menggunakan DeepSeek-V3 (deepseek-chat) - Super cepat & paling hemat biaya
  */
 export async function chatWithMascot(userMessage, chatHistory = [], liveProducts = []) {
-  // Selalu prioritaskan DeepSeek API dengan fallback in-memory yang sudah teruji
-  const apiKey = getStoredApiKey('deepseek') || inMemoryApiKey.deepseek
+  const messages = [
+    {
+      role: 'system',
+      content: buildBanongFarmContext(liveProducts)
+    },
+    ...chatHistory.slice(-6).map(m => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.text
+    })),
+    { role: 'user', content: userMessage }
+  ]
 
-  if (apiKey) {
+  // 1. PRIORITAS UTAMA (AMAN): Panggil lewat Server-Side Proxy (/api-chat.php atau /api/chat)
+  const serverReply = await callSecureServerAiProxy(messages, 0.7, 600)
+  if (serverReply) {
+    const cleanText = cleanAiResponseText(serverReply)
+    const attachedProducts = detectRelevantProducts(userMessage, serverReply, liveProducts)
+    return {
+      text: cleanText,
+      products: attachedProducts,
+      isLiveAi: true,
+      modelName: 'deepseek-chat (Server Proxy)'
+    }
+  }
+
+  // 2. OPSIONAL FALLBACK: Jika admin memasukkan API Key manual di browser localStorage via Modal Pengaturan
+  const activeProvider = getActiveAiProvider()
+  const localDeepseekKey = getStoredApiKey('deepseek')
+  if (activeProvider === 'deepseek' && localDeepseekKey) {
     try {
-      const messages = [
-        {
-          role: 'system',
-          content: buildBanongFarmContext(liveProducts)
-        },
-        ...chatHistory.slice(-6).map(m => ({
-          role: m.sender === 'user' ? 'user' : 'assistant',
-          content: m.text
-        })),
-        { role: 'user', content: userMessage }
-      ]
-
-      const url = getDeepSeekApiUrl()
-      console.log('[Si Banong AI] Mengirim pesan ke DeepSeek API via:', url)
-
-      const response = await fetch(url, {
+      const response = await fetch(getDeepSeekApiUrl(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          'Authorization': `Bearer ${localDeepseekKey}`
         },
         body: JSON.stringify({
           model: 'deepseek-chat',
@@ -332,45 +371,29 @@ export async function chatWithMascot(userMessage, chatHistory = [], liveProducts
         const data = await response.json()
         const reply = data.choices?.[0]?.message?.content
         if (reply) {
-          console.log('[Si Banong AI] Berhasil menerima respon live dari DeepSeek!')
           const cleanText = cleanAiResponseText(reply)
           const attachedProducts = detectRelevantProducts(userMessage, reply, liveProducts)
           return { 
             text: cleanText, 
             products: attachedProducts,
             isLiveAi: true, 
-            modelName: 'deepseek-chat (DeepSeek-V3)' 
+            modelName: 'deepseek-chat (Admin Key)' 
           }
         }
-      } else {
-        const errData = await response.json().catch(() => ({}))
-        console.error('[Si Banong AI] DeepSeek API error:', response.status, errData)
       }
     } catch (err) {
-      console.error('[Si Banong AI] Panggilan fetch DeepSeek gagal:', err)
+      console.warn('DeepSeek local key fallback failed:', err)
     }
   }
 
-  // 2. If OpenAI API Key is available
-  if (provider === 'openai' && apiKey) {
+  const localOpenAiKey = getStoredApiKey('openai')
+  if (activeProvider === 'openai' && localOpenAiKey) {
     try {
-      const messages = [
-        {
-          role: 'system',
-          content: buildBanongFarmContext(liveProducts)
-        },
-        ...chatHistory.slice(-6).map(m => ({
-          role: m.sender === 'user' ? 'user' : 'assistant',
-          content: m.text
-        })),
-        { role: 'user', content: userMessage }
-      ]
-
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          'Authorization': `Bearer ${localOpenAiKey}`
         },
         body: JSON.stringify({
           model: 'gpt-4o-mini',
@@ -589,16 +612,12 @@ function getHeuristicMascotReply(query, liveProducts = []) {
  * Generate AI Marketing & Inventory Strategy (for Admin Command Center)
  */
 export async function generateAiMarketingStrategy(metrics, topProduct, inventory = []) {
-  const provider = getActiveAiProvider()
-  const apiKey = getStoredApiKey(provider)
+  if (topProduct) {
+    const formattedRev = (metrics.totalRevenue || 0) > 0 
+      ? `Rp ${Number(metrics.totalRevenue).toLocaleString('id-ID')}`
+      : (metrics.totalRevenueJuta ? `Rp ${(Number(metrics.totalRevenueJuta) * 1000000).toLocaleString('id-ID')}` : 'Rp 0')
 
-  if (provider === 'deepseek' && apiKey && topProduct) {
-    try {
-      const formattedRev = (metrics.totalRevenue || 0) > 0 
-        ? `Rp ${Number(metrics.totalRevenue).toLocaleString('id-ID')}`
-        : (metrics.totalRevenueJuta ? `Rp ${(Number(metrics.totalRevenueJuta) * 1000000).toLocaleString('id-ID')}` : 'Rp 0')
-
-      const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
+    const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
 Berikut adalah data penjualan riil:
 - Produk Terlaris: ${topProduct.name}
 - Jumlah Terjual: ${topProduct.soldCount} pcs
@@ -611,37 +630,54 @@ Buatlah ringkasan analisis strategi dan rekomendasi operasional singkat (2 parag
 1. Paragraf 1: Analisis penjualan produk ${topProduct.name} dan ketersediaan stok di gudang.
 2. Paragraf 2: Rekomendasi menjaga pasokan dan melayani pesanan WhatsApp dari pembeli agar pemasukan tetap lancar.`
 
-      const url = getDeepSeekApiUrl()
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: 'deepseek-chat',
-          messages: [
-            { role: 'system', content: 'Anda adalah Asisten Strategi Bisnis Peternakan CV Banong Farms Ajibarang.' },
-            { role: 'user', content: prompt }
-          ],
-          temperature: 0.6,
-          max_tokens: 500
-        })
-      })
+    const messages = [
+      { role: 'system', content: 'Anda adalah Asisten Strategi Bisnis Peternakan CV Banong Farms Ajibarang.' },
+      { role: 'user', content: prompt }
+    ]
 
-      if (response.ok) {
-        const data = await response.json()
-        const text = data.choices?.[0]?.message?.content
-        if (text) {
-          return {
-            analysis: text,
-            isLiveAi: true,
-            provider: 'DeepSeek-V3 (deepseek-chat)'
+    // 1. Coba lewat Server-Side Secure Proxy
+    const serverText = await callSecureServerAiProxy(messages, 0.6, 500)
+    if (serverText) {
+      return {
+        analysis: serverText,
+        isLiveAi: true,
+        provider: 'DeepSeek-V3 (Server Proxy)'
+      }
+    }
+
+    // 2. Fallback opsional jika admin set API key manual di localStorage
+    const provider = getActiveAiProvider()
+    const apiKey = getStoredApiKey(provider)
+    if (provider === 'deepseek' && apiKey) {
+      try {
+        const response = await fetch(getDeepSeekApiUrl(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            messages,
+            temperature: 0.6,
+            max_tokens: 500
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          const text = data.choices?.[0]?.message?.content
+          if (text) {
+            return {
+              analysis: text,
+              isLiveAi: true,
+              provider: 'DeepSeek-V3 (Admin Key)'
+            }
           }
         }
+      } catch (err) {
+        console.warn('DeepSeek Strategy call failed:', err)
       }
-    } catch (err) {
-      console.warn('DeepSeek Strategy call failed:', err)
     }
   }
 
@@ -894,15 +930,11 @@ export async function analyzePredictiveStockAndRevenue({ transactions = [], prod
     totalProjectedVolume
   }
 
-  // 6. Hubungi DeepSeek AI (deepseek-chat) untuk Menyusun Narasi Keputusan Strategis
-  const provider = getActiveAiProvider()
-  const apiKey = getStoredApiKey(provider)
+  // 6. Hubungi DeepSeek AI via Server Proxy Aman (deepseek-chat) untuk Menyusun Narasi Keputusan Strategis
   let strategicAnalysis = ''
   let isLiveAi = false
 
-  if (provider === 'deepseek' && apiKey) {
-    try {
-      const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
+  const prompt = `Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms di Ajibarang, Banyumas.
 Berikut adalah data telemetri transaksi:
 1. Produk Terlaris: ${bestSeller.name} (Perkiraan serapan: ${bestSeller.projectedDemand30Days} pcs, Pangsa pasar: ${bestSeller.marketShare}%)
 2. Total Pendapatan yang Didapat: Rp ${totalHistoricRevenue.toLocaleString('id-ID')}
@@ -913,34 +945,47 @@ Awali dengan: "Berdasarkan simulasi data penjualan ${daysCount} hari (Demo PSAJ)
 Gunakan format markdown tebal (bold **) untuk nama produk, angka pcs, nilai rupiah, dan rekomendasi tindakan (contoh: **${bestSeller.name}**, **${bestSeller.projectedDemand30Days} pcs**, **Rp ${totalHistoricRevenue.toLocaleString('id-ID')}**, **segera restok**).
 Fokuskan pada pendapatan yang didapat, stok barang di gudang, dan tindak lanjut pesanan WhatsApp.`
 
-      const url = getDeepSeekApiUrl()
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: 'deepseek-chat',
-          messages: [
-            { role: 'system', content: 'Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms Ajibarang.' },
-            { role: 'user', content: prompt }
-          ],
-          temperature: 0.6,
-          max_tokens: 650
-        })
-      })
+  const messages = [
+    { role: 'system', content: 'Anda adalah Asisten Strategi Bisnis Peternakan untuk CV Banong Farms Ajibarang.' },
+    { role: 'user', content: prompt }
+  ]
 
-      if (response.ok) {
-        const data = await response.json()
-        const text = data.choices?.[0]?.message?.content
-        if (text) {
-          strategicAnalysis = text
-          isLiveAi = true
+  // Prioritas 1: Server-side proxy
+  const serverInsight = await callSecureServerAiProxy(messages, 0.6, 650)
+  if (serverInsight) {
+    strategicAnalysis = serverInsight
+    isLiveAi = true
+  } else {
+    // Prioritas 2: Opsional admin override key di localStorage
+    const provider = getActiveAiProvider()
+    const apiKey = getStoredApiKey(provider)
+    if (provider === 'deepseek' && apiKey) {
+      try {
+        const response = await fetch(getDeepSeekApiUrl(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            messages,
+            temperature: 0.6,
+            max_tokens: 650
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          const text = data.choices?.[0]?.message?.content
+          if (text) {
+            strategicAnalysis = text
+            isLiveAi = true
+          }
         }
+      } catch (err) {
+        console.warn('DeepSeek training insight failed:', err)
       }
-    } catch (err) {
-      console.warn('DeepSeek training insight failed:', err)
     }
   }
 

@@ -188,6 +188,57 @@ function localDatabaseApiPlugin() {
           }))
         }
 
+        // 4. /api/chat (Server-side secure AI proxy untuk development localhost)
+        if (pathname === '/api/chat' && req.method === 'POST') {
+          return readBody(async (body) => {
+            let apiKey = (process.env.DEEPSEEK_API_KEY || '').trim()
+            if (!apiKey) {
+              try {
+                const envFile = path.resolve(__dirname, '.env')
+                if (fs.existsSync(envFile)) {
+                  const envContent = fs.readFileSync(envFile, 'utf8')
+                  const match = envContent.match(/^DEEPSEEK_API_KEY=(.+)$/m)
+                  if (match && match[1]) apiKey = match[1].trim().replace(/^["']|["']$/g, '')
+                }
+              } catch (_) {}
+            }
+
+            if (!apiKey || !apiKey.startsWith('sk-')) {
+              res.statusCode = 503
+              return res.end(JSON.stringify({ error: { message: 'DEEPSEEK_API_KEY belum diisi di file .env lokal.' } }))
+            }
+
+            if (!Array.isArray(body.messages) || body.messages.length === 0) {
+              res.statusCode = 400
+              return res.end(JSON.stringify({ error: { message: 'Format messages tidak valid.' } }))
+            }
+
+            try {
+              const safeMaxTokens = Math.max(50, Math.min(Number(body.max_tokens) || 600, 750))
+              const safeTemp = Number.isFinite(Number(body.temperature)) ? Math.max(0, Math.min(Number(body.temperature), 1)) : 0.7
+              const upstream = await fetch('https://api.deepseek.com/chat/completions', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                  model: 'deepseek-chat',
+                  messages: body.messages.slice(0, 10),
+                  temperature: safeTemp,
+                  max_tokens: safeMaxTokens
+                })
+              })
+              const dataText = await upstream.text()
+              res.statusCode = upstream.status
+              return res.end(dataText)
+            } catch (err) {
+              res.statusCode = 502
+              return res.end(JSON.stringify({ error: { message: 'Gagal menghubungi DeepSeek API: ' + err.message } }))
+            }
+          })
+        }
+
         return next()
       })
     }
