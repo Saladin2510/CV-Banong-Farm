@@ -2545,3 +2545,14 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 * **Rincian Penggabungan (Merge):**
   - Menggabungkan perubahan dari `origin/main` (`bcf9723` oleh `wilwildandindun`: perbaikan pembacaan API Key DeepSeek di production online, toleransi typo kueri pakan ayam di `src/services/aiService.js`, serta paket `dist_upload.zip`) dengan perubahan lokal `main` (`d76f67c` oleh `Saladin`: diagram flowchart laporan & naskah PDF video teknis 7 menit untuk fitur Non-AI dan fitur AI).
   - Menyelesaikan konflik penggabungan (*merge conflict*) pada `MEMO_PROYEK_CV_BANONG_FARMS.md` dengan mempertahankan seluruh riwayat catatan dari kedua anggota tim secara kronologis.
+
+---
+
+## 69. Checkpoint Sesi 88 (Pembersihan Keamanan Kunci Rahasia API & Sinkronisasi Push ke GitHub): Komit `cbebf4a`
+* **Tanggal & Waktu:** 11 November 2026, Pukul 07:52 WIB
+* **Status:** SELESAI, BERSIH, & TERSINKRONISASI KE GITHUB (`origin/main`).
+* **Tindakan Keamanan yang Dilakukan:**
+  1. Menghapus secara permanen string API key DeepSeek lama yang bocor dari file [`src/services/aiService.js`](file:///e:/Documents/01.%20PJJ%20SALADIN/Kelas%2012/3.%20PSAJ/1.DPK/Landing%20Page%20CV%20Banong%20Farms/src/services/aiService.js).
+  2. Melakukan komit keamanan: `fix(security): remove hardcoded DeepSeek API key from aiService.js to prevent public leakage` (`cbebf4a`).
+  3. Berhasil melakukan `git push origin main` sehingga repository GitHub publik kini bebas dari kebocoran kunci rahasia.
+  4. Menyepakati alur deployment aman untuk klien non-IT: API key baru disimpan di lingkungan lokal (`.env` yang ter-gitignore) atau Environment Variables hosting, sehingga hasil build `dist` siap saji bagi klien tanpa klien perlu mengerti hal teknis.
