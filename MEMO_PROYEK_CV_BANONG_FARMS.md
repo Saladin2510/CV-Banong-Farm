@@ -2580,3 +2580,18 @@ Karena domain `cvbanongfarms.site` aktif 1 tahun, website bisa tetap online 100%
 * **Verifikasi Audit & Build:**
   - Pemindaian string `sk-` dan `VITE_DEEPSEEK` pada seluruh `src/` dan `dist/` menunjukkan **0 hasil temuan (100% bersih)**.
   - `npm run build:zip` sukses (4.23s, 67 file dikemas ke `dist_upload.zip` dan disalin ke `dist.zip`).
+
+---
+
+## 70. Checkpoint Sesi 89 (Hotfix Build Vercel: Eliminasi `node_modules` dari Git Tracking & Solusi Permission Denied)
+* **Tanggal & Waktu:** 12 November 2026, Pukul 08:05 WIB
+* **Status:** SELESAI, BERSIH, & BERHASIL DI-PUSH (`8511302`).
+* **Akar Masalah (Root Cause):**
+  - Pada saat build di Vercel muncul error:
+    `sh: line 1: /vercel/path0/node_modules/.bin/vite: Permission denied`
+    `Error: [BUILD_UTILS_SPAWN_126] Command "npm run build" exited with 126`.
+  - Hal ini terjadi karena folder `node_modules` Windows lokal sempat tidak sengaja ter-track masuk ke repository git. Ketika Vercel (yang menggunakan sistem operasi Linux) mencoba menjalankan biner `node_modules/.bin/vite` hasil unggahan dari Windows, Linux menolak hak akses eksekusinya (*Permission Denied*).
+* **Solusi & Perbaikan:**
+  1. Menghapus seluruh folder `node_modules` dari tracking git (`git rm -r --cached node_modules`).
+  2. Melakukan commit & push perbaikan ke GitHub (`8511302`).
+  3. Sekarang Vercel akan mengunduh dan memasang *dependencies* yang kompatibel dengan Linux secara bersih saat proses *Deploy*, sehingga perintah `vite build` akan sukses 100%.
