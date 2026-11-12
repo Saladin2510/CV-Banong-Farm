@@ -48,7 +48,7 @@ async function callSecureServerAiProxy(messages, temperature = 0.7, maxTokens = 
   const isLocal = host === 'localhost' || host === '127.0.0.1'
   const isVercel = host.endsWith('.vercel.app')
 
-  const endpoints = isLocal || isVercel ? ['/api/chat'] : ['/api-chat.php', '/api/chat']
+  const endpoints = isLocal || isVercel ? ['/api/chat'] : ['/api/chat', '/api-chat.php']
   const payload = JSON.stringify({
     messages,
     temperature,

@@ -1,0 +1,14 @@
+# Vercel does not execute PHP and shouldn't upload Hostinger zip/backup/video assets
+public/api-chat.php
+public/api-secret.php
+public/api-secret.example.php
+dist/
+dist.zip
+dist_upload.zip
+motion-graphic/
+*.pptx
+*.pdf
+*.py
+NASKAH_*.html
+MEMO_*.md
+PANDUAN_*.md

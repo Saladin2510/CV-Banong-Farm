@@ -3,6 +3,26 @@
  * Membaca process.env.DEEPSEEK_API_KEY (TANPA prefix VITE_) agar tidak pernah terekspos ke browser.
  */
 
+// In-memory rate limiter per IP untuk mencegah burst spam pada instance hangat
+const rateLimitStore = new Map()
+const RATE_LIMIT_WINDOW_MS = 60 * 1000
+const RATE_LIMIT_MAX_REQ = 20
+
+function checkRateLimit(ip) {
+  const now = Date.now()
+  const record = rateLimitStore.get(ip)
+  if (!record || record.resetAt <= now) {
+    if (rateLimitStore.size > 1000) rateLimitStore.clear()
+    rateLimitStore.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
+    return true
+  }
+  if (record.count >= RATE_LIMIT_MAX_REQ) {
+    return false
+  }
+  record.count += 1
+  return true
+}
+
 export default async function handler(req, res) {
   const allowedOrigins = [
     'https://cvbanongfarms.site',
@@ -37,6 +57,12 @@ export default async function handler(req, res) {
 
   if (!isAllowedOrigin) {
     return res.status(403).json({ error: { message: 'Forbidden: Origin not authorized' } })
+  }
+
+  const forwarded = req.headers['x-forwarded-for'] || ''
+  const clientIp = (typeof forwarded === 'string' ? forwarded.split(',')[0] : '') || req.socket?.remoteAddress || 'unknown'
+  if (!checkRateLimit(clientIp.trim())) {
+    return res.status(429).json({ error: { message: 'Terlalu banyak permintaan. Mohon tunggu sebentar.' } })
   }
 
   const apiKey = (process.env.DEEPSEEK_API_KEY || '').trim()
@@ -95,3 +121,4 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: { message: 'Proxy error: ' + err.message } })
   }
 }
+
